@@ -32,7 +32,7 @@ dependencies {
 
 ```
 dependencies {
-    def supportVersion = "25.3.1"
+    def supportVersion = "25.3.1"
     compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
     compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
     //图片加载
@@ -58,7 +58,7 @@ dependencies {
     //多状态视图切换
     compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
     //常用UI控件(TitleBarView、RadiusView等)
-    compile 'com.github.AriesHoo:UIWidget:1.6.0'
+    compile 'com.github.AriesHoo:UIWidget:1.7.0'
     //下拉刷新库
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //页面事件交互
