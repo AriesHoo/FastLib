@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="arrays_tab_management">
+        <item>管理类示例</item>
+        <item>工具类示例</item>
+    </string-array>
+
+    <array name="arrays_home_list_title">
+        <item>微信滑动返回样式</item>
+        <item>支付宝主界面效果</item>
+        <item>腾讯新闻主界面效果</item>
+    </array>
+
+    <array name="arrays_tab_ali">
+        <item>首页</item>
+        <item>口碑</item>
+        <item>朋友</item>
+        <item>我的</item>
+    </array>
+
+    <array name="arrays_tab_news">
+        <item>新闻</item>
+        <item>推荐</item>
+        <item>直播</item>
+        <item>我的</item>
+    </array>
+    <array name="arrays_news_news_sliding">
+        <item>要闻</item>
+        <item>视频</item>
+        <item>体育</item>
+        <item>NBA</item>
+        <item>财经</item>
+        <item>汽车</item>
+        <item>科技</item>
+        <item>社会</item>
+        <item>军事</item>
+        <item>国际</item>
+        <item>时尚</item>
+        <item>游戏</item>
+        <item>图片</item>
+        <item>数码</item>
+        <item>电影</item>
+        <item>教育</item>
+        <item>理财</item>
+        <item>综艺</item>
+        <item>韩流</item>
+        <item>足球</item>
+        <item>宠物</item>
+        <item>政务</item>
+    </array>
+
+    <array name="arrays_news_live_sliding">
+        <item>精选</item>
+        <item>咨询</item>
+        <item>文艺</item>
+        <item>娱乐</item>
+        <item>财经</item>
+        <item>娱乐</item>
+        <item>财经</item>
+        <item>电视台</item>
+        <item>体育</item>
+        <item>生活</item>
+    </array>
+
+    <array name="arrays_library_list_title">
+        <item>Glide-V4.0.0</item>
+        <item>Logger-V2.1.1</item>
+        <item>ButterKnife-V8.8.0</item>
+        <item>RxJava-V1.1.6</item>
+        <item>RxAndroid-V1.2.1</item>
+        <item>Retrofit-V2.1.0</item>
+        <item>Gson-V2.8.1</item>
+        <item>BaseRecyclerViewAdapterHelper-V2.9.27</item>
+        <item>BGASwipeBackLayout-V1.1.0</item>
+        <item>FlycoTabLayout-V2.1.2</item>
+        <item>EasyStatusView-V1.0.3</item>
+        <item>UIWidget-V1.6.0</item>
+        <item>SmartRefreshLayout-V1.0.3</item>
+        <item>AndroidEventBus-V1.0.5.1</item>
+        <item>AgentWeb-V1.2.6</item>
+    </array>
+
+    <array name="arrays_library_list_content">
+        <item>Google推荐使用图片加载框架,对比之前3.0版本增加图片全圆、圆角工具类,FastLibrary库封装调用管理类GlideManager可供参考</item>
+        <item>一款使用日志打印工具类.FastLibrary库封装调用管理类LoggerManager可供参考</item>
+        <item>这个不需要多介绍吧</item>
+        <item>用就好</item>
+        <item>RaJava对Android系统扩展(目前用到网络线程与UI线程转换)</item>
+        <item>网络请求框架</item>
+        <item></item>
+        <item>非常好用的RecyclerView适配器帮助类</item>
+        <item>不错的滑动关闭Activity库</item>
+        <item>不错的主界面tab、滑动tab、分段选择器tab功能库</item>
+        <item>方便快速实现加载中、加载失败、网络错误、无数据等四种状态布局</item>
+        <item>常用控件库包括(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView)</item>
+        <item>非常不错的下拉刷新库支持多款刷新头与自定义刷新头方便使用</item>
+        <item>方便使用的Android界面事件分发库(支持TAG)</item>
+        <item>基于Android WebView 一个功能完善小型浏览器库.使用很方便;集成进你应用,只需几行代码</item>
+    </array>
+
+    <array name="arrays_library_list_url">
+        <item>https://github.com/bumptech/glide</item>
+        <item>https://github.com/orhanobut/logger</item>
+        <item>https://github.com/JakeWharton/butterknife</item>
+        <item>https://github.com/ReactiveX/RxJava/tree/1.x</item>
+        <item>https://github.com/ReactiveX/RxAndroid/tree/1.x</item>
+        <item>https://github.com/square/retrofit</item>
+        <item>https://github.com/google/gson</item>
+        <item>https://github.com/CymChad/BaseRecyclerViewAdapterHelper</item>
+        <item>https://github.com/bingoogolapple/BGASwipeBackLayout-Android</item>
+        <item>https://github.com/H07000223/FlycoTabLayout</item>
+        <item>https://github.com/MarnoDev/EasyStatusView</item>
+        <item>https://github.com/AriesHoo/UIWidget</item>
+        <item>https://github.com/scwang90/SmartRefreshLayout</item>
+        <item>https://github.com/hehonghui/AndroidEventBus</item>
+        <item>https://github.com/Justson/AgentWeb</item>
+    </array>
+    <array name="arrays_banner_all">
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502602925&amp;di=c0b47a815902276e86a216235dcf60cf&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimgstore.cdn.sogou.com%2Fapp%2Fa%2F100540002%2F649184.jpg</item>
+        <item>https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4270981572,1990926314&amp;fm=26&amp;gp=0.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502003928365&amp;di=839014a9b6059219d80c108f9079b553&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F50a1e758d65ee.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405271&amp;di=c2f7f9c9cf941917c3922502989b35f6&amp;imgtype=0&amp;src=http%3A%2F%2Ftupian.enterdesk.com%2F2013%2Fmxy%2F0805%2F5%2F4.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405269&amp;di=89623856f896879f764d0a3316d1db74&amp;imgtype=0&amp;src=http%3A%2F%2Fp2.gexing.com%2Fshaitu%2F20130512%2F1823%2F518f6d8447363.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405268&amp;di=542a54fb3f2b50f1941965c25517869f&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F1%2F57a2fa3c59b53.jpg</item>
+        <item>https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2060246906,3265914169&amp;fm=26&amp;gp=0.jpg</item>
+        <item>https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1171603568,246318761&amp;fm=26&amp;gp=0.jpg</item>
+        <item>https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=918644357,360888055&amp;fm=26&amp;gp=0.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502009089677&amp;di=301b09ee8787e9265e30a9a5768a0b44&amp;imgtype=0&amp;src=http%3A%2F%2F4493bz.1985t.com%2Fuploads%2Fallimg%2F160804%2F3-160P4112R2.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502603809&amp;di=bbf8bf71aa136a510578d7152a374641&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fwww.desktx.com%2Fd%2Ffile%2Fwallpaper%2FPeople%2Ffemales%2F20160825%2Ff26d5deaa7b92190a84b45769a28ab67.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502009037206&amp;di=22099663ebd18901b9364f4381d1cab5&amp;imgtype=jpg&amp;src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D2616633398%2C643750943%26fm%3D214%26gp%3D0.jpg</item>
+        <item>http://img5.xiazaizhijia.com/walls/20160621/mid_31d8e8056e92272.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302435&amp;di=08f48aec17d044f64bb53d6edd0bcdfc&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Ff%2F573bd3d1262cb.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302432&amp;di=ad19f75a3c54b72b595d7a634378892c&amp;imgtype=0&amp;src=http%3A%2F%2F4493bz.1985t.com%2Fuploads%2Fallimg%2F150313%2F4-150313111052.jpg</item>
+    </array>
+    <array name="arrays_banner_an">
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502603059&amp;di=9bf0ae7cc7b5608aba6e0ab1e2944536&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimgstore.cdn.sogou.com%2Fapp%2Fa%2F100540002%2F470094.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502602925&amp;di=c0b47a815902276e86a216235dcf60cf&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimgstore.cdn.sogou.com%2Fapp%2Fa%2F100540002%2F649184.jpg</item>
+        <item>https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4270981572,1990926314&amp;fm=26&amp;gp=0.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502003928365&amp;di=839014a9b6059219d80c108f9079b553&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F50a1e758d65ee.jpg</item>
+        <item>https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=885351950,1427114975&amp;fm=26&amp;gp=0.jpg</item>
+    </array>
+    <array name="arrays_banner_si">
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405480&amp;di=10a20e434187443b0af76d3a2046de0e&amp;imgtype=jpg&amp;src=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D2960727712%2C2672600794%26fm%3D214%26gp%3D0.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405271&amp;di=c2f7f9c9cf941917c3922502989b35f6&amp;imgtype=0&amp;src=http%3A%2F%2Ftupian.enterdesk.com%2F2013%2Fmxy%2F0805%2F5%2F4.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405269&amp;di=89623856f896879f764d0a3316d1db74&amp;imgtype=0&amp;src=http%3A%2F%2Fp2.gexing.com%2Fshaitu%2F20130512%2F1823%2F518f6d8447363.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405268&amp;di=542a54fb3f2b50f1941965c25517869f&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F1%2F57a2fa3c59b53.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405262&amp;di=e38551f83a66054149c35d2ac71ecd85&amp;imgtype=0&amp;src=http%3A%2F%2Ftupian.enterdesk.com%2F2013%2Fmxy%2F0805%2F4%2F2.jpg</item>
+    </array>
+    <array name="arrays_banner_liu">
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502008608181&amp;di=09ad460e1c901ed3097d60d7c8461a92&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F3%2F5880197169c04.jpg</item>
+        <item>https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2060246906,3265914169&amp;fm=26&amp;gp=0.jpg</item>
+        <item>https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1171603568,246318761&amp;fm=26&amp;gp=0.jpg</item>
+        <item>https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=918644357,360888055&amp;fm=26&amp;gp=0.jpg</item>
+    </array>
+
+    <array name="arrays_banner_di">
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502009146103&amp;di=65cb476dc57c2a334fe30f02f3808266&amp;imgtype=0&amp;src=http%3A%2F%2Fwww.pp3.cn%2Fuploads%2F201511%2F2015111813.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502009089677&amp;di=301b09ee8787e9265e30a9a5768a0b44&amp;imgtype=0&amp;src=http%3A%2F%2F4493bz.1985t.com%2Fuploads%2Fallimg%2F160804%2F3-160P4112R2.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502603809&amp;di=bbf8bf71aa136a510578d7152a374641&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fwww.desktx.com%2Fd%2Ffile%2Fwallpaper%2FPeople%2Ffemales%2F20160825%2Ff26d5deaa7b92190a84b45769a28ab67.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502009037206&amp;di=22099663ebd18901b9364f4381d1cab5&amp;imgtype=jpg&amp;src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D2616633398%2C643750943%26fm%3D214%26gp%3D0.jpg</item>
+    </array>
+
+    <array name="arrays_banner_jun">
+        <item>http://img1.xiazaizhijia.com/walls/20160621/mid_2f6f1fa9f9d5e3b.jpg</item>
+        <item>http://img5.xiazaizhijia.com/walls/20160621/mid_31d8e8056e92272.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302435&amp;di=08f48aec17d044f64bb53d6edd0bcdfc&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Ff%2F573bd3d1262cb.jpg</item>
+        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302432&amp;di=ad19f75a3c54b72b595d7a634378892c&amp;imgtype=0&amp;src=http%3A%2F%2F4493bz.1985t.com%2Fuploads%2Fallimg%2F150313%2F4-150313111052.jpg</item>
+    </array>
+</resources>

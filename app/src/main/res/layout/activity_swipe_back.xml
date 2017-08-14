@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:overScrollMode="never">
+
+    <include layout="@layout/fast_layout_title_bar"/>
+
+    <com.aries.ui.view.radius.RadiusTextView
+        android:id="@+id/rtv_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="45dp"
+        android:text="@string/swipe_back_style"
+        android:layout_margin="40dp"
+        app:rv_radius="4dp"
+        android:textSize="14dp"
+        app:rv_backgroundColor="@color/colorWhite"
+        app:rv_backgroundPressedColor="@color/colorWhitePressed"
+        app:rv_strokeColor="@color/colorLineGray"
+        app:rv_strokeWidth="@dimen/dp_line_size"/>
+
+</LinearLayout>

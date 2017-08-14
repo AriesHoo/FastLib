@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.marno.easystatelibrary.EasyStatusView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/esv_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:esv_empty="@layout/fast_layout_multi_empty"
+    app:esv_error="@layout/fast_layout_multi_error"
+    app:esv_loading="@layout/fast_layout_multi_loading"
+    app:esv_noNet="@layout/fast_layout_multi_network">
+
+    <include layout="@layout/fast_layout_refresh_recycler"/>
+
+</com.marno.easystatelibrary.EasyStatusView>

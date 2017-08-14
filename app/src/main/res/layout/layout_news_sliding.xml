@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.flyco.tablayout.SlidingTabLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tabLayout_slidingNews"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_title_height"
+        app:tl_indicator_color="@color/colorMainNews"
+        app:tl_indicator_height="3dp"
+        app:tl_indicator_width_equal_title="true"
+        app:tl_tab_space_equal="false"
+        app:tl_tab_padding="6dp"
+        app:tl_textBold="SELECT"
+        app:tl_textSelectColor="@color/colorMainNews"
+        app:tl_textUnselectColor="@color/colorTextBlackLight"
+        app:tl_textsize="14dp"/>
+</LinearLayout>

@@ -4,11 +4,19 @@
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#393939</color>
 
-    <color name="colorItems">#524188</color>
-    <color name="colorBackground">#f8f8f8</color>
-    <color name="colorTitle">#FFFFFF</color>
     <color name="colorTextBlack">#333333</color>
     <color name="colorTextBlackLight">#636363</color>
+    <color name="colorTextGray">#666666</color>
+    <color name="colorMessageTextGray">#aeaeae</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorWhitePressed">#dcdcdc</color>
+    <!--标题文字黑-->
+    <color name="colorTitleText">#393939</color>
+    <!--普通有灰色背景的用这个-->
+    <color name="colorBackground">#f8f8f8</color>
+    <!--滑动返回windowBackground-->
+    <color name="colorSwipeBackBackground">#0a000000</color>
+
+    <color name="colorMainAli">#1b81d1</color>
+    <color name="colorMainNews">#2B61BF</color>
 </resources>

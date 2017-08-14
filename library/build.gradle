@@ -6,10 +6,10 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -17,4 +17,39 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+dependencies {
+//    def supportVersion = "25.3.1"
+//    compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
+//    compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+    //图片加载
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    //日志打印
+    compile 'com.orhanobut:logger:2.1.1'
+    //注解
+    compile 'com.jakewharton:butterknife:8.8.0'
+    //retrofit+rxjava
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.google.code.gson:gson:2.8.1'
+    //万能适配器
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.27'
+    //滑动返回Activity
+    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.0@aar'
+    //快速Tab库
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //多状态视图切换
+    compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
+    //常用UI控件(TitleBarView、RadiusView等)
+    compile 'com.github.AriesHoo:UIWidget:1.7.0'
+    //下拉刷新库
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    //页面事件交互
+    compile 'org.simple:androideventbus:1.0.5.1'
+    //webView库
+    provided 'com.just.agentweb:agentweb:1.2.6'
 }

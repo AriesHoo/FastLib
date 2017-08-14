@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     def ext = rootProject.ext
@@ -9,16 +10,37 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 1
+        versionCode 2
         versionName "1.0.1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile file('../fast.jks')
+            storePassword 'fast123#@!'
+            keyAlias 'fast'
+            keyPassword 'fast123#@!'
+        }
+    }
+    buildTypes {
+        debug {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -28,4 +50,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
     compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
     compile project(':library')
+    apt 'com.jakewharton:butterknife-compiler:8.7.0'
+    compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    //设置界面Item库
+    compile 'com.github.lygttpod:SuperTextView:2.1.0'
+    compile 'com.just.agentweb:agentweb:1.2.6'
 }

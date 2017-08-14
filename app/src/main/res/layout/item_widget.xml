@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aries.ui.view.radius.RadiusRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="80dp"
+    rv:rv_backgroundColor="@color/colorWhite"
+    rv:rv_backgroundPressedColor="@color/colorWhitePressed">
+
+    <TextView
+        android:id="@+id/tv_titleWidget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="16dp"
+        android:text="Title"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_contentWidget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_titleWidget"
+        android:layout_marginTop="6dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="context"
+        android:textColor="@color/colorTextBlackLight"
+        android:textSize="14dp"/>
+
+    <View
+        style="@style/LineGray.Horizontal"
+        android:layout_alignParentBottom="true"/>
+</com.aries.ui.view.radius.RadiusRelativeLayout>

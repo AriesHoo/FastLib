@@ -1,12 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="alert_max_width">340dp</dimen>
-    <dimen name="alert_max_width_">300dp</dimen>
-    <dimen name="alert_min_width">260dp</dimen>
-    <dimen name="alert_min_height">80dp</dimen>
-    <dimen name="alert_radius">12dp</dimen>
-    <dimen name="dp_line_size">0.5dp</dimen>
-    <dimen name="dp_line_break">8dp</dimen>
-    <dimen name="sp_alert_message_size">16sp</dimen>
-    <dimen name="sp_alert_title_size">16sp</dimen>
-    <dimen name="alert_dp_padding">12dp</dimen>
+    <dimen name="dp_title_height">48dp</dimen>
+    <dimen name="dp_title_main_text_size">18dp</dimen>
+    <dimen name="dp_title_divider">0.5dp</dimen>
+
+    <dimen name="dp_tab_height">56dp</dimen>
+    <dimen name="dp_tab_icon">24dp</dimen>
+    <dimen name="dp_tab_margin">2dp</dimen>
+    <dimen name="dp_tab_text_size">12dp</dimen>
+    <dimen name="dp_tab_underline">0.5dp</dimen>
+
+    <dimen name="dp_multi_text_size">16dp</dimen>
+    <dimen name="dp_multi_margin">12dp</dimen>
+    <dimen name="dp_multi_img_height">72dp</dimen>
 </resources>

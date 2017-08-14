@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.tablayout.CommonTabLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tabLayout_common"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_tab_height"
+    android:background="@color/colorTabBackground"
+    app:tl_iconHeight="@dimen/dp_tab_icon"
+    app:tl_iconMargin="@dimen/dp_tab_margin"
+    app:tl_iconWidth="@dimen/dp_tab_icon"
+    app:tl_textSelectColor="@color/colorTabTextSelect"
+    app:tl_textUnselectColor="@color/colorTabTextUnSelect"
+    app:tl_textsize="@dimen/dp_tab_text_size"
+    app:tl_underline_color="@color/colorTabUnderline"
+    app:tl_underline_gravity="TOP"
+    app:tl_underline_height="@dimen/dp_tab_underline"/>

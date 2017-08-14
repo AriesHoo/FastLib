@@ -9,6 +9,27 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowNoDisplay">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/colorSwipeBackBackground</item>
     </style>
 
+    <!--不使用滑动返回的Activity必须使用这个主题 4.4上避免滑动透明桌面-->
+    <style name="AppTheme.NotTranslucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+    </style>
+
+    <style name="SupperTextStyleItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_margin_item</item>
+        <item name="android:minHeight">45dp</item>
+        <item name="com.aries.library.fast.demo:sLeftTextSize">16dp</item>
+        <item name="com.aries.library.fast.demo:sDividerLineColor">@color/colorLineGray</item>
+        <item name="com.aries.library.fast.demo:sDividerLineType">both</item>
+        <item name="com.aries.library.fast.demo:sLeftTextColor">@color/colorTextBlack</item>
+        <item name="com.aries.library.fast.demo:sRightIconRes">@drawable/ic_arrow_right</item>
+        <item name="com.aries.library.fast.demo:sRightTextColor">@color/colorTextGray</item>
+        <item name="com.aries.library.fast.demo:sRightTextSize">12dp</item>
+    </style>
 </resources>

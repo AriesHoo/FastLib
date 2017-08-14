@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+               android:shape="oval">
+            <size
+                android:width="@dimen/dp_banner_point"
+                android:height="@dimen/dp_banner_point"/>
+            <solid android:color="#CC000000"/>
+        </shape>
+    </item>
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+               android:shape="oval">
+
+            <size
+                android:width="@dimen/dp_banner_point"
+                android:height="@dimen/dp_banner_point"/>
+
+            <solid android:color="#33000000"/>
+
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="fast_arrays_web_more">
+        <item>刷新</item>
+        <item>复制链接</item>
+        <item>分享</item>
+    </array>
+</resources>

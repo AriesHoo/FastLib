@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAlertBg">#FFFFFF</color>
-    <color name="colorAlertBgPressed">#D6D3D6</color>
-    <color name="colorLineGray">#DCDCDC</color>
-    <color name="colorAlertButton">#1382FF</color>
+    <color name="colorTextBlack">#333333</color>
+    <color name="colorTextBlackLight">#636363</color>
+    <color name="colorTextGray">#666666</color>
+    <color name="colorMessageTextGray">#aeaeae</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhitePressed">#DCDCDC</color>
 
-    <color name="colorLoadingText">#f0f0f0</color>
+    <color name="colorTitleBackground">#FFFFFF</color>
+    <color name="colorTitleText">#393939</color>
+    <color name="colorTitleDivider">#DCDCDC</color>
 
-    <color name="colorActionSheetTitleText">#969696</color>
-    <color name="colorActionSheetCancelText">#1382FF</color>
-    <color name="colorActionSheetItemText">#1382FF</color>
+    <color name="colorTabBackground">#FCFCFC</color>
+    <color name="colorTabUnderline">#d6d6d6</color>
+    <color name="colorTabTextUnSelect">#909090</color>
+    <color name="colorTabTextSelect">#393939</color>
     <color name="colorActionSheetEdgePressed">#F0F0F0</color>
-    <color name="colorActionSheetEdge">#FFFFFF</color>
+
+    <color name="colorMultiText">#393939</color>
+    <color name="colorMultiBackground">#fafafa</color>
+    <color name="colorMultiImage">#393939</color>
 </resources>
