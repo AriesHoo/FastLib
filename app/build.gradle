@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     def ext = rootProject.ext
@@ -10,8 +10,8 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -46,14 +46,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    def supportVersion = rootProject.ext.supportVersion
-    compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
-    compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
     compile project(':library')
-    apt 'com.jakewharton:butterknife-compiler:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     //设置界面Item库
     compile 'com.github.lygttpod:SuperTextView:2.1.0'
-    compile 'com.just.agentweb:agentweb:1.2.6'
 }
