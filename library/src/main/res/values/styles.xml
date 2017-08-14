@@ -1,0 +1,87 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- popup window 显示消失动画-->
+    <style name="PopWindowAnimStyle">
+        <item name="android:windowShowAnimation">@anim/dialog_enter</item>
+        <!-- 指定显示的动画xml  -->
+        <item name="android:windowHideAnimation">@anim/dialog_exit</item>
+        <!-- 指定消失的动画xml  -->
+    </style>
+
+    <style name="ProgressViewDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="ActionSheetAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/push_up_in</item>
+        <item name="android:windowExitAnimation">@anim/push_up_out</item>
+    </style>
+
+    <style name="ActionSheet" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/ActionSheetAnimation</item>
+    </style>
+
+    <style name="AlertViewDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="LineGray">
+        <item name="android:background">@color/colorLineGray</item>
+    </style>
+
+    <style name="LineGray.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_line_size</item>
+    </style>
+
+    <style name="LineGray.Horizontal.BreakLeft">
+        <item name="android:layout_marginLeft">@dimen/dp_line_break</item>
+    </style>
+
+    <style name="LineGray.Horizontal.BreakRight">
+        <item name="android:layout_marginLeft">@dimen/dp_line_break</item>
+    </style>
+
+    <style name="LineGray.Horizontal.BreakAll">
+        <item name="android:layout_marginLeft">@dimen/dp_line_break</item>
+        <item name="android:layout_marginRight">@dimen/dp_line_break</item>
+    </style>
+
+    <style name="LineGray.Vertical">
+        <item name="android:layout_width">@dimen/dp_line_size</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="AlertViewButtonStyle">
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minHeight">45dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/colorAlertButton</item>
+        <item name="android:textSize">@dimen/sp_alert_message_size</item>
+    </style>
+</resources>

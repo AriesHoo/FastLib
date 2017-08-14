@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    def ext = rootProject.ext
+    compileSdkVersion ext.compileSdkVersion
+    buildToolsVersion ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.aries.library.fast.demo"
+        minSdkVersion ext.minSdkVersion
+        targetSdkVersion ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0.1"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    def supportVersion = rootProject.ext.supportVersion
+    compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
+    compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+    compile project(':library')
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@android:color/transparent"
+              android:orientation="vertical"
+              android:padding="8dip">
+
+    <TextView
+        android:id="@+id/tv_titleActionSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/action_sheet_top_normal"
+        android:gravity="center"
+        android:minHeight="20dip"
+        android:text="@string/UIActionSheet"
+        android:textColor="@color/colorActionSheetTitleText"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/v_lineTitleActionSheet"
+        style="@style/LineGray.Horizontal"/>
+
+    <LinearLayout
+        android:id="@+id/lLayout_viewActionSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/lLayout_itemActionSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_cancelActionSheet"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:layout_marginTop="8dip"
+        android:background="@drawable/action_sheet_single"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/colorActionSheetCancelText"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+</LinearLayout>

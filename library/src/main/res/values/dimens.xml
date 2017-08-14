@@ -1,0 +1,12 @@
+<resources>
+    <dimen name="alert_max_width">340dp</dimen>
+    <dimen name="alert_max_width_">300dp</dimen>
+    <dimen name="alert_min_width">260dp</dimen>
+    <dimen name="alert_min_height">80dp</dimen>
+    <dimen name="alert_radius">12dp</dimen>
+    <dimen name="dp_line_size">0.5dp</dimen>
+    <dimen name="dp_line_break">8dp</dimen>
+    <dimen name="sp_alert_message_size">16sp</dimen>
+    <dimen name="sp_alert_title_size">16sp</dimen>
+    <dimen name="alert_dp_padding">12dp</dimen>
+</resources>
