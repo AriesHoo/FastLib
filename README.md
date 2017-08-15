@@ -23,7 +23,7 @@ allprojects {
 
 ```
 dependencies {
-     //compile 'com.github.AriesHoo:FastLib:1.0.2'
+     //compile 'com.github.AriesHoo:FastLib:1.0.3'
      compile 'com.github.AriesHoo:FastLib:${LATEST_VERSION}'
 }
 ```
@@ -41,7 +41,7 @@ dependencies {
     //日志打印
     compile 'com.orhanobut:logger:2.1.1'
     //注解
-    compile 'com.jakewharton:butterknife:8.8.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
     //retrofit+rxjava
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -58,7 +58,7 @@ dependencies {
     //多状态视图切换
     compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
     //常用UI控件(TitleBarView、RadiusView等)
-    compile 'com.github.AriesHoo:UIWidget:1.7.0'
+    compile 'com.github.AriesHoo:UIWidget:1.8.0'
     //下拉刷新库
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //页面事件交互
