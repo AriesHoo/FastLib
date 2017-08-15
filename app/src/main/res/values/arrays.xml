@@ -65,7 +65,7 @@
     <array name="arrays_library_list_title">
         <item>Glide-V4.0.0</item>
         <item>Logger-V2.1.1</item>
-        <item>ButterKnife-V8.8.0</item>
+        <item>ButterKnife-V8.8.1</item>
         <item>RxJava-V1.1.6</item>
         <item>RxAndroid-V1.2.1</item>
         <item>Retrofit-V2.1.0</item>
@@ -74,7 +74,7 @@
         <item>BGASwipeBackLayout-V1.1.0</item>
         <item>FlycoTabLayout-V2.1.2</item>
         <item>EasyStatusView-V1.0.3</item>
-        <item>UIWidget-V1.6.0</item>
+        <item>UIWidget-V1.8.0</item>
         <item>SmartRefreshLayout-V1.0.3</item>
         <item>AndroidEventBus-V1.0.5.1</item>
         <item>AgentWeb-V1.2.6</item>

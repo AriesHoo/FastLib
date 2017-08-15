@@ -10,7 +10,7 @@ import android.view.View;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.base.BaseTitleFragment;
 import com.aries.library.fast.manager.TabLayoutManager;
-import com.aries.ui.view.title.StatusBarUtil;
+import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.flyco.tablayout.SlidingTabLayout;
 
@@ -97,9 +97,9 @@ public class NewsItemFragment extends BaseTitleFragment {
         super.onHiddenChanged(hidden);
         if (mContext != null && mPosition == 3) {
             if (hidden) {
-                StatusBarUtil.StatusBarLightMode(mContext);
+                StatusBarUtil.setStatusBarLightMode(mContext);
             } else {
-                StatusBarUtil.StatusBarDarkMode(mContext);
+                StatusBarUtil.setStatusBarDarkMode(mContext);
             }
         }
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="fast_arrays_web_more">
-        <item>Refresh</item>
-        <item>Copy</item>
-        <item>Share</item>
+        <item>刷新</item>
+        <item>复制链接</item>
+        <item>分享</item>
     </array>
 </resources>

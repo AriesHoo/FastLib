@@ -10,4 +10,6 @@
     <string name="fast_web_alert_left">Back</string>
     <string name="fast_web_alert_right">Close</string>
     <string name="fast_copy_success">Copy Successful</string>
+    <string name="cancel">Cancel</string>
+    <string name="ensure">Ensure</string>
 </resources>

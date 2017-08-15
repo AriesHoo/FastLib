@@ -11,7 +11,7 @@ android {
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
         versionCode 3
-        versionName "1.0.2"
+        versionName "1.0.3"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -47,7 +47,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':library')
-    apt 'com.jakewharton:butterknife-compiler:8.8.0'
+    apt 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     //设置界面Item库

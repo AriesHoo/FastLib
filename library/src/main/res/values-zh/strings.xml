@@ -10,4 +10,6 @@
     <string name="fast_web_alert_left">再逛逛</string>
     <string name="fast_web_alert_right">关闭</string>
     <string name="fast_copy_success">已复制到剪贴板</string>
+    <string name="cancel">取消</string>
+    <string name="ensure">确定</string>
 </resources>

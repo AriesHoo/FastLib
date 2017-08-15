@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.aries.library.fast.R;
 import com.aries.library.fast.interfaces.IFastTitleView;
-import com.aries.ui.view.title.StatusBarUtil;
+import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 
 /**
@@ -20,7 +20,7 @@ public class FastTitleDelegate {
 
     public FastTitleDelegate(View rootView, Activity mContext, IFastTitleView iTitleBarView) {
         if (iTitleBarView.isLightStatusBarEnable()) {
-            type = StatusBarUtil.StatusBarLightMode(mContext);
+            type = StatusBarUtil.setStatusBarLightMode(mContext);
         }
         getTitleBarView(rootView);
         if (titleBar == null) {
