@@ -84,7 +84,7 @@ dependencies {
 * Activity/Fragment 页面事件交互(支持设置TAG)
 * 万能适配器（ListView、GridView，RecyclerView):可添加多个Header和Footer
 * Fragment懒加载,Activity可见时加载
-* 下拉刷新、上拉加载:支持多种效果的刷新头及自定义刷新头
+* 下拉刷新、上拉加载:支持多种效果的刷新头及自定义刷新头-参考库[SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
 
 ## 注意事项
 
