@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aries.ui.view.radius.RadiusRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="80dp"
+    app:rv_backgroundColor="@color/colorWhite"
+    app:rv_backgroundPressedColor="@color/colorWhitePressed">
+
+    <ImageView
+        android:id="@+id/iv_coverMovie"
+        android:layout_width="60dp"
+        android:layout_height="90dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fast_shape_placeholder_common"/>
+
+    <TextView
+        android:id="@+id/tv_titleMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_coverMovie"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        tools:text="Title"/>
+
+    <TextView
+        android:id="@+id/tv_typeMovie"
+        style="@style/TextStyleMovieItem"
+        android:layout_below="@id/tv_titleMovie"
+        tools:text="Type"/>
+
+    <TextView
+        android:id="@+id/tv_yearMovie"
+        style="@style/TextStyleMovieItem"
+        android:layout_below="@id/tv_typeMovie"
+        tools:text="Year"/>
+
+    <TextView
+        android:id="@+id/tv_directorMovie"
+        style="@style/TextStyleMovieItem"
+        android:layout_below="@id/tv_yearMovie"
+        tools:text="Director"/>
+
+    <TextView
+        android:id="@+id/tv_castMovie"
+        style="@style/TextStyleMovieItem"
+        android:layout_below="@id/tv_directorMovie"
+        android:paddingBottom="10dp"
+        tools:text="Cast"/>
+
+    <com.flyco.labelview.LabelView
+        android:id="@+id/lv_topMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        app:lv_background_color="@android:color/holo_red_light"
+        app:lv_gravity="TOP_RIGHT"
+        app:lv_text_color="@color/colorWhite"/>
+
+    <View
+        style="@style/LineGray.Horizontal"
+        android:layout_alignParentBottom="true"/>
+</com.aries.ui.view.radius.RadiusRelativeLayout>

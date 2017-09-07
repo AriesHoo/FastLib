@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--TitleBarView 高度-->
     <dimen name="dp_title_height">48dp</dimen>
-    <dimen name="dp_title_main_text_size">18dp</dimen>
-    <dimen name="dp_title_divider">0.5dp</dimen>
 
+    <!--主页tab高度-->
     <dimen name="dp_tab_height">56dp</dimen>
+    <!--主页tab icon宽高-->
     <dimen name="dp_tab_icon">24dp</dimen>
+    <!--主页tab 文字与icon边距-->
     <dimen name="dp_tab_margin">2dp</dimen>
+    <!--主页tab文字字号-->
     <dimen name="dp_tab_text_size">12dp</dimen>
+    <!--主页tab 上划线宽度-->
     <dimen name="dp_tab_underline">0.5dp</dimen>
 
+    <!--多状态布局文字字号-->
     <dimen name="dp_multi_text_size">16dp</dimen>
+    <!--多状态布局icon与文字间距-->
     <dimen name="dp_multi_margin">12dp</dimen>
+    <!--多状态布局icon宽高-->
     <dimen name="dp_multi_img_height">72dp</dimen>
 </resources>

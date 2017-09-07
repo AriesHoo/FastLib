@@ -8,5 +8,7 @@
     <string name="setting">设置</string>
     <string name="find">发现</string>
     <string name="third_part">第三方库</string>
+    <string name="activity_tab_sliding">活动页滑动Tab</string>
+    <string name="activity_tab_segment">活动页分段Tab</string>
     <string name="library_address">项目地址</string>
 </resources>

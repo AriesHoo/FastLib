@@ -1,7 +1,7 @@
 package com.aries.library.fast.module.fragment;
 
 import com.aries.library.fast.delegate.FastTitleDelegate;
-import com.aries.library.fast.interfaces.IFastTitleView;
+import com.aries.library.fast.i.IFastTitleView;
 import com.aries.ui.view.title.TitleBarView;
 
 /**

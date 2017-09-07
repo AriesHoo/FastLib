@@ -2,7 +2,7 @@ package com.aries.library.fast.module.activity;
 
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.delegate.FastTitleDelegate;
-import com.aries.library.fast.interfaces.IFastTitleView;
+import com.aries.library.fast.i.IFastTitleView;
 import com.aries.ui.view.title.TitleBarView;
 
 /**

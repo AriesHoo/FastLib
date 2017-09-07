@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="arrays_tab_management">
-        <item>管理类示例</item>
-        <item>工具类示例</item>
+    <string-array name="arrays_tab_activity">
+        <item>正在热映</item>
+        <item>即将上映</item>
+        <item>Top250</item>
     </string-array>
 
     <array name="arrays_home_list_title">
-        <item>微信滑动返回样式</item>
+        <item>微信滑动返回样式效果</item>
+        <item>QQ默认主题TitleBar背景渐变效果</item>
         <item>支付宝主界面效果</item>
         <item>腾讯新闻主界面效果</item>
     </array>
@@ -66,34 +68,36 @@
         <item>Glide-V4.0.0</item>
         <item>Logger-V2.1.1</item>
         <item>ButterKnife-V8.8.1</item>
-        <item>RxJava-V1.1.6</item>
-        <item>RxAndroid-V1.2.1</item>
-        <item>Retrofit-V2.1.0</item>
+        <item>RxJava-V2.1.3</item>
+        <item>RxAndroid-V2.0.1</item>
+        <item>Retrofit-V2.3.0</item>
         <item>Gson-V2.8.1</item>
-        <item>BaseRecyclerViewAdapterHelper-V2.9.27</item>
+        <item>RxLifeCycle-2.1.0</item>
+        <item>BaseRecyclerViewAdapterHelper-V2.9.28</item>
         <item>BGASwipeBackLayout-V1.1.0</item>
         <item>FlycoTabLayout-V2.1.2</item>
         <item>EasyStatusView-V1.0.3</item>
-        <item>UIWidget-V1.8.0</item>
-        <item>SmartRefreshLayout-V1.0.3</item>
+        <item>UIWidget-V1.9.5</item>
+        <item>SmartRefreshLayout-V1.0.2</item>
         <item>AndroidEventBus-V1.0.5.1</item>
-        <item>AgentWeb-V1.2.6</item>
+        <item>AgentWeb-V2.0.0</item>
     </array>
 
     <array name="arrays_library_list_content">
-        <item>Google推荐使用图片加载框架,对比之前3.0版本增加图片全圆、圆角工具类,FastLibrary库封装调用管理类GlideManager可供参考</item>
-        <item>一款使用日志打印工具类.FastLibrary库封装调用管理类LoggerManager可供参考</item>
+        <item>Google推荐使用图片加载框架,对比之前3.0版本增加图片全圆、圆角工具类,FastLib库封装调用管理类GlideManager可供参考</item>
+        <item>一款使用日志打印工具类.FastLib库封装调用管理类LoggerManager可供参考</item>
         <item>这个不需要多介绍吧</item>
         <item>用就好</item>
-        <item>RaJava对Android系统扩展(目前用到网络线程与UI线程转换)</item>
+        <item>RxJava对Android系统扩展(目前用到网络线程与UI线程转换)</item>
         <item>网络请求框架</item>
         <item></item>
+        <item>网络请求生命周期绑定</item>
         <item>非常好用的RecyclerView适配器帮助类</item>
         <item>不错的滑动关闭Activity库</item>
         <item>不错的主界面tab、滑动tab、分段选择器tab功能库</item>
         <item>方便快速实现加载中、加载失败、网络错误、无数据等四种状态布局</item>
         <item>常用控件库包括(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView)</item>
-        <item>非常不错的下拉刷新库支持多款刷新头与自定义刷新头方便使用</item>
+        <item>非常不错的下拉刷新库支持多款刷新头与自定义刷新头方便使用--因1.0.3版本下拉刷新与其它库冲突降为稳定版1.0.2</item>
         <item>方便使用的Android界面事件分发库(支持TAG)</item>
         <item>基于Android WebView 一个功能完善小型浏览器库.使用很方便;集成进你应用,只需几行代码</item>
     </array>
@@ -102,10 +106,11 @@
         <item>https://github.com/bumptech/glide</item>
         <item>https://github.com/orhanobut/logger</item>
         <item>https://github.com/JakeWharton/butterknife</item>
-        <item>https://github.com/ReactiveX/RxJava/tree/1.x</item>
-        <item>https://github.com/ReactiveX/RxAndroid/tree/1.x</item>
+        <item>https://github.com/ReactiveX/RxJava/tree/2.x</item>
+        <item>https://github.com/ReactiveX/RxAndroid/tree/2.x</item>
         <item>https://github.com/square/retrofit</item>
         <item>https://github.com/google/gson</item>
+        <item>https://github.com/trello/RxLifecycle</item>
         <item>https://github.com/CymChad/BaseRecyclerViewAdapterHelper</item>
         <item>https://github.com/bingoogolapple/BGASwipeBackLayout-Android</item>
         <item>https://github.com/H07000223/FlycoTabLayout</item>

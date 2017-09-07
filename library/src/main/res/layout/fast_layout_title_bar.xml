@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_title_height"
     android:background="@color/colorTitleBackground"
-    app:title_dividerColor="@color/colorTitleDivider"
-    app:title_dividerHeight="@dimen/dp_title_divider"
-    app:title_titleMainTextSize="@dimen/dp_title_main_text_size"/>
+    app:title_dividerColor="@color/colorTitleDivider"/>
 
 
 

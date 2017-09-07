@@ -4,7 +4,7 @@ import android.app.Activity;
 
 /**
  * Created: AriesHoo on 2017/7/14 9:45
- * Function: 应用实体
+ * Function: 描述性条目实体
  * Desc:
  */
 public class WidgetEntity {

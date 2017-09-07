@@ -49,6 +49,11 @@
                 android:orientation="vertical">
 
                 <com.allen.library.SuperTextView
+                    android:id="@+id/stv_setting"
+                    style="@style/SupperTextStyleItem"
+                    app:sLeftTextString="@string/setting"/>
+
+                <com.allen.library.SuperTextView
                     android:id="@+id/stv_libraryMine"
                     style="@style/SupperTextStyleItem"
                     app:sLeftTextString="@string/library_address"/>

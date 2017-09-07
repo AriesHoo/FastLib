@@ -4,10 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aries.library.fast.interfaces.IFastRefreshLoadView;
+import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -37,7 +36,8 @@ public class FastRefreshLoadDelegate<T> {
             mStatusView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mStatusView.getCurrentStatus() != 2) {
+                    int currentStatus = mStatusView.getCurrentStatus();
+                    if (currentStatus != 2 && currentStatus != 1) {//非loading且非content状态
                         mStatusView.loading();
                         mIFastRefreshLoadView.onRefresh(mRefreshLayout);
                     }
@@ -64,10 +64,10 @@ public class FastRefreshLoadDelegate<T> {
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setAdapter(mAdapter);
         setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
-        if (mIFastRefreshLoadView.isItemClickEnable()) {
-            mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+        if (mIFastRefreshLoadView.isItemClickEnable() && mAdapter != null) {
+            mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
-                public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     mIFastRefreshLoadView.onItemClicked(adapter, view, position);
                 }
 

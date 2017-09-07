@@ -12,6 +12,11 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public abstract class BaseTitleActivity extends FastTitleActivity {
     @Override
+    protected boolean isSwipeBackEnable() {
+        return true;
+    }
+
+    @Override
     public boolean isLightStatusBarEnable() {
         return true;
     }

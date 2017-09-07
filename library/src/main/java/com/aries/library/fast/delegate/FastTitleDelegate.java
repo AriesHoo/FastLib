@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.R;
-import com.aries.library.fast.interfaces.IFastTitleView;
+import com.aries.library.fast.i.IFastTitleView;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 
@@ -34,7 +34,7 @@ public class FastTitleDelegate {
             titleBar.setRightTextColor(colorText);
         }
         if (iTitleBarView.isLightStatusBarEnable() && type <= 0) {
-            titleBar.setStatusAlpha(102);
+            titleBar.setStatusAlpha(78);
         }
         iTitleBarView.beforeSetTitleBar(titleBar);
         iTitleBarView.setTitleBar(titleBar);

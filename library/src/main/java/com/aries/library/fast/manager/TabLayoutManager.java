@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -15,6 +15,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -147,7 +148,7 @@ public class TabLayoutManager {
      */
     public void setSegmentTabData(Fragment fragment, final SegmentTabLayout tabLayout, final ViewPager viewPager,
                                   String[] titles, List<Fragment> fragments, final OnTabSelectListener listener) {
-        setViewPager(fragment, tabLayout, viewPager, null, fragments, listener);
+        setViewPager(fragment, tabLayout, viewPager, Arrays.asList(titles), fragments, listener);
         tabLayout.setTabData(titles);
     }
 
@@ -236,8 +237,8 @@ public class TabLayoutManager {
         }
     }
 
-    private FragmentPagerAdapter getFragmentAdapter(Object activity, final List<String> tittles,
-                                                    @NonNull final List<Fragment> fragments) {
+    private FragmentStatePagerAdapter getFragmentAdapter(Object activity, final List<String> tittles,
+                                                         @NonNull final List<Fragment> fragments) {
         FragmentManager manager = null;
         if (activity instanceof FragmentActivity) {
             manager = ((FragmentActivity) activity).getSupportFragmentManager();
@@ -247,7 +248,7 @@ public class TabLayoutManager {
         if (manager == null) {
             return null;
         }
-        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(manager) {
+        FragmentStatePagerAdapter fragmentPagerAdapter = new FragmentStatePagerAdapter(manager) {
             @Override
             public Fragment getItem(int position) {
                 return fragments.get(position);

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created: AriesHoo on 2017/7/14 9:55
- * Function:
+ * Function: 描述性条目适配器
  * Desc:
  */
 public class WidgetAdapter extends BaseQuickAdapter<WidgetEntity, BaseViewHolder> {

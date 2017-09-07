@@ -6,20 +6,22 @@ import android.widget.ImageView;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
+import com.aries.library.fast.demo.base.BaseTitleRefreshLoadFragment;
 import com.aries.library.fast.demo.entity.WidgetEntity;
-import com.aries.library.fast.demo.module.sample.SwipeBackActivity;
-import com.aries.library.fast.demo.module.sample.ali.ALiPayMainActivity;
-import com.aries.library.fast.demo.module.sample.news.NewsMainActivity;
-import com.aries.library.fast.demo.retrofit.DefaultSubscriber;
-import com.aries.library.fast.enums.RxLifeCycle;
+import com.aries.library.fast.demo.module.WebViewActivity;
+import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
+import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
+import com.aries.library.fast.demo.module.main.sample.ali.ALiPayMainActivity;
+import com.aries.library.fast.demo.module.main.sample.news.NewsMainActivity;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
-import com.aries.library.fast.module.fragment.FastTitleRefreshLoadFragment;
-import com.aries.library.fast.util.AppUtil;
+import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +35,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
  * Function:
  * Desc:
  */
-public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
+public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
 
     protected BGABanner banner;
     private BaseQuickAdapter mAdapter;
@@ -79,7 +81,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     @Override
     public void loadData(int page) {
         if (listActivity.size() > 0) {
-            int random = AppUtil.getRandom(1000);
+            int random = FastUtil.getRandom(1000);
             int position = (random % (listArraysBanner.size() - 1)) + 1;
             LoggerManager.d("position:" + position + ";random:" + random);
             setBanner(position);
@@ -87,6 +89,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         }
         listActivity.clear();
         listActivity.add(SwipeBackActivity.class);
+        listActivity.add(QQTitleActivity.class);
         listActivity.add(ALiPayMainActivity.class);
         listActivity.add(NewsMainActivity.class);
         List<WidgetEntity> list = new ArrayList<>();
@@ -98,9 +101,9 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
             entity.activity = listActivity.get(i);
             list.add(entity);
         }
-        RxJavaManager.getInstance().getDelayObservable(list, 200, TimeUnit.MILLISECONDS)
-                .compose(bindLifeCycle(RxLifeCycle.DESTROY))
-                .subscribe(new DefaultSubscriber<List<WidgetEntity>>() {
+        RxJavaManager.getInstance().getDelayObservable(list, 2, TimeUnit.MILLISECONDS)
+                .compose(bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(new FastObserver<List<WidgetEntity>>() {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
                         mEasyStatusView.content();
@@ -109,8 +112,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
+                    public void _onError(int errorRes, int errorCode, Throwable e) {
                         mEasyStatusView.error();
                         mRefreshLayout.finishRefresh(false);
                         mAdapter.loadMoreComplete();
@@ -149,7 +151,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         if (position == 0) {
             SwipeBackActivity.start(mContext, entity.title);
         } else {
-            AppUtil.startActivity(mContext, entity.activity, null, true);
+            FastUtil.startActivity(mContext, entity.activity, null, true);
         }
     }
 }

@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aries.library.fast.interfaces.IBasisView;
+import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import org.simple.eventbus.EventBus;
 
@@ -28,8 +29,9 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected Activity mContext;
     protected View mContentView;
     protected boolean mIsFirstShow;
-    protected boolean isViewLoaded = false;
+    protected boolean isViewLoaded;
     protected Unbinder mUnBinder;
+    protected final String TAG = getClass().getSimpleName();
 
     @Override
     public void onAttach(Context context) {
@@ -44,10 +46,10 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         beforeSetContentView();
         mContentView = inflater.inflate(getContentLayout(), container, false);
         mUnBinder = ButterKnife.bind(this, mContentView);
+        isViewLoaded = true;
         EventBus.getDefault().register(this);
         beforeInitView();
         initView(savedInstanceState);
-        isViewLoaded = true;
         return mContentView;
     }
 
@@ -74,7 +76,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnBinder.unbind();
+        if (mUnBinder != null)
+            mUnBinder.unbind();
     }
 
     @Override
@@ -88,7 +91,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
      */
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden) lazyLoad();
+        super.onHiddenChanged(hidden);
+        onVisibleChanged(!hidden);
     }
 
     /**
@@ -97,13 +101,21 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        onVisibleChanged(isVisibleToUser);
+    }
+
+    /**
+     * 用户可见变化回调
+     *
+     * @param isVisibleToUser
+     */
+    protected void onVisibleChanged(final boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            if (!isViewLoaded) {
-                RxJavaManager.getInstance().setTimer(500, new RxJavaManager.TimerListener() {
+            if (!isViewLoaded) {//避免因视图未加载子类刷新UI抛出异常
+                RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {
                     @Override
                     public void timeEnd() {
-                        isViewLoaded = true;
-                        lazyLoad();
+                        onVisibleChanged(isVisibleToUser);
                     }
                 });
             } else {

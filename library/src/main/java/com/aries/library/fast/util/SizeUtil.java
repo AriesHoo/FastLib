@@ -2,7 +2,7 @@ package com.aries.library.fast.util;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.view.WindowManager;
+import android.util.DisplayMetrics;
 
 /**
  * Created: AriesHoo on 2017/7/28 9:23
@@ -11,35 +11,35 @@ import android.view.WindowManager;
  */
 public class SizeUtil {
 
-    private static WindowManager getWindowManager(Context context) {
-        return (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    public static DisplayMetrics getDisplayMetrics() {
+        return Resources.getSystem().getDisplayMetrics();
     }
 
-    public static int getScreenWidth(Context context) {
-        return getWindowManager(context).getDefaultDisplay().getWidth();
+    public static int getScreenWidth() {
+        return getDisplayMetrics().widthPixels;
     }
 
     public static int getScreenHeight(Context context) {
-        return getWindowManager(context).getDefaultDisplay().getHeight();
+        return getDisplayMetrics().heightPixels;
     }
 
     public static int px2dp(float pxValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        final float scale = getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
     public static int dp2px(float dipValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        final float scale = getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
 
     public static int px2sp(float pxValue) {
-        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        final float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
 
     public static int sp2px(float spValue) {
-        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        final float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
 

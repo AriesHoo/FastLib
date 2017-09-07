@@ -25,6 +25,7 @@ public abstract class LoggerManager {
         LoggerManager.TAG = tag;
         setDebug(isDebug);
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .methodCount(3)
                 .tag(TAG) // 全局tag
                 .build();
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
@@ -49,23 +50,43 @@ public abstract class LoggerManager {
         }
     }
 
-    public static void w(String message) {
-        w(null, message);
+    public static void e(String msg) {
+        e(null, msg);
     }
 
-    public static void w(String tag, String message) {
+    public static void e(String tag, String msg) {
         if (isInit() && DEBUG) {
-            Logger.t(tag).w(message);
+            Logger.t(tag).e(msg);
         }
     }
 
-    public static void e(String message) {
-        e(null, message);
+    public static void w(String msg) {
+        w(null, msg);
     }
 
-    public static void e(String tag, String message) {
+    public static void w(String tag, String msg) {
         if (isInit() && DEBUG) {
-            Logger.t(tag).e(message);
+            Logger.t(tag).w(msg);
+        }
+    }
+
+    public static void i(String msg) {
+        i(null, msg);
+    }
+
+    public static void i(String tag, String msg) {
+        if (isInit() && DEBUG) {
+            Logger.t(tag).i(msg);
+        }
+    }
+
+    public static void v(String message) {
+        v(null, message);
+    }
+
+    public static void v(String tag, String message) {
+        if (isInit() && DEBUG) {
+            Logger.t(tag).v(message);
         }
     }
 
@@ -76,6 +97,16 @@ public abstract class LoggerManager {
     public static void json(String tag, String json) {
         if (isInit() && DEBUG) {
             Logger.t(tag).json(json);
+        }
+    }
+
+    public static void xml(String xml) {
+        xml(null, xml);
+    }
+
+    public static void xml(String tag, String xml) {
+        if (isInit() && DEBUG) {
+            Logger.t(tag).xml(xml);
         }
     }
 

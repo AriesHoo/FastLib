@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/fast_layout_title_bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_activityTabSetting"
+                style="@style/SupperTextStyleItem"
+                android:layout_marginTop="@dimen/dp_margin_item"
+                app:sLeftTextString="@string/activity_tab_sliding"
+                app:sRightIconRes="@null"
+                app:sRightSwitchMarginRight="12dp"
+                app:sRightViewType="switchBtn"
+                app:sSwitchIsChecked="true"
+                app:sSwitchPadding="10dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

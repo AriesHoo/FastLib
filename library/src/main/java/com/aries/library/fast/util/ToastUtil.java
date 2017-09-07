@@ -3,7 +3,7 @@ package com.aries.library.fast.util;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.aries.library.fast.Constant;
+import com.aries.library.fast.FastConstant;
 
 /**
  * Created: AriesHoo on 2017/7/24 11:20
@@ -32,14 +32,14 @@ public class ToastUtil {
 
     public static void show(int content) {
         if (null == mContext) {
-            throw new NullPointerException(Constant.EXCEPTION_NOT_INIT);
+            throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
         show(content, mIsShowRunningForeground);
     }
 
     public static void show(int content, boolean isShowRunningForeground) {
         if (null == mContext) {
-            throw new NullPointerException(Constant.EXCEPTION_NOT_INIT);
+            throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
         show(mContext.getString(content), isShowRunningForeground);
     }
@@ -50,7 +50,7 @@ public class ToastUtil {
 
     public static void show(String content, boolean isShowRunningForeground) {
         if (null == mContext) {
-            throw new NullPointerException(Constant.EXCEPTION_NOT_INIT);
+            throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         } else {
             int duration = content.length() > 10 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
             if (mSystemToast == null) {
@@ -58,7 +58,7 @@ public class ToastUtil {
             }
             mSystemToast.setText(content);
             mSystemToast.setDuration(duration);
-            if (!isShowRunningForeground || (isShowRunningForeground && AppUtil.isRunningForeground(mContext)))
+            if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(mContext)))
                 mSystemToast.show();
         }
     }

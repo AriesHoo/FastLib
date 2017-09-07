@@ -7,10 +7,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.aries.library.fast.R;
-import com.aries.library.fast.interfaces.IBasisView;
+import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.RxJavaManager;
-import com.aries.library.fast.util.ActivityStackUtil;
+import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
 
@@ -23,7 +24,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Function: 所有Activity的基类
  * Desc:
  */
-public abstract class BasisActivity extends RxActivity implements IBasisView {
+public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
 
     protected Activity mContext;
     protected View mContentView;
@@ -34,19 +35,12 @@ public abstract class BasisActivity extends RxActivity implements IBasisView {
     protected boolean isViewLoaded = false;
     protected boolean mIsFirstShow = true;
 
-    /**
-     * 是否开启滑动返回
-     */
-    protected boolean isSwipeBackEnable() {
-        return false;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         mContext = this;
-        ActivityStackUtil.getInstance().push(this);
+        FastStackUtil.getInstance().push(this);
         initSwipeBack();
         beforeSetContentView();
         mContentView = View.inflate(mContext, getContentLayout(), null);
@@ -55,6 +49,28 @@ public abstract class BasisActivity extends RxActivity implements IBasisView {
         isViewLoaded = true;
         beforeInitView();
         initView(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        beforeLazyLoad();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+        if (mUnBinder != null)
+            mUnBinder.unbind();
+        FastStackUtil.getInstance().pop(this);
+    }
+
+    /**
+     * 是否开启滑动返回
+     */
+    protected boolean isSwipeBackEnable() {
+        return false;
     }
 
     /**
@@ -105,35 +121,24 @@ public abstract class BasisActivity extends RxActivity implements IBasisView {
 
     }
 
-    @Override
-    protected void onResume() {
-        if (!isViewLoaded) {
-            RxJavaManager.getInstance().setTimer(500, new RxJavaManager.TimerListener() {
+    private void beforeLazyLoad() {
+        if (!isViewLoaded) {//确保视图加载及视图绑定完成避免刷新UI抛出异常
+            RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {
                 @Override
                 public void timeEnd() {
-                    isViewLoaded = true;
-                    goLoad();
+                    beforeLazyLoad();
                 }
             });
         } else {
-            goLoad();
+            lazyLoad();
         }
-        super.onResume();
     }
 
-    private void goLoad() {
-        if (mIsFirstShow && isViewLoaded) {
+    private void lazyLoad() {
+        if (mIsFirstShow) {
             mIsFirstShow = false;
             loadData();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-        ActivityStackUtil.getInstance().pop(this);
-        mUnBinder.unbind();
     }
 
     protected void quitApp() {
@@ -147,9 +152,7 @@ public abstract class BasisActivity extends RxActivity implements IBasisView {
                 }
             });
         } else if (!isFirstBack) {
-            ActivityStackUtil.getInstance().popAll();
-            finish();
-            System.exit(0);
+            FastStackUtil.getInstance().exit();
         }
     }
 

@@ -3,31 +3,30 @@ package com.aries.library.fast.demo.retrofit.repository;
 import android.accounts.NetworkErrorException;
 
 import com.aries.library.fast.demo.base.BaseEntity;
+import com.aries.library.fast.retrofit.FastTransformer;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 /**
  * Created: AriesHoo on 2017/6/23 17:23
- * Function: retrofit使用基类封装
+ * Function: retrofit使用基类封装.
  * Desc:
  */
 public abstract class BaseRepository {
 
-    protected <T> Observable<T> transform(Observable<T> observable) {
-        return observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-
-    protected <T> Observable<T> transformData(Observable<BaseEntity<T>> observable) {
-        return observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<BaseEntity<T>, Observable<T>>() {
+    /**
+     * @param observable 用于解析 统一返回实体统一做相应的错误码--如登录失效
+     * @param <T>
+     * @return
+     */
+    protected <T> Observable<T> transform(Observable<BaseEntity<T>> observable) {
+        return FastTransformer.switchSchedulers(observable)
+                .flatMap(new Function<BaseEntity<T>, ObservableSource<T>>() {
                     @Override
-                    public Observable<T> call(BaseEntity<T> result) {
+                    public ObservableSource<T> apply(@NonNull BaseEntity<T> result) throws Exception {
                         if (result == null) {
                             return Observable.error(new NetworkErrorException());
                         } else {

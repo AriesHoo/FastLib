@@ -10,6 +10,16 @@
     <string name="fast_web_alert_left">再逛逛</string>
     <string name="fast_web_alert_right">关闭</string>
     <string name="fast_copy_success">已复制到剪贴板</string>
-    <string name="cancel">取消</string>
-    <string name="ensure">确定</string>
+    <string name="fast_exception_network_not_connected">未连接网络,请检查网络连接状态</string>
+    <string name="fast_exception_network_error">网络错误</string>
+    <string name="fast_exception_accounts">登录失效,请重新登录</string>
+    <string name="fast_exception_connect">连接错误</string>
+    <string name="fast_exception_socket">Socket连接超时</string>
+    <string name="fast_exception_http">HTTP异常</string>
+    <string name="fast_exception_unknown_host">无法解析主机(DNS错误)</string>
+    <string name="fast_exception_json_syntax">Json数据格式化错误</string>
+    <string name="fast_exception_time_out">访问超时</string>
+    <string name="fast_exception_class_cast">类型转换错误</string>
+    <string name="fast_exception_other_error">其它错误</string>
+    <string name="fast_loading">加载中...</string>
 </resources>

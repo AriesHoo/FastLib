@@ -10,6 +10,16 @@
     <string name="fast_web_alert_left">Back</string>
     <string name="fast_web_alert_right">Close</string>
     <string name="fast_copy_success">Copy Successful</string>
-    <string name="cancel">Cancel</string>
-    <string name="ensure">Ensure</string>
+    <string name="fast_exception_network_not_connected">Network Not Connected Exception</string>
+    <string name="fast_exception_network_error">Network Error Exception</string>
+    <string name="fast_exception_accounts">Account Exception</string>
+    <string name="fast_exception_connect">Connect Exception</string>
+    <string name="fast_exception_socket">Socket Exception</string>
+    <string name="fast_exception_http">HTTP Exception</string>
+    <string name="fast_exception_unknown_host">Unknown Host Exception</string>
+    <string name="fast_exception_json_syntax">Json Syntax Exception</string>
+    <string name="fast_exception_time_out">Time Out Exception</string>
+    <string name="fast_exception_class_cast">Class Cast Exception</string>
+    <string name="fast_exception_other_error">Other Exception</string>
+    <string name="fast_loading">Loading...</string>
 </resources>

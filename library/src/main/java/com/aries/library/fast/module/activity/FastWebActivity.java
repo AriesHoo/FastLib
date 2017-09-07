@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 import com.aries.library.fast.R;
-import com.aries.library.fast.util.AppUtil;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetView;
@@ -39,7 +39,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected static void start(Activity mActivity, Class<? extends FastWebActivity> activity, String url) {
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
-        AppUtil.startActivity(mActivity, activity, bundle);
+        FastUtil.startActivity(mActivity, activity, bundle);
     }
 
     protected abstract void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder);
@@ -150,7 +150,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                             ToastUtil.show(R.string.fast_copy_success);
                             break;
                         case 2:
-                            AppUtil.startShareText(mContext, mCurrentUrl);
+                            FastUtil.startShareText(mContext, mCurrentUrl);
                             break;
                     }
                 }

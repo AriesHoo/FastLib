@@ -32,4 +32,15 @@
         <item name="com.aries.library.fast.demo:sRightTextColor">@color/colorTextGray</item>
         <item name="com.aries.library.fast.demo:sRightTextSize">12dp</item>
     </style>
+
+    <style name="TextStyleMovieItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_toRightOf">@id/iv_coverMovie</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textColor">@color/colorTextBlackLight</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
 </resources>

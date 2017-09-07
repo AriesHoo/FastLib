@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
-import com.aries.library.fast.interfaces.IFastRefreshLoadView;
+import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.marno.easystatelibrary.EasyStatusView;

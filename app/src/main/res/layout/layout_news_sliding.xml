@@ -11,8 +11,6 @@
         android:layout_height="@dimen/dp_title_height"
         app:tl_indicator_color="@color/colorMainNews"
         app:tl_indicator_height="3dp"
-        app:tl_indicator_width_equal_title="true"
-        app:tl_tab_space_equal="false"
         app:tl_tab_padding="6dp"
         app:tl_textBold="SELECT"
         app:tl_textSelectColor="@color/colorMainNews"
