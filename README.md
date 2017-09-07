@@ -4,7 +4,7 @@
 
 一个Android项目级快速开发框架,节约大部分写常用功能时间以实现更多项目业务功能及体验上的优化.有问题欢迎issue。
 
-## 项目主要功能
+## 主要功能
 
 * 基于Retrofit2.x及RxJava2.x的网络请求封装、网络请求与生命周期绑定、快速观察者、快速loading观察者、快速返回常用错误
 * 常用功能库二次封装方便调用:Glide加载图片封装、TabLayout+ViewPager Fragment切换封装、Logger日志打印封装
