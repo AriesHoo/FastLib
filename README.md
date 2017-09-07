@@ -106,7 +106,7 @@ dependencies {
 
 ## 鸣谢
 
-* [RapidLib-来自改库的扩展](https://github.com/MarnoDev/RapidLib)
+* [RapidLib-来自该库的扩展](https://github.com/MarnoDev/RapidLib)
 * [ButterKnife-注解](https://github.com/JakeWharton/butterknife)
 * [Glide-图片加载](https://github.com/bumptech/glide)
 * [Logger-日志打印](https://github.com/orhanobut/logger)
