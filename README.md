@@ -4,6 +4,16 @@
 
 一个Android项目级快速开发框架,节约大部分写常用功能时间以实现更多项目业务功能及体验上的优化.有问题欢迎issue。
 
+## 项目主要功能
+
+* 基于Retrofit2.x及RxJava2.x的网络请求封装、网络请求与生命周期绑定、快速观察者、快速loading观察者、快速返回常用错误
+* 常用功能库二次封装方便调用:Glide加载图片封装、TabLayout+ViewPager Fragment切换封装、Logger日志打印封装
+* 多种常用界面布局:标题+多状态+下拉刷新+列表、标题+ViewPager等方便快速创建常用布局增加layout复用
+* Fragment 懒加载封装
+* 快速实现Activity滑动返回、下拉刷新加载更多、沉浸式等
+
+其它功能请在demo中发现
+
 [[Sample PC Download]](https://github.com/AriesHoo/FastLib/blob/master/apk/sample.apk)
 
 [[Sample Mobile Download]](http://fir.im/hju8)
