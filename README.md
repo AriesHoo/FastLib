@@ -23,7 +23,7 @@ allprojects {
 
 ```
 dependencies {
-     //compile 'com.github.AriesHoo:FastLib:2.0.0'
+     //compile 'com.github.AriesHoo:FastLib:2.0.1'
      compile 'com.github.AriesHoo:FastLib:${LATEST_VERSION}'
 }
 ```
@@ -69,7 +69,7 @@ dependencies {
     //多状态视图切换
     compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
     //常用UI控件(TitleBarView、RadiusView等)
-    compile 'com.github.AriesHoo:UIWidget:v1.9.5'
+    compile 'com.github.AriesHoo:UIWidget:1.9.6'
     //下拉刷新库
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2'
     //页面事件交互
@@ -120,6 +120,23 @@ dependencies {
 * [AndroidEventBus-页面事件交互](https://github.com/hehonghui/AndroidEventBus)
 * [AgentWeb-原生WebView快速集成库](https://github.com/Justson/AgentWeb)
 
+## License
+
+```
+Copyright 2017 Aries Hoo
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 
 
 

@@ -6,11 +6,13 @@ import android.view.View;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.base.BaseRefreshLoadActivity;
+import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,6 +30,7 @@ import java.util.List;
 public class ThirdLibraryActivity extends BaseRefreshLoadActivity<WidgetEntity> {
 
     private BaseQuickAdapter mAdapter;
+    private int animationIndex = 5;
 
     @Override
     public boolean isLoadMoreEnable() {
@@ -56,7 +59,9 @@ public class ThirdLibraryActivity extends BaseRefreshLoadActivity<WidgetEntity> 
 
     @Override
     public void loadData(int page) {
+        animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
         mEasyStatusView.content();
+        mAdapter.openLoadAnimation(animationIndex);
         List<WidgetEntity> list = new ArrayList<>();
         String[] titles = getResources().getStringArray(R.array.arrays_library_list_title);
         String[] contents = getResources().getStringArray(R.array.arrays_library_list_content);

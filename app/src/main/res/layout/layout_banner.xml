@@ -10,14 +10,15 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:banner_indicatorGravity="bottom|center_horizontal"
+        app:banner_indicatorGravity="bottom|left"
         app:banner_isNeedShowIndicatorOnOnlyOnePage="true"
         app:banner_placeholderDrawable="@drawable/fast_shape_placeholder_common"
-        app:banner_pointAutoPlayInterval="2000"
+        app:banner_pointAutoPlayInterval="2500"
         app:banner_pointContainerLeftRightPadding="10dp"
+        app:banner_pointContainerBackground="#80000000"
         app:banner_pointDrawable="@drawable/selector_banner_point"
-        app:banner_tipTextColor="@android:color/black"
+        app:banner_tipTextColor="@android:color/white"
         app:banner_tipTextSize="14dp"
-        app:banner_transitionEffect="defaultEffect"/>
+        app:banner_transitionEffect="cube"/>
 
 </LinearLayout>

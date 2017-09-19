@@ -11,8 +11,10 @@
 
     <ImageView
         android:id="@+id/iv_coverMovie"
-        android:layout_width="60dp"
-        android:layout_height="90dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:minWidth="72dp"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
         android:scaleType="centerCrop"

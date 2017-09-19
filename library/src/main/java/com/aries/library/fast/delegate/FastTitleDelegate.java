@@ -16,7 +16,7 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public class FastTitleDelegate {
     public TitleBarView titleBar;
-    public int type = 0;//type >0 表示支持状态栏黑白字切换
+    public int type = StatusBarUtil.STATUS_BAR_TYPE_DEFAULT;//type >0 表示支持状态栏黑白字切换
 
     public FastTitleDelegate(View rootView, Activity mContext, IFastTitleView iTitleBarView) {
         if (iTitleBarView.isLightStatusBarEnable()) {
@@ -28,13 +28,16 @@ public class FastTitleDelegate {
         }
         if (iTitleBarView.isLightStatusBarEnable()) {
             int colorText = mContext.getResources().getColor(R.color.colorTitleText);
-            titleBar.setTitleMainTextColor(colorText);
-            titleBar.setTitleSubTextColor(colorText);
-            titleBar.setLeftTextColor(colorText);
-            titleBar.setRightTextColor(colorText);
+            titleBar.setTitleMainTextColor(colorText)
+                    .setTitleSubTextColor(colorText)
+                    .setLeftTextColor(colorText)
+                    .setRightTextColor(colorText);
         }
-        if (iTitleBarView.isLightStatusBarEnable() && type <= 0) {
-            titleBar.setStatusAlpha(78);
+        //设置浅色状态栏又无法设置文字深色模式需将状态栏透明度调低避免状态栏文字颜色不可见问题
+        if (iTitleBarView.isLightStatusBarEnable()
+                && type <= StatusBarUtil.STATUS_BAR_TYPE_DEFAULT) {
+            //Android 5.0半透明效果alpha为102
+            titleBar.setStatusAlpha(70);
         }
         iTitleBarView.beforeSetTitleBar(titleBar);
         iTitleBarView.setTitleBar(titleBar);

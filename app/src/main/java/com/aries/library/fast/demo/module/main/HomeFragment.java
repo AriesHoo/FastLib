@@ -1,12 +1,16 @@
 package com.aries.library.fast.demo.module.main;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.base.BaseTitleRefreshLoadFragment;
+import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
@@ -18,6 +22,7 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -29,6 +34,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
+import cn.bingoogolapple.bgabanner.transformer.TransitionEffect;
 
 /**
  * Created: AriesHoo on 2017/7/20 11:45
@@ -43,6 +49,11 @@ public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
     private List<Integer> listArraysBanner = Arrays.asList(R.array.arrays_banner_all
             , R.array.arrays_banner_an, R.array.arrays_banner_si
             , R.array.arrays_banner_liu, R.array.arrays_banner_di, R.array.arrays_banner_jun);
+
+    private List<TransitionEffect> listTransitionEffect = new ArrayList<>();
+    private int transitionIndex = 3;
+    private int chooseIndex = 0;
+    private AlertDialog alertDialog;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -64,24 +75,69 @@ public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setVisibility(View.GONE);
-        titleBar.setTitleMainText(R.string.home);
+        titleBar.setRightTextDrawable(R.drawable.ic_transition)
+                .setDividerVisible(false)
+                .setOnRightTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (alertDialog == null) {
+                            alertDialog = new AlertDialog.Builder(mContext)
+                                    .setTitle("选择banner切换动画")
+                                    .setSingleChoiceItems(R.array.arrays_transition, transitionIndex, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            chooseIndex = which;
+                                        }
+                                    })
+                                    .setPositiveButton(R.string.ensure, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            SPUtil.put(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, chooseIndex);
+                                            transitionIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, transitionIndex);
+                                            if (banner != null)
+                                                banner.setTransitionEffect(listTransitionEffect.get(transitionIndex));
+                                        }
+                                    })
+                                    .create();
+                            alertDialog.getListView().setVerticalScrollBarEnabled(false);
+                            alertDialog.getListView().setHorizontalScrollBarEnabled(false);
+                        }
+                        alertDialog.show();
+                    }
+                })
+                .setStatusAlpha(0)
+                .setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
     public int getContentLayout() {
-        return R.layout.fast_layout_title_multi_status_refresh_recycler;
+        return R.layout.fragment_home;
     }
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        listTransitionEffect.add(TransitionEffect.Default);
+        listTransitionEffect.add(TransitionEffect.Alpha);
+        listTransitionEffect.add(TransitionEffect.Rotate);
+        listTransitionEffect.add(TransitionEffect.Cube);
+        listTransitionEffect.add(TransitionEffect.Flip);
+        listTransitionEffect.add(TransitionEffect.Accordion);
+        listTransitionEffect.add(TransitionEffect.ZoomFade);
+        listTransitionEffect.add(TransitionEffect.Fade);
+        listTransitionEffect.add(TransitionEffect.ZoomCenter);
+        listTransitionEffect.add(TransitionEffect.ZoomStack);
+        listTransitionEffect.add(TransitionEffect.Stack);
+        listTransitionEffect.add(TransitionEffect.Depth);
+        listTransitionEffect.add(TransitionEffect.Zoom);
+        transitionIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, transitionIndex);
+        chooseIndex = transitionIndex;
         setBanner(0);
     }
 
     @Override
     public void loadData(int page) {
         if (listActivity.size() > 0) {
-            int random = FastUtil.getRandom(1000);
+            int random = FastUtil.getRandom(100);
             int position = (random % (listArraysBanner.size() - 1)) + 1;
             LoggerManager.d("position:" + position + ";random:" + random);
             setBanner(position);
@@ -139,8 +195,18 @@ public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
             });
             mAdapter.addHeaderView(v);
         }
-        banner.setData(images, null);
+        banner.setData(images, getTips(images));
+        banner.setTransitionEffect(listTransitionEffect.get(transitionIndex));
         mRefreshLayout.finishRefresh();
+    }
+
+    private List<String> getTips(List<String> images) {
+        List<String> listTips = new ArrayList<>();
+        int size = images == null ? 0 : images.size();
+        for (int i = 0; i < size; i++) {
+            listTips.add("点击查看原图");
+        }
+        return listTips;
     }
 
     @Override

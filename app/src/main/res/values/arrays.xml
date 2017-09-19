@@ -77,7 +77,7 @@
         <item>BGASwipeBackLayout-V1.1.0</item>
         <item>FlycoTabLayout-V2.1.2</item>
         <item>EasyStatusView-V1.0.3</item>
-        <item>UIWidget-V1.9.5</item>
+        <item>UIWidget-V1.9.6</item>
         <item>SmartRefreshLayout-V1.0.2</item>
         <item>AndroidEventBus-V1.0.5.1</item>
         <item>AgentWeb-V2.0.0</item>
@@ -121,7 +121,6 @@
         <item>https://github.com/Justson/AgentWeb</item>
     </array>
     <array name="arrays_banner_all">
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502602925&amp;di=c0b47a815902276e86a216235dcf60cf&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimgstore.cdn.sogou.com%2Fapp%2Fa%2F100540002%2F649184.jpg</item>
         <item>https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4270981572,1990926314&amp;fm=26&amp;gp=0.jpg</item>
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502003928365&amp;di=839014a9b6059219d80c108f9079b553&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F50a1e758d65ee.jpg</item>
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405271&amp;di=c2f7f9c9cf941917c3922502989b35f6&amp;imgtype=0&amp;src=http%3A%2F%2Ftupian.enterdesk.com%2F2013%2Fmxy%2F0805%2F5%2F4.jpg</item>
@@ -138,7 +137,6 @@
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302432&amp;di=ad19f75a3c54b72b595d7a634378892c&amp;imgtype=0&amp;src=http%3A%2F%2F4493bz.1985t.com%2Fuploads%2Fallimg%2F150313%2F4-150313111052.jpg</item>
     </array>
     <array name="arrays_banner_an">
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502603059&amp;di=9bf0ae7cc7b5608aba6e0ab1e2944536&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimgstore.cdn.sogou.com%2Fapp%2Fa%2F100540002%2F470094.jpg</item>
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502602925&amp;di=c0b47a815902276e86a216235dcf60cf&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimgstore.cdn.sogou.com%2Fapp%2Fa%2F100540002%2F649184.jpg</item>
         <item>https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4270981572,1990926314&amp;fm=26&amp;gp=0.jpg</item>
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502003928365&amp;di=839014a9b6059219d80c108f9079b553&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F50a1e758d65ee.jpg</item>
@@ -170,5 +168,28 @@
         <item>http://img5.xiazaizhijia.com/walls/20160621/mid_31d8e8056e92272.jpg</item>
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302435&amp;di=08f48aec17d044f64bb53d6edd0bcdfc&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Ff%2F573bd3d1262cb.jpg</item>
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302432&amp;di=ad19f75a3c54b72b595d7a634378892c&amp;imgtype=0&amp;src=http%3A%2F%2F4493bz.1985t.com%2Fuploads%2Fallimg%2F150313%2F4-150313111052.jpg</item>
+    </array>
+
+    <array name="arrays_animation">
+        <item>ALPHAIN-渐显</item>
+        <item>SCALEIN-缩放</item>
+        <item>SLIDEIN_BOTTOM-从下往上</item>
+        <item>SLIDEIN_LEFT-从左往右</item>
+        <item>SLIDEIN_RIGHT-从右往左</item>
+    </array>
+    <array name="arrays_transition">
+        <item>Default</item>
+        <item>Alpha</item>
+        <item>Rotate</item>
+        <item>Cube</item>
+        <item>Flip</item>
+        <item>Accordion</item>
+        <item>ZoomFade</item>
+        <item>Fade</item>
+        <item>ZoomCenter</item>
+        <item>ZoomStack</item>
+        <item>Stack</item>
+        <item>Depth</item>
+        <item>Zoom</item>
     </array>
 </resources>

@@ -27,10 +27,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class FastRetrofit {
-    private static volatile Retrofit sRetrofit;
+
     private static volatile FastRetrofit sManager;
+    private static volatile Retrofit sRetrofit;
     private static volatile Retrofit.Builder sRetrofitBuilder;
     private static OkHttpClient.Builder sClientBuilder;
+    private static OkHttpClient sClient;
     private long delayTime = 10;
     private HttpLoggingInterceptor loggingInterceptor;
 
@@ -54,9 +56,10 @@ public class FastRetrofit {
     }
 
     public <T> T createService(Class<T> apiService) {
-        sClientBuilder.retryOnConnectionFailure(true);
         setHttpClient(sClientBuilder.build());
-        sRetrofit = sRetrofitBuilder.build();
+        if (sRetrofit == null) {
+            sRetrofit = sRetrofitBuilder.build();
+        }
         return sRetrofit.create(apiService);
     }
 
@@ -78,8 +81,10 @@ public class FastRetrofit {
      * @return
      */
     public FastRetrofit setHttpClient(OkHttpClient okClient) {
-        if (okClient != null) {
+        if (okClient != null && sClient != okClient) {
+            sClient = okClient;
             sClientBuilder = okClient.newBuilder();
+            sClientBuilder.retryOnConnectionFailure(true);
             sRetrofitBuilder.client(okClient);
         }
         return this;

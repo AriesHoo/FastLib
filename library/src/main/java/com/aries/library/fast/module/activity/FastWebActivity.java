@@ -1,6 +1,7 @@
 package com.aries.library.fast.module.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -57,27 +58,27 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
-        titleBar.setTitleMainTextMarquee(true);
-        titleBar.setRightTextDrawable(R.drawable.fast_ic_more);
-        titleBar.setLeftTextDrawable(R.drawable.fast_ic_back);
-        titleBar.addLeftAction(titleBar.new ImageAction(R.drawable.fast_ic_close, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        }));
-        titleBar.setOnLeftTextClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        titleBar.setOnRightTextClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showActionSheet();
-            }
-        });
+        titleBar.setTitleMainTextMarquee(true)
+                .setRightTextDrawable(R.drawable.fast_ic_more)
+                .setLeftTextDrawable(R.drawable.fast_ic_back)
+                .setOnLeftTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                })
+                .setOnRightTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showActionSheet();
+                    }
+                })
+                .addLeftAction(titleBar.new ImageAction(R.drawable.fast_ic_close, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDialog();
+                    }
+                }));
     }
 
     @Override
@@ -85,7 +86,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
         return R.layout.fast_activity_fast_web;
     }
 
-    private void initAgentWeb() {
+    protected void initAgentWeb() {
         mAgentBuilder = AgentWeb.with(this)//
                 .setAgentWebParent(lLayoutContainer, new LinearLayout.LayoutParams(-1, -1))//
                 .useDefaultIndicator()//
@@ -107,7 +108,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
         setAgentWeb(mAgentWeb, mAgentBuilder);
     }
 
-    private void showDialog() {
+    protected void showDialog() {
         if (mAlertDialog == null)
             mAlertDialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.fast_web_alert_title)
@@ -133,34 +134,34 @@ public abstract class FastWebActivity extends FastTitleActivity {
         mAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.RED);
     }
 
-    private void showActionSheet() {
+    protected void showActionSheet() {
         if (mActionSheetView == null) {
-            mActionSheetView = new UIActionSheetView(mContext, UIActionSheetView.STYLE_NORMAL);
-            mActionSheetView.setItems(R.array.fast_arrays_web_more, new UIActionSheetView.OnSheetItemListener() {
-                @Override
-                public void onClick(int i) {
-                    switch (i) {
-                        case 0:
-                            mAgentWeb.getLoader().reload();
-                            break;
-                        case 1:
-                            ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                            // 将文本内容放到系统剪贴板里。
-                            cm.setText(mCurrentUrl);
-                            ToastUtil.show(R.string.fast_copy_success);
-                            break;
-                        case 2:
-                            FastUtil.startShareText(mContext, mCurrentUrl);
-                            break;
-                    }
-                }
-            });
-            mActionSheetView.setItemsTextColorResource(R.color.colorTitleText);
-            mActionSheetView.setCancelColorResource(R.color.colorTitleText);
-            mActionSheetView.setCancelMessage(R.string.cancel);
-            mActionSheetView.setCancelMessageTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            mActionSheetView.setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            mActionSheetView.setBackgroundResource(android.R.color.darker_gray);
+            mActionSheetView = new UIActionSheetView(mContext, UIActionSheetView.STYLE_NORMAL)
+                    .setItems(R.array.fast_arrays_web_more, new UIActionSheetView.OnSheetItemListener() {
+                        @Override
+                        public void onClick(int i) {
+                            switch (i) {
+                                case 0:
+                                    mAgentWeb.getLoader().reload();
+                                    break;
+                                case 1:
+                                    ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                    // 将文本内容放到系统剪贴板里。
+                                    cm.setPrimaryClip(ClipData.newPlainText("粘贴板", mCurrentUrl));
+                                    ToastUtil.show(R.string.fast_copy_success);
+                                    break;
+                                case 2:
+                                    FastUtil.startShareText(mContext, mCurrentUrl);
+                                    break;
+                            }
+                        }
+                    })
+                    .setItemsTextColorResource(R.color.colorTitleText)
+                    .setCancelColorResource(R.color.colorTitleText)
+                    .setCancelMessage(R.string.cancel)
+                    .setCancelMessageTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
+                    .setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
+                    .setBackgroundResource(android.R.color.darker_gray);
         }
         mActionSheetView.show();
     }

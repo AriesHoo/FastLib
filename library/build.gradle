@@ -8,14 +8,35 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 200
-        versionName "2.0.0"
+        versionCode 201
+        versionName "2.0.1"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    //以下为配置library注释在打包jar后保留
+    // 打包源码jar
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+    task javadoc(type: Javadoc) {
+        failOnError false
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.compile
+    }
+    // 打包文档jar
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
     }
 }
 dependencies {
@@ -49,7 +70,7 @@ dependencies {
     //多状态视图切换
     compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
     //常用UI控件(TitleBarView、RadiusView等)
-    compile 'com.github.AriesHoo:UIWidget:v1.9.5'
+    compile 'com.github.AriesHoo:UIWidget:1.9.6'
     //下拉刷新库
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2'
     //页面事件交互

@@ -3,7 +3,9 @@ package com.aries.library.fast.demo.module;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.ui.view.title.TitleBarView;
 import com.just.library.AgentWeb;
@@ -42,12 +44,26 @@ public class WebViewActivity extends FastWebActivity {
         if (!mIsShowTitle) {
             titleBar.setVisibility(View.GONE);
         }
-//        titleBar.getLinearLayout(Gravity.LEFT).removeViewAt(1);
-//        titleBar.setRightVisible(false);
     }
 
     @Override
     protected void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder) {
+        WebView mWebView = mAgentWeb.getWebCreator().get();
+
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                WebView.HitTestResult hitTestResult = mWebView.getHitTestResult();
+                if (hitTestResult == null) {
+                    return false;
+                }
+                if (!mIsShowTitle) {
+                    showActionSheet();
+                }
+                LoggerManager.d("onLongClick:hitTestResult-Type:" + hitTestResult.getType() + ";Extra:" + hitTestResult.getExtra());
+                return true;
+            }
+        });
     }
 
     @Override

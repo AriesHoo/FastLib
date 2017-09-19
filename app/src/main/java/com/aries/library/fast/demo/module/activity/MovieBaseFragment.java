@@ -11,17 +11,24 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.base.BaseRefreshLoadFragment;
+import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.MovieConstant;
+import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastError;
 import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.SPUtil;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle2.android.FragmentEvent;
+
+import org.simple.eventbus.Subscriber;
+import org.simple.eventbus.ThreadMode;
 
 /**
  * Created: AriesHoo on 2017/8/25 17:03
@@ -33,6 +40,8 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
     private BaseQuickAdapter mAdapter;
     private int mType = 0;
     private ImageView imageViewTop;
+    private int animationIndex = 5;
+    private boolean animationAlways = true;
 
     public static MovieBaseFragment newInstance(int type) {
         Bundle args = new Bundle();
@@ -62,7 +71,6 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
     @Override
     public void initView(Bundle savedInstanceState) {
         mContentView.setBackgroundResource(R.color.colorBackground);
-//        setBackToTop(true);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -94,8 +102,8 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) imageViewTop.getLayoutParams();
             lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);//与父容器的左侧对齐
             lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);//与父容器的上侧对齐
-            lp.rightMargin = 30;
-            lp.bottomMargin = 30;
+            lp.rightMargin = SizeUtil.dp2px(20);
+            lp.bottomMargin = SizeUtil.dp2px(20);
             imageViewTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -108,6 +116,8 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void loadData(int page) {
+        changeAdapterAnimation(0);
+        changeAdapterAnimationAlways(true);
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getBaseMovie(mType, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
@@ -127,6 +137,7 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
                         mEasyStatusView.content();
                         if (mRefreshLayout.isRefreshing())
                             mAdapter.setNewData(null);
+                        mAdapter.openLoadAnimation();
                         mAdapter.addData(entity.subjects);
                         LoggerManager.d("ApiRepository", "title:" + entity.title + ";start:" + entity.start + ";count:" + entity.count + ";total:" + entity.total);
                         if (!entity.hasMore()) {
@@ -165,9 +176,19 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
         WebViewActivity.start(mContext, adapter.getItem(position).alt);
     }
 
-    @Override
-    protected void onVisibleChanged(boolean isVisibleToUser) {
-        super.onVisibleChanged(isVisibleToUser);
-        LoggerManager.d(TAG, "isVisibleToUser:" + isVisibleToUser + ";type:" + mType);
+    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION)
+    public void changeAdapterAnimation(int index) {
+        if (mAdapter != null) {
+            animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex-1) + 1;
+            mAdapter.openLoadAnimation(animationIndex);
+        }
+    }
+
+    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION_ALWAYS)
+    public void changeAdapterAnimationAlways(boolean always) {
+        if (mAdapter != null) {
+            animationAlways = (Boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_ALWAYS, true);
+            mAdapter.isFirstOnly(!animationAlways);
+        }
     }
 }

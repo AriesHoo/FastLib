@@ -34,6 +34,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean isFirstBack = true;
     protected boolean isViewLoaded = false;
     protected boolean mIsFirstShow = true;
+    protected final String TAG = getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

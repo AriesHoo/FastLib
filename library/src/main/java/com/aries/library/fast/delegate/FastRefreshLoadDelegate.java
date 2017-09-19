@@ -28,9 +28,15 @@ public class FastRefreshLoadDelegate<T> {
         getRefreshLayout(rootView);
         getRecyclerView(rootView);
         getStatusView(rootView);
-        if (mRefreshLayout == null || mRecyclerView == null || mIFastRefreshLoadView == null) {
-            return;
-        }
+        initStatusView();
+        initRefreshHeader();
+        initRecyclerView();
+    }
+
+    /**
+     * 初始化多状态布局相关配置
+     */
+    private void initStatusView() {
         if (mStatusView != null) {
             mStatusView.loading();
             mStatusView.setOnClickListener(new View.OnClickListener() {
@@ -44,25 +50,35 @@ public class FastRefreshLoadDelegate<T> {
                 }
             });
         }
-        initRefreshHeader();
-        initRecyclerView();
-
     }
 
+    /**
+     * 初始化刷新头配置
+     */
     protected void initRefreshHeader() {
-        if (mIFastRefreshLoadView.isRefreshEnable()) {
-            mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader());
-            mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
-            mRefreshLayout.setEnableRefresh(true);
-        } else
-            mRefreshLayout.setEnableRefresh(false);
+        if (mRefreshLayout == null || mIFastRefreshLoadView == null) {
+            return;
+        }
+        mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader());
+        mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
+        mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
     }
 
+    /**
+     * 初始化RecyclerView配置
+     */
     protected void initRecyclerView() {
+        if (mRecyclerView == null || mIFastRefreshLoadView == null) {
+            return;
+        }
         mAdapter = mIFastRefreshLoadView.getAdapter();
         mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager());
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setAdapter(mAdapter);
+        if (mAdapter != null) {
+            mAdapter.isFirstOnly(false);
+            mAdapter.openLoadAnimation();
+        }
         setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
         if (mIFastRefreshLoadView.isItemClickEnable() && mAdapter != null) {
             mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

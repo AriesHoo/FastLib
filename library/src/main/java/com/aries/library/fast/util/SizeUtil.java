@@ -1,6 +1,5 @@
 package com.aries.library.fast.util;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
@@ -19,7 +18,7 @@ public class SizeUtil {
         return getDisplayMetrics().widthPixels;
     }
 
-    public static int getScreenHeight(Context context) {
+    public static int getScreenHeight() {
         return getDisplayMetrics().heightPixels;
     }
 
@@ -28,9 +27,9 @@ public class SizeUtil {
         return (int) (pxValue / scale + 0.5f);
     }
 
-    public static int dp2px(float dipValue) {
+    public static int dp2px(float dpValue) {
         final float scale = getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
+        return (int) (dpValue * scale + 0.5f);
     }
 
     public static int px2sp(float pxValue) {

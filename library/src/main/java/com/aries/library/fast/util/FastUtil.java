@@ -23,15 +23,26 @@ import java.util.Random;
 public class FastUtil {
 
     /**
+     * 获取 一定范围随机数
+     *
+     * @param max 最大值
+     * @param min 最小值
+     * @return
+     */
+    public static int getRandom(int max, int min) {
+        Random random = new Random();// 定义随机类
+        int result = random.nextInt(max) % (max - min + 1) + min;
+        return result;
+    }
+
+    /**
      * 获取一定长度随机数
      *
      * @param length
      * @return
      */
     public static int getRandom(int length) {
-        Random random = new Random();// 定义随机类
-        int result = random.nextInt(length);
-        return result + 1;
+        return getRandom(length, 1);
     }
 
     /**

@@ -30,25 +30,25 @@ public class ToastUtil {
         mIsShowRunningForeground = isShowRunningForeground;
     }
 
-    public static void show(int content) {
+    public static Toast show(int content) {
         if (null == mContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
-        show(content, mIsShowRunningForeground);
+        return show(content, mIsShowRunningForeground);
     }
 
-    public static void show(int content, boolean isShowRunningForeground) {
+    public static Toast show(int content, boolean isShowRunningForeground) {
         if (null == mContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
-        show(mContext.getString(content), isShowRunningForeground);
+        return show(mContext.getString(content), isShowRunningForeground);
     }
 
-    public static void show(String content) {
-        show(content, mIsShowRunningForeground);
+    public static Toast show(String content) {
+        return show(content, mIsShowRunningForeground);
     }
 
-    public static void show(String content, boolean isShowRunningForeground) {
+    public static Toast show(String content, boolean isShowRunningForeground) {
         if (null == mContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         } else {
@@ -61,6 +61,7 @@ public class ToastUtil {
             if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(mContext)))
                 mSystemToast.show();
         }
+        return mSystemToast;
     }
 
 

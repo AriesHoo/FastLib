@@ -1,5 +1,7 @@
 package com.aries.library.fast.i;
 
+import android.support.annotation.Nullable;
+
 import com.flyco.tablayout.CommonTabLayout;
 import com.aries.library.fast.entity.FastTabEntity;
 
@@ -22,6 +24,7 @@ public interface IFastMainView {
     /**
      * 用于添加Tab属性(文字-图标)
      */
+    @Nullable
     List<FastTabEntity> getTabList();
 
     /**

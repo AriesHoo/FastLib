@@ -6,7 +6,7 @@
             <size
                 android:width="@dimen/dp_banner_point"
                 android:height="@dimen/dp_banner_point"/>
-            <solid android:color="#CC000000"/>
+            <solid android:color="#FFFFFF"/>
         </shape>
     </item>
 

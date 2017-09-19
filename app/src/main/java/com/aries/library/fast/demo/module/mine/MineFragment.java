@@ -1,6 +1,5 @@
 package com.aries.library.fast.demo.module.mine;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -9,12 +8,12 @@ import android.widget.ImageView;
 import com.allen.library.SuperTextView;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.base.BaseTitleFragment;
+import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -46,8 +45,6 @@ public class MineFragment extends BaseTitleFragment {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setBackgroundColor(Color.TRANSPARENT);
-        titleBar.setDividerColor(Color.TRANSPARENT);
         titleBar.setVisibility(View.GONE);
     }
 
@@ -69,9 +66,7 @@ public class MineFragment extends BaseTitleFragment {
     }
 
     private void initRefresh() {
-        MaterialHeader materialHeader = new MaterialHeader(mContext);
-        materialHeader.setColorSchemeColors(R.color.colorTitleText);
-        smartLayout.setRefreshHeader(materialHeader);
+        smartLayout.setRefreshHeader(RefreshHeaderHelper.getInstance().getRefreshHeader(mContext));
         smartLayout.setEnableHeaderTranslationContent(false);
         smartLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -95,9 +90,13 @@ public class MineFragment extends BaseTitleFragment {
         smartLayout.finishRefresh();
     }
 
-    @OnClick({R.id.stv_setting,R.id.stv_libraryMine, R.id.stv_gitMine, R.id.stv_thirdLib})
+    @OnClick({R.id.iv_headMine, R.id.stv_setting, R.id.stv_libraryMine,
+            R.id.stv_gitMine, R.id.stv_thirdLib})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_headMine:
+                WebViewActivity.start(mContext, "https://github.com/AriesHoo");
+                break;
             case R.id.stv_setting:
                 FastUtil.startActivity(mContext, SettingActivity.class);
                 break;

@@ -25,7 +25,7 @@ public class SplashActivity extends BaseTitleActivity {
 
     @Override
     public void beforeSetContentView() {
-        if (!isTaskRoot()) {//防止应用后台后点击桌面图标造成重启的假象---MIUI及Flayme上发现过(原生未发现)
+        if (!isTaskRoot()) {//防止应用后台后点击桌面图标造成重启的假象---MIUI及Flyme上发现过(原生未发现)
             finish();
             return;
         }

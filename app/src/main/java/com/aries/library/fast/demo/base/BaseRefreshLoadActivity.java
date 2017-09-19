@@ -1,10 +1,10 @@
 package com.aries.library.fast.demo.base;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.helper.TitleBarHelper;
 import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
 import com.aries.ui.view.title.TitleBarView;
-import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 
 /**
@@ -33,9 +33,7 @@ public abstract class BaseRefreshLoadActivity<T> extends FastRefreshLoadActivity
 
     @Override
     public RefreshHeader getRefreshHeader() {
-        MaterialHeader materialHeader = new MaterialHeader(mContext);
-        materialHeader.setColorSchemeColors(R.color.colorTitleText);
-        return materialHeader;
+        return RefreshHeaderHelper.getInstance().getRefreshHeader(mContext);
     }
 
     @Override

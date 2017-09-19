@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/colorWhite"
@@ -32,7 +33,17 @@
         android:id="@+id/tv_versionSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="6dp"
         android:textColor="@color/colorTextBlack"
-        android:textSize="14dp"/>
+        android:textSize="14dp"
+        tools:text="V1.0.0"/>
+
+    <TextView
+        android:id="@+id/tv_copyrightSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:text="本库由Aries Hoo 提供技术支持"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="10dp"/>
 </LinearLayout>
