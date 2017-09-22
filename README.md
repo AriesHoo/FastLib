@@ -117,6 +117,9 @@ dependencies {
 
 * [RapidLib-来自该库的扩展](https://github.com/MarnoDev/RapidLib)
 * [ButterKnife-注解](https://github.com/JakeWharton/butterknife)
+* [Retrofit2.X-网络请求](https://github.com/square/retrofit)
+* [RxJava2.X-响应式编程](https://github.com/ReactiveX/RxJava)
+* [RxLifeCycle2.X-网络请求生命周期绑定](https://github.com/trello/RxLifecycle)
 * [Glide-图片加载](https://github.com/bumptech/glide)
 * [Logger-日志打印](https://github.com/orhanobut/logger)
 * [BaseRecyclerViewAdapterHelper-万能适配器](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
