@@ -38,10 +38,11 @@ public class FastRetrofit {
 
     private FastRetrofit() {
         sClientBuilder = new OkHttpClient.Builder();
-        setTimeout(delayTime);
         sRetrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        setTimeout(delayTime);
+        FastMultiUrl.getInstance().with(sClientBuilder);
     }
 
     public static FastRetrofit getInstance() {
@@ -71,6 +72,7 @@ public class FastRetrofit {
      */
     public FastRetrofit setBaseUrl(String baseUrl) {
         sRetrofitBuilder.baseUrl(baseUrl);
+        FastMultiUrl.getInstance().setGlobalBaseUrl(baseUrl);
         return this;
     }
 
@@ -234,7 +236,7 @@ public class FastRetrofit {
      * @param trustManager 使用自己设置的X509TrustManager
      * @return
      */
-    public FastRetrofit useSingleSignedSSL(X509TrustManager trustManager) {
+    public FastRetrofit setCertificates(X509TrustManager trustManager) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(trustManager);
         sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
         return this;
@@ -246,7 +248,7 @@ public class FastRetrofit {
      * @param certificates 用含有服务端公钥的证书校验服务端证书
      * @return
      */
-    public FastRetrofit useSingleSignedSSL(InputStream... certificates) {
+    public FastRetrofit setCertificates(InputStream... certificates) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(certificates);
         sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
         return this;
@@ -261,7 +263,7 @@ public class FastRetrofit {
      * @param certificates 用含有服务端公钥的证书校验服务端证书
      * @return
      */
-    public FastRetrofit useBothSignedSSL(InputStream bksFile, String password, InputStream... certificates) {
+    public FastRetrofit setCertificates(InputStream bksFile, String password, InputStream... certificates) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(bksFile, password, certificates);
         sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
         return this;
@@ -275,7 +277,7 @@ public class FastRetrofit {
      * @param trustManager 如果需要自己校验,那么可以自己实现相关校验;如果不需要自己校验,那么传null即可
      * @return
      */
-    public FastRetrofit useBothSignedSSL(InputStream bksFile, String password, X509TrustManager trustManager) {
+    public FastRetrofit setCertificates(InputStream bksFile, String password, X509TrustManager trustManager) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(bksFile, password, trustManager);
         sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
         return this;

@@ -6,13 +6,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.allen.library.SuperTextView;
+import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.base.BaseTitleFragment;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.manager.GlideManager;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -63,6 +66,10 @@ public class MineFragment extends BaseTitleFragment {
     public void initView(Bundle savedInstanceState) {
         GlideManager.loadCircleImg("https://avatars3.githubusercontent.com/u/19605922?v=4&s=460", ivHead);
         setImageBack();
+        fLayoutMine.getLayoutParams().height = App.getImageHeight();
+        ivHead.getLayoutParams().height = (int) (SizeUtil.getScreenWidth() * 0.167);
+        ivHead.getLayoutParams().width = (int) (SizeUtil.getScreenWidth() * 0.167);
+        LoggerManager.d("imageHeight:" + ivHead.getLayoutParams().height + ";screenWidth:" + SizeUtil.getScreenWidth());
     }
 
     private void initRefresh() {
@@ -116,19 +123,5 @@ public class MineFragment extends BaseTitleFragment {
     public void loadData() {
         smartLayout.autoRefresh();
         mIsFirstShow = true;
-//        ApiRepository.getInstance().getInMovie(0, 1)
-//                .compose(bindUntilEvent(FragmentEvent.DESTROY))
-//                .subscribe(new FastObserver<JsonObject>() {
-//                    @Override
-//                    public void _onNext(JsonObject entity) {
-//                        LoggerManager.json(new Gson().toJson(entity));
-//                        Log.d(TAG, "_onNext: " + new Gson().toJson(entity));
-//                    }
-//
-//                    @Override
-//                    public void _onError(int errorRes, int errorCode, Throwable e) {
-//                        ToastUtil.show(errorRes);
-//                    }
-//                });
     }
 }

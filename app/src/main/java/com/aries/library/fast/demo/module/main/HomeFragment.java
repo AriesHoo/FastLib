@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.base.BaseTitleRefreshLoadFragment;
@@ -23,6 +25,7 @@ import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -194,6 +197,9 @@ public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
                 }
             });
             mAdapter.addHeaderView(v);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) banner.getLayoutParams();
+            params.height = App.getImageHeight();
+            LoggerManager.d("banner:" + params.height + ";width:" + SizeUtil.getScreenWidth());
         }
         banner.setData(images, getTips(images));
         banner.setTransitionEffect(listTransitionEffect.get(transitionIndex));

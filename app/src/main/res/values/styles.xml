@@ -11,6 +11,8 @@
         <item name="android:windowNoDisplay">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/colorSwipeBackBackground</item>
+        <!--建议使用全透明-减少一层绘制避免过度绘制-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
     <!--不使用滑动返回的Activity必须使用这个主题 4.4上避免滑动透明桌面-->

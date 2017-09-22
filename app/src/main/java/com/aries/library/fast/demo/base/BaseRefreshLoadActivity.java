@@ -44,4 +44,5 @@ public abstract class BaseRefreshLoadActivity<T> extends FastRefreshLoadActivity
             mRefreshLayout.setPrimaryColorsId(R.color.colorTextBlackLight);
         }
     }
+
 }

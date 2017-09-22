@@ -7,5 +7,6 @@ package com.aries.library.fast;
  * Desc:
  */
 public class FastConstant {
-    public final static String EXCEPTION_NOT_INIT = "You have to call static method init() first in Application";
+    public final static String EXCEPTION_NOT_INIT = "You've to call static method init() first in Application";
+    public final static String EXCEPTION_EMPTY_URL = "You've configured an invalid url";
 }

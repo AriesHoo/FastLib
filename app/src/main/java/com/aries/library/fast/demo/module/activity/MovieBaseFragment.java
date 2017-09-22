@@ -70,7 +70,6 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mContentView.setBackgroundResource(R.color.colorBackground);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

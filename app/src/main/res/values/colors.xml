@@ -3,6 +3,10 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#393939</color>
+    <!--不设置style里
+    <item name="colorAccent">@color/colorAccent</item>
+    属性指向可单独设置改颜色用于达到相同效果-->
+    <color name="accent_material_light">#b640ff</color>
 
     <!--普通有灰色背景的用这个-->
     <color name="colorBackground">#f8f8f8</color>
