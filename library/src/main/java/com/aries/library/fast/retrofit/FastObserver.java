@@ -28,12 +28,7 @@ import retrofit2.HttpException;
 public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
-    public void onComplete() {
-    }
-
-    @Override
     public void onError(Throwable e) {
-        onComplete();
         int reason = R.string.fast_exception_other_error;
         int code = FastError.EXCEPTION_OTHER_ERROR;
         Activity current = FastStackUtil.getInstance().getCurrent();
@@ -77,7 +72,6 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
     public void onNext(T entity) {
-        onComplete();
         _onNext(entity);
     }
 

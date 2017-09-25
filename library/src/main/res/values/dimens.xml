@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--TitleBarView 高度-->
-    <dimen name="dp_title_height">?actionBarSize</dimen>
+    <dimen name="dp_title_height">48dp</dimen>
 
     <!--主页tab高度-->
     <dimen name="dp_tab_height">56dp</dimen>

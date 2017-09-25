@@ -33,7 +33,7 @@ allprojects {
 
 ```
 dependencies {
-     //compile 'com.github.AriesHoo:FastLib:2.0.2'
+     //compile 'com.github.AriesHoo:FastLib:2.0.3'
      compile 'com.github.AriesHoo:FastLib:${LATEST_VERSION}'
 }
 ```

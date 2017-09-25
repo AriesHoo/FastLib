@@ -18,11 +18,16 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
     }
 
     @Override
-    public void onComplete() {
+    public void onNext(T entity) {
         dismissProgressDialog();
-        super.onComplete();
+        super.onNext(entity);
     }
 
+    @Override
+    public void onError(Throwable e) {
+        dismissProgressDialog();
+        super.onError(e);
+    }
 
     protected void showProgressDialog() {
         if (dialog != null) {
