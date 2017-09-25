@@ -28,6 +28,11 @@ import retrofit2.HttpException;
 public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
+    public void onComplete() {
+        
+    }
+
+    @Override
     public void onError(Throwable e) {
         int reason = R.string.fast_exception_other_error;
         int code = FastError.EXCEPTION_OTHER_ERROR;
