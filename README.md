@@ -20,7 +20,7 @@
 
 [[Sample Mobile Download]](http://fir.im/hju8)
 
-![](/apk/qr.png)
+![](/qr.png)
 
 **Gradle集成**
 
