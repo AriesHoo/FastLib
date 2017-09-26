@@ -1,6 +1,6 @@
 # FastLib
 --------------------------
-[![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)[![API](https://img.shields.io/badge/API-15+%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
+[![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)  [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
 
 ## 简介：
 
