@@ -1,6 +1,8 @@
 # FastLib
 --------------------------
-[![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)[![auc][aucsvg]][auc] [![api][apisvg]][api] [![build][buildsvg]][build] [![Insight][insightsvg]][insight] [![License][licensesvg]][license]
+[![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)
+
+[![auc][aucsvg]][auc] [![api][apisvg]][api] [![build][buildsvg]][build] [![Insight][insightsvg]][insight] [![License][licensesvg]][license]
 
 ## 简介：
 
