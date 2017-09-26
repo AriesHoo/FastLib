@@ -20,7 +20,7 @@
 
 [[Sample Mobile Download]](http://fir.im/hju8)
 
-![](https://github.com/AriesHoo/FastLib/blob/master/apk/qr.png)
+![](/apk/qr.png)
 
 **Gradle集成**
 
