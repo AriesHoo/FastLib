@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.helper;
 
 import android.app.Activity;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.aries.library.fast.demo.R;
@@ -37,6 +38,10 @@ public class TitleBarHelper {
         if (titleBar == null) {
             return;
         }
+        ViewCompat.setElevation(titleBar,
+                mActivity.getResources().
+                        getDimensionPixelSize(R.dimen.dp_elevation));
+        titleBar.setDividerVisible(false);
         titleBar.setBackgroundResource(R.color.colorWhite);
         titleBar.setLeftTextDrawable(backArrow ? R.drawable.fast_ic_back : 0);
         if (mActivity != null) {

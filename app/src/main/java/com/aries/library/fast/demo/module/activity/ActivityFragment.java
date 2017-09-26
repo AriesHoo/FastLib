@@ -11,6 +11,7 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.MovieConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
+import com.aries.library.fast.demo.helper.TitleBarHelper;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
@@ -59,6 +60,7 @@ public class ActivityFragment extends FastTitleFragment {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
+        TitleBarHelper.getInstance().setTitleBarView(titleBar,mContext,false);
         isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, true);
         if (isSliding && viewSliding == null) {
             viewSliding = View.inflate(mContext, R.layout.layout_activity_sliding, null);

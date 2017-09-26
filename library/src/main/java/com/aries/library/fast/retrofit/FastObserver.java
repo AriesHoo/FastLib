@@ -29,7 +29,7 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
     public void onComplete() {
-        
+
     }
 
     @Override

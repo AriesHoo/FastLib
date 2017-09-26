@@ -64,7 +64,7 @@ dependencies {
     //万能适配器
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
     //滑动返回Activity
-    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.0@aar'
+    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar'
     //快速Tab库
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     //多状态视图切换

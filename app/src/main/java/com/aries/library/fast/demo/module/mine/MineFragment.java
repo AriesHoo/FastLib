@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.mine;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -64,6 +65,7 @@ public class MineFragment extends BaseTitleFragment {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        ViewCompat.setElevation(ivHead,200);
         GlideManager.loadCircleImg("https://avatars3.githubusercontent.com/u/19605922?v=4&s=460", ivHead);
         setImageBack();
         fLayoutMine.getLayoutParams().height = App.getImageHeight();

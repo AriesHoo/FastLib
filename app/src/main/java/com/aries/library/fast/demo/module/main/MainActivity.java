@@ -39,7 +39,6 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-
     }
 
 }

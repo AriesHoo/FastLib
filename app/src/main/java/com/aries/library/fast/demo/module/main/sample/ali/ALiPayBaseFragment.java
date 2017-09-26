@@ -3,6 +3,7 @@ package com.aries.library.fast.demo.module.main.sample.ali;
 import android.util.TypedValue;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.helper.TitleBarHelper;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.ui.view.title.TitleBarView;
 
@@ -23,6 +24,7 @@ public abstract class ALiPayBaseFragment extends FastTitleFragment {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
+        TitleBarHelper.getInstance().setTitleBarView(titleBar,mContext,false);
         titles = getResources().getStringArray(R.array.arrays_tab_ali);
         titleBar.setBackgroundResource(R.color.colorMainAli);
         titleBar.setStatusAlpha(75);

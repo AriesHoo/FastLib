@@ -2,9 +2,11 @@ package com.aries.library.fast.demo.module;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.aries.library.fast.demo.R;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.ui.view.title.TitleBarView;
@@ -41,6 +43,9 @@ public class WebViewActivity extends FastWebActivity {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
+        ViewCompat.setElevation(titleBar,
+                mContext.getResources().
+                        getDimensionPixelSize(R.dimen.dp_elevation));
         if (!mIsShowTitle) {
             titleBar.setVisibility(View.GONE);
         }
