@@ -1,6 +1,6 @@
 # FastLib
 --------------------------
-[![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)  [![Build Status](https://travis-ci.org/AriesHoo/FastLib.svg?branch=develop)](https://travis-ci.org/dcendents/android-maven-gradle-plugin)   [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)  [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)  [![Build Status](https://jitpack.io/AriesHoo/FastLib.svg?branch=develop)](https://travis-ci.org/dcendents/android-maven-gradle-plugin)   [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)  [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## 简介：
 
