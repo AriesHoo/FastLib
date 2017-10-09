@@ -11,7 +11,9 @@
 
 ## 简介：
 
-一个Android项目级快速开发框架,节约大部分写常用功能时间以实现更多项目业务功能及体验上的优化.有问题欢迎issue。Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.douban.com/wiki/?title=api_v2) ***版权及最终解释权归所有,如有侵权请联系删除!***
+一个Android项目级快速开发框架,节约大部分写常用功能时间以实现更多项目业务功能及体验上的优化.有问题欢迎issue。
+
+Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.douban.com/wiki/?title=api_v2) ***版权及最终解释权归d豆瓣所有,如有侵权请联系删除!***
 
 ## 主要功能
 
