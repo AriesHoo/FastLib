@@ -3,6 +3,7 @@
 
 [![fir.im](https://img.shields.io/badge/download-fir.im-blue.svg)](http://fir.im/hju8)
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
+[![Coverage Status](https://img.shields.io/codecov/c/github/AriesHoo/FastLib/master.svg)](https://codecov.io/github/AriesHoo/FastLib?branch=master&view=all#sort=coverage&dir=asc)  
 [![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)
 [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -124,7 +125,6 @@ dependencies {
 
 ## 鸣谢
 
-* [RapidLib-来自该库的扩展](https://github.com/MarnoDev/RapidLib)
 * [ButterKnife-注解](https://github.com/JakeWharton/butterknife)
 * [Retrofit2.X-网络请求](https://github.com/square/retrofit)
 * [RxJava2.X-响应式编程](https://github.com/ReactiveX/RxJava)
@@ -140,6 +140,7 @@ dependencies {
 * [UIWidget-常用UI库](https://github.com/AriesHoo/UIWidget)
 * [AndroidEventBus-页面事件交互](https://github.com/hehonghui/AndroidEventBus)
 * [AgentWeb-原生WebView快速集成库](https://github.com/Justson/AgentWeb)
+* [RapidLib-该库的扩展](https://github.com/MarnoDev/RapidLib)
 
 ## License
 
