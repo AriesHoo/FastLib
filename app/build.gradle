@@ -64,9 +64,9 @@ android {
 dependencies {
     def supportVersion = "25.3.1"
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //compile project(':library')
+    compile project(':library')
     //compile 'com.github.AriesHoo:FastLib:+'
-    compile 'com.github.AriesHoo:FastLib:2.1.0'
+    //compile 'com.github.AriesHoo:FastLib:2.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
