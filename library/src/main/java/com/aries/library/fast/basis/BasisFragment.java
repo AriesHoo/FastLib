@@ -76,8 +76,9 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnBinder != null)
+        if (mUnBinder != null) {
             mUnBinder.unbind();
+        }
     }
 
     @Override

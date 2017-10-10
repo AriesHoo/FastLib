@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.aries.library.fast.demo">
 
-    <uses-feature android:name="android.hardware.screen.portrait"/>
+    <!--<uses-feature android:name="android.hardware.screen.portrait"/>-->
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -26,10 +26,10 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--android:screenOrientation="portrait"-->
         <activity
             android:name=".module.SplashActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|locale|mcc|mnc"
+            android:configChanges="locale|layoutDirection|mcc|mnc"
             android:theme="@style/AppTheme.NotTranslucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -37,28 +37,40 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!--android:screenOrientation="portrait"-->
         <activity
             android:name=".module.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|locale|mcc|mnc"
+            android:configChanges="locale|layoutDirection|mcc|mnc"
             android:theme="@style/AppTheme.NotTranslucent"/>
         <!--应用内浏览器-->
         <activity
             android:name=".module.WebViewActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"/>
         <!--滑动返回Activity-微信效果-->
-        <activity android:name=".module.main.sample.SwipeBackActivity"/>
+        <activity
+            android:name=".module.main.sample.SwipeBackActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
         <!--QQ默认主题TitleBar样式-->
-        <activity android:name=".module.main.sample.QQTitleActivity"/>
+        <activity
+            android:name=".module.main.sample.QQTitleActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
         <!--支付宝主界面效果-->
-        <activity android:name=".module.main.sample.ali.ALiPayMainActivity"/>
+        <activity
+            android:name=".module.main.sample.ali.ALiPayMainActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
         <!--腾讯新闻主界面效果-->
-        <activity android:name=".module.main.sample.news.NewsMainActivity"/>
+        <activity
+            android:name=".module.main.sample.news.NewsMainActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
         <!--设置页-->
-        <activity android:name=".module.mine.SettingActivity"/>
+        <activity
+            android:name=".module.mine.SettingActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
         <!--第三方库-->
-        <activity android:name=".module.mine.ThirdLibraryActivity"/>
+        <activity
+            android:name=".module.mine.ThirdLibraryActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
     </application>
 
 </manifest>

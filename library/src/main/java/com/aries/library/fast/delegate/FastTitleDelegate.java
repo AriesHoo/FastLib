@@ -39,6 +39,7 @@ public class FastTitleDelegate {
             //Android 5.0半透明效果alpha为102
             titleBar.setStatusAlpha(70);
         }
+        titleBar.setDividerColor(mContext.getResources().getColor(R.color.colorTitleDivider));
         iTitleBarView.beforeSetTitleBar(titleBar);
         iTitleBarView.setTitleBar(titleBar);
     }

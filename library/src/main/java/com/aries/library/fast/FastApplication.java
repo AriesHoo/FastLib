@@ -21,7 +21,7 @@ public class FastApplication extends Application {
         super.onCreate();
         ToastUtil.init(getApplicationContext());//初始化Toast工具类
         BGASwipeBackManager.getInstance().init(this);//初始化滑动返回关闭Activity功能
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)//4.4及以下导航栏处理--不设置然后4.4模拟器试试就知道
-            BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
+        // 导航栏处理--不设置会预留一块导航栏高度的空白
+        BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
     }
 }

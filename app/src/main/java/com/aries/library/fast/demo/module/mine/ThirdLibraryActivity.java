@@ -6,6 +6,7 @@ import android.view.View;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.base.BaseRefreshLoadActivity;
+import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
@@ -30,7 +31,7 @@ import java.util.List;
 public class ThirdLibraryActivity extends BaseRefreshLoadActivity<WidgetEntity> {
 
     private BaseQuickAdapter mAdapter;
-    private int animationIndex = 5;
+    private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
 
     @Override
     public boolean isLoadMoreEnable() {

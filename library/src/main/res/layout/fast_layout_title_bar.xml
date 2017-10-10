@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.aries.ui.view.title.TitleBarView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/titleBar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_title_height"
-    android:background="@color/colorTitleBackground"
-    app:title_dividerColor="@color/colorTitleDivider"/>
+    android:background="@color/colorTitleBackground"/>
 
 
 

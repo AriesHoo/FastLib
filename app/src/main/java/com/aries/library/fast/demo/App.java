@@ -59,9 +59,7 @@ public class App extends FastApplication {
      * @return
      */
     public static int getImageHeight() {
-        if (imageHeight == 0) {
-            imageHeight = (int) (SizeUtil.getScreenWidth() * 0.55);
-        }
+        imageHeight = (int) (SizeUtil.getScreenWidth() * 0.55);
         return imageHeight;
     }
 }

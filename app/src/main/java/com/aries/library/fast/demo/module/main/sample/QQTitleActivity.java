@@ -30,8 +30,8 @@ public class QQTitleActivity extends BaseTitleActivity {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setLeftTextDrawable(R.drawable.ic_back_white);
-        titleBar.setBackgroundResource(R.drawable.shape_qq_bg);
-        titleBar.setTitleMainText("QQ默认主题TitleBar背景渐变");
+        titleBar.setLeftTextDrawable(R.drawable.ic_back_white)
+                .setTitleMainText("QQ默认主题TitleBar背景渐变")
+                .setBackgroundResource(R.drawable.shape_qq_bg);
     }
 }

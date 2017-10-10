@@ -65,22 +65,22 @@
     </array>
 
     <array name="arrays_library_list_title">
-        <item>Glide-V4.0.0</item>
-        <item>Logger-V2.1.1</item>
-        <item>ButterKnife-V8.8.1</item>
-        <item>RxJava-V2.1.3</item>
-        <item>RxAndroid-V2.0.1</item>
-        <item>Retrofit-V2.3.0</item>
-        <item>Gson-V2.8.1</item>
-        <item>RxLifeCycle-2.1.0</item>
-        <item>BaseRecyclerViewAdapterHelper-V2.9.28</item>
-        <item>BGASwipeBackLayout-V1.1.0</item>
-        <item>FlycoTabLayout-V2.1.2</item>
-        <item>EasyStatusView-V1.0.3</item>
-        <item>UIWidget-V1.9.6</item>
-        <item>SmartRefreshLayout-V1.0.2</item>
-        <item>AndroidEventBus-V1.0.5.1</item>
-        <item>AgentWeb-V2.0.0</item>
+        <item>Glide</item>
+        <item>Logger</item>
+        <item>ButterKnife</item>
+        <item>RxJava</item>
+        <item>RxAndroid</item>
+        <item>Retrofit</item>
+        <item>Gson</item>
+        <item>RxLifeCycle</item>
+        <item>BaseRecyclerViewAdapterHelper</item>
+        <item>BGASwipeBackLayout</item>
+        <item>FlycoTabLayout</item>
+        <item>EasyStatusView</item>
+        <item>UIWidget</item>
+        <item>SmartRefreshLayout</item>
+        <item>AndroidEventBus</item>
+        <item>AgentWeb</item>
     </array>
 
     <array name="arrays_library_list_content">
@@ -90,14 +90,14 @@
         <item>用就好</item>
         <item>RxJava对Android系统扩展(目前用到网络线程与UI线程转换)</item>
         <item>网络请求框架</item>
-        <item></item>
+        <item>数据解析</item>
         <item>网络请求生命周期绑定</item>
         <item>非常好用的RecyclerView适配器帮助类</item>
         <item>不错的滑动关闭Activity库</item>
         <item>不错的主界面tab、滑动tab、分段选择器tab功能库</item>
         <item>方便快速实现加载中、加载失败、网络错误、无数据等四种状态布局</item>
         <item>常用控件库包括(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView)</item>
-        <item>非常不错的下拉刷新库支持多款刷新头与自定义刷新头方便使用--因1.0.3版本下拉刷新与其它库冲突降为稳定版1.0.2</item>
+        <item>非常不错的下拉刷新库支持多款刷新头与自定义刷新头方便使用</item>
         <item>方便使用的Android界面事件分发库(支持TAG)</item>
         <item>基于Android WebView 一个功能完善小型浏览器库.使用很方便;集成进你应用,只需几行代码</item>
     </array>

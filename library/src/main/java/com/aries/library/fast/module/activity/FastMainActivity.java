@@ -3,18 +3,16 @@ package com.aries.library.fast.module.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.aries.library.fast.R;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.i.IFastMainView;
+import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.manager.TabLayoutManager;
-import com.aries.library.fast.util.SizeUtil;
+import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.ToastUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -34,6 +32,7 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     public ViewPager mViewPager;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private boolean mIsPager;
+    protected boolean isFirstBack = true;
     private List<Integer> mPosition;
     private LinearLayout mTabLinearLayout;
 
@@ -86,41 +85,8 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
             mTabLayout.setTabData(mTabEntities, this, R.id.fLayout_container, fragments);
             mTabLayout.setOnTabSelectListener(this);
         }
-        if (mPosition != null && mPosition.size() > 0) {
-            resetTabLayout();
-        }
         setTabLayout(mTabLayout);
         setViewPager(mViewPager);
-    }
-
-    private void resetTabLayout() {
-        getTabLinearLayout(mTabLayout);
-        if (mTabLinearLayout != null) {
-            for (int i : mPosition) {
-                View child = mTabLinearLayout.getChildAt(i);
-                if (child != null) {
-                    ImageView img = (ImageView) child.findViewById(R.id.iv_tab_icon);
-                    TextView text = (TextView) child.findViewById(R.id.tv_tab_title);
-                    text.setTextSize(0);
-                    LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) img.getLayoutParams();
-                    p.width = SizeUtil.dp2px(36);
-                    p.height = SizeUtil.dp2px(36);
-                }
-            }
-        }
-    }
-
-    private void getTabLinearLayout(View rootView) {
-        if (rootView instanceof LinearLayout && mTabLinearLayout == null) {
-            mTabLinearLayout = (LinearLayout) rootView;
-        } else if (rootView instanceof ViewGroup) {
-            ViewGroup contentView = (ViewGroup) rootView;
-            int childCount = contentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = contentView.getChildAt(i);
-                getTabLinearLayout(childView);
-            }
-        }
     }
 
     private void initViewPager(final List<Fragment> fragments) {
@@ -143,4 +109,18 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
         quitApp();
     }
 
+    protected void quitApp() {
+        if (isFirstBack) {
+            ToastUtil.show(R.string.fast_quit_app);
+            isFirstBack = false;
+            RxJavaManager.getInstance().setTimer(2000, new RxJavaManager.TimerListener() {
+                @Override
+                public void timeEnd() {
+                    isFirstBack = true;
+                }
+            });
+        } else if (!isFirstBack) {
+            FastStackUtil.getInstance().exit();
+        }
+    }
 }

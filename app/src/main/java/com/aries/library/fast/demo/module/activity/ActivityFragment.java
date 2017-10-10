@@ -96,17 +96,6 @@ public class ActivityFragment extends FastTitleFragment {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-    }
-
-    @Override
-    protected void onVisibleChanged(boolean isVisibleToUser) {
-        super.onVisibleChanged(isVisibleToUser);
-        LoggerManager.d(TAG, "isVisibleToUser:" + isVisibleToUser);
-    }
-
-    @Override
-    public void loadData() {
-        super.loadData();
         vpContent.removeAllViews();
         listFragment.clear();
         listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_IN_THEATERS));
@@ -119,6 +108,17 @@ public class ActivityFragment extends FastTitleFragment {
             TabLayoutManager.getInstance().setSegmentTabData(this, mSegmentTab, vpContent,
                     getResources().getStringArray(R.array.arrays_tab_activity), listFragment);
         }
+    }
+
+    @Override
+    protected void onVisibleChanged(boolean isVisibleToUser) {
+        super.onVisibleChanged(isVisibleToUser);
+        LoggerManager.d(TAG, "isVisibleToUser:" + isVisibleToUser);
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
     }
 
     private List<String> getTitles(int array) {

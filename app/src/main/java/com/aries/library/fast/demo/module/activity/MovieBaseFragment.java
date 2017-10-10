@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.base.BaseRefreshLoadFragment;
 import com.aries.library.fast.demo.constant.EventConstant;
+import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.MovieConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.SubjectsEntity;
@@ -40,7 +42,7 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
     private BaseQuickAdapter mAdapter;
     private int mType = 0;
     private ImageView imageViewTop;
-    private int animationIndex = 5;
+    private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
     private boolean animationAlways = true;
 
     public static MovieBaseFragment newInstance(int type) {
@@ -111,6 +113,7 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
             });
         }
         imageViewTop.setVisibility(enable ? View.VISIBLE : View.GONE);
+        ViewCompat.setElevation(imageViewTop,20);
     }
 
     @Override
@@ -178,7 +181,7 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
     @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION)
     public void changeAdapterAnimation(int index) {
         if (mAdapter != null) {
-            animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex-1) + 1;
+            animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
             mAdapter.openLoadAnimation(animationIndex);
         }
     }

@@ -10,12 +10,12 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowNoDisplay">false</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/colorSwipeBackBackground</item>
+        <!--<item name="android:windowBackground">@color/colorSwipeBackBackground</item>-->
         <!--建议使用全透明-减少一层绘制避免过度绘制-->
-        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <!--不使用滑动返回的Activity必须使用这个主题 4.4上避免滑动透明桌面-->
+    <!--不使用滑动返回的Activity使用这个主题-->
     <style name="AppTheme.NotTranslucent" parent="AppTheme">
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@color/colorBackground</item>
@@ -44,5 +44,20 @@
         <item name="android:textColor">@color/colorTextBlackLight</item>
         <item name="android:textSize">12dp</item>
         <item name="android:lineSpacingExtra">2dp</item>
+    </style>
+
+    <!--item根布局样式-->
+    <style name="RadiusViewItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">80dp</item>
+        <item name="android:layout_marginLeft">@dimen/dp_margin_item</item>
+        <item name="android:layout_marginTop">@dimen/dp_margin_item</item>
+        <item name="android:layout_marginRight">@dimen/dp_margin_item</item>
+        <item name="com.aries.library.fast.demo:rv_backgroundColor">@color/colorWhite</item>
+        <item name="com.aries.library.fast.demo:rv_backgroundPressedColor">@color/colorWhitePressed</item>
+        <item name="com.aries.library.fast.demo:rv_radius">8dp</item>
+        <item name="com.aries.library.fast.demo:rv_strokeColor">@color/colorLineGray</item>
+        <item name="com.aries.library.fast.demo:rv_strokeWidth">@dimen/dp_line_size</item>
     </style>
 </resources>

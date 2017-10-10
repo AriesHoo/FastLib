@@ -5,6 +5,7 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.view.title.TitleBarView;
 
 /**
@@ -38,19 +39,18 @@ public class TitleBarHelper {
         if (titleBar == null) {
             return;
         }
-        ViewCompat.setElevation(titleBar,
-                mActivity.getResources().
-                        getDimensionPixelSize(R.dimen.dp_elevation));
-        titleBar.setDividerVisible(false);
-        titleBar.setBackgroundResource(R.color.colorWhite);
-        titleBar.setLeftTextDrawable(backArrow ? R.drawable.fast_ic_back : 0);
-        if (mActivity != null) {
-            titleBar.setOnLeftTextClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mActivity.onBackPressed();
-                }
-            });
-        }
+        titleBar.setLeftTextDrawable(backArrow ? R.drawable.fast_ic_back : 0)
+                .setOnLeftTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mActivity != null)
+                            mActivity.onBackPressed();
+                    }
+                })
+                .setBackgroundResource(R.color.colorWhite);
+        int elevation = mActivity.getResources().
+                getDimensionPixelSize(R.dimen.dp_elevation);
+        ViewCompat.setElevation(titleBar, elevation);
+        LoggerManager.d("elevation:" + elevation);
     }
 }

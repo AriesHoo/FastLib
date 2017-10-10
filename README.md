@@ -44,7 +44,7 @@ allprojects {
 
 ```
 dependencies {
-     //compile 'com.github.AriesHoo:FastLib:2.0.3'
+     //compile 'com.github.AriesHoo:FastLib:2.1.0'
      compile 'com.github.AriesHoo:FastLib:${LATEST_VERSION}'
 }
 ```
@@ -60,11 +60,19 @@ compile project(':fastLib')
 ```
 dependencies {
     def supportVersion = "25.3.1"
-    compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
-    compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+    provided 'com.android.support:design:'.concat(supportVersion)
+    provided 'com.android.support:appcompat-v7:'.concat(supportVersion)
+    provided 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+    //万能适配器
+    provided 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
+    //webView库
+    provided 'com.just.agentweb:agentweb:2.0.1'
+    //常用UI控件(TitleBarView、RadiusView等)
+    provided 'com.github.AriesHoo:UIWidget:2.0.0'
+    //下拉刷新库
+    provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载
-    compile 'com.github.bumptech.glide:glide:4.0.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    provided 'com.github.bumptech.glide:glide:4.0.0'
     //日志打印
     compile 'com.orhanobut:logger:2.1.1'
     //注解
@@ -77,28 +85,20 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.google.code.gson:gson:2.8.1'
-
     //处理rxjava内存泄漏-生命周期绑定
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
-    //万能适配器
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
     //滑动返回Activity
-    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.0@aar'
+    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar'
     //快速Tab库
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-    //多状态视图切换
-    compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
-    //常用UI控件(TitleBarView、RadiusView等)
-    compile 'com.github.AriesHoo:UIWidget:1.9.6'
-    //下拉刷新库
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2'
     //页面事件交互
     compile 'org.simple:androideventbus:1.0.5.1'
-    //webView库
-    compile 'com.just.agentweb:agentweb:2.0.0'
+    //多状态视图切换
+    compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
 }
 ```
 
+**说明:V2.1.0版本及以后将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复**
 ## 实现功能
 
 * 网络请求与Activity/Fragment生命周期绑定--通过RxLifeCycle2.x

@@ -3,7 +3,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 def releaseTime() {
-    return new Date().format("yyyy-mm-dd_hh-mm", TimeZone.getTimeZone("GMT+8"))
+    return new Date().format("yyyy-MM-dd_HH-mm", TimeZone.getTimeZone("GMT+8"))
 }
 
 android {
@@ -14,8 +14,8 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 203
-        versionName "2.0.3"
+        versionCode 210
+        versionName "2.1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
@@ -62,12 +62,31 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    def supportVersion = "25.3.1"
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
+    //compile 'com.github.AriesHoo:FastLib:+'
+    //compile 'com.github.AriesHoo:FastLib:2.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.2'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     //设置界面Item库
     compile 'com.github.lygttpod:SuperTextView:2.1.4'
     compile 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
+
+    //以下库library里使用provided只是编译使用时需根据项目选择相应版本
+    compile 'com.android.support:design:'.concat(supportVersion)
+    compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
+    compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+    //万能适配器--一般都需要吧
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
+    //webView库 继承FastWebActivity需要,不需要内置WebView可以不compile
+    compile 'com.just.agentweb:agentweb:2.0.1'
+    //常用UI控件(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView等),快速标题栏fast_layout_title_bar,继承FastTitleXXX类需要
+    compile 'com.github.AriesHoo:UIWidget:2.0.0'
+    //下拉刷新库注意刷新头SmartRefreshHeader版本要对应
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    //图片加载
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
 }

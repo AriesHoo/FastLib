@@ -31,6 +31,18 @@ public class FastStackUtil {
     }
 
     /**
+     * 获取Stack
+     *
+     * @return
+     */
+    public Stack<Activity> getStack() {
+        if (activityStack == null) {
+            activityStack = new Stack();
+        }
+        return activityStack;
+    }
+
+    /**
      * 获取最后一个入栈Activity理论上是应用当前停留Activity
      * (前提是所有Activity均在onCreate调用 push onDestroy调用pop)
      *
@@ -39,7 +51,7 @@ public class FastStackUtil {
     public Activity getCurrent() {
         if (activityStack != null && activityStack.size() != 0) {
             Activity activity = activityStack.lastElement();
-            LoggerManager.i(this.TAG, "get current activity:" + activity.getClass().getSimpleName());
+            LoggerManager.i(TAG, "get current activity:" + activity.getClass().getSimpleName());
             return activity;
         } else {
             return null;
@@ -54,7 +66,7 @@ public class FastStackUtil {
     public Activity getPrevious() {
         if (activityStack != null && activityStack.size() >= 2) {
             Activity activity = activityStack.get(activityStack.size() - 2);
-            LoggerManager.i(this.TAG, "get Previous Activity:" + activity.getClass().getSimpleName());
+            LoggerManager.i(TAG, "get Previous Activity:" + activity.getClass().getSimpleName());
             return activity;
         } else {
             return null;
@@ -70,22 +82,32 @@ public class FastStackUtil {
         if (activityStack == null) {
             activityStack = new Stack();
         }
-        LoggerManager.i(this.TAG, "push stack activity:" + activity.getClass().getSimpleName());
         activityStack.add(activity);
+        LoggerManager.i(TAG, "push stack activity:" + activity.getClass().getSimpleName());
     }
 
     /**
      * 出栈
      *
-     * @param activity
+     * @param activity Activity对象
+     * @param isFinish 是否调用finish(),onDestroy()生命周期只做移除数组操作不做finish()
      */
-    public void pop(Activity activity) {
+    public void pop(Activity activity, boolean isFinish) {
         if (activity != null) {
-            activity.finish();
-            LoggerManager.i(this.TAG, "remove current activity:" + activity.getClass().getSimpleName());
-            activityStack.remove(activity);
+            LoggerManager.i(TAG, "remove current activity:isFinishing" + activity.isFinishing() + ";" + activity.getClass().getSimpleName());
+            if (isFinish) {
+                activity.finish();
+            }
+            if (activityStack != null && activityStack.contains(activity)) {
+                activityStack.remove(activity);
+                LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";size:" + activityStack.size());
+            }
         }
 
+    }
+
+    public void pop(Activity activity) {
+        pop(activity, true);
     }
 
     /**
@@ -98,7 +120,7 @@ public class FastStackUtil {
                 if (activity == null) {
                     break;
                 }
-                this.pop(activity);
+                pop(activity);
             }
         }
 
@@ -115,8 +137,7 @@ public class FastStackUtil {
             if (activity == null || activity.getClass().equals(cls)) {
                 return;
             }
-
-            this.pop(activity);
+            pop(activity);
         }
     }
 

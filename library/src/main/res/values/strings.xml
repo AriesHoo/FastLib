@@ -22,4 +22,6 @@
     <string name="fast_exception_class_cast">Class Cast Exception</string>
     <string name="fast_exception_other_error">Other Exception</string>
     <string name="fast_loading">Loading...</string>
+    <string name="cancel">Cancel</string>
+    <string name="ensure">Ensure</string>
 </resources>

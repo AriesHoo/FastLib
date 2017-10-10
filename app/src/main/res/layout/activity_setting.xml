@@ -16,18 +16,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.allen.library.SuperTextView
-                android:id="@+id/stv_activityTabSetting"
-                style="@style/SupperTextStyleItem"
-                android:layout_marginTop="@dimen/dp_margin_item"
-                app:sDividerLineType="top"
-                app:sLeftTextString="@string/activity_tab_sliding"
-                app:sRightIconRes="@null"
-                app:sLeftTextColor="@android:color/black"
-                app:sRightSwitchMarginRight="12dp"
-                app:sRightViewType="switchBtn"
-                app:sSwitchIsChecked="true"
-                app:sSwitchPadding="10dp"/>
+            <View
+                style="@style/LineGray.Horizontal"
+                android:layout_marginTop="@dimen/dp_margin_item"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_activityTabSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@color/colorWhite"
+                android:checked="true"
+                android:duplicateParentState="true"
+                android:focusable="true"
+                android:minHeight="45dp"
+                android:padding="12dp"
+                android:text="@string/activity_tab_sliding"
+                android:textSize="16dp"/>
 
             <com.allen.library.SuperTextView
                 android:id="@+id/stv_activityAnimationSetting"
@@ -43,12 +49,23 @@
                 app:sLeftTextSize="12dp"
                 app:sLeftTextString="选择Adapter条目加载动画"
                 app:sLeftViewGravity="left_center"
-                app:sRightIconRes="@null"
-                app:sRightTextColor="@android:color/black"
-                app:sRightTextString="一直有效"
-                app:sRightViewType="switchBtn"
-                app:sSwitchIsChecked="true"
-                app:sSwitchPadding="10dp"/>
+                app:sRightIconRes="@null">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch_activityAnimationSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:checked="true"
+                    android:duplicateParentState="true"
+                    android:padding="10dp"
+                    android:text="一直有效"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="14dp"/>
+            </com.allen.library.SuperTextView>
+
+
         </LinearLayout>
     </ScrollView>
 

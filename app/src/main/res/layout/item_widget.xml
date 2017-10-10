@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.aries.ui.view.radius.RadiusRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    style="@style/RadiusViewItemStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="80dp"
-    rv:rv_backgroundColor="@color/colorWhite"
-    rv:rv_backgroundPressedColor="@color/colorWhitePressed">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_titleWidget"
@@ -31,8 +28,4 @@
         android:text="context"
         android:textColor="@color/colorTextBlackLight"
         android:textSize="14dp"/>
-
-    <View
-        style="@style/LineGray.Horizontal"
-        android:layout_alignParentBottom="true"/>
 </com.aries.ui.view.radius.RadiusRelativeLayout>

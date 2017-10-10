@@ -6,11 +6,9 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.aries.library.fast.R;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastStackUtil;
-import com.aries.library.fast.util.ToastUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
@@ -31,7 +29,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected Unbinder mUnBinder;
     protected BGASwipeBackHelper mSwipeBackHelper;
 
-    protected boolean isFirstBack = true;
     protected boolean isViewLoaded = false;
     protected boolean mIsFirstShow = true;
     protected final String TAG = getClass().getSimpleName();
@@ -62,9 +59,10 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
-        if (mUnBinder != null)
+        if (mUnBinder != null) {
             mUnBinder.unbind();
-        FastStackUtil.getInstance().pop(this);
+        }
+        FastStackUtil.getInstance().pop(this,false);
     }
 
     /**
@@ -78,7 +76,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
      * 初始化滑动返回
      */
     private void initSwipeBack() {
-        if (isSwipeBackEnable())
+        if (isSwipeBackEnable()) {
             mSwipeBackHelper = new BGASwipeBackHelper(this, new BGASwipeBackHelper.Delegate() {
                 @Override
                 public boolean isSupportSwipeBack() {
@@ -100,6 +98,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
                     mSwipeBackHelper.swipeBackward();
                 }
             });
+        }
     }
 
     @Nullable
@@ -142,19 +141,5 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
-    protected void quitApp() {
-        if (isFirstBack) {
-            ToastUtil.show(R.string.fast_quit_app);
-            isFirstBack = false;
-            RxJavaManager.getInstance().setTimer(2000, new RxJavaManager.TimerListener() {
-                @Override
-                public void timeEnd() {
-                    isFirstBack = true;
-                }
-            });
-        } else if (!isFirstBack) {
-            FastStackUtil.getInstance().exit();
-        }
-    }
 
 }

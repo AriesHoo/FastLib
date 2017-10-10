@@ -12,6 +12,7 @@ import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.base.BaseTitleRefreshLoadFragment;
+import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
@@ -54,7 +55,7 @@ public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
             , R.array.arrays_banner_liu, R.array.arrays_banner_di, R.array.arrays_banner_jun);
 
     private List<TransitionEffect> listTransitionEffect = new ArrayList<>();
-    private int transitionIndex = 3;
+    private int transitionIndex = GlobalConstant.GLOBAL_BANNER_TRANSITION_POSITION;
     private int chooseIndex = 0;
     private AlertDialog alertDialog;
 
@@ -119,6 +120,7 @@ public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        LoggerManager.d(TAG, "initView");
         listTransitionEffect.add(TransitionEffect.Default);
         listTransitionEffect.add(TransitionEffect.Alpha);
         listTransitionEffect.add(TransitionEffect.Rotate);

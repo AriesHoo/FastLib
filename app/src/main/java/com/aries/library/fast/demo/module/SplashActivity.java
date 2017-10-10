@@ -19,7 +19,6 @@ import butterknife.BindView;
  * Function:
  * Desc:
  */
-
 public class SplashActivity extends BaseTitleActivity {
     @BindView(R.id.tv_versionSplash) TextView tvVersion;
 
@@ -57,4 +56,5 @@ public class SplashActivity extends BaseTitleActivity {
             }
         });
     }
+
 }

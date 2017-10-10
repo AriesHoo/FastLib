@@ -30,7 +30,7 @@ public class RefreshHeaderHelper {
 
     public RefreshHeader getRefreshHeader(Context mContext) {
         MaterialHeader materialHeader = new MaterialHeader(mContext);
-        materialHeader.setColorSchemeColors(R.color.colorTextBlack, R.color.colorTextBlackLight);
+        materialHeader.setColorSchemeColors(R.color.colorTextBlack, R.color.colorTextBlack);
         return materialHeader;
     }
 }

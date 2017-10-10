@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
@@ -49,6 +50,7 @@ public class WebViewActivity extends FastWebActivity {
         if (!mIsShowTitle) {
             titleBar.setVisibility(View.GONE);
         }
+        titleBar.setDividerVisible(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP);
     }
 
     @Override

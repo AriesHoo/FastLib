@@ -3,12 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="80dp"
-    app:rv_backgroundColor="@color/colorWhite"
-    app:rv_backgroundPressedColor="@color/colorWhitePressed">
-
+    style="@style/RadiusViewItemStyle">
     <ImageView
         android:id="@+id/iv_coverMovie"
         android:layout_width="wrap_content"
@@ -67,7 +62,4 @@
         app:lv_gravity="TOP_RIGHT"
         app:lv_text_color="@color/colorWhite"/>
 
-    <View
-        style="@style/LineGray.Horizontal"
-        android:layout_alignParentBottom="true"/>
 </com.aries.ui.view.radius.RadiusRelativeLayout>
