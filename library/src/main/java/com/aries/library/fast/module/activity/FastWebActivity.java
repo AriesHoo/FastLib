@@ -158,7 +158,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                     })
                     .setItemsTextColorResource(R.color.colorTitleText)
                     .setCancelColorResource(R.color.colorTitleText)
-                    .setCancelMessage(R.string.ensure)
+                    .setCancelMessage(R.string.cancel)
                     .setCancelMessageTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                     .setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                     .setBackgroundResource(android.R.color.darker_gray);
