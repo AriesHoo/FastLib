@@ -1,6 +1,5 @@
 package com.aries.library.fast.demo.module.main.sample.ali;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.aries.library.fast.demo.R;
@@ -50,7 +49,7 @@ public class ALiPayMainActivity extends FastMainActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mContentView.setBackgroundColor(Color.WHITE);
+        mContentView.setBackgroundResource(R.color.colorWhite);
     }
 
     @Override

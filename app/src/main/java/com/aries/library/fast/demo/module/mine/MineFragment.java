@@ -1,25 +1,21 @@
 package com.aries.library.fast.demo.module.mine;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.allen.library.SuperTextView;
-import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.base.BaseTitleFragment;
-import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
+import com.aries.library.fast.demo.util.SpanTool;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
-import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,15 +26,12 @@ import butterknife.OnClick;
  * Desc:
  */
 public class MineFragment extends BaseTitleFragment {
-    @BindView(R.id.iv_headMine) ImageView ivHead;
-    @BindView(R.id.iv_bgMine) ImageView ivBg;
-    @BindView(R.id.fLayout_mine) FrameLayout fLayoutMine;
+
+    @BindView(R.id.stv_infoMine) SuperTextView stvInfo;
     @BindView(R.id.stv_libraryMine) SuperTextView stvLibrary;
-    @BindView(R.id.stv_gitMine) SuperTextView stvGit;
     @BindView(R.id.stv_thirdLib) SuperTextView stvThird;
     @BindView(R.id.stv_setting) SuperTextView stvSetting;
-    @BindView(R.id.smartLayout_mine) SmartRefreshLayout smartLayout;
-    private String[] imgBacks;
+    private ImageView ivHead;
 
     public static MineFragment newInstance() {
         Bundle args = new Bundle();
@@ -48,71 +41,60 @@ public class MineFragment extends BaseTitleFragment {
     }
 
     @Override
-    public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setVisibility(View.GONE);
-    }
-
-    @Override
     public int getContentLayout() {
         return R.layout.fragment_mine;
     }
 
     @Override
-    public void beforeInitView() {
-        initRefresh();
-        super.beforeInitView();
+    public void setTitleBar(TitleBarView titleBar) {
+        titleBar.setTitleMainText(R.string.mine);
     }
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        ivHead = stvInfo.getLeftIconIV();
         GlideManager.loadCircleImg("https://avatars3.githubusercontent.com/u/19605922?v=4&s=460", ivHead);
-        setImageBack();
-        fLayoutMine.getLayoutParams().height = App.getImageHeight();
-        ivHead.getLayoutParams().height = (int) (SizeUtil.getScreenWidth() * 0.167);
-        ivHead.getLayoutParams().width = (int) (SizeUtil.getScreenWidth() * 0.167);
+        ivHead.getLayoutParams().height = (int) (SizeUtil.getScreenWidth() * 0.2);
+        ivHead.getLayoutParams().width = (int) (SizeUtil.getScreenWidth() * 0.2);
         LoggerManager.d("imageHeight:" + ivHead.getLayoutParams().height + ";screenWidth:" + SizeUtil.getScreenWidth());
-    }
+        SpanTool.getBuilder(stvInfo.getLeftString())
+                .append("https://github.com/AriesHoo")
+                .setUnderline()
+                .setForegroundColor(Color.BLUE)
+                .setBoldItalic()
+                .into(stvInfo.getLeftTextView());
+        SpanTool.getBuilder(stvInfo.getLeftBottomString())
+                .append("http://www.jianshu.com/u/a229eee96115")
+                .setUnderline()
+                .setForegroundColor(Color.BLUE)
+                .setBoldItalic()
+                .into(stvInfo.getLeftBottomTextView());
 
-    private void initRefresh() {
-        smartLayout.setRefreshHeader(RefreshHeaderHelper.getInstance().getRefreshHeader(mContext));
-        smartLayout.setEnableHeaderTranslationContent(false);
-        smartLayout.setOnRefreshListener(new OnRefreshListener() {
+        stvInfo.setLeftTvClickListener(new SuperTextView.OnLeftTvClickListener() {
             @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                RxJavaManager.getInstance().setTimer(1000, new RxJavaManager.TimerListener() {
-                    @Override
-                    public void timeEnd() {
-                        setImageBack();
-                    }
-                });
+            public void onClickListener() {
+                WebViewActivity.start(mContext, "https://github.com/AriesHoo");
             }
         });
+        stvInfo.setLeftBottomTvClickListener(new SuperTextView.OnLeftBottomTvClickListener() {
+            @Override
+            public void onClickListener() {
+                WebViewActivity.start(mContext, "http://www.jianshu.com/u/a229eee96115");
+            }
+        });
+
+        ViewCompat.setElevation(stvInfo, getResources().
+                getDimensionPixelSize(R.dimen.dp_elevation));
     }
 
-    private void setImageBack() {
-        if (imgBacks == null) {
-            imgBacks = getResources().getStringArray(R.array.arrays_banner_all);
-        }
-        int position = FastUtil.getRandom(imgBacks.length) - 1;
-        GlideManager.loadImg(imgBacks[position], ivBg);
-        smartLayout.finishRefresh();
-    }
-
-    @OnClick({R.id.iv_headMine, R.id.stv_setting, R.id.stv_libraryMine,
-            R.id.stv_gitMine, R.id.stv_thirdLib})
+    @OnClick({R.id.stv_setting, R.id.stv_libraryMine, R.id.stv_thirdLib})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_headMine:
-                WebViewActivity.start(mContext, "https://github.com/AriesHoo");
-                break;
             case R.id.stv_setting:
                 FastUtil.startActivity(mContext, SettingActivity.class);
                 break;
             case R.id.stv_libraryMine:
                 WebViewActivity.start(mContext, "https://github.com/AriesHoo/FastLib/blob/master/README.md");
-                break;
-            case R.id.stv_gitMine:
-                WebViewActivity.start(mContext, "https://github.com/AriesHoo");
                 break;
             case R.id.stv_thirdLib:
                 FastUtil.startActivity(mContext, ThirdLibraryActivity.class);
@@ -120,9 +102,4 @@ public class MineFragment extends BaseTitleFragment {
         }
     }
 
-    @Override
-    public void loadData() {
-        smartLayout.autoRefresh();
-        mIsFirstShow = true;
-    }
 }

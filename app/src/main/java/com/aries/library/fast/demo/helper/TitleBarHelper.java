@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.helper;
 
 import android.app.Activity;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
@@ -39,7 +40,8 @@ public class TitleBarHelper {
         if (titleBar == null) {
             return;
         }
-        titleBar.setLeftTextDrawable(backArrow ? R.drawable.fast_ic_back : 0)
+        titleBar.setDividerVisible(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+                .setLeftTextDrawable(backArrow ? R.drawable.fast_ic_back : 0)
                 .setOnLeftTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

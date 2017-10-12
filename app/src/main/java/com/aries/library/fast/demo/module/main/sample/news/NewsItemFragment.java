@@ -45,7 +45,6 @@ public class NewsItemFragment extends BaseTitleFragment {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        mContentView.setBackgroundResource(R.color.colorBackground);
         titles = getResources().getStringArray(R.array.arrays_tab_news);
         mPosition = getArguments().getInt("position");
         titleBar.setTitleMainTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);

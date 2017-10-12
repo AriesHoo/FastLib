@@ -8,5 +8,5 @@
 
     <include layout="@layout/fast_layout_title_bar"/>
 
-    <include layout="@layout/fast_activity_main_view_pager"/>
+    <include layout="@layout/fast_layout_view_pager"/>
 </LinearLayout>

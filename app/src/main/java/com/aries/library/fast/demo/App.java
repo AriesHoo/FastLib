@@ -62,4 +62,8 @@ public class App extends FastApplication {
         imageHeight = (int) (SizeUtil.getScreenWidth() * 0.55);
         return imageHeight;
     }
+
+    public static Context getContext() {
+        return mContext;
+    }
 }

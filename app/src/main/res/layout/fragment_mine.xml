@@ -1,68 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/smartLayout_mine"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:srlAccentColor="@android:color/white"
-    app:srlEnableHeaderTranslationContent="true"
-    app:srlEnableLoadmore="false">
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include layout="@layout/fast_layout_title_bar"/>
+
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_infoMine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/dp_margin_item"
+            android:background="@color/colorWhite"
+            android:minHeight="140dp"
+            android:paddingBottom="24dp"
+            android:paddingTop="24dp"
+            app:sDividerLineColor="@color/colorLineGray"
+            app:sDividerLineType="none"
+            app:sLeftBottomMaxEms="2000"
+            app:sLeftBottomTextColor="@color/colorTextBlackLight"
+            app:sLeftBottomTextSize="14dp"
+            app:sLeftBottomTextString="简书:"
+            app:sLeftIconHeight="75dp"
+            app:sLeftIconMarginLeft="16dp"
+            app:sLeftViewMarginLeft="16dp"
+            app:sLeftIconRes="@drawable/fast_shape_placeholder_circle"
+            app:sLeftIconWidth="75dp"
+            app:sLeftMaxEms="2000"
+            app:sLeftTextColor="@color/colorTextBlackLight"
+            app:sLeftTextSize="14dp"
+            app:sLeftTextString="GitHub:"
+            app:sLeftTopTextColor="@color/colorTextBlack"
+            app:sLeftTopTextSize="20dp"
+            app:sLeftTopTextString="AriesHoo"
+            app:sLeftViewGravity="left_center"
+            app:sShapeCornersRadius="@dimen/dp_radius"
+            app:sUseShape="true">
 
-            <FrameLayout
-                android:id="@+id/fLayout_mine"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_bg_mine"
-                android:background="@color/colorWhite">
+        </com.allen.library.SuperTextView>
 
-                <ImageView
-                    android:id="@+id/iv_bgMine"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_setting"
+            style="@style/SupperTextStyleItem"
+            app:sLeftTextString="@string/setting"/>
 
-                <ImageView
-                    android:id="@+id/iv_headMine"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"/>
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_libraryMine"
+            style="@style/SupperTextStyleItem"
+            app:sDividerLineType="none"
+            app:sLeftTextString="@string/library_address"/>
 
-                <include layout="@layout/fast_layout_title_bar"/>
-            </FrameLayout>
-
-            <com.allen.library.SuperTextView
-                android:id="@+id/stv_setting"
-                style="@style/SupperTextStyleItem"
-                app:sLeftTextString="@string/setting"/>
-
-            <com.allen.library.SuperTextView
-                android:id="@+id/stv_libraryMine"
-                style="@style/SupperTextStyleItem"
-                app:sLeftTextString="@string/library_address"/>
-
-            <com.allen.library.SuperTextView
-                android:id="@+id/stv_gitMine"
-                style="@style/SupperTextStyleItem"
-                android:layout_marginTop="0dp"
-                app:sDividerLineType="bottom"
-                app:sLeftTextString="GitHub"/>
-
-            <com.allen.library.SuperTextView
-                android:id="@+id/stv_thirdLib"
-                style="@style/SupperTextStyleItem"
-                app:sLeftTextString="@string/third_part"/>
-        </LinearLayout>
-    </ScrollView>
-
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_thirdLib"
+            style="@style/SupperTextStyleItem"
+            app:sLeftTextString="@string/third_part"/>
+    </LinearLayout>
+</ScrollView>

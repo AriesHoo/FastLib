@@ -4,16 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/RadiusViewItemStyle">
+
     <ImageView
         android:id="@+id/iv_coverMovie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="100dp"
-        android:minWidth="72dp"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/fast_shape_placeholder_common"/>
+        android:minHeight="100dp"
+        android:minWidth="72dp"
+        android:src="@drawable/fast_shape_placeholder_round"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_titleMovie"

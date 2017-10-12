@@ -30,7 +30,6 @@ public class NewsRefreshItemFragment extends FastRefreshLoadFragment {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mContentView.setBackgroundResource(R.color.colorBackground);
     }
 
     @Override

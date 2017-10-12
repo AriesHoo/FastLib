@@ -50,7 +50,7 @@ public class NewsMainActivity extends FastMainActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-
+        mContentView.setBackgroundResource(R.color.colorWhite);
     }
 
     @Override

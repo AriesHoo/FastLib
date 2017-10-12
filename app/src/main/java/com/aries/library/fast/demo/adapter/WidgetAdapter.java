@@ -38,6 +38,7 @@ public class WidgetAdapter extends BaseQuickAdapter<WidgetEntity, BaseViewHolder
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             RadiusViewDelegate delegate = ((RadiusRelativeLayout) helper.itemView).getDelegate();
             delegate.setStrokeWidth(SizeUtil.dp2px(1));
+            delegate.setStrokeColor(mContext.getResources().getColor(R.color.colorLineGray));
         }
     }
 }
