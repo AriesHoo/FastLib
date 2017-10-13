@@ -94,8 +94,16 @@ public class ActivityFragment extends FastTitleFragment {
         return R.layout.fast_layout_title_view_pager;
     }
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     public void initView(Bundle savedInstanceState) {
+        setTab();
+    }
+
+    private void setTab() {
+        isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, isSliding);
         vpContent.removeAllViews();
         listFragment.clear();
         listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_IN_THEATERS));
@@ -111,14 +119,15 @@ public class ActivityFragment extends FastTitleFragment {
     }
 
     @Override
-    protected void onVisibleChanged(boolean isVisibleToUser) {
-        super.onVisibleChanged(isVisibleToUser);
-        LoggerManager.d(TAG, "isVisibleToUser:" + isVisibleToUser);
+    public void loadData() {
+        super.loadData();
+        setTab();
     }
 
     @Override
-    public void loadData() {
-        super.loadData();
+    protected void onVisibleChanged(boolean isVisibleToUser) {
+        super.onVisibleChanged(isVisibleToUser);
+        LoggerManager.d(TAG, "isVisibleToUser:" + isVisibleToUser);
     }
 
     private List<String> getTitles(int array) {
@@ -127,7 +136,8 @@ public class ActivityFragment extends FastTitleFragment {
 
     @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_REFRESH_ACTIVITY_TAB)
     public void refreshActivityTab(boolean isSliding) {
-        setTitleBar(mTitleBar);
         mIsFirstShow = true;
+        setTitleBar(mTitleBar);
+
     }
 }

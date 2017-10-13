@@ -33,7 +33,6 @@ import butterknife.OnClick;
 
 public class SettingActivity extends BaseTitleActivity {
 
-    //    @BindView(R.id.stv_activityTabSetting) SuperTextView stvActivityTab;
     @BindView(R.id.stv_activityAnimationSetting) SuperTextView stvActivityAnimation;
     @BindView(R.id.switch_activityTabSetting) SwitchCompat switchActivityTab;
     @BindView(R.id.switch_activityAnimationSetting) SwitchCompat switchActivityAnimation;
