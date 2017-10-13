@@ -28,9 +28,6 @@ import butterknife.OnClick;
 public class MineFragment extends BaseTitleFragment {
 
     @BindView(R.id.stv_infoMine) SuperTextView stvInfo;
-    @BindView(R.id.stv_libraryMine) SuperTextView stvLibrary;
-    @BindView(R.id.stv_thirdLib) SuperTextView stvThird;
-    @BindView(R.id.stv_setting) SuperTextView stvSetting;
     private ImageView ivHead;
 
     public static MineFragment newInstance() {
@@ -87,7 +84,8 @@ public class MineFragment extends BaseTitleFragment {
                 getDimensionPixelSize(R.dimen.dp_elevation));
     }
 
-    @OnClick({R.id.stv_setting, R.id.stv_libraryMine, R.id.stv_thirdLib})
+    @OnClick({R.id.stv_setting, R.id.stv_libraryMine, R.id.stv_thirdLibMine
+            , R.id.stv_shareMine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_setting:
@@ -96,8 +94,11 @@ public class MineFragment extends BaseTitleFragment {
             case R.id.stv_libraryMine:
                 WebViewActivity.start(mContext, "https://github.com/AriesHoo/FastLib/blob/master/README.md");
                 break;
-            case R.id.stv_thirdLib:
+            case R.id.stv_thirdLibMine:
                 FastUtil.startActivity(mContext, ThirdLibraryActivity.class);
+                break;
+            case R.id.stv_shareMine:
+                FastUtil.startShareText(mContext,getString(R.string.share_content));
                 break;
         }
     }

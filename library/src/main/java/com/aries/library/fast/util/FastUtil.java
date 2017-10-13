@@ -2,6 +2,8 @@ package com.aries.library.fast.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -204,5 +206,17 @@ public class FastUtil {
         shareIntent.setType("text/plain");
         //设置分享列表的标题，并且每次都显示分享列表
         mActivity.startActivity(Intent.createChooser(shareIntent, title));
+    }
+
+    /**
+     * 拷贝到粘贴板
+     *
+     * @param context
+     * @param str
+     */
+    public static void copyToClipboard(Context context, String str) {
+        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        // 将文本内容放到系统剪贴板里。
+        cm.setPrimaryClip(ClipData.newPlainText("粘贴板", str));
     }
 }

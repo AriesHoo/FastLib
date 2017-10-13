@@ -1,9 +1,6 @@
 package com.aries.library.fast.module.activity;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -145,9 +142,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                                     mAgentWeb.getLoader().reload();
                                     break;
                                 case 1:
-                                    ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                                    // 将文本内容放到系统剪贴板里。
-                                    cm.setPrimaryClip(ClipData.newPlainText("粘贴板", mCurrentUrl));
+                                    FastUtil.copyToClipboard(mContext, mCurrentUrl);
                                     ToastUtil.show(R.string.fast_copy_success);
                                     break;
                                 case 2:
@@ -158,7 +153,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                     })
                     .setItemsTextColorResource(R.color.colorTitleText)
                     .setCancelColorResource(R.color.colorTitleText)
-                    .setCancelMessage(R.string.cancel)
+                    .setCancelMessage(R.string.fast_cancel)
                     .setCancelMessageTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                     .setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                     .setBackgroundResource(android.R.color.darker_gray);

@@ -13,10 +13,10 @@ import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.ui.view.title.TitleBarView;
 import com.just.library.AgentWeb;
 
-
 /**
- * Created: AriesHoo on 2017/8/8 10:31
- * Function:
+ * Created: AriesHoo on 2017/10/13 8:47
+ * E-Mail: AriesHoo@126.com
+ * Function: 应用内浏览器
  * Desc:
  */
 public class WebViewActivity extends FastWebActivity {

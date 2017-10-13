@@ -25,7 +25,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">45dp</item>
-        <item name="com.aries.library.fast.demo:sLeftTextSize">16dp</item>
+        <item name="com.aries.library.fast.demo:sLeftViewMarginLeft">6dp</item>
+        <item name="com.aries.library.fast.demo:sLeftIconHeight">24dp</item>
+        <item name="com.aries.library.fast.demo:sLeftIconWidth">24dp</item>
+        <item name="com.aries.library.fast.demo:sLeftTextSize">15dp</item>
         <item name="com.aries.library.fast.demo:sDividerLineColor">@color/colorLineGray</item>
         <item name="com.aries.library.fast.demo:sDividerLineType">both</item>
         <item name="com.aries.library.fast.demo:sLeftTextColor">@color/colorTextBlack</item>

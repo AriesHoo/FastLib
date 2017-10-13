@@ -1,7 +1,6 @@
 package com.aries.library.fast.demo.module.activity;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -113,7 +112,6 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
             });
         }
         imageViewTop.setVisibility(enable ? View.VISIBLE : View.GONE);
-        ViewCompat.setElevation(imageViewTop,20);
     }
 
     @Override

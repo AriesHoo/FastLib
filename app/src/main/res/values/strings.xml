@@ -8,6 +8,8 @@
     <string name="setting">设置</string>
     <string name="find">发现</string>
     <string name="third_part">第三方库</string>
+    <string name="share">分享</string>
+    <string name="share_content">分享给你一个超给力的Android快速开发库FastLib;Demo下载链接:	http://fir.im/hju8 项目地址:https://github.com/AriesHoo/FastLib</string>
     <string name="activity_tab_sliding">活动页滑动Tab</string>
     <string name="activity_tab_segment">活动页分段Tab</string>
     <string name="library_address">项目地址</string>
