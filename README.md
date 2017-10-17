@@ -8,7 +8,7 @@
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![GitHub stars](https://img.shields.io/github/stars/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/network)
-[![](https://img.shields.io/badge/AriesHoo.svg)](http://www.jianshu.com/u/a229eee96115)
+[![](https://img.shields.io/badge/作者-AriesHoo-red.svg)](http://www.jianshu.com/u/a229eee96115)
 
 ## 简介：
 
