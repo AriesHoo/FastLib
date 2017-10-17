@@ -98,7 +98,7 @@ public class MineFragment extends BaseTitleFragment {
                 FastUtil.startActivity(mContext, ThirdLibraryActivity.class);
                 break;
             case R.id.stv_shareMine:
-                FastUtil.startShareText(mContext,getString(R.string.share_content));
+                FastUtil.startShareText(mContext, getString(R.string.share_content));
                 break;
         }
     }

@@ -3,6 +3,7 @@ package com.aries.library.fast.demo.module;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.aries.library.fast.demo.R;
@@ -10,6 +11,7 @@ import com.aries.library.fast.demo.base.BaseTitleActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 
 import butterknife.BindView;
@@ -45,6 +47,9 @@ public class SplashActivity extends BaseTitleActivity {
     public void initView(Bundle savedInstanceState) {
         if (!isTaskRoot()) {
             return;
+        }
+        if(mFastTitleDelegate.type< StatusBarUtil.STATUS_BAR_TYPE_DEFAULT){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
         }
         mContentView.setBackgroundColor(Color.WHITE);
         tvVersion.setText("V" + FastUtil.getVersionName(mContext));

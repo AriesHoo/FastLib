@@ -29,16 +29,16 @@ public class WidgetAdapter extends BaseQuickAdapter<WidgetEntity, BaseViewHolder
     protected void convert(BaseViewHolder helper, WidgetEntity item) {
         helper.setText(R.id.tv_titleWidget, item.title)
                 .setText(R.id.tv_contentWidget, item.content);
-        ViewCompat.setElevation(helper.itemView, helper.itemView.getResources().
-                getDimensionPixelSize(R.dimen.dp_elevation));
         int marginSize = helper.itemView.getResources().getDimensionPixelSize(R.dimen.dp_margin_item);
         ViewGroup.MarginLayoutParams margin = (ViewGroup.MarginLayoutParams) helper.itemView.getLayoutParams();
         margin.setMargins(marginSize, marginSize, marginSize,
                 helper.getLayoutPosition() == getItemCount() - 1 ? marginSize : 0);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             RadiusViewDelegate delegate = ((RadiusRelativeLayout) helper.itemView).getDelegate();
             delegate.setStrokeWidth(SizeUtil.dp2px(1));
             delegate.setStrokeColor(mContext.getResources().getColor(R.color.colorLineGray));
         }
+        ViewCompat.setElevation(helper.itemView, helper.itemView.getResources().
+                getDimensionPixelSize(R.dimen.dp_elevation));
     }
 }

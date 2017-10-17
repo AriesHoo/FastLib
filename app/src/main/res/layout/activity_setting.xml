@@ -47,6 +47,9 @@
                 app:sLeftMaxEms="100"
                 app:sLeftTextColor="@color/colorTextBlackLight"
                 app:sLeftTextSize="12dp"
+                app:sLeftViewMarginLeft="12dp"
+                app:sLeftIconWidth="0dp"
+                app:sLeftIconHeight="0dp"
                 app:sLeftTextString="选择Adapter条目加载动画"
                 app:sLeftViewGravity="left_center"
                 app:sRightIconRes="@null">

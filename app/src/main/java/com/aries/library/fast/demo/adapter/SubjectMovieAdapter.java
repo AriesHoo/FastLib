@@ -41,7 +41,7 @@ public class SubjectMovieAdapter extends BaseQuickAdapter<SubjectsEntity, BaseVi
         labelView.setVisibility(isShowTop ? View.VISIBLE : View.GONE);
         ViewCompat.setElevation(helper.itemView, helper.itemView.getResources().
                 getDimensionPixelSize(R.dimen.dp_elevation));
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             RadiusViewDelegate delegate = ((RadiusRelativeLayout) helper.itemView).getDelegate();
             delegate.setStrokeWidth(SizeUtil.dp2px(1));
             delegate.setStrokeColor(mContext.getResources().getColor(R.color.colorLineGray));

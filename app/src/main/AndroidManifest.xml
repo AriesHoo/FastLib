@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.aries.library.fast.demo">
 
-    <!--<uses-feature android:name="android.hardware.screen.portrait"/>-->
+    <uses-feature android:name="android.hardware.screen.portrait"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -30,6 +30,7 @@
         <activity
             android:name=".module.SplashActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NotTranslucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -37,10 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!--android:screenOrientation="portrait"-->
         <activity
             android:name=".module.main.MainActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NotTranslucent"/>
         <!--应用内浏览器-->
         <activity
