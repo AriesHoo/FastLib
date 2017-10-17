@@ -4,6 +4,7 @@
 [![fir.im](https://img.shields.io/badge/download-fir.im-blue.svg)](http://fir.im/hju8)
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 [![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)
+[![](https://img.shields.io/github/downloads/AriesHoo/FastLib/latest/total.svg)]
 [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![GitHub stars](https://img.shields.io/github/stars/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/stargazers)
