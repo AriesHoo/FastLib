@@ -107,7 +107,7 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
             imageViewTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mRecyclerView.scrollToPosition(0);
+                    mRecyclerView.smoothScrollToPosition(0);
                 }
             });
         }

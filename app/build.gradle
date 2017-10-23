@@ -14,8 +14,8 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 210
-        versionName "2.1.0"
+        versionCode 211
+        versionName "2.1.1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
@@ -47,7 +47,8 @@ android {
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         if (variant.buildType.name.equals('release')) {
                             def fileName = "FastLib_v${defaultConfig.versionName}_${releaseTime()}.apk"
-                            output.outputFile = new File(outputFile.parent, fileName)
+                            //output.outputFile = new File(outputFile.parent, fileName)
+                            output.outputFile = new File(outputFile.parent, "sample.apk")
                         }
                     }
                 }
@@ -64,9 +65,9 @@ android {
 dependencies {
     def supportVersion = "25.3.1"
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //compile project(':library')
+    compile project(':library')
     //compile 'com.github.AriesHoo:FastLib:+'
-    compile 'com.github.AriesHoo:FastLib:2.1.0'
+    //compile 'com.github.AriesHoo:FastLib:2.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
@@ -83,10 +84,11 @@ dependencies {
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不compile
     compile 'com.just.agentweb:agentweb:2.0.1'
     //常用UI控件(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView等),快速标题栏fast_layout_title_bar,继承FastTitleXXX类需要
-    compile 'com.github.AriesHoo:UIWidget:2.0.0'
+    compile 'com.github.AriesHoo:UIWidget:2.0.1'
     //下拉刷新库注意刷新头SmartRefreshHeader版本要对应
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+
 }

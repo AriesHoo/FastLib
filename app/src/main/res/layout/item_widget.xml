@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/RadiusViewItemStyle"
     android:layout_width="match_parent"
+    android:elevation="@dimen/dp_elevation"
     android:layout_height="wrap_content">
 
     <TextView

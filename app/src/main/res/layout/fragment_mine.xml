@@ -31,7 +31,7 @@
             app:sLeftBottomTextSize="14dp"
             app:sLeftBottomTextString="简书:"
             app:sLeftIconHeight="75dp"
-            app:sLeftIconMarginLeft="16dp"
+            app:sLeftIconMarginLeft="@dimen/dp_margin_item"
             app:sLeftIconRes="@drawable/fast_shape_placeholder_circle"
             app:sLeftIconWidth="75dp"
             app:sLeftMaxEms="2000"
@@ -42,7 +42,7 @@
             app:sLeftTopTextSize="20dp"
             app:sLeftTopTextString="AriesHoo"
             app:sLeftViewGravity="left_center"
-            app:sLeftViewMarginLeft="16dp"
+            app:sLeftViewMarginLeft="@dimen/dp_margin_item"
             app:sShapeCornersRadius="@dimen/dp_radius"
             app:sUseShape="true">
 

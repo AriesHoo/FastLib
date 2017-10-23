@@ -12,7 +12,6 @@ import com.flyco.tablayout.CommonTabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.aries.library.fast.demo.R.string.activity;
 
 /**
  * Created: AriesHoo on 2017/9/7 10:59
@@ -30,7 +29,7 @@ public class MainActivity extends FastMainActivity {
     public List<FastTabEntity> getTabList() {
         ArrayList<FastTabEntity> tabEntities = new ArrayList<>();
         tabEntities.add(new FastTabEntity(getString(R.string.home), R.drawable.ic_home_normal, R.drawable.ic_home_selected, HomeFragment.newInstance()));
-        tabEntities.add(new FastTabEntity(getString(activity), R.drawable.ic_activity_normal, R.drawable.ic_activity_selected, ActivityFragment.newInstance()));
+        tabEntities.add(new FastTabEntity(getString(R.string.activity), R.drawable.ic_activity_normal, R.drawable.ic_activity_selected, ActivityFragment.newInstance()));
         tabEntities.add(new FastTabEntity(getString(R.string.mine), R.drawable.ic_mine_normal, R.drawable.ic_mine_selected, MineFragment.newInstance()));
         return tabEntities;
     }

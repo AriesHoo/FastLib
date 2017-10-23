@@ -59,7 +59,5 @@
         <item name="com.aries.library.fast.demo:rv_backgroundColor">@color/colorWhite</item>
         <item name="com.aries.library.fast.demo:rv_backgroundPressedColor">@color/colorWhitePressed</item>
         <item name="com.aries.library.fast.demo:rv_radius">@dimen/dp_radius</item>
-        <!--<item name="com.aries.library.fast.demo:rv_strokeColor">@color/colorLineGray</item>-->
-        <!--<item name="com.aries.library.fast.demo:rv_strokeWidth">@dimen/dp_line_size</item>-->
     </style>
 </resources>

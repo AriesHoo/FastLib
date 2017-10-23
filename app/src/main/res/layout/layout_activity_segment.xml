@@ -15,7 +15,7 @@
         app:tl_bar_stroke_color="@color/colorLineGray"
         app:tl_bar_stroke_width="1dp"
         app:tl_indicator_color="#D0D0D0"
-        app:tl_indicator_corner_radius="6dp"
+        app:tl_indicator_corner_radius="@dimen/dp_radius"
         app:tl_tab_padding="15dp"
         app:tl_tab_space_equal="false"
         app:tl_textSelectColor="@color/colorTabTextSelect"

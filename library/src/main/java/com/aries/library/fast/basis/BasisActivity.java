@@ -6,9 +6,11 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.aries.library.fast.R;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.ToastUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
@@ -31,6 +33,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     protected boolean isViewLoaded = false;
     protected boolean mIsFirstShow = true;
+    protected boolean isFirstBack = true;
     protected final String TAG = getClass().getSimpleName();
 
     @Override
@@ -141,5 +144,18 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
-
+    protected void quitApp() {
+        if (isFirstBack) {
+            ToastUtil.show(R.string.fast_quit_app);
+            isFirstBack = false;
+            RxJavaManager.getInstance().setTimer(2000, new RxJavaManager.TimerListener() {
+                @Override
+                public void timeEnd() {
+                    isFirstBack = true;
+                }
+            });
+        } else if (!isFirstBack) {
+            FastStackUtil.getInstance().exit();
+        }
+    }
 }

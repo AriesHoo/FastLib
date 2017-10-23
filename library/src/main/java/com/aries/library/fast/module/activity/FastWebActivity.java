@@ -151,8 +151,9 @@ public abstract class FastWebActivity extends FastTitleActivity {
                             }
                         }
                     })
-                    .setItemsTextColorResource(R.color.colorTitleText)
-                    .setCancelColorResource(R.color.colorTitleText)
+                    .setItemsTextColorResource(R.color.colorTabTextSelect)
+                    .setCancelColorResource(R.color.colorTabTextSelect)
+                    .setTitleColorResource(R.color.colorTabTextSelect)
                     .setCancelMessage(R.string.fast_cancel)
                     .setCancelMessageTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                     .setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)

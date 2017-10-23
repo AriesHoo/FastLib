@@ -4,9 +4,9 @@
     <dimen name="dp_title_height">48dp</dimen>
 
     <!--主页tab高度-->
-    <dimen name="dp_tab_height">56dp</dimen>
+    <dimen name="dp_tab_height">52dp</dimen>
     <!--主页tab icon宽高-->
-    <dimen name="dp_tab_icon">24dp</dimen>
+    <dimen name="dp_tab_icon">22dp</dimen>
     <!--主页tab 文字与icon边距-->
     <dimen name="dp_tab_margin">2dp</dimen>
     <!--主页tab文字字号-->

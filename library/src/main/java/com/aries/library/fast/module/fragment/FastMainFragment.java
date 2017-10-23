@@ -1,11 +1,11 @@
-package com.aries.library.fast.module.activity;
+package com.aries.library.fast.module.fragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
 import com.aries.library.fast.R;
-import com.aries.library.fast.basis.BasisActivity;
+import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.i.IFastMainView;
 import com.aries.library.fast.manager.TabLayoutManager;
@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created: AriesHoo on 2017/10/19 13:45
+ * Created: AriesHoo on 2017/10/19 13:43
  * E-Mail: AriesHoo@126.com
  * Function: 快速创建主页布局
  * Description:
  */
-public abstract class FastMainActivity extends BasisActivity implements IFastMainView, OnTabSelectListener {
+public abstract class FastMainFragment extends BasisFragment implements IFastMainView, OnTabSelectListener {
 
     public CommonTabLayout mTabLayout;
     public ViewPager mViewPager;
@@ -50,7 +50,7 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     @Override
     public void beforeInitView() {
         super.beforeInitView();
-        mTabLayout = findViewByViewId(R.id.tabLayout_common);
+        mTabLayout = findViewById(R.id.tabLayout_common);
         List<FastTabEntity> tabEntities = getTabList();
         if (tabEntities.size() == 0) {
             return;
@@ -69,7 +69,7 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
         if (mIsPager) {
             initViewPager(fragments);
         } else {
-            mTabLayout.setTabData(mTabEntities, this, R.id.fLayout_container, fragments);
+            mTabLayout.setTabData(mTabEntities, getActivity(), R.id.fLayout_container, fragments);
             mTabLayout.setOnTabSelectListener(this);
         }
         setTabLayout(mTabLayout);
@@ -77,7 +77,7 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     }
 
     private void initViewPager(final List<Fragment> fragments) {
-        mViewPager = findViewByViewId(R.id.vp_content);
+        mViewPager = findViewById(R.id.vp_content);
         TabLayoutManager.getInstance().setCommonTabData(this, mTabLayout, mViewPager, mTabEntities, fragments, this);
     }
 
@@ -89,10 +89,5 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     @Override
     public void onTabSelect(int position) {
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        quitApp();
     }
 }

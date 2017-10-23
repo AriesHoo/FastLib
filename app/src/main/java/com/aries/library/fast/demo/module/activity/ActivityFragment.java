@@ -60,7 +60,7 @@ public class ActivityFragment extends FastTitleFragment {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        TitleBarHelper.getInstance().setTitleBarView(titleBar,mContext,false);
+        TitleBarHelper.getInstance().setTitleBarView(titleBar, mContext, false);
         isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, true);
         if (isSliding && viewSliding == null) {
             viewSliding = View.inflate(mContext, R.layout.layout_activity_sliding, null);
@@ -99,16 +99,17 @@ public class ActivityFragment extends FastTitleFragment {
      */
     @Override
     public void initView(Bundle savedInstanceState) {
-        setTab();
+//        setTab();
     }
 
     private void setTab() {
         isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, isSliding);
         vpContent.removeAllViews();
-        listFragment.clear();
-        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_IN_THEATERS));
-        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_COMING_SOON));
-        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_TOP));
+        if (listFragment.size() == 0) {
+            listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_IN_THEATERS));
+            listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_COMING_SOON));
+            listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_TOP));
+        }
         if (isSliding) {
             TabLayoutManager.getInstance().setSlidingTabData(this, mSlidingTab, vpContent,
                     getTitles(R.array.arrays_tab_activity), listFragment);
@@ -124,12 +125,6 @@ public class ActivityFragment extends FastTitleFragment {
         setTab();
     }
 
-    @Override
-    protected void onVisibleChanged(boolean isVisibleToUser) {
-        super.onVisibleChanged(isVisibleToUser);
-        LoggerManager.d(TAG, "isVisibleToUser:" + isVisibleToUser);
-    }
-
     private List<String> getTitles(int array) {
         return Arrays.asList(getResources().getStringArray(array));
     }
@@ -138,6 +133,6 @@ public class ActivityFragment extends FastTitleFragment {
     public void refreshActivityTab(boolean isSliding) {
         mIsFirstShow = true;
         setTitleBar(mTitleBar);
-
+        setTab();
     }
 }

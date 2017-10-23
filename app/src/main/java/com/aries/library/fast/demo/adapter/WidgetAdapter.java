@@ -1,14 +1,9 @@
 package com.aries.library.fast.demo.adapter;
 
-import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.entity.WidgetEntity;
-import com.aries.library.fast.util.SizeUtil;
-import com.aries.ui.view.radius.RadiusRelativeLayout;
-import com.aries.ui.view.radius.RadiusViewDelegate;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -33,12 +28,5 @@ public class WidgetAdapter extends BaseQuickAdapter<WidgetEntity, BaseViewHolder
         ViewGroup.MarginLayoutParams margin = (ViewGroup.MarginLayoutParams) helper.itemView.getLayoutParams();
         margin.setMargins(marginSize, marginSize, marginSize,
                 helper.getLayoutPosition() == getItemCount() - 1 ? marginSize : 0);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            RadiusViewDelegate delegate = ((RadiusRelativeLayout) helper.itemView).getDelegate();
-            delegate.setStrokeWidth(SizeUtil.dp2px(1));
-            delegate.setStrokeColor(mContext.getResources().getColor(R.color.colorLineGray));
-        }
-        ViewCompat.setElevation(helper.itemView, helper.itemView.getResources().
-                getDimensionPixelSize(R.dimen.dp_elevation));
     }
 }
