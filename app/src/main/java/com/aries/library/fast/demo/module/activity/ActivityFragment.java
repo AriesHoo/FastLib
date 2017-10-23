@@ -105,11 +105,10 @@ public class ActivityFragment extends FastTitleFragment {
     private void setTab() {
         isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, isSliding);
         vpContent.removeAllViews();
-        if (listFragment.size() == 0) {
-            listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_IN_THEATERS));
-            listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_COMING_SOON));
-            listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_TOP));
-        }
+        listFragment.clear();
+        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_IN_THEATERS));
+        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_COMING_SOON));
+        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_TOP));
         if (isSliding) {
             TabLayoutManager.getInstance().setSlidingTabData(this, mSlidingTab, vpContent,
                     getTitles(R.array.arrays_tab_activity), listFragment);

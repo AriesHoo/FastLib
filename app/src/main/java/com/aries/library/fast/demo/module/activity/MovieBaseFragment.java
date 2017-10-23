@@ -61,6 +61,8 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
     @Override
     public BaseQuickAdapter<SubjectsEntity, BaseViewHolder> getAdapter() {
         mAdapter = new SubjectMovieAdapter(mType == MovieConstant.MOVIE_TOP);
+        changeAdapterAnimation(0);
+        changeAdapterAnimationAlways(true);
         return mAdapter;
     }
 
@@ -71,22 +73,7 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                if (layoutManager instanceof LinearLayoutManager) {
-                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                    int firstVisibleItemPosition = linearManager.findFirstVisibleItemPosition();
-                    if (firstVisibleItemPosition > 10) {
-                        setBackToTop(true);
-                    } else {
-                        setBackToTop(false);
-                    }
-                }
-            }
-        });
+
     }
 
     /**
@@ -115,9 +102,28 @@ public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
     }
 
     @Override
+    public void loadData() {
+        super.loadData();
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager instanceof LinearLayoutManager) {
+                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                    int firstVisibleItemPosition = linearManager.findFirstVisibleItemPosition();
+                    if (firstVisibleItemPosition > 10) {
+                        setBackToTop(true);
+                    } else {
+                        setBackToTop(false);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
     public void loadData(int page) {
-        changeAdapterAnimation(0);
-        changeAdapterAnimationAlways(true);
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getBaseMovie(mType, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))

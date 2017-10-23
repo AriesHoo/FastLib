@@ -55,14 +55,14 @@ public class ThirdLibraryActivity extends BaseRefreshLoadActivity<WidgetEntity> 
     @Override
     public BaseQuickAdapter<WidgetEntity, BaseViewHolder> getAdapter() {
         mAdapter = new WidgetAdapter();
+        animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
+        mAdapter.openLoadAnimation(animationIndex);
         return mAdapter;
     }
 
     @Override
     public void loadData(int page) {
-        animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
         mEasyStatusView.content();
-        mAdapter.openLoadAnimation(animationIndex);
         List<WidgetEntity> list = new ArrayList<>();
         String[] titles = getResources().getStringArray(R.array.arrays_library_list_title);
         String[] contents = getResources().getStringArray(R.array.arrays_library_list_content);
