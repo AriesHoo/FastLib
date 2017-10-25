@@ -10,10 +10,10 @@ import android.widget.CompoundButton;
 
 import com.allen.library.SuperTextView;
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.base.BaseTitleActivity;
 import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
+import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.view.title.TitleBarView;
 
@@ -31,7 +31,7 @@ import butterknife.OnClick;
  * Desc:
  */
 
-public class SettingActivity extends BaseTitleActivity {
+public class SettingActivity extends FastTitleActivity {
 
     @BindView(R.id.stv_activityAnimationSetting) SuperTextView stvActivityAnimation;
     @BindView(R.id.switch_activityTabSetting) SwitchCompat switchActivityTab;

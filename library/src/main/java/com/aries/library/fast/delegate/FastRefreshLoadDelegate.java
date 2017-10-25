@@ -1,9 +1,11 @@
 package com.aries.library.fast.delegate;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -22,9 +24,11 @@ public class FastRefreshLoadDelegate<T> {
     public BaseQuickAdapter<T, BaseViewHolder> mAdapter;
     public EasyStatusView mStatusView;
     private IFastRefreshLoadView<T> mIFastRefreshLoadView;
+    private Context mContext;
 
     public FastRefreshLoadDelegate(View rootView, IFastRefreshLoadView<T> iFastRefreshLoadView) {
         this.mIFastRefreshLoadView = iFastRefreshLoadView;
+        this.mContext = rootView.getContext().getApplicationContext();
         getRefreshLayout(rootView);
         getRecyclerView(rootView);
         getStatusView(rootView);
@@ -59,7 +63,11 @@ public class FastRefreshLoadDelegate<T> {
         if (mRefreshLayout == null || mIFastRefreshLoadView == null) {
             return;
         }
-        mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader());
+        mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader() != null
+                ? mIFastRefreshLoadView.getRefreshHeader() :
+                FastConfig.getInstance(mContext)
+                        .getDefaultRefreshHeader()
+                        .createRefreshHeader(mContext, mRefreshLayout));
         mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
         mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
     }
@@ -75,9 +83,9 @@ public class FastRefreshLoadDelegate<T> {
         mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager());
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setAdapter(mAdapter);
-        if (mAdapter != null) {
+        if (mAdapter != null && FastConfig.getInstance(mContext).isAdapterAnimationEnable()) {
             mAdapter.isFirstOnly(false);
-            mAdapter.openLoadAnimation();
+            mAdapter.openLoadAnimation(FastConfig.getInstance(mContext).getDefaultAdapterAnimation());
         }
         setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
         if (mIFastRefreshLoadView.isItemClickEnable() && mAdapter != null) {

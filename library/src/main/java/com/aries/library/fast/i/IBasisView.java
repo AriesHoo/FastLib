@@ -1,6 +1,7 @@
 package com.aries.library.fast.i;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 
 /**
@@ -16,6 +17,14 @@ public interface IBasisView {
      */
     @LayoutRes
     int getContentLayout();
+
+    /**
+     * 设置根布局背景
+     *
+     * @return
+     */
+    @DrawableRes
+    int getContentBackground();
 
     /**
      * 初始化

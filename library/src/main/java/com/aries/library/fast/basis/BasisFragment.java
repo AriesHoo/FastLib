@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.trello.rxlifecycle2.components.support.RxFragment;
@@ -59,13 +60,18 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     }
 
     @Override
+    public int getContentBackground() {
+        return FastConfig.getInstance(mContext).getContentViewBackgroundResource();
+    }
+
+    @Override
     public void beforeSetContentView() {
 
     }
 
     @Override
     public void beforeInitView() {
-
+        mContentView.setBackgroundResource(getContentBackground());
     }
 
     @Override

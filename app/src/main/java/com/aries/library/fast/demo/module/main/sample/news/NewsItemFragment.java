@@ -8,8 +8,8 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.base.BaseTitleFragment;
 import com.aries.library.fast.manager.TabLayoutManager;
+import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -26,7 +26,7 @@ import butterknife.BindView;
  * Function: 腾讯新闻-Fragment
  * Desc:
  */
-public class NewsItemFragment extends BaseTitleFragment {
+public class NewsItemFragment extends FastTitleFragment {
 
     @BindView(R.id.vp_content) ViewPager vpContent;
     private String[] titles;

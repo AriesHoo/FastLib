@@ -8,11 +8,11 @@ import android.widget.ImageView;
 
 import com.allen.library.SuperTextView;
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.base.BaseTitleFragment;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -25,7 +25,7 @@ import butterknife.OnClick;
  * Function:
  * Desc:
  */
-public class MineFragment extends BaseTitleFragment {
+public class MineFragment extends FastTitleFragment {
 
     @BindView(R.id.stv_infoMine) SuperTextView stvInfo;
     private ImageView ivHead;
@@ -81,7 +81,7 @@ public class MineFragment extends BaseTitleFragment {
         });
 
         ViewCompat.setElevation(stvInfo, getResources().
-                getDimensionPixelSize(R.dimen.dp_elevation));
+                getDimension(R.dimen.dp_elevation));
     }
 
     @OnClick({R.id.stv_setting, R.id.stv_libraryMine, R.id.stv_thirdLibMine

@@ -7,6 +7,8 @@ import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 /**
  * Created: AriesHoo on 2017/8/7 11:38
@@ -30,6 +32,11 @@ public class NewsRefreshItemFragment extends FastRefreshLoadFragment {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+    }
+
+    @Override
+    public RefreshHeader getRefreshHeader() {
+        return new ClassicsHeader(mContext);
     }
 
     @Override

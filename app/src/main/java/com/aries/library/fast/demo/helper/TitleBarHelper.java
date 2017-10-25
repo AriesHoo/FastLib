@@ -50,8 +50,8 @@ public class TitleBarHelper {
                     }
                 })
                 .setBackgroundResource(R.color.colorWhite);
-        int elevation = mActivity.getResources().
-                getDimensionPixelSize(R.dimen.dp_elevation);
+        float elevation = mActivity.getResources().
+                getDimension(R.dimen.dp_elevation);
         ViewCompat.setElevation(titleBar, elevation);
         LoggerManager.d("elevation:" + elevation);
     }

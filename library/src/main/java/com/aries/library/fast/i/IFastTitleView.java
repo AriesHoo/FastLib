@@ -1,5 +1,8 @@
 package com.aries.library.fast.i;
 
+import android.support.annotation.DrawableRes;
+import android.view.View;
+
 import com.aries.ui.view.title.TitleBarView;
 
 /**
@@ -28,4 +31,19 @@ public interface IFastTitleView {
      * @return
      */
     boolean isLightStatusBarEnable();
+
+    /**
+     * 设置左边icon
+     *
+     * @return
+     */
+    @DrawableRes
+    int getLeftIcon();
+
+    /**
+     * 设置左边TextView点击事件
+     *
+     * @return
+     */
+    View.OnClickListener getLeftClickListener();
 }

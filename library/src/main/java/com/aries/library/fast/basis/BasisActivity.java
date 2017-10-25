@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -65,14 +66,19 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
-        FastStackUtil.getInstance().pop(this,false);
+        FastStackUtil.getInstance().pop(this, false);
     }
 
     /**
      * 是否开启滑动返回
      */
     protected boolean isSwipeBackEnable() {
-        return false;
+        return FastConfig.getInstance(mContext).isSwipeBackEnable();
+    }
+
+    @Override
+    public int getContentBackground() {
+        return FastConfig.getInstance(mContext).getContentViewBackgroundResource();
     }
 
     /**
@@ -116,7 +122,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public void beforeInitView() {
-
+        mContentView.setBackgroundResource(getContentBackground());
     }
 
     @Override

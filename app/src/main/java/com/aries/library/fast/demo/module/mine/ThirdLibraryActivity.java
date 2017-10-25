@@ -5,12 +5,12 @@ import android.view.View;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
-import com.aries.library.fast.demo.base.BaseRefreshLoadActivity;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
@@ -28,7 +28,7 @@ import java.util.List;
  * Function: 项目使用其他第三方库列表
  * Desc:
  */
-public class ThirdLibraryActivity extends BaseRefreshLoadActivity<WidgetEntity> {
+public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> {
 
     private BaseQuickAdapter mAdapter;
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;

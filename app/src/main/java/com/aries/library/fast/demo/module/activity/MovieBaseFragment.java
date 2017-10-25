@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
-import com.aries.library.fast.demo.base.BaseRefreshLoadFragment;
 import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.MovieConstant;
@@ -19,6 +18,7 @@ import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastError;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
@@ -36,7 +36,7 @@ import org.simple.eventbus.ThreadMode;
  * Function: 电影列表
  * Desc:
  */
-public class MovieBaseFragment extends BaseRefreshLoadFragment<SubjectsEntity> {
+public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     private BaseQuickAdapter mAdapter;
     private int mType = 0;

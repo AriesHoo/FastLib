@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.base.BaseTitleActivity;
+import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 import com.aries.ui.view.title.TitleBarView;
@@ -19,7 +19,7 @@ import butterknife.OnClick;
  * Function: 具有滑动返回Activity
  * Desc:
  */
-public class SwipeBackActivity extends BaseTitleActivity {
+public class SwipeBackActivity extends FastTitleActivity {
 
     @BindView(R.id.rtv_swipe) RadiusTextView rtvSwipe;
 
@@ -39,10 +39,10 @@ public class SwipeBackActivity extends BaseTitleActivity {
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         title = getIntent().getStringExtra("title");
-        titleBar.setBackgroundColor(Color.parseColor("#38393E"));
-        titleBar.setStatusAlpha(102);
-        titleBar.setTitleMainText(title);
-        titleBar.setLeftTextDrawable(R.drawable.ic_back_white);
+        titleBar.setStatusAlpha(102)
+                .setTitleMainText(title)
+                .setLeftTextDrawable(R.drawable.ic_back_white)
+                .setBackgroundColor(Color.parseColor("#38393E"));
     }
 
     @Override

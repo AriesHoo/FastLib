@@ -13,8 +13,6 @@ import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 /**
  * Created: AriesHoo on 2017/7/24 17:12
@@ -42,7 +40,7 @@ public abstract class FastRefreshLoadFragment<T>
 
     @Override
     public RefreshHeader getRefreshHeader() {
-        return new ClassicsHeader(mContext).setSpinnerStyle(SpinnerStyle.Translate);
+        return null;
     }
 
     @Override

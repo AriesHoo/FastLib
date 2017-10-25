@@ -33,11 +33,6 @@ public class WebViewActivity extends FastWebActivity {
     }
 
     @Override
-    protected boolean isSwipeBackEnable() {
-        return true;
-    }
-
-    @Override
     public boolean isLightStatusBarEnable() {
         return mIsShowTitle;
     }

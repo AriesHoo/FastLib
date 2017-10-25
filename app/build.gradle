@@ -6,16 +6,16 @@ def releaseTime() {
     return new Date().format("yyyy-MM-dd_HH-mm", TimeZone.getTimeZone("GMT+8"))
 }
 
+def ext = rootProject.ext
 android {
-    def ext = rootProject.ext
     compileSdkVersion ext.compileSdkVersion
     buildToolsVersion ext.buildToolsVersion
     defaultConfig {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 211
-        versionName "2.1.1"
+        versionCode 212
+        versionName "2.1.5-alpha"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
@@ -63,11 +63,10 @@ android {
 }
 
 dependencies {
-    def supportVersion = "25.3.1"
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //compile project(':library')
+    compile project(':library')
     //compile 'com.github.AriesHoo:FastLib:+'
-    compile 'com.github.AriesHoo:FastLib:2.1.1'
+    //compile 'com.github.AriesHoo:FastLib:2.1.1'
     apt 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
@@ -76,9 +75,9 @@ dependencies {
     compile 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
 
     //以下库library里使用provided只是编译使用时需根据项目选择相应版本
-    compile 'com.android.support:design:'.concat(supportVersion)
-    compile 'com.android.support:appcompat-v7:'.concat(supportVersion)
-    compile 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+    compile 'com.android.support:design:'.concat(ext.supportVersion)
+    compile 'com.android.support:appcompat-v7:'.concat(ext.supportVersion)
+    compile 'com.android.support:recyclerview-v7:'.concat(ext.supportVersion)
     //万能适配器--一般都需要吧
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不compile

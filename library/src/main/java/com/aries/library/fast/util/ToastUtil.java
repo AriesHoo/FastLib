@@ -26,7 +26,9 @@ public class ToastUtil {
      * @param isShowRunningForeground 是否前台运行才显示toast
      */
     public static void init(Context context, boolean isShowRunningForeground) {
-        mContext = context;
+        if (context != null) {
+            mContext = context.getApplicationContext();
+        }
         mIsShowRunningForeground = isShowRunningForeground;
     }
 

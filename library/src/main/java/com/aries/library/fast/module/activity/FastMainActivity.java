@@ -38,6 +38,11 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     }
 
     @Override
+    protected boolean isSwipeBackEnable() {
+        return false;
+    }
+
+    @Override
     public int getContentLayout() {
         return mIsPager ? R.layout.fast_activity_main_view_pager : R.layout.fast_activity_main;
     }

@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
-import com.aries.library.fast.demo.base.BaseTitleRefreshLoadFragment;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
@@ -23,6 +22,7 @@ import com.aries.library.fast.demo.module.main.sample.news.NewsMainActivity;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.module.fragment.FastTitleRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
@@ -45,7 +45,7 @@ import cn.bingoogolapple.bgabanner.transformer.TransitionEffect;
  * Function:
  * Desc:
  */
-public class HomeFragment extends BaseTitleRefreshLoadFragment<WidgetEntity> {
+public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
 
     protected BGABanner banner;
     private BaseQuickAdapter mAdapter;

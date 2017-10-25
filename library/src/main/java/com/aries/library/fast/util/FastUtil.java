@@ -87,6 +87,23 @@ public class FastUtil {
         return -1;
     }
 
+    /**
+     * 检查某个class是否存在
+     *
+     * @param className class的全路径包括包名+类名
+     * @return
+     */
+    public static boolean isClassExist(String className) {
+        boolean isExit = false;
+        try {
+            Class.forName(className);
+            isExit = true;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return isExit;
+    }
+
     public static boolean isRunningForeground(Context context) {
         return isRunningForeground(context, null);
     }

@@ -7,9 +7,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.base.BaseTitleActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -21,7 +21,7 @@ import butterknife.BindView;
  * Function:
  * Desc:
  */
-public class SplashActivity extends BaseTitleActivity {
+public class SplashActivity extends FastTitleActivity {
     @BindView(R.id.tv_versionSplash) TextView tvVersion;
 
     @Override

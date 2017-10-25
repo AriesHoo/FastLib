@@ -1,5 +1,9 @@
 package com.aries.library.fast.module.activity;
 
+import android.view.View;
+
+import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.R;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.IFastTitleView;
@@ -22,8 +26,23 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
     }
 
     @Override
+    public int getLeftIcon() {
+        return R.drawable.fast_ic_back;
+    }
+
+    @Override
+    public View.OnClickListener getLeftClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        };
+    }
+
+    @Override
     public boolean isLightStatusBarEnable() {
-        return true;
+        return FastConfig.getInstance(mContext).isLightStatusBarEnable();
     }
 
     @Override
