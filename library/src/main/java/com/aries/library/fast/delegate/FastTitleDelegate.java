@@ -2,12 +2,14 @@ package com.aries.library.fast.delegate;
 
 import android.app.Activity;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastTitleView;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 
@@ -17,38 +19,44 @@ import com.aries.ui.view.title.TitleBarView;
  * Desc:
  */
 public class FastTitleDelegate {
-    public TitleBarView titleBar;
-    public int type = StatusBarUtil.STATUS_BAR_TYPE_DEFAULT;//type >0 表示支持状态栏黑白字切换
+    public TitleBarView mTitleBar;
+    public int mType = StatusBarUtil.STATUS_BAR_TYPE_DEFAULT;//type >0 表示支持状态栏黑白字切换
 
     public FastTitleDelegate(View rootView, Activity mContext, IFastTitleView iTitleBarView) {
         if (iTitleBarView.isLightStatusBarEnable()) {
-            type = StatusBarUtil.setStatusBarLightMode(mContext);
+            mType = StatusBarUtil.setStatusBarLightMode(mContext);
         }
         getTitleBarView(rootView);
-        if (titleBar == null) {
+        if (mTitleBar == null) {
             return;
         }
         int colorText = FastConfig.getInstance(mContext).getTitleTextColor();
-        titleBar.setLeftTextDrawable(iTitleBarView.getLeftIcon())
-                .setOnLeftTextClickListener(iTitleBarView.getLeftClickListener())
+        mTitleBar.setOnLeftTextClickListener(iTitleBarView.getLeftClickListener())
                 .setTitleMainTextColor(colorText)
                 .setTitleSubTextColor(colorText)
                 .setLeftTextColor(colorText)
                 .setRightTextColor(colorText)
+                .setActionTextColor(colorText)
                 .setBackgroundResource(FastConfig.getInstance(mContext).getTitleBackgroundResource());
+        if (iTitleBarView.getLeftIcon() > 0) {
+            mTitleBar.getTextView(Gravity.LEFT).setCompoundDrawablesWithIntrinsicBounds(
+                    FastUtil.getTintDrawble(mContext.getResources().getDrawable(iTitleBarView.getLeftIcon()),
+                            FastConfig.getInstance(mContext).getTitleTextColor())
+                    , null, null, null);
+        }
 
         //设置浅色状态栏又无法设置文字深色模式需将状态栏透明度调低避免状态栏文字颜色不可见问题
         if (iTitleBarView.isLightStatusBarEnable()
-                && type <= StatusBarUtil.STATUS_BAR_TYPE_DEFAULT) {
+                && mType <= StatusBarUtil.STATUS_BAR_TYPE_DEFAULT) {
             //Android 5.0半透明效果alpha为102
-            titleBar.setStatusAlpha(70);
+            mTitleBar.setStatusAlpha(70);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            titleBar.setElevation(FastConfig.getInstance(mContext).getTitleElevation());
+            mTitleBar.setElevation(FastConfig.getInstance(mContext).getTitleElevation());
         }
-        titleBar.setDividerColor(mContext.getResources().getColor(R.color.colorTitleDivider));
-        iTitleBarView.beforeSetTitleBar(titleBar);
-        iTitleBarView.setTitleBar(titleBar);
+        mTitleBar.setDividerColor(mContext.getResources().getColor(R.color.colorTitleDivider));
+        iTitleBarView.beforeSetTitleBar(mTitleBar);
+        iTitleBarView.setTitleBar(mTitleBar);
     }
 
     /**
@@ -58,8 +66,8 @@ public class FastTitleDelegate {
      * @return
      */
     private void getTitleBarView(View rootView) {
-        if (rootView instanceof TitleBarView && titleBar == null) {
-            titleBar = (TitleBarView) rootView;
+        if (rootView instanceof TitleBarView && mTitleBar == null) {
+            mTitleBar = (TitleBarView) rootView;
         } else if (rootView instanceof ViewGroup) {
             ViewGroup contentView = (ViewGroup) rootView;
             int childCount = contentView.getChildCount();

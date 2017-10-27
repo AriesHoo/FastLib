@@ -12,12 +12,12 @@ import com.aries.library.fast.FastConstant;
  */
 public class ToastUtil {
 
-    public static Context mContext;
-    private static Toast mSystemToast;
-    private static boolean mIsShowRunningForeground;//是否前台运行才显示toast
+    public static Context sContext;
+    private static Toast sSystemToast;
+    private static boolean sIsShowRunningForeground;//是否前台运行才显示toast
 
     public static void init(Context context) {
-        mContext = context;
+        sContext = context;
         init(context, false);
     }
 
@@ -27,43 +27,43 @@ public class ToastUtil {
      */
     public static void init(Context context, boolean isShowRunningForeground) {
         if (context != null) {
-            mContext = context.getApplicationContext();
+            sContext = context.getApplicationContext();
         }
-        mIsShowRunningForeground = isShowRunningForeground;
+        sIsShowRunningForeground = isShowRunningForeground;
     }
 
     public static Toast show(int content) {
-        if (null == mContext) {
+        if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
-        return show(content, mIsShowRunningForeground);
+        return show(content, sIsShowRunningForeground);
     }
 
     public static Toast show(int content, boolean isShowRunningForeground) {
-        if (null == mContext) {
+        if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
-        return show(mContext.getString(content), isShowRunningForeground);
+        return show(sContext.getString(content), isShowRunningForeground);
     }
 
     public static Toast show(String content) {
-        return show(content, mIsShowRunningForeground);
+        return show(content, sIsShowRunningForeground);
     }
 
     public static Toast show(String content, boolean isShowRunningForeground) {
-        if (null == mContext) {
+        if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         } else {
             int duration = content.length() > 10 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
-            if (mSystemToast == null) {
-                mSystemToast = Toast.makeText(mContext, content, duration);
+            if (sSystemToast == null) {
+                sSystemToast = Toast.makeText(sContext, content, duration);
             }
-            mSystemToast.setText(content);
-            mSystemToast.setDuration(duration);
-            if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(mContext)))
-                mSystemToast.show();
+            sSystemToast.setText(content);
+            sSystemToast.setDuration(duration);
+            if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(sContext)))
+                sSystemToast.show();
         }
-        return mSystemToast;
+        return sSystemToast;
     }
 
 

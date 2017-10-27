@@ -46,8 +46,9 @@ public class RxJavaManager {
         return getDelayObservable(value, delay, TimeUnit.SECONDS);
     }
 
-    public void setTimer(long delayTime, final TimerListener listener) {
-        getDelayObservable("", delayTime, TimeUnit.MILLISECONDS).subscribe(new FastObserver<String>() {
+    public Observable<String> setTimer(long delayTime, final TimerListener listener) {
+        Observable<String> observable = getDelayObservable("", delayTime, TimeUnit.MILLISECONDS);
+        observable.subscribe(new FastObserver<String>() {
             @Override
             public void _onNext(String entity) {
 
@@ -65,6 +66,7 @@ public class RxJavaManager {
                 }
             }
         });
+        return observable;
     }
 
 

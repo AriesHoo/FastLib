@@ -33,15 +33,15 @@ public class FastRetrofit {
     private static volatile Retrofit.Builder sRetrofitBuilder;
     private static OkHttpClient.Builder sClientBuilder;
     private static OkHttpClient sClient;
-    private long delayTime = 10;
-    private HttpLoggingInterceptor loggingInterceptor;
+    private long mDelayTime = 10;
+    private HttpLoggingInterceptor mLoggingInterceptor;
 
     private FastRetrofit() {
         sClientBuilder = new OkHttpClient.Builder();
         sRetrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        setTimeout(delayTime);
+        setTimeout(mDelayTime);
         FastMultiUrl.getInstance().with(sClientBuilder);
     }
 
@@ -120,7 +120,7 @@ public class FastRetrofit {
     }
 
     public FastRetrofit setTimeout(long second) {
-        delayTime = second;
+        mDelayTime = second;
         return setTimeout(second, TimeUnit.SECONDS);
     }
 
@@ -202,21 +202,21 @@ public class FastRetrofit {
         if (TextUtils.isEmpty(tag)) {
             tag = getClass().getSimpleName();
         }
-        if (sClientBuilder.interceptors().contains(loggingInterceptor)) {
-            sClientBuilder.interceptors().remove(loggingInterceptor);
+        if (sClientBuilder.interceptors().contains(mLoggingInterceptor)) {
+            sClientBuilder.interceptors().remove(mLoggingInterceptor);
         }
         if (enable) {
-            if (loggingInterceptor == null) {
+            if (mLoggingInterceptor == null) {
                 final String finalTag = tag;
-                loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                     @Override
                     public void log(String message) {
                         Log.d(finalTag, message);
                     }
                 });
             }
-            loggingInterceptor.setLevel(level);
-            sClientBuilder.addInterceptor(loggingInterceptor);
+            mLoggingInterceptor.setLevel(level);
+            sClientBuilder.addInterceptor(mLoggingInterceptor);
         }
         return this;
     }

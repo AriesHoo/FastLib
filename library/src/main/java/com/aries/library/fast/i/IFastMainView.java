@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created: AriesHoo on 2017/7/19 16:40
- * Function: 主界面
+ * Function: 包含CommonTabLayout的主页面Activity/Fragment
  * Desc:
  */
 public interface IFastMainView {

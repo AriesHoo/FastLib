@@ -54,6 +54,7 @@ public class App extends FastApplication {
         // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
 
         LoggerManager.d("context:" + this);
+
         //全局配置参数
         FastConfig.getInstance(mContext)
                 .setTitleBackgroundResource(R.color.colorTitleBackground)//设置TitleBarView背景资源

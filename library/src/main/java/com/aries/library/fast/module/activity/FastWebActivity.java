@@ -6,11 +6,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
@@ -55,9 +58,11 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
+        ImageView img = new ImageView(mContext);
+        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        img.setImageDrawable(FastUtil.getTintDrawble(getResources().getDrawable(R.drawable.fast_ic_close),
+                FastConfig.getInstance(mContext).getTitleTextColor()));
         titleBar.setTitleMainTextMarquee(true)
-                .setRightTextDrawable(R.drawable.fast_ic_more)
-                .setLeftTextDrawable(R.drawable.fast_ic_back)
                 .setOnLeftTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -70,12 +75,16 @@ public abstract class FastWebActivity extends FastTitleActivity {
                         showActionSheet();
                     }
                 })
-                .addLeftAction(titleBar.new ImageAction(R.drawable.fast_ic_close, new View.OnClickListener() {
+                .addLeftAction(titleBar.new ViewAction(img, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showDialog();
                     }
                 }));
+        titleBar.getTextView(Gravity.RIGHT).setCompoundDrawablesWithIntrinsicBounds(null, null,
+                FastUtil.getTintDrawble(getResources().getDrawable(R.drawable.fast_ic_more),
+                        FastConfig.getInstance(mContext).getTitleTextColor())
+                , null);
     }
 
     @Override

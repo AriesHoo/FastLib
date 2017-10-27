@@ -13,6 +13,7 @@ import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import butterknife.BindView;
 
@@ -22,7 +23,8 @@ import butterknife.BindView;
  * Desc:
  */
 public class SplashActivity extends FastTitleActivity {
-    @BindView(R.id.tv_versionSplash) TextView tvVersion;
+    @BindView(R.id.tv_versionSplash)
+    TextView tvVersion;
 
     @Override
     public void beforeSetContentView() {
@@ -48,7 +50,7 @@ public class SplashActivity extends FastTitleActivity {
         if (!isTaskRoot()) {
             return;
         }
-        if(mFastTitleDelegate.type< StatusBarUtil.STATUS_BAR_TYPE_DEFAULT){
+        if (!StatusBarUtil.isSupportStatusBarFontChange()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
         }
         mContentView.setBackgroundColor(Color.WHITE);
@@ -59,7 +61,7 @@ public class SplashActivity extends FastTitleActivity {
                 FastUtil.startActivity(mContext, MainActivity.class);
                 finish();
             }
-        });
+        }).compose(bindUntilEvent(ActivityEvent.DESTROY));
     }
 
 }

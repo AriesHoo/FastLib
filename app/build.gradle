@@ -14,8 +14,8 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 212
-        versionName "2.1.5-alpha"
+        versionCode 213
+        versionName "2.1.5-alpha1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""

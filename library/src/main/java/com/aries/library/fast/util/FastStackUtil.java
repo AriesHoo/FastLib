@@ -13,21 +13,21 @@ import java.util.Stack;
  */
 public class FastStackUtil {
     private final String TAG = this.getClass().getSimpleName();
-    private static Stack<Activity> activityStack;
-    private static volatile FastStackUtil instance;
+    private static Stack<Activity> mActivityStack;
+    private static volatile FastStackUtil sInstance;
 
     private FastStackUtil() {
     }
 
     public static FastStackUtil getInstance() {
-        if (instance == null) {
+        if (sInstance == null) {
             synchronized (FastStackUtil.class) {
-                if (instance == null) {
-                    instance = new FastStackUtil();
+                if (sInstance == null) {
+                    sInstance = new FastStackUtil();
                 }
             }
         }
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -36,10 +36,10 @@ public class FastStackUtil {
      * @return
      */
     public Stack<Activity> getStack() {
-        if (activityStack == null) {
-            activityStack = new Stack();
+        if (mActivityStack == null) {
+            mActivityStack = new Stack();
         }
-        return activityStack;
+        return mActivityStack;
     }
 
     /**
@@ -49,8 +49,8 @@ public class FastStackUtil {
      * @return
      */
     public Activity getCurrent() {
-        if (activityStack != null && activityStack.size() != 0) {
-            Activity activity = activityStack.lastElement();
+        if (mActivityStack != null && mActivityStack.size() != 0) {
+            Activity activity = mActivityStack.lastElement();
             LoggerManager.i(TAG, "get current activity:" + activity.getClass().getSimpleName());
             return activity;
         } else {
@@ -64,8 +64,8 @@ public class FastStackUtil {
      * @return
      */
     public Activity getPrevious() {
-        if (activityStack != null && activityStack.size() >= 2) {
-            Activity activity = activityStack.get(activityStack.size() - 2);
+        if (mActivityStack != null && mActivityStack.size() >= 2) {
+            Activity activity = mActivityStack.get(mActivityStack.size() - 2);
             LoggerManager.i(TAG, "get Previous Activity:" + activity.getClass().getSimpleName());
             return activity;
         } else {
@@ -79,10 +79,10 @@ public class FastStackUtil {
      * @param activity
      */
     public void push(Activity activity) {
-        if (activityStack == null) {
-            activityStack = new Stack();
+        if (mActivityStack == null) {
+            mActivityStack = new Stack();
         }
-        activityStack.add(activity);
+        mActivityStack.add(activity);
         LoggerManager.i(TAG, "push stack activity:" + activity.getClass().getSimpleName());
     }
 
@@ -98,9 +98,9 @@ public class FastStackUtil {
             if (isFinish) {
                 activity.finish();
             }
-            if (activityStack != null && activityStack.contains(activity)) {
-                activityStack.remove(activity);
-                LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";size:" + activityStack.size());
+            if (mActivityStack != null && mActivityStack.contains(activity)) {
+                mActivityStack.remove(activity);
+                LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";size:" + mActivityStack.size());
             }
         }
 
@@ -114,8 +114,8 @@ public class FastStackUtil {
      * 将栈里的Activity全部清空
      */
     public void popAll() {
-        if (activityStack != null) {
-            while (activityStack.size() > 0) {
+        if (mActivityStack != null) {
+            while (mActivityStack.size() > 0) {
                 Activity activity = this.getCurrent();
                 if (activity == null) {
                     break;
@@ -147,10 +147,10 @@ public class FastStackUtil {
      * @param cls
      */
     public void popAllExcept(Class cls) {
-        if (activityStack == null || activityStack.size() == 0) {
+        if (mActivityStack == null || mActivityStack.size() == 0) {
             return;
         }
-        for (Activity activity : activityStack) {
+        for (Activity activity : mActivityStack) {
             if (activity != null && !activity.getClass().equals(cls)) {
                 pop(activity);
             }

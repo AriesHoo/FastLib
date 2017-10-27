@@ -11,10 +11,10 @@ import com.aries.library.fast.widget.FastLoadDialog;
 public abstract class FastLoadingObserver<T> extends FastObserver<T> {
 
 
-    private FastLoadDialog dialog;
+    private FastLoadDialog mDialog;
 
     public FastLoadingObserver(FastLoadDialog dialog) {
-        this.dialog = dialog;
+        this.mDialog = dialog;
     }
 
     @Override
@@ -30,14 +30,14 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
     }
 
     protected void showProgressDialog() {
-        if (dialog != null) {
-            dialog.show();
+        if (mDialog != null) {
+            mDialog.show();
         }
     }
 
     protected void dismissProgressDialog() {
-        if (dialog != null) {
-            dialog.dismiss();
+        if (mDialog != null) {
+            mDialog.dismiss();
         }
     }
 

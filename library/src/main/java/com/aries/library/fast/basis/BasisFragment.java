@@ -30,7 +30,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected Activity mContext;
     protected View mContentView;
     protected boolean mIsFirstShow;
-    protected boolean isViewLoaded;
+    protected boolean mIsViewLoaded;
     protected Unbinder mUnBinder;
     protected final String TAG = getClass().getSimpleName();
 
@@ -47,7 +47,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         beforeSetContentView();
         mContentView = inflater.inflate(getContentLayout(), container, false);
         mUnBinder = ButterKnife.bind(this, mContentView);
-        isViewLoaded = true;
+        mIsViewLoaded = true;
         EventBus.getDefault().register(this);
         beforeInitView();
         initView(savedInstanceState);
@@ -118,7 +118,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
      */
     protected void onVisibleChanged(final boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            if (!isViewLoaded) {//避免因视图未加载子类刷新UI抛出异常
+            if (!mIsViewLoaded) {//避免因视图未加载子类刷新UI抛出异常
                 RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {
                     @Override
                     public void timeEnd() {
@@ -132,7 +132,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     }
 
     private void lazyLoad() {
-        if (mIsFirstShow && isViewLoaded) {
+        if (mIsFirstShow && mIsViewLoaded) {
             mIsFirstShow = false;
             loadData();
         }

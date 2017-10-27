@@ -34,7 +34,6 @@ public class FastConfig {
      */
     @DrawableRes
     private int mTitleBackgroundResource;
-
     /**
      * TitleBarView所有TextView颜色
      */
@@ -60,7 +59,9 @@ public class FastConfig {
      * SmartRefreshLayout默认刷新头
      */
     private DefaultRefreshHeaderCreater mDefaultRefreshHeader;
-
+    /**
+     * TitleBarView 海拔高度
+     */
     private float mTitleElevation = 0f;
 
     public int getContentViewBackgroundResource() {

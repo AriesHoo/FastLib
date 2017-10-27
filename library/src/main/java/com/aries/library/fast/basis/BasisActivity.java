@@ -32,9 +32,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected Unbinder mUnBinder;
     protected BGASwipeBackHelper mSwipeBackHelper;
 
-    protected boolean isViewLoaded = false;
+    protected boolean mIsViewLoaded = false;
     protected boolean mIsFirstShow = true;
-    protected boolean isFirstBack = true;
+    protected boolean mIsFirstBack = true;
     protected final String TAG = getClass().getSimpleName();
 
     @Override
@@ -48,7 +48,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         mContentView = View.inflate(mContext, getContentLayout(), null);
         setContentView(mContentView);
         mUnBinder = ButterKnife.bind(this);
-        isViewLoaded = true;
+        mIsViewLoaded = true;
         beforeInitView();
         initView(savedInstanceState);
     }
@@ -131,7 +131,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     }
 
     private void beforeLazyLoad() {
-        if (!isViewLoaded) {//确保视图加载及视图绑定完成避免刷新UI抛出异常
+        if (!mIsViewLoaded) {//确保视图加载及视图绑定完成避免刷新UI抛出异常
             RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {
                 @Override
                 public void timeEnd() {
@@ -151,16 +151,16 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     }
 
     protected void quitApp() {
-        if (isFirstBack) {
+        if (mIsFirstBack) {
             ToastUtil.show(R.string.fast_quit_app);
-            isFirstBack = false;
+            mIsFirstBack = false;
             RxJavaManager.getInstance().setTimer(2000, new RxJavaManager.TimerListener() {
                 @Override
                 public void timeEnd() {
-                    isFirstBack = true;
+                    mIsFirstBack = true;
                 }
             });
-        } else if (!isFirstBack) {
+        } else if (!mIsFirstBack) {
             FastStackUtil.getInstance().exit();
         }
     }

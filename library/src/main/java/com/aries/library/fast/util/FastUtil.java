@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -45,6 +48,18 @@ public class FastUtil {
      */
     public static int getRandom(int length) {
         return getRandom(length, 1);
+    }
+
+    /**
+     * 给一个矢量图Drawable变换颜色
+     *
+     * @param drawable 需要变换颜色的drawable
+     * @param color    需要变换的颜色
+     * @return
+     */
+    public static Drawable getTintDrawble(Drawable drawable, @ColorInt int color) {
+        DrawableCompat.setTint(drawable, color);
+        return drawable;
     }
 
     /**

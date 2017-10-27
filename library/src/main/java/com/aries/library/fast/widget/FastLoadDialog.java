@@ -17,10 +17,10 @@ import java.lang.ref.WeakReference;
  */
 public class FastLoadDialog {
 
-    private Dialog dialog = null;
+    private Dialog mDialog = null;
 
     private Activity mActivity;
-    private final WeakReference<Activity> reference;
+    private final WeakReference<Activity> mReference;
 
     public FastLoadDialog(Activity activity) {
         this(activity, UIProgressView.STYLE_NORMAL);
@@ -35,8 +35,8 @@ public class FastLoadDialog {
     }
 
     public FastLoadDialog(Activity activity, Dialog dialog) {
-        this.reference = new WeakReference<>(activity);
-        this.dialog = dialog;
+        this.mReference = new WeakReference<>(activity);
+        this.mDialog = dialog;
     }
 
     /**
@@ -46,8 +46,8 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setCancelable(boolean enable) {
-        if (dialog != null) {
-            dialog.setCancelable(enable);
+        if (mDialog != null) {
+            mDialog.setCancelable(enable);
         }
         return this;
     }
@@ -59,8 +59,8 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setCanceledOnTouchOutside(boolean enable) {
-        if (dialog != null) {
-            dialog.setCanceledOnTouchOutside(enable);
+        if (mDialog != null) {
+            mDialog.setCanceledOnTouchOutside(enable);
         }
         return this;
     }
@@ -70,10 +70,10 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setMessage(CharSequence msg) {
-        if (dialog instanceof UIProgressView) {
-            ((UIProgressView) dialog).setMessage(msg);
-        } else if (dialog instanceof ProgressDialog) {
-            ((ProgressDialog) dialog).setMessage(msg);
+        if (mDialog instanceof UIProgressView) {
+            ((UIProgressView) mDialog).setMessage(msg);
+        } else if (mDialog instanceof ProgressDialog) {
+            ((ProgressDialog) mDialog).setMessage(msg);
         }
         return this;
     }
@@ -83,7 +83,7 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setMessage(int msg) {
-        mActivity = reference.get();
+        mActivity = mReference.get();
         if (mActivity != null) {
             return setMessage(mActivity.getString(msg));
         }
@@ -95,25 +95,25 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setFullTrans(boolean enable) {
-        if (dialog != null) {
-            WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        if (mDialog != null) {
+            WindowManager.LayoutParams lp = mDialog.getWindow().getAttributes();
             lp.dimAmount = enable ? 0f : 0.5f;// 黑暗度
-            dialog.getWindow().setAttributes(lp);
+            mDialog.getWindow().setAttributes(lp);
         }
         return this;
     }
 
     public void show() {
-        mActivity = reference.get();
-        if (mActivity != null && dialog != null && !mActivity.isFinishing()) {
-            dialog.show();
+        mActivity = mReference.get();
+        if (mActivity != null && mDialog != null && !mActivity.isFinishing()) {
+            mDialog.show();
         }
     }
 
     public void dismiss() {
-        mActivity = reference.get();
-        if (dialog != null && !mActivity.isFinishing()) {
-            dialog.dismiss();
+        mActivity = mReference.get();
+        if (mDialog != null && !mActivity.isFinishing()) {
+            mDialog.dismiss();
         }
     }
 }
