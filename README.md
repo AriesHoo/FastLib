@@ -26,6 +26,11 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 其它功能请在demo中发现
 
+**说明:
+1、V2.1.0版本及以后将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复
+2、V2.1.5版本及以后新增众多全局设置TitleBarView属性、Adapter加载动画、SmartRefreshLayout刷新配置、Glide加载占位Drawable属性等控制的FastCofig类用于全局设置应用通用属性并减少部分冗余代码及冗余drawable资源文件
+**
+
 [[Sample PC Download]](https://github.com/AriesHoo/FastLib/blob/master/apk/sample.apk)
 
 [[Sample Mobile Download]](http://fir.im/hju8)
@@ -45,7 +50,7 @@ allprojects {
 
 ```
 dependencies {
-     //compile 'com.github.AriesHoo:FastLib:2.1.1'
+     //compile 'com.github.AriesHoo:FastLib:2.1.5'
      compile 'com.github.AriesHoo:FastLib:${LATEST_VERSION}'
 }
 ```
@@ -99,7 +104,6 @@ dependencies {
 }
 ```
 
-**说明:V2.1.0版本及以后将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复**
 ## 实现功能
 
 * 网络请求与Activity/Fragment生命周期绑定--通过RxLifeCycle2.x
