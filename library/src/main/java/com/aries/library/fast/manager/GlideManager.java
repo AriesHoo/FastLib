@@ -7,9 +7,13 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.DrawableRes;
 import android.widget.ImageView;
 
-import com.aries.library.fast.R;
+import com.aries.library.fast.FastConfig;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -24,20 +28,31 @@ import java.security.MessageDigest;
 
 /**
  * Created: AriesHoo on 2017-03-13 18:33
+ * E-Mail: AriesHoo@126.com
  * Function: Glide 工具类支持加载常规、圆角、圆形图片
  * Desc:
  */
 public class GlideManager {
 
-    private static int sCommonPlaceholder;
-    private static int sCirclePlaceholder;
-    private static int sRoundPlaceholder;
+    private static int sCommonPlaceholder = -1;
+    private static int sCirclePlaceholder = -1;
+    private static int sRoundPlaceholder = -1;
 
+    private static Drawable sCommonPlaceholderDrawable;
+    private static Drawable sCirclePlaceholderDrawable;
+    private static Drawable sRoundPlaceholderDrawable;
 
     static {
-        sCommonPlaceholder = R.drawable.fast_shape_placeholder_common;
-        sCirclePlaceholder = R.drawable.fast_shape_placeholder_circle;
-        sRoundPlaceholder = R.drawable.fast_shape_placeholder_round;
+        sCommonPlaceholderDrawable = new ColorDrawable(FastConfig.getInstance(null).getPlaceholderColor());
+        sCirclePlaceholderDrawable = new GradientDrawable();
+        sRoundPlaceholderDrawable = new GradientDrawable();
+        setDrawable((GradientDrawable) sCirclePlaceholderDrawable, 10000);
+        setDrawable((GradientDrawable) sRoundPlaceholderDrawable, FastConfig.getInstance(null).getPlaceholderRoundRadius());
+    }
+
+    private static void setDrawable(GradientDrawable gd, float radius) {
+        gd.setColor(FastConfig.getInstance(null).getPlaceholderColor());
+        gd.setCornerRadius(radius);
     }
 
     /**
@@ -49,6 +64,10 @@ public class GlideManager {
         sCirclePlaceholder = circlePlaceholder;
     }
 
+    public static void setCirclePlaceholder(Drawable circlePlaceholder) {
+        sCirclePlaceholderDrawable = circlePlaceholder;
+    }
+
     /**
      * 设置正常图片的占位符
      *
@@ -58,13 +77,21 @@ public class GlideManager {
         sCommonPlaceholder = commonPlaceholder;
     }
 
+    public static void setCommonPlaceholder(Drawable commonPlaceholder) {
+        sCommonPlaceholderDrawable = commonPlaceholder;
+    }
+
     /**
      * 设置圆角图片的占位符
      *
      * @param roundPlaceholder
      */
-    public static void setsRoundPlaceholder(int roundPlaceholder) {
+    public static void setRoundPlaceholder(int roundPlaceholder) {
         sRoundPlaceholder = roundPlaceholder;
+    }
+
+    public static void setRoundPlaceholder(Drawable roundPlaceholder) {
+        sRoundPlaceholderDrawable = roundPlaceholder;
     }
 
     /**
@@ -72,14 +99,20 @@ public class GlideManager {
      *
      * @param obj
      * @param iv
-     * @param placeholderResource
+     * @param placeholder
      */
-    public static void loadImg(Object obj, ImageView iv, int placeholderResource) {
+    public static void loadImg(Object obj, ImageView iv, Drawable placeholder) {
         Glide.with(iv.getContext()).load(obj).apply(getRequestOptions()
-                .error(placeholderResource)
-                .placeholder(placeholderResource)
-                .fallback(placeholderResource)
+                .error(placeholder)
+                .placeholder(placeholder)
+                .fallback(placeholder)
                 .dontAnimate()).into(iv);
+    }
+
+
+    public static void loadImg(Object obj, ImageView iv, int placeholderResource) {
+        Drawable drawable = getDrawable(iv.getContext(), placeholderResource);
+        loadImg(obj, iv, drawable != null ? drawable : sCommonPlaceholderDrawable);
     }
 
     public static void loadImg(Object obj, ImageView iv) {
@@ -91,15 +124,20 @@ public class GlideManager {
      *
      * @param obj
      * @param iv
-     * @param placeholderResource 占位图
+     * @param placeholder 占位图
      */
-    public static void loadCircleImg(Object obj, ImageView iv, int placeholderResource) {
+    public static void loadCircleImg(Object obj, ImageView iv, Drawable placeholder) {
         Glide.with(iv.getContext()).load(obj).apply(getRequestOptions()
-                .error(placeholderResource)
-                .placeholder(placeholderResource)
-                .fallback(placeholderResource)
+                .error(placeholder)
+                .placeholder(placeholder)
+                .fallback(placeholder)
                 .dontAnimate()
                 .transform(new CircleCrop())).into(iv);
+    }
+
+    public static void loadCircleImg(Object obj, ImageView iv, int placeholderResource) {
+        Drawable drawable = getDrawable(iv.getContext(), placeholderResource);
+        loadCircleImg(obj, iv, drawable != null ? drawable : sCirclePlaceholderDrawable);
     }
 
     public static void loadCircleImg(Object obj, ImageView iv) {
@@ -112,16 +150,21 @@ public class GlideManager {
      * @param obj                 加载的图片资源
      * @param iv
      * @param dp                  圆角尺寸-dp
-     * @param placeholderResource -占位图
+     * @param placeholder         -占位图
      * @param isOfficial-是否官方模式圆角
      */
-    public static void loadRoundImg(Object obj, ImageView iv, float dp, int placeholderResource, boolean isOfficial) {
+    public static void loadRoundImg(Object obj, ImageView iv, float dp, Drawable placeholder, boolean isOfficial) {
         Glide.with(iv.getContext()).load(obj).apply(getRequestOptions()
-                .error(placeholderResource)
-                .placeholder(placeholderResource)
-                .fallback(placeholderResource)
+                .error(placeholder)
+                .placeholder(placeholder)
+                .fallback(placeholder)
                 .dontAnimate()
                 .transform(isOfficial ? new RoundedCorners(dp2px(dp)) : new GlideRoundTransform(iv.getContext(), dp2px(dp)))).into(iv);
+    }
+
+    public static void loadRoundImg(Object obj, ImageView iv, float dp, int placeholderResource, boolean isOfficial) {
+        Drawable drawable = getDrawable(iv.getContext(), placeholderResource);
+        loadRoundImg(obj, iv, dp, drawable != null ? drawable : sRoundPlaceholderDrawable, isOfficial);
     }
 
     public static void loadRoundImg(Object obj, ImageView iv, float dp, boolean isOfficial) {
@@ -151,6 +194,16 @@ public class GlideManager {
     private static int dp2px(float dipValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
+    }
+
+    private static Drawable getDrawable(Context context, @DrawableRes int res) {
+        Drawable drawable = null;
+        try {
+            drawable = context.getResources().getDrawable(res);
+        } catch (Exception e) {
+
+        }
+        return drawable;
     }
 
     private static class GlideRoundTransform extends BitmapTransformation {

@@ -2,12 +2,12 @@ package com.aries.library.fast.delegate;
 
 import android.app.Activity;
 import android.os.Build;
-import android.view.Gravity;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.FastConfig;
-import com.aries.library.fast.R;
+import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.StatusBarUtil;
@@ -30,31 +30,47 @@ public class FastTitleDelegate {
         if (mTitleBar == null) {
             return;
         }
-        int colorText = FastConfig.getInstance(mContext).getTitleTextColor();
-        mTitleBar.setOnLeftTextClickListener(iTitleBarView.getLeftClickListener())
-                .setTitleMainTextColor(colorText)
-                .setTitleSubTextColor(colorText)
-                .setLeftTextColor(colorText)
-                .setRightTextColor(colorText)
-                .setActionTextColor(colorText)
-                .setBackgroundResource(FastConfig.getInstance(mContext).getTitleBackgroundResource());
-        if (iTitleBarView.getLeftIcon() > 0) {
-            mTitleBar.getTextView(Gravity.LEFT).setCompoundDrawablesWithIntrinsicBounds(
-                    FastUtil.getTintDrawble(mContext.getResources().getDrawable(iTitleBarView.getLeftIcon()),
-                            FastConfig.getInstance(mContext).getTitleTextColor())
-                    , null, null, null);
-        }
 
-        //设置浅色状态栏又无法设置文字深色模式需将状态栏透明度调低避免状态栏文字颜色不可见问题
-        if (iTitleBarView.isLightStatusBarEnable()
+        FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
+        mTitleBar.setHeight(titleConfig.getTitleHeight())
+                .setCenterLayoutPadding(titleConfig.getCenterLayoutPadding())
+                .setCenterGravityLeftPadding(titleConfig.getCenterGravityLeftPadding())
+                .setCenterGravityLeft(titleConfig.isCenterGravityLeft())
+                .setOnLeftTextClickListener(iTitleBarView.getLeftClickListener())
+                .setTitleMainTextFakeBold(titleConfig.isTitleMainTextFakeBold())
+                .setTitleMainTextMarquee(titleConfig.isTitleMainTextMarquee())
+                .setTitleMainTextSize(TypedValue.COMPLEX_UNIT_PX, titleConfig.getTitleMainTextSize())
+                .setTitleMainTextColor(titleConfig.getTitleMainTextColor())
+                .setTitleSubTextFakeBold(titleConfig.isTitleSubTextFakeBold())
+                .setTitleSubTextSize(TypedValue.COMPLEX_UNIT_PX, titleConfig.getTitleSubTextSize())
+                .setTitleSubTextColor(titleConfig.getTitleSubTextColor())
+                .setLeftTextSize(TypedValue.COMPLEX_UNIT_PX, titleConfig.getLeftTextSize())
+                .setLeftTextColor(titleConfig.getLeftTextColor())
+                .setRightTextSize(TypedValue.COMPLEX_UNIT_PX, titleConfig.getRightTextSize())
+                .setRightTextColor(titleConfig.getRightTextColor())
+                .setActionTextSize(titleConfig.getActionTextSize())
+                .setActionTextColor(titleConfig.getActionTextColor())
+                .setDividerColor(titleConfig.getDividerColor())
+                .setDividerHeight(titleConfig.getDividerHeight())
+                .setActionPadding(titleConfig.getActionPadding())
+                .setOutPadding(titleConfig.getOutPadding())
+                .setLeftTextDrawable(iTitleBarView.getLeftIcon() > 0
+                        ? FastUtil.getTintDrawable(mContext.getResources().getDrawable(iTitleBarView.getLeftIcon()),
+                        FastConfig.getInstance(mContext).getTitleConfig().getTitleTextColor())
+                        : null)
+                .setBackgroundResource(titleConfig.getTitleBackgroundResource());
+        //是否状态栏一直设置半透明效果--默认只是在状态栏白色背景黑色文字图标情况下设置
+        if (titleConfig.isStatusAlwaysEnable()) {
+            mTitleBar.setStatusAlpha(titleConfig.getStatusAlpha());
+        } else if (iTitleBarView.isLightStatusBarEnable()
                 && mType <= StatusBarUtil.STATUS_BAR_TYPE_DEFAULT) {
+            //设置浅色状态栏又无法设置文字深色模式需将状态栏透明度调低避免状态栏文字颜色不可见问题
             //Android 5.0半透明效果alpha为102
-            mTitleBar.setStatusAlpha(70);
+            mTitleBar.setStatusAlpha(titleConfig.getStatusAlpha());
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mTitleBar.setElevation(FastConfig.getInstance(mContext).getTitleElevation());
+            mTitleBar.setElevation(titleConfig.getTitleElevation());
         }
-        mTitleBar.setDividerColor(mContext.getResources().getColor(R.color.colorTitleDivider));
         iTitleBarView.beforeSetTitleBar(mTitleBar);
         iTitleBarView.setTitleBar(mTitleBar);
     }

@@ -1,11 +1,15 @@
 package com.aries.library.fast;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
+import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SizeUtil;
+import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.animation.BaseAnimation;
 import com.chad.library.adapter.base.animation.ScaleInAnimation;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -24,29 +28,17 @@ public class FastConfig {
 
     private static volatile FastConfig sInstance;
     private Context mContext;
+    private FastTitleConfigEntity mTitleConfig;
     /**
      * Activity或Fragment根布局背景
      */
     @DrawableRes
     private int mContentViewBackgroundResource;
-    /**
-     * TitleBarView背景
-     */
-    @DrawableRes
-    private int mTitleBackgroundResource;
-    /**
-     * TitleBarView所有TextView颜色
-     */
-    @ColorInt
-    private int mTitleTextColor;
+
     /**
      * Adapter加载动画
      */
     private boolean mIsAdapterAnimationEnable;
-    /**
-     * 状态浅色背景(深色的状态栏文字及图标)
-     */
-    private boolean mIsLightStatusBarEnable;
     /**
      * Activity是否支持滑动返回
      */
@@ -60,9 +52,23 @@ public class FastConfig {
      */
     private DefaultRefreshHeaderCreater mDefaultRefreshHeader;
     /**
-     * TitleBarView 海拔高度
+     * 占位图颜色
      */
-    private float mTitleElevation = 0f;
+    @ColorInt
+    private int mPlaceholderColor = Color.GRAY;
+
+    private float mPlaceholderRoundRadius = 4f;
+
+    public FastTitleConfigEntity getTitleConfig() {
+        return mTitleConfig;
+    }
+
+    public FastConfig setTitleConfig(FastTitleConfigEntity mTitleConfig) {
+        if (mTitleConfig != null) {
+            this.mTitleConfig = mTitleConfig;
+        }
+        return sInstance;
+    }
 
     public int getContentViewBackgroundResource() {
         return mContentViewBackgroundResource;
@@ -79,34 +85,6 @@ public class FastConfig {
         return sInstance;
     }
 
-    public int getTitleBackgroundResource() {
-        return mTitleBackgroundResource;
-    }
-
-    /**
-     * 设置TitleBarView背景资源
-     *
-     * @param titleBackgroundResource
-     * @return
-     */
-    public FastConfig setTitleBackgroundResource(int titleBackgroundResource) {
-        mTitleBackgroundResource = titleBackgroundResource;
-        return sInstance;
-    }
-
-    public int getTitleTextColor() {
-        return mTitleTextColor;
-    }
-
-    /**
-     * 设置TitleBarView 所有TextView颜色值
-     *
-     * @param mTitleTextColor
-     */
-    public FastConfig setTitleTextColor(int mTitleTextColor) {
-        this.mTitleTextColor = mTitleTextColor;
-        return sInstance;
-    }
 
     public boolean isAdapterAnimationEnable() {
         return mIsAdapterAnimationEnable;
@@ -123,21 +101,6 @@ public class FastConfig {
         return this;
     }
 
-
-    public boolean isLightStatusBarEnable() {
-        return mIsLightStatusBarEnable;
-    }
-
-    /**
-     * 设置状态栏是否浅色模式(深色状态栏文字及图标)
-     *
-     * @param lightStatusBarEnable
-     * @return
-     */
-    public FastConfig setLightStatusBarEnable(boolean lightStatusBarEnable) {
-        mIsLightStatusBarEnable = lightStatusBarEnable;
-        return sInstance;
-    }
 
     public boolean isSwipeBackEnable() {
         return mIsSwipeBackEnable;
@@ -185,26 +148,70 @@ public class FastConfig {
         return sInstance;
     }
 
-    public float getTitleElevation() {
-        return mTitleElevation;
+    public int getPlaceholderColor() {
+        return mPlaceholderColor;
     }
 
     /**
-     * 设置TitleBarView 海拔Elevation参考{@link android.view.View#setElevation(float)};
+     * 设置占位图颜色
      *
-     * @param mTitleElevation
+     * @param mPlaceholderColor
      * @return
      */
-    public FastConfig setTitleElevation(float mTitleElevation) {
-        this.mTitleElevation = mTitleElevation;
+    public FastConfig setPlaceholderColor(int mPlaceholderColor) {
+        this.mPlaceholderColor = mPlaceholderColor;
+        return sInstance;
+    }
+
+    public float getPlaceholderRoundRadius() {
+        return mPlaceholderRoundRadius;
+    }
+
+    /**
+     * 设置占位图圆角弧度
+     *
+     * @param mPlaceholderRoundRadius
+     * @return
+     */
+    public FastConfig setPlaceholderRoundRadius(float mPlaceholderRoundRadius) {
+        this.mPlaceholderRoundRadius = mPlaceholderRoundRadius;
         return sInstance;
     }
 
     private FastConfig(Context context) {
         if (context != null) {
             this.mContext = context.getApplicationContext();
-            setTitleBackgroundResource(R.color.colorTitleBackground);
-            setTitleTextColor(mContext.getResources().getColor(R.color.colorTitleText));
+            setTitleConfig(new FastTitleConfigEntity()
+                    .setTitleBackgroundResource(R.color.colorTitleBackground)
+                    .setLeftTextDrawable(R.drawable.fast_ic_back)
+                    .setLeftTextFinishEnable(true)
+                    .setCenterLayoutPadding(SizeUtil.dp2px(2))
+                    .setCenterGravityLeftPadding(SizeUtil.dp2px(24))
+                    .setCenterGravityLeft(false)
+                    .setTitleTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                    .setTitleMainTextSize(SizeUtil.dp2px(18))
+                    .setTitleMainTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                    .setTitleMainTextFakeBold(false)
+                    .setTitleMainTextMarquee(false)
+                    .setTitleSubTextSize(SizeUtil.dp2px(12))
+                    .setTitleSubTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                    .setTitleSubTextFakeBold(false)
+                    .setLeftTextSize(SizeUtil.dp2px(14))
+                    .setLeftTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                    .setRightTextSize(SizeUtil.dp2px(14))
+                    .setRightTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                    .setActionTextSize(SizeUtil.dp2px(14))
+                    .setActionTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                    .setStatusAlpha(TitleBarView.DEFAULT_STATUS_BAR_ALPHA)
+                    .setStatusAlwaysEnable(false)
+                    .setTitleHeight(mContext.getResources().getDimensionPixelSize(R.dimen.dp_title_height))
+                    .setTitleElevation(0)
+                    .setLightStatusBarEnable(false)
+                    .setOutPadding(SizeUtil.dp2px(12))
+                    .setActionPadding(SizeUtil.dp2px(1))
+                    .setDividerColor(mContext.getResources().getColor(R.color.colorTitleDivider))
+                    .setDividerHeight(SizeUtil.dp2px(0.5f))
+            );
             if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
                 setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {
                     @NonNull
@@ -214,6 +221,8 @@ public class FastConfig {
                     }
                 });
             }
+            setPlaceholderColor(mContext.getResources().getColor(R.color.colorPlaceholder));
+            setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius));
         }
     }
 

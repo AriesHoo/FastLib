@@ -28,6 +28,7 @@ public abstract class LoggerManager {
                 .methodCount(3)
                 .tag(TAG) // 全局tag
                 .build();
+
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
             @Override
             public boolean isLoggable(int priority, String tag) {

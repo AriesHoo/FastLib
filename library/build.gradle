@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 213
-        versionName "2.1.5-alpha1"
+        versionCode 215
+        versionName "2.1.5"
     }
     buildTypes {
         release {
@@ -49,7 +49,7 @@ dependencies {
     //webView库
     provided 'com.just.agentweb:agentweb:2.0.1'
     //常用UI控件(TitleBarView、RadiusView等)
-    provided 'com.github.AriesHoo:UIWidget:2.0.1'
+    provided 'com.github.AriesHoo:UIWidget:2.0.2'
     //下拉刷新库
     provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载

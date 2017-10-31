@@ -6,15 +6,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
+import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -29,7 +28,7 @@ import com.just.library.ChromeClientCallbackManager;
  */
 public abstract class FastWebActivity extends FastTitleActivity {
 
-    protected LinearLayout lLayoutContainer;
+    protected ViewGroup mContainer;
     protected String url = "";
     protected String mCurrentUrl;
     protected AlertDialog mAlertDialog;
@@ -47,7 +46,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     public void beforeInitView() {
-        lLayoutContainer = findViewByViewId(R.id.lLayout_containerFastWeb);
+        mContainer = findViewByViewId(R.id.lLayout_containerFastWeb);
         url = getIntent().getStringExtra("url");
         mCurrentUrl = url;
         initAgentWeb();
@@ -58,33 +57,31 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
-        ImageView img = new ImageView(mContext);
-        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        img.setImageDrawable(FastUtil.getTintDrawble(getResources().getDrawable(R.drawable.fast_ic_close),
-                FastConfig.getInstance(mContext).getTitleTextColor()));
-        titleBar.setTitleMainTextMarquee(true)
+        FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
+        titleBar.setTitleMainTextMarquee(titleConfig.isTitleMainTextMarquee())
                 .setOnLeftTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         onBackPressed();
                     }
                 })
+                .setRightTextDrawable(FastUtil.getTintDrawable(
+                        getResources().getDrawable(R.drawable.fast_ic_more),
+                        titleConfig.getTitleTextColor()))
                 .setOnRightTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showActionSheet();
                     }
                 })
-                .addLeftAction(titleBar.new ViewAction(img, new View.OnClickListener() {
+                .addLeftAction(titleBar.new ImageAction(
+                        FastUtil.getTintDrawable(getResources().getDrawable(R.drawable.fast_ic_close),
+                                titleConfig.getTitleTextColor()), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showDialog();
                     }
                 }));
-        titleBar.getTextView(Gravity.RIGHT).setCompoundDrawablesWithIntrinsicBounds(null, null,
-                FastUtil.getTintDrawble(getResources().getDrawable(R.drawable.fast_ic_more),
-                        FastConfig.getInstance(mContext).getTitleTextColor())
-                , null);
     }
 
     @Override
@@ -94,7 +91,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     protected void initAgentWeb() {
         mAgentBuilder = AgentWeb.with(this)//
-                .setAgentWebParent(lLayoutContainer, new LinearLayout.LayoutParams(-1, -1))//
+                .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))//
                 .useDefaultIndicator()//
                 .defaultProgressBarColor();
         mAgentWeb = mAgentBuilder

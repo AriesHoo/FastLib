@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/fast_layout_title_bar"/>
+        <include layout="@layout/fast_layout_title_bar" />
 
         <com.allen.library.SuperTextView
             android:id="@+id/stv_infoMine"
@@ -32,7 +31,7 @@
             app:sLeftBottomTextString="简书:"
             app:sLeftIconHeight="75dp"
             app:sLeftIconMarginLeft="@dimen/dp_margin_item"
-            app:sLeftIconRes="@drawable/fast_shape_placeholder_circle"
+            app:sLeftIconRes="@color/colorPlaceholder"
             app:sLeftIconWidth="75dp"
             app:sLeftMaxEms="2000"
             app:sLeftTextColor="@color/colorTextBlackLight"
@@ -52,20 +51,20 @@
             android:id="@+id/stv_setting"
             style="@style/SupperTextStyleItem"
             app:sLeftIconRes="@drawable/ic_setting"
-            app:sLeftTextString="@string/setting"/>
+            app:sLeftTextString="@string/setting" />
 
         <com.allen.library.SuperTextView
             android:id="@+id/stv_libraryMine"
             style="@style/SupperTextStyleItem"
             app:sDividerLineType="none"
             app:sLeftIconRes="@drawable/ic_github"
-            app:sLeftTextString="@string/library_address"/>
+            app:sLeftTextString="@string/library_address" />
 
         <com.allen.library.SuperTextView
             android:id="@+id/stv_thirdLibMine"
             style="@style/SupperTextStyleItem"
             app:sLeftIconRes="@drawable/ic_project"
-            app:sLeftTextString="@string/third_part"/>
+            app:sLeftTextString="@string/third_part" />
 
         <com.allen.library.SuperTextView
             android:id="@+id/stv_shareMine"
@@ -75,6 +74,6 @@
             app:sLeftIconMarginLeft="13dp"
             app:sLeftIconRes="@drawable/ic_share"
             app:sLeftIconWidth="22dp"
-            app:sLeftTextString="@string/share"/>
+            app:sLeftTextString="@string/share" />
     </LinearLayout>
 </ScrollView>

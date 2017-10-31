@@ -12,7 +12,7 @@
         android:layout_height="200dp"
         app:banner_indicatorGravity="bottom|left"
         app:banner_isNeedShowIndicatorOnOnlyOnePage="true"
-        app:banner_placeholderDrawable="@drawable/fast_shape_placeholder_common"
+        app:banner_placeholderDrawable="@color/colorPlaceholder"
         app:banner_pointAutoPlayInterval="2500"
         app:banner_pointContainerBackground="#80000000"
         app:banner_pointContainerLeftRightPadding="10dp"

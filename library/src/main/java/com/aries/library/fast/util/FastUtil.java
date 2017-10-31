@@ -51,13 +51,13 @@ public class FastUtil {
     }
 
     /**
-     * 给一个矢量图Drawable变换颜色
+     * 给一个Drawable变换线框颜色
      *
      * @param drawable 需要变换颜色的drawable
      * @param color    需要变换的颜色
      * @return
      */
-    public static Drawable getTintDrawble(Drawable drawable, @ColorInt int color) {
+    public static Drawable getTintDrawable(Drawable drawable, @ColorInt int color) {
         DrawableCompat.setTint(drawable, color);
         return drawable;
     }

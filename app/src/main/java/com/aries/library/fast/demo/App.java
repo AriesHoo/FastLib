@@ -6,11 +6,12 @@ import android.support.annotation.NonNull;
 import com.aries.library.fast.FastApplication;
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
+import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
-import com.chad.library.adapter.base.animation.SlideInRightAnimation;
+import com.chad.library.adapter.base.animation.ScaleInAnimation;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -19,7 +20,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 /**
  * Created: AriesHoo on 2017/7/20 14:11
  * Function: 基础配置Application
- * Desc:
+ * Desc: 是否继承根据情况而定--滑动返回设置请查看 {@link FastApplication}
  */
 public class App extends FastApplication {
     private static Context mContext;
@@ -30,7 +31,6 @@ public class App extends FastApplication {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-
         //初始化Logger日志打印
         LoggerManager.init(TAG, BuildConfig.DEBUG);
         //初始化toast工具
@@ -53,17 +53,29 @@ public class App extends FastApplication {
         //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"test"作为标记
         // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
 
-        LoggerManager.d("context:" + this);
 
         //全局配置参数
+        //推荐先获取library里默认TitleBarView配置再按需修改的模式 FastTitleConfigEntity
+        FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
         FastConfig.getInstance(mContext)
-                .setTitleBackgroundResource(R.color.colorTitleBackground)//设置TitleBarView背景资源
+                // 其它属性请查看getInstance默认设置
+                .setTitleConfig(titleConfig
+                        //设置TitleBarView 所有TextView颜色
+                        .setTitleTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                        //设置TitleBarView背景资源
+                        .setTitleBackgroundResource(R.color.colorTitleBackground)
+                        //设置是否状态栏浅色模式(深色状态栏文字及图标)
+                        .setLightStatusBarEnable(true)
+                        //设置TitleBarView海拔高度
+                        .setTitleElevation(mContext.getResources().getDimension(R.dimen.dp_elevation)))
+                //设置Glide背景色
+                .setPlaceholderColor(mContext.getResources().getColor(R.color.colorPlaceholder))
+                //设置Glide圆角背景弧度
+                .setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius))
                 .setContentViewBackgroundResource(R.color.colorBackground)//设置Activity或Fragment根布局背景资源
-                .setTitleTextColor(mContext.getResources().getColor(R.color.colorTitleText))//设置TitleBarView 所有TextView颜色
-                .setLightStatusBarEnable(true)//设置是否状态栏浅色模式(深色状态栏文字及图标)
-                .setSwipeBackEnable(true)//设置Activity是否支持滑动返回
+                .setSwipeBackEnable(true)//设置Activity是否支持滑动返回--注意设置透明主题参考demo
                 .setAdapterAnimationEnable(true) //是否设置Adapter加载动画
-                .setDefaultAdapterAnimation(new SlideInRightAnimation())//设置全局Adapter加载动画--设置该方法内部同步调用setAdapterAnimationEnable(true)
+                .setDefaultAdapterAnimation(new ScaleInAnimation())//设置全局Adapter加载动画--设置该方法内部同步调用setAdapterAnimationEnable(true)
                 .setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {//设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
                     @NonNull
                     @Override
@@ -71,8 +83,7 @@ public class App extends FastApplication {
                         layout.setEnableHeaderTranslationContent(false);
                         return RefreshHeaderHelper.getInstance().getRefreshHeader(mContext);
                     }
-                })
-                .setTitleElevation(mContext.getResources().getDimension(R.dimen.dp_elevation));
+                });
     }
 
     /**
