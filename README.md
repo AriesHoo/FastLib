@@ -1,4 +1,4 @@
-# FastLib
+# FastLib-一个快速搭建静态页面UI效果的Android开发库
 --------------------------
 
 [![fir.im](https://img.shields.io/badge/download-fir.im-blue.svg)](http://fir.im/hju8)
