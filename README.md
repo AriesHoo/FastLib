@@ -1,4 +1,4 @@
-# FastLib-一个方便实现UI搭建及网络请求的Android开发库
+# FastLib-一个快捷实现UI搭建及网络请求的Android开发库
 --------------------------
 
 [![fir.im](https://img.shields.io/badge/download-fir.im-blue.svg)](http://fir.im/hju8)
