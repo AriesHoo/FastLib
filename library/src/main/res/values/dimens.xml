@@ -6,11 +6,11 @@
     <!--主页tab高度-->
     <dimen name="dp_tab_height">48dp</dimen>
     <!--主页tab icon宽高-->
-    <dimen name="dp_tab_icon">22dp</dimen>
+    <dimen name="dp_tab_icon">24dp</dimen>
     <!--主页tab 文字与icon边距-->
-    <dimen name="dp_tab_margin">1dp</dimen>
+    <dimen name="dp_tab_margin">0dp</dimen>
     <!--主页tab文字字号-->
-    <dimen name="dp_tab_text_size">10dp</dimen>
+    <dimen name="dp_tab_text_size">11dp</dimen>
     <!--主页tab 上划线宽度-->
     <dimen name="dp_tab_underline">0.5dp</dimen>
 
@@ -22,5 +22,8 @@
     <dimen name="dp_multi_img_height">72dp</dimen>
 
     <!--glide加载圆角图片占位图圆角弧度-->
-    <dimen name="dp_placeholder_radius">8dp</dimen>
+    <dimen name="dp_placeholder_radius">6dp</dimen>
+
+    <!--LoadMoreView 文本字号-->
+    <dimen name="dp_load_more_text_size">14dp</dimen>
 </resources>

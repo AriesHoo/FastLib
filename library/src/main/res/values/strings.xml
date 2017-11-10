@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fast_quit_app">The app will be exit if you press again</string>
+    <string name="fast_back_home">The app will be back to desktop if you press again</string>
     <string name="fast_multi_loading">Loading...</string>
     <string name="fast_multi_empty">No Data</string>
     <string name="fast_multi_error">Load Error</string>
@@ -23,4 +24,7 @@
     <string name="fast_exception_other_error">Other Exception</string>
     <string name="fast_loading">Loading...</string>
     <string name="fast_cancel">Cancel</string>
+    <string name="fast_load_more_load_end">No more data</string>
+    <string name="fast_load_more_load_failed">Load more failed</string>
+    <string name="fast_load_more_loading">Loading...</string>
 </resources>

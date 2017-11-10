@@ -5,15 +5,15 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.widget.ImageView;
 
-import com.aries.library.fast.FastConfig;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -41,18 +41,38 @@ public class GlideManager {
     private static Drawable sCommonPlaceholderDrawable;
     private static Drawable sCirclePlaceholderDrawable;
     private static Drawable sRoundPlaceholderDrawable;
-
-    static {
-        sCommonPlaceholderDrawable = new ColorDrawable(FastConfig.getInstance(null).getPlaceholderColor());
-        sCirclePlaceholderDrawable = new GradientDrawable();
-        sRoundPlaceholderDrawable = new GradientDrawable();
-        setDrawable((GradientDrawable) sCirclePlaceholderDrawable, 10000);
-        setDrawable((GradientDrawable) sRoundPlaceholderDrawable, FastConfig.getInstance(null).getPlaceholderRoundRadius());
-    }
+    @ColorInt
+    private static int mPlaceholderColor = Color.GRAY;
+    private static float mPlaceholderRoundRadius = 4f;
 
     private static void setDrawable(GradientDrawable gd, float radius) {
-        gd.setColor(FastConfig.getInstance(null).getPlaceholderColor());
+        gd.setColor(mPlaceholderColor);
         gd.setCornerRadius(radius);
+    }
+
+    /**
+     * 设置默认颜色
+     *
+     * @param placeholderColor
+     */
+    public static void setPlaceholderColor(@ColorInt int placeholderColor) {
+        mPlaceholderColor = placeholderColor;
+        sCommonPlaceholderDrawable = new GradientDrawable();
+        sCirclePlaceholderDrawable = new GradientDrawable();
+        sRoundPlaceholderDrawable = new GradientDrawable();
+        setDrawable((GradientDrawable) sCommonPlaceholderDrawable, 0);
+        setDrawable((GradientDrawable) sCirclePlaceholderDrawable, 10000);
+        setDrawable((GradientDrawable) sRoundPlaceholderDrawable, mPlaceholderRoundRadius);
+    }
+
+    /**
+     * 设置圆角图片占位背景图圆角幅度
+     *
+     * @param placeholderRoundRadius
+     */
+    public static void setPlaceholderRoundRadius(float placeholderRoundRadius) {
+        mPlaceholderRoundRadius = placeholderRoundRadius;
+        setPlaceholderColor(mPlaceholderColor);
     }
 
     /**

@@ -12,20 +12,20 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
  * Desc:
  */
 public class RefreshHeaderHelper {
-    private static volatile RefreshHeaderHelper instance;
+    private static volatile RefreshHeaderHelper sInstance;
 
     private RefreshHeaderHelper() {
     }
 
     public static RefreshHeaderHelper getInstance() {
-        if (instance == null) {
+        if (sInstance == null) {
             synchronized (RefreshHeaderHelper.class) {
-                if (instance == null) {
-                    instance = new RefreshHeaderHelper();
+                if (sInstance == null) {
+                    sInstance = new RefreshHeaderHelper();
                 }
             }
         }
-        return instance;
+        return sInstance;
     }
 
     public RefreshHeader getRefreshHeader(Context mContext) {

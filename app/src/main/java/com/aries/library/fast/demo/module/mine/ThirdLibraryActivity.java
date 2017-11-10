@@ -62,6 +62,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
 
     @Override
     public void loadData(int page) {
+        mAdapter.openLoadAnimation(animationIndex);
         mEasyStatusView.content();
         List<WidgetEntity> list = new ArrayList<>();
         String[] titles = getResources().getStringArray(R.array.arrays_library_list_title);
@@ -78,6 +79,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                 .subscribe(mRefreshLayout.isRefreshing() ? new FastObserver<List<WidgetEntity>>() {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
+                        mAdapter.openLoadAnimation(animationIndex);
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.finishLoadmore();
                         mAdapter.loadMoreComplete();

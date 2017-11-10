@@ -28,7 +28,7 @@ import butterknife.BindView;
  */
 public class NewsItemFragment extends FastTitleFragment {
 
-    @BindView(R.id.vp_content) ViewPager vpContent;
+    @BindView(R.id.vp_contentFastLib) ViewPager vpContent;
     private String[] titles;
     private int[] slidingTab = new int[]{R.array.arrays_news_news_sliding, 0, R.array.arrays_news_live_sliding, 0};
     private int mPosition = 0;
@@ -49,19 +49,19 @@ public class NewsItemFragment extends FastTitleFragment {
         mPosition = getArguments().getInt("position");
         titleBar.setTitleMainTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         if (mPosition == 3) {
-            titleBar.setTitleMainTextColor(Color.WHITE);
-            titleBar.setBackgroundResource(R.color.colorMainAli);
+            titleBar.setTitleMainTextColor(Color.WHITE)
+                    .setBackgroundResource(R.color.colorMainAli);
         }
         if (mPosition == 0 || mPosition == 2) {
             View view = View.inflate(mContext, R.layout.layout_news_sliding, null);
-            mSlidingTab = (SlidingTabLayout) view.findViewById(R.id.tabLayout_slidingNews);
+            mSlidingTab = view.findViewById(R.id.tabLayout_slidingNews);
             titleBar.addCenterAction(titleBar.new ViewAction(view));
         } else {
             titleBar.setTitleMainText(titles[mPosition]);
         }
-        titleBar.setLeftTextDrawable(mPosition == 0 || mPosition == 1 ? R.drawable.ic_news_search : 0);
-        titleBar.setLeftText(mPosition == 1 ? getString(R.string.find) : "");
-        titleBar.setRightTextDrawable(mPosition == 3 ? R.drawable.ic_news_setting_normal : mPosition == 0 ? R.drawable.ic_news_channel_plus : 0);
+        titleBar.setLeftTextDrawable(mPosition == 0 || mPosition == 1 ? R.drawable.ic_news_search : 0)
+                .setLeftText(mPosition == 1 ? getString(R.string.find) : "")
+                .setRightTextDrawable(mPosition == 3 ? R.drawable.ic_news_setting_normal : mPosition == 0 ? R.drawable.ic_news_channel_plus : 0);
     }
 
     @Override

@@ -30,7 +30,6 @@
         <activity
             android:name=".module.SplashActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NotTranslucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -41,7 +40,6 @@
         <activity
             android:name=".module.main.MainActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NotTranslucent"/>
         <!-- 应用内浏览器 -->
         <activity

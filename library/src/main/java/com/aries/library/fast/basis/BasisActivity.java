@@ -1,17 +1,21 @@
 package com.aries.library.fast.basis;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.aries.library.fast.FastConfig;
-import com.aries.library.fast.R;
+import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.i.IBasisView;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
@@ -35,12 +39,19 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean mIsViewLoaded = false;
     protected boolean mIsFirstShow = true;
     protected boolean mIsFirstBack = true;
+    protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
+    protected FastQuitConfigEntity mQuitEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
+        LoggerManager.i(TAG, "getRequestedOrientation:" + (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
+        //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
+        if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+            setRequestedOrientation(getOrientation());
+        }
         mContext = this;
         FastStackUtil.getInstance().push(this);
         initSwipeBack();
@@ -73,12 +84,24 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
      * 是否开启滑动返回
      */
     protected boolean isSwipeBackEnable() {
-        return FastConfig.getInstance(mContext).isSwipeBackEnable();
+        return FastConfig.getInstance(this).isSwipeBackEnable();
     }
 
     @Override
     public int getContentBackground() {
-        return FastConfig.getInstance(mContext).getContentViewBackgroundResource();
+        return FastConfig.getInstance(this).getContentViewBackgroundResource();
+    }
+
+    /**
+     * 设置屏幕方向
+     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+     *
+     * @return {@link ActivityInfo}
+     */
+    public int getOrientation() {
+        return FastConfig.getInstance(this).getRequestedOrientation();
     }
 
     /**
@@ -117,12 +140,15 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public void beforeSetContentView() {
-
+        mQuitEntity = FastConfig.getInstance(this).getQuitConfig();
+        mDelayBack = mQuitEntity.getQuitDelay();
     }
 
     @Override
     public void beforeInitView() {
-        mContentView.setBackgroundResource(getContentBackground());
+        if (getContentBackground() > -1) {
+            mContentView.setBackgroundResource(getContentBackground());
+        }
     }
 
     @Override
@@ -151,17 +177,42 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     }
 
     protected void quitApp() {
+        quitApp(mQuitEntity.isSnackBarEnable(), mQuitEntity.isBackToTaskEnable());
+    }
+
+    /**
+     * 退出程序
+     *
+     * @param isSnackBar
+     */
+    protected void quitApp(boolean isSnackBar, boolean isBackToTask) {
+        if (isBackToTask && !mQuitEntity.isBackToTaskDelayEnable()) {//设置退回桌面且不等待
+            moveTaskToBack(true);
+            return;
+        }
         if (mIsFirstBack) {
-            ToastUtil.show(R.string.fast_quit_app);
+            if (isSnackBar) {
+                SnackBarUtil.with(mContentView)
+                        .setBgColor(mQuitEntity.getSnackBarBackgroundColor())
+                        .setMessageColor(mQuitEntity.getSnackBarMessageColor())
+                        .setMessage(mQuitEntity.getQuitMessage())
+                        .show();
+            } else {
+                ToastUtil.show(mQuitEntity.getQuitMessage());
+            }
             mIsFirstBack = false;
-            RxJavaManager.getInstance().setTimer(2000, new RxJavaManager.TimerListener() {
+            RxJavaManager.getInstance().setTimer(mDelayBack, new RxJavaManager.TimerListener() {
                 @Override
                 public void timeEnd() {
                     mIsFirstBack = true;
                 }
-            });
-        } else if (!mIsFirstBack) {
-            FastStackUtil.getInstance().exit();
+            }).compose(bindUntilEvent(ActivityEvent.DESTROY));
+        } else {
+            if (isBackToTask) {
+                moveTaskToBack(true);
+            } else {
+                FastStackUtil.getInstance().exit();
+            }
         }
     }
 }

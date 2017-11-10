@@ -26,12 +26,12 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
 
     @Override
     public int getLeftIcon() {
-        return FastConfig.getInstance(mContext).getTitleConfig().getLeftTextDrawable();
+        return FastConfig.getInstance(this).getTitleConfig().getLeftTextDrawable();
     }
 
     @Override
     public View.OnClickListener getLeftClickListener() {
-        if (FastConfig.getInstance(mContext).getTitleConfig().isLeftTextFinishEnable()) {
+        if (FastConfig.getInstance(this).getTitleConfig().isLeftTextFinishEnable()) {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -45,7 +45,7 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
 
     @Override
     public boolean isLightStatusBarEnable() {
-        return FastConfig.getInstance(mContext).getTitleConfig().isLightStatusBarEnable();
+        return FastConfig.getInstance(this).getTitleConfig().isLightStatusBarEnable();
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.view.ViewGroup;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.entity.WidgetEntity;
+import com.aries.library.fast.demo.helper.RadiusViewHelper;
+import com.aries.ui.view.radius.RadiusRelativeLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -28,5 +30,6 @@ public class WidgetAdapter extends BaseQuickAdapter<WidgetEntity, BaseViewHolder
         ViewGroup.MarginLayoutParams margin = (ViewGroup.MarginLayoutParams) helper.itemView.getLayoutParams();
         margin.setMargins(marginSize, marginSize, marginSize,
                 helper.getLayoutPosition() == getItemCount() - 1 ? marginSize : 0);
+        RadiusViewHelper.getInstance().setRadiusViewAdapter(((RadiusRelativeLayout) helper.itemView).getDelegate());
     }
 }

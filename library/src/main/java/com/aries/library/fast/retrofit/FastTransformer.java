@@ -40,8 +40,6 @@ public class FastTransformer {
      */
     public static <T> Observable<T> switchSchedulers(Observable<T> observable) {
         return observable.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

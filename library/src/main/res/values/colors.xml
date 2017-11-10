@@ -23,6 +23,8 @@
     <!--主页tab文字选中颜色-->
     <color name="colorTabTextSelect">#393939</color>
 
+    <!--多状态 loading颜色-->
+    <color name="colorMultiProgress">#393939</color>
     <!--多状态文字颜色-->
     <color name="colorMultiText">#393939</color>
     <!--多状态布局背景色-->
@@ -32,4 +34,9 @@
 
     <!--Glide加载图片默认占位图背景色-->
     <color name="colorPlaceholder">#bdbdbd</color>
+
+    <!--LoadMoreView 文本颜色-->
+    <color name="colorLoadMoreText">#393939</color>
+    <!--LoadMoreView loading颜色-->
+    <color name="colorLoadMoreProgress">#393939</color>
 </resources>

@@ -4,8 +4,8 @@
     <dimen name="dp_banner_point">8dp</dimen>
 
     <dimen name="dp_margin_item">10dp</dimen>
-    <dimen name="dp_elevation">3dp</dimen>
-    <dimen name="dp_radius">2dp</dimen>
+    <dimen name="dp_elevation">2dp</dimen>
+    <dimen name="dp_radius">3dp</dimen>
 
     <!--以下属性为lib设置默认属性，在app设置同名属性可覆盖lib效果-->
 
@@ -15,11 +15,11 @@
     <!--主页tab高度-->
     <dimen name="dp_tab_height">48dp</dimen>
     <!--主页tab icon宽高-->
-    <dimen name="dp_tab_icon">22dp</dimen>
+    <dimen name="dp_tab_icon">24dp</dimen>
     <!--主页tab 文字与icon边距-->
-    <dimen name="dp_tab_margin">1dp</dimen>
+    <dimen name="dp_tab_margin">0dp</dimen>
     <!--主页tab文字字号-->
-    <dimen name="dp_tab_text_size">10dp</dimen>
+    <dimen name="dp_tab_text_size">11dp</dimen>
     <!--主页tab 上划线宽度-->
     <dimen name="dp_tab_underline">0.5dp</dimen>
 

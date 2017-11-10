@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,16 @@ public class WebViewActivity extends FastWebActivity {
     }
 
     @Override
+    protected int getProgressColor() {
+        return super.getProgressColor();
+    }
+
+    @Override
+    protected int getProgressHeight() {
+        return super.getProgressHeight();
+    }
+
+    @Override
     public boolean isLightStatusBarEnable() {
         return mIsShowTitle;
     }
@@ -47,7 +58,6 @@ public class WebViewActivity extends FastWebActivity {
     @Override
     protected void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder) {
         WebView mWebView = mAgentWeb.getWebCreator().get();
-
         mWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -67,5 +77,14 @@ public class WebViewActivity extends FastWebActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //横竖屏切换过后不能设置滑动返回--可以切换试一试效果
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.setSwipeBackEnable(false);
+        }
     }
 }

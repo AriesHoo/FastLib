@@ -37,6 +37,7 @@ public class FastRetrofit {
     private HttpLoggingInterceptor mLoggingInterceptor;
 
     private FastRetrofit() {
+
         sClientBuilder = new OkHttpClient.Builder();
         sRetrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())

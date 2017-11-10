@@ -23,8 +23,8 @@ import butterknife.BindView;
  * Desc:
  */
 public class SplashActivity extends FastTitleActivity {
-    @BindView(R.id.tv_versionSplash)
-    TextView tvVersion;
+    
+    @BindView(R.id.tv_versionSplash) TextView tvVersion;
 
     @Override
     public void beforeSetContentView() {

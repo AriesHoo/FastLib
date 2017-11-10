@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.aries.ui.view.title.TitleBarView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/titleBar"
+    android:id="@+id/titleBar_headFastLib"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_title_height"
     android:background="@color/colorTitleBackground"/>

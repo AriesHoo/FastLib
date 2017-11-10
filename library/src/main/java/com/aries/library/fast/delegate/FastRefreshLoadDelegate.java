@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.i.IMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.marno.easystatelibrary.EasyStatusView;
@@ -25,16 +26,18 @@ public class FastRefreshLoadDelegate<T> {
     public EasyStatusView mStatusView;
     private IFastRefreshLoadView<T> mIFastRefreshLoadView;
     private Context mContext;
+    private FastConfig mConfig;
 
     public FastRefreshLoadDelegate(View rootView, IFastRefreshLoadView<T> iFastRefreshLoadView) {
         this.mIFastRefreshLoadView = iFastRefreshLoadView;
         this.mContext = rootView.getContext().getApplicationContext();
+        this.mConfig = FastConfig.getInstance(mContext);
         getRefreshLayout(rootView);
         getRecyclerView(rootView);
         getStatusView(rootView);
-        initStatusView();
         initRefreshHeader();
         initRecyclerView();
+        initStatusView();
     }
 
     /**
@@ -42,6 +45,12 @@ public class FastRefreshLoadDelegate<T> {
      */
     private void initStatusView() {
         if (mStatusView != null) {
+            IMultiStatusView iMultiStatusView = mIFastRefreshLoadView.getMultiStatusView() != null ? mIFastRefreshLoadView.getMultiStatusView() :
+                    mConfig.getDefaultMultiStatusView().createMultiStatusView(mStatusView);
+            mStatusView.setLoadingView(iMultiStatusView.getLoadingView());
+            mStatusView.setEmptyView(iMultiStatusView.getEmptyView());
+            mStatusView.setErrorView(iMultiStatusView.getErrorView());
+            mStatusView.setNoNetworkView(iMultiStatusView.getNoNetView());
             mStatusView.loading();
             mStatusView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,8 +74,7 @@ public class FastRefreshLoadDelegate<T> {
         }
         mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader() != null
                 ? mIFastRefreshLoadView.getRefreshHeader() :
-                FastConfig.getInstance(mContext)
-                        .getDefaultRefreshHeader()
+                mConfig.getDefaultRefreshHeader()
                         .createRefreshHeader(mContext, mRefreshLayout));
         mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
         mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
@@ -83,19 +91,20 @@ public class FastRefreshLoadDelegate<T> {
         mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager());
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setAdapter(mAdapter);
-        if (mAdapter != null && FastConfig.getInstance(mContext).isAdapterAnimationEnable()) {
-            mAdapter.isFirstOnly(false);
-            mAdapter.openLoadAnimation(FastConfig.getInstance(mContext).getDefaultAdapterAnimation());
-        }
-        setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
-        if (mIFastRefreshLoadView.isItemClickEnable() && mAdapter != null) {
-            mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    mIFastRefreshLoadView.onItemClicked(adapter, view, position);
-                }
+        if (mAdapter != null) {
+            setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
+            mAdapter.setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
+                    ? mIFastRefreshLoadView.getLoadMoreView() :
+                    mConfig.getDefaultLoadMoreView().createDefaultLoadMoreView(mAdapter));
+            if (mIFastRefreshLoadView.isItemClickEnable()) {
+                mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        mIFastRefreshLoadView.onItemClicked(adapter, view, position);
+                    }
 
-            });
+                });
+            }
         }
     }
 

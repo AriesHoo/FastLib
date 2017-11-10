@@ -1,5 +1,6 @@
 package com.aries.library.fast.demo.module.main.sample;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.aries.library.fast.demo.R;
@@ -32,6 +33,7 @@ public class QQTitleActivity extends FastTitleActivity {
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setLeftTextDrawable(R.drawable.ic_back_white)
                 .setTitleMainText("QQ默认主题TitleBar背景渐变")
+                .setTitleMainTextColor(Color.WHITE)
                 .setBackgroundResource(R.drawable.shape_qq_bg);
     }
 }

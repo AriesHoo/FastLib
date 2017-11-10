@@ -38,6 +38,8 @@ public class ALiPayMainActivity extends FastMainActivity {
     public void setTabLayout(CommonTabLayout tabLayout) {
         tabLayout.setTextsize(10);
         tabLayout.setIconMargin(2);
+        tabLayout.setIconWidth(22);
+        tabLayout.setIconHeight(22);
         tabLayout.setTextSelectColor(getResources().getColor(R.color.colorMainAli));
     }
 

@@ -1,17 +1,24 @@
 package com.aries.library.fast.demo;
 
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
-import com.aries.library.fast.FastApplication;
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
+import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
+import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
-import com.chad.library.adapter.base.animation.ScaleInAnimation;
+import com.aries.library.fast.widget.FastLoadMoreView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -20,9 +27,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 /**
  * Created: AriesHoo on 2017/7/20 14:11
  * Function: 基础配置Application
- * Desc: 是否继承根据情况而定--滑动返回设置请查看 {@link FastApplication}
+ * Desc:
  */
-public class App extends FastApplication {
+public class App extends Application {
+
     private static Context mContext;
     private String TAG = "FastLib";
     private static int imageHeight = 0;
@@ -53,12 +61,16 @@ public class App extends FastApplication {
         //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"test"作为标记
         // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
 
-
+        //主页返回键是否退回桌面--程序后台
+        boolean isBackTask = false;
         //全局配置参数
-        //推荐先获取library里默认TitleBarView配置再按需修改的模式 FastTitleConfigEntity
+        //推荐先获取library里默认标题栏TitleBarView配置再按需修改的模式 FastTitleConfigEntity
         FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
+        //推荐先获取library里默认主页面点击返回键配置FastQuitConfigEntity配置再按需修改的模式 FastQuitConfigEntity
+        FastQuitConfigEntity quitConfig = FastConfig.getInstance(mContext).getQuitConfig();
+        //推荐先获取library里默认主页面Tab参数配置FastTabConfigEntity配置再按需修改的模式 FastTabConfigEntity
         FastConfig.getInstance(mContext)
-                // 其它属性请查看getInstance默认设置
+                // 设置全局TitleBarView-其它属性请查看getInstance默认设置
                 .setTitleConfig(titleConfig
                         //设置TitleBarView 所有TextView颜色
                         .setTitleTextColor(mContext.getResources().getColor(R.color.colorTitleText))
@@ -66,21 +78,76 @@ public class App extends FastApplication {
                         .setTitleBackgroundResource(R.color.colorTitleBackground)
                         //设置是否状态栏浅色模式(深色状态栏文字及图标)
                         .setLightStatusBarEnable(true)
+                        .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0)
                         //设置TitleBarView海拔高度
                         .setTitleElevation(mContext.getResources().getDimension(R.dimen.dp_elevation)))
+                //设置Activity 点击返回键提示退出程序或返回桌面相关参数
+                .setQuitConfig(quitConfig
+                        //设置是否退回桌面否则直接退出程序
+                        .setBackToTaskEnable(isBackTask)
+                        //设置退回桌面是否有一次提示setBackToTaskEnable(true)才有意义
+                        .setBackToTaskDelayEnable(isBackTask)
+                        .setQuitDelay(2000)
+                        .setQuitMessage(isBackTask ? mContext.getString(R.string.fast_back_home) : mContext.getString(R.string.fast_quit_app))
+                        .setSnackBarBackgroundColor(Color.argb(220, 0, 0, 0))
+                        .setSnackBarEnable(false)
+                        .setSnackBarMessageColor(Color.WHITE))
                 //设置Glide背景色
                 .setPlaceholderColor(mContext.getResources().getColor(R.color.colorPlaceholder))
                 //设置Glide圆角背景弧度
                 .setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius))
+                //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
+                .setSwipeBackEnable(true, this)
+                //设置Activity横竖屏模式
+//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .setContentViewBackgroundResource(R.color.colorBackground)//设置Activity或Fragment根布局背景资源
-                .setSwipeBackEnable(true)//设置Activity是否支持滑动返回--注意设置透明主题参考demo
-                .setAdapterAnimationEnable(true) //是否设置Adapter加载动画
-                .setDefaultAdapterAnimation(new ScaleInAnimation())//设置全局Adapter加载动画--设置该方法内部同步调用setAdapterAnimationEnable(true)
+                //设置Adapter加载更多视图--默认设置了FastLoadMoreView
+                .setDefaultLoadMoreView(new LoadMoreFoot() {
+                    @Override
+                    public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
+                        if (adapter != null) {
+                            //设置动画是否一直开启
+                            adapter.isFirstOnly(false);
+                            adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+                        }
+                        //方式一:设置FastLoadMoreView--以下为FastConfig里默认配置
+                        return new FastLoadMoreView.Builder()
+                                .setLoadTextColor(mContext.getResources().getColor(R.color.colorLoadMoreText))
+                                .setLoadTextSize(mContext.getResources().getDimensionPixelSize(R.dimen.dp_load_more_text_size))
+                                .setLoadingProgressColor(mContext.getResources().getColor(R.color.colorLoadMoreProgress))
+                                .setLoadingText(mContext.getText(R.string.fast_load_more_loading))
+                                .setLoadFailText(mContext.getText(R.string.fast_load_more_load_failed))
+                                .setLoadEndText(mContext.getText(R.string.fast_load_more_load_end))
+//                                //设置Loading 颜色-5.0以上有效
+//                                .setLoadingProgressColor(Color.MAGENTA)
+//                                //设置Loading drawable--会是Loading颜色失效
+//                                .setLoadingProgressDrawable(mContext.getResources().getDrawable(R.drawable.dialog_loading_wei_bo))
+//                                //设置全局TextView颜色
+//                                .setLoadTextColor(Color.MAGENTA)
+//                                //设置全局TextView文字字号
+//                                .setLoadTextSize(SizeUtil.dp2px(14))
+//                                .setLoadingText("努力加载中...")
+//                                .setLoadingTextColor(Color.GREEN)
+//                                .setLoadingTextSize(SizeUtil.dp2px(14))
+//                                .setLoadEndText("我是有底线的")
+//                                .setLoadEndTextColor(Color.GREEN)
+//                                .setLoadEndTextSize(SizeUtil.dp2px(14))
+//                                .setLoadFailText("哇哦!出错了")
+//                                .setLoadFailTextColor(Color.RED)
+//                                .setLoadFailTextSize(SizeUtil.dp2px(14))
+                                .build();
+                        //方式二:使用adapter自带--其实我默认设置的和这个基本一致只是提供了相应设置方法
+//                        return new SimpleLoadMoreView();
+                        //方式三:参考SimpleLoadMoreView或FastLoadMoreView完全自定义自己的LoadMoreView
+//                        return MyLoadMoreView();
+                    }
+                })
                 .setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {//设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
                     @NonNull
                     @Override
                     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
                         layout.setEnableHeaderTranslationContent(false);
+                        layout.setRefreshHeader(new DeliveryHeader(mContext));
                         return RefreshHeaderHelper.getInstance().getRefreshHeader(mContext);
                     }
                 });
@@ -94,6 +161,10 @@ public class App extends FastApplication {
     public static int getImageHeight() {
         imageHeight = (int) (SizeUtil.getScreenWidth() * 0.55);
         return imageHeight;
+    }
+
+    public static boolean isSupportElevation() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static Context getContext() {

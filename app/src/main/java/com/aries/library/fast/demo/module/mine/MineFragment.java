@@ -3,10 +3,12 @@ package com.aries.library.fast.demo.module.mine;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.allen.library.SuperTextView;
+import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
@@ -27,7 +29,8 @@ import butterknife.OnClick;
  */
 public class MineFragment extends FastTitleFragment {
 
-    @BindView(R.id.stv_infoMine) SuperTextView stvInfo;
+    @BindView(R.id.stv_infoMine)
+    SuperTextView stvInfo;
     private ImageView ivHead;
 
     public static MineFragment newInstance() {
@@ -51,8 +54,8 @@ public class MineFragment extends FastTitleFragment {
     public void initView(Bundle savedInstanceState) {
         ivHead = stvInfo.getLeftIconIV();
         GlideManager.loadCircleImg("https://avatars3.githubusercontent.com/u/19605922?v=4&s=460", ivHead);
-        ivHead.getLayoutParams().height = (int) (SizeUtil.getScreenWidth() * 0.2);
-        ivHead.getLayoutParams().width = (int) (SizeUtil.getScreenWidth() * 0.2);
+//        ivHead.getLayoutParams().height = (int) (SizeUtil.getScreenWidth() * 0.2);
+//        ivHead.getLayoutParams().width = (int) (SizeUtil.getScreenWidth() * 0.2);
         LoggerManager.d("imageHeight:" + ivHead.getLayoutParams().height + ";screenWidth:" + SizeUtil.getScreenWidth());
         SpanTool.getBuilder(stvInfo.getLeftString())
                 .append("https://github.com/AriesHoo")
@@ -79,9 +82,14 @@ public class MineFragment extends FastTitleFragment {
                 WebViewActivity.start(mContext, "http://www.jianshu.com/u/a229eee96115");
             }
         });
-
+        stvInfo.getLeftBottomTextView().setGravity(Gravity.LEFT);
         ViewCompat.setElevation(stvInfo, getResources().
                 getDimension(R.dimen.dp_elevation));
+        if (!App.isSupportElevation()) {
+            stvInfo.setShapeStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp_line_size))
+                    .setShapeStrokeColor(getResources().getColor(R.color.colorLineGray))
+                    .useShape();
+        }
     }
 
     @OnClick({R.id.stv_setting, R.id.stv_libraryMine, R.id.stv_thirdLibMine

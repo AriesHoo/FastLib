@@ -35,7 +35,7 @@ public abstract class FastTitleFragment extends BasisFragment implements IFastTi
 
     @Override
     public boolean isLightStatusBarEnable() {
-        return FastConfig.getInstance(mContext).getTitleConfig().isLightStatusBarEnable();
+        return FastConfig.getInstance(getContext()).getTitleConfig().isLightStatusBarEnable();
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.View;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 import com.aries.ui.view.title.TitleBarView;
 
@@ -40,7 +41,10 @@ public class SwipeBackActivity extends FastTitleActivity {
     public void setTitleBar(TitleBarView titleBar) {
         title = getIntent().getStringExtra("title");
         titleBar.setStatusAlpha(102)
+                .setCenterGravityLeft(true)
+                .setCenterGravityLeftPadding(SizeUtil.dp2px(24))
                 .setTitleMainText(title)
+                .setTitleMainTextColor(Color.WHITE)
                 .setLeftTextDrawable(R.drawable.ic_back_white)
                 .setBackgroundColor(Color.parseColor("#38393E"));
     }

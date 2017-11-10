@@ -61,7 +61,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     @Override
     public int getContentBackground() {
-        return FastConfig.getInstance(mContext).getContentViewBackgroundResource();
+        return FastConfig.getInstance(getContext()).getContentViewBackgroundResource();
     }
 
     @Override
@@ -71,7 +71,9 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     @Override
     public void beforeInitView() {
-        mContentView.setBackgroundResource(getContentBackground());
+        if (getContentBackground() > -1) {
+            mContentView.setBackgroundResource(getContentBackground());
+        }
     }
 
     @Override

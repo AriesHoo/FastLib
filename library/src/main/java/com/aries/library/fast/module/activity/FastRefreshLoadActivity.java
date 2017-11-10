@@ -6,8 +6,10 @@ import android.view.View;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.i.IMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -43,8 +45,18 @@ public abstract class FastRefreshLoadActivity<T>
     }
 
     @Override
+    public LoadMoreView getLoadMoreView() {
+        return null;
+    }
+
+    @Override
     public RecyclerView.LayoutManager getLayoutManager() {
         return new LinearLayoutManager(mContext);
+    }
+
+    @Override
+    public IMultiStatusView getMultiStatusView() {
+        return null;
     }
 
     @Override

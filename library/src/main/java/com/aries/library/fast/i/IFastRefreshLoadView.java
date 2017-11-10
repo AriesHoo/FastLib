@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -35,6 +36,13 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      * @return 下拉刷新头
      */
     RefreshHeader getRefreshHeader();
+
+    /**
+     * 获取加载更多布局
+     *
+     * @return
+     */
+    LoadMoreView getLoadMoreView();
 
     /**
      * 触发下拉或上拉刷新操作
@@ -73,4 +81,5 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      */
     void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
 
+    IMultiStatusView getMultiStatusView();
 }

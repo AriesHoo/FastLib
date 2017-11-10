@@ -46,11 +46,11 @@ public class ToastUtil {
         return show(sContext.getString(content), isShowRunningForeground);
     }
 
-    public static Toast show(String content) {
+    public static Toast show(CharSequence content) {
         return show(content, sIsShowRunningForeground);
     }
 
-    public static Toast show(String content, boolean isShowRunningForeground) {
+    public static Toast show(CharSequence content, boolean isShowRunningForeground) {
         if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         } else {

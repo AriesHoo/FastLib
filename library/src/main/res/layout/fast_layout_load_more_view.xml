@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    tools:background="@android:color/white">
+
+    <LinearLayout
+        android:id="@+id/lLayout_loadingFastLoadMore"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/pb_loadingFastLoadMore"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:indeterminateTint="@color/colorLoadMoreProgress"
+            android:indeterminateTintMode="src_atop" />
+
+        <TextView
+            android:id="@+id/tv_loadingFastLoadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="@string/fast_load_more_loading"
+            android:textColor="@color/colorLoadMoreText"
+            android:textSize="@dimen/dp_load_more_text_size" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fLayout_loadFailFastLoadMore"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+
+        <TextView
+            android:id="@+id/tv_loadFailFastLoadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/fast_load_more_load_failed"
+            android:textColor="@color/colorLoadMoreText"
+            android:textSize="@dimen/dp_load_more_text_size" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fLayout_loadEndFastLoadMore"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_loadEndFastLoadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/fast_load_more_load_end"
+            android:textColor="@color/colorLoadMoreText"
+            android:textSize="@dimen/dp_load_more_text_size" />
+    </FrameLayout>
+</FrameLayout>

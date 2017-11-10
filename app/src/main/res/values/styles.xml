@@ -57,7 +57,9 @@
         <item name="android:layout_marginTop">@dimen/dp_margin_item</item>
         <item name="android:layout_marginRight">@dimen/dp_margin_item</item>
         <item name="com.aries.library.fast.demo:rv_backgroundColor">@color/colorWhite</item>
-        <item name="com.aries.library.fast.demo:rv_backgroundPressedColor">@color/colorWhitePressed</item>
+        <item name="com.aries.library.fast.demo:rv_backgroundPressedColor">
+            @color/colorWhitePressed
+        </item>
         <item name="com.aries.library.fast.demo:rv_radius">@dimen/dp_radius</item>
     </style>
 </resources>

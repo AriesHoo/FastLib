@@ -35,7 +35,7 @@ import butterknife.BindView;
  */
 public class ActivityFragment extends FastTitleFragment {
 
-    @BindView(R.id.vp_content) ViewPager vpContent;
+    @BindView(R.id.vp_contentFastLib) ViewPager vpContent;
     private List<Fragment> listFragment = new ArrayList<>();
     private SegmentTabLayout mSegmentTab;
     private SlidingTabLayout mSlidingTab;
@@ -62,10 +62,10 @@ public class ActivityFragment extends FastTitleFragment {
         isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, true);
         if (isSliding && viewSliding == null) {
             viewSliding = View.inflate(mContext, R.layout.layout_activity_sliding, null);
-            mSlidingTab = (SlidingTabLayout) viewSliding.findViewById(R.id.tabLayout_slidingActivity);
+            mSlidingTab = viewSliding.findViewById(R.id.tabLayout_slidingActivity);
         } else if (!isSliding && viewSegment == null) {
             viewSegment = View.inflate(mContext, R.layout.layout_activity_segment, null);
-            mSegmentTab = (SegmentTabLayout) viewSegment.findViewById(R.id.tabLayout_segment);
+            mSegmentTab = viewSegment.findViewById(R.id.tabLayout_segment);
         }
         LinearLayout center = titleBar.getLinearLayout(Gravity.CENTER);
         if (isSliding) {
@@ -97,7 +97,7 @@ public class ActivityFragment extends FastTitleFragment {
      */
     @Override
     public void initView(Bundle savedInstanceState) {
-//        setTab();
+        setTab();
     }
 
     private void setTab() {
@@ -119,7 +119,6 @@ public class ActivityFragment extends FastTitleFragment {
     @Override
     public void loadData() {
         super.loadData();
-        setTab();
     }
 
     private List<String> getTitles(int array) {

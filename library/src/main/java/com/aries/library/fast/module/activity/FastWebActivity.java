@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -15,6 +16,7 @@ import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetView;
@@ -35,6 +37,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected AgentWeb mAgentWeb;
     protected AgentWeb.CommonAgentBuilder mAgentBuilder;
     protected UIActionSheetView mActionSheetView;
+    protected FastTitleConfigEntity mTitleConfig;
 
     protected static void start(Activity mActivity, Class<? extends FastWebActivity> activity, String url) {
         Bundle bundle = new Bundle();
@@ -43,6 +46,31 @@ public abstract class FastWebActivity extends FastTitleActivity {
     }
 
     protected abstract void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder);
+
+    /**
+     * 设置进度条颜色
+     *
+     * @return
+     */
+    @ColorInt
+    protected int getProgressColor() {
+        return -1;
+    }
+
+    /**
+     * 设置进度条高度
+     *
+     * @return
+     */
+    protected int getProgressHeight() {
+        return SizeUtil.dp2px(1);
+    }
+
+    @Override
+    public void beforeSetContentView() {
+        mTitleConfig = FastConfig.getInstance(this).getTitleConfig();
+        super.beforeSetContentView();
+    }
 
     @Override
     public void beforeInitView() {
@@ -57,8 +85,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
-        FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
-        titleBar.setTitleMainTextMarquee(titleConfig.isTitleMainTextMarquee())
+
+        titleBar.setTitleMainTextMarquee(mTitleConfig.isTitleMainTextMarquee())
                 .setOnLeftTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -67,7 +95,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                 })
                 .setRightTextDrawable(FastUtil.getTintDrawable(
                         getResources().getDrawable(R.drawable.fast_ic_more),
-                        titleConfig.getTitleTextColor()))
+                        mTitleConfig.getTitleTextColor()))
                 .setOnRightTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -76,7 +104,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                 })
                 .addLeftAction(titleBar.new ImageAction(
                         FastUtil.getTintDrawable(getResources().getDrawable(R.drawable.fast_ic_close),
-                                titleConfig.getTitleTextColor()), new View.OnClickListener() {
+                                mTitleConfig.getTitleTextColor()), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showDialog();
@@ -93,7 +121,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
         mAgentBuilder = AgentWeb.with(this)//
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))//
                 .useDefaultIndicator()//
-                .defaultProgressBarColor();
+                .setIndicatorColorWithHeight(getProgressColor() != -1 ? getProgressColor() : mTitleConfig.getTitleTextColor(),
+                        getProgressHeight());
         mAgentWeb = mAgentBuilder
                 .setReceivedTitleCallback(new ChromeClientCallbackManager.ReceivedTitleCallback() {
                     @Override

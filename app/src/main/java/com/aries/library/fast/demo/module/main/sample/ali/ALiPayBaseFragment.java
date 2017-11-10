@@ -1,5 +1,6 @@
 package com.aries.library.fast.demo.module.main.sample.ali;
 
+import android.graphics.Color;
 import android.util.TypedValue;
 
 import com.aries.library.fast.demo.R;
@@ -25,6 +26,8 @@ public abstract class ALiPayBaseFragment extends FastTitleFragment {
         super.beforeSetTitleBar(titleBar);
         titles = getResources().getStringArray(R.array.arrays_tab_ali);
         titleBar.setStatusAlpha(75)
+                .setLeftTextColor(Color.WHITE)
+                .setRightTextColor(Color.WHITE)
                 .setLeftTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                 .setRightTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                 .setBackgroundResource(R.color.colorMainAli);

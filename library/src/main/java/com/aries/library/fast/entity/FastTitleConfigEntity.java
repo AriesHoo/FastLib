@@ -6,6 +6,7 @@ import android.support.annotation.DrawableRes;
 import android.view.View;
 
 import com.aries.library.fast.i.IFastTitleView;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 
 /**
@@ -73,7 +74,7 @@ public class FastTitleConfigEntity {
      * @param titleBackgroundResource {@link View#setBackgroundResource(int)}
      * @return
      */
-    public FastTitleConfigEntity setTitleBackgroundResource(int titleBackgroundResource) {
+    public FastTitleConfigEntity setTitleBackgroundResource(@DrawableRes int titleBackgroundResource) {
         mTitleBackgroundResource = titleBackgroundResource;
         return this;
     }
@@ -84,7 +85,7 @@ public class FastTitleConfigEntity {
      * @param mLeftTextDrawable {@link com.aries.ui.view.title.TitleBarView#setLeftTextDrawable(int)}
      * @return
      */
-    public FastTitleConfigEntity setLeftTextDrawable(int mLeftTextDrawable) {
+    public FastTitleConfigEntity setLeftTextDrawable(@DrawableRes int mLeftTextDrawable) {
         this.mLeftTextDrawable = mLeftTextDrawable;
         return this;
     }
@@ -94,7 +95,7 @@ public class FastTitleConfigEntity {
      *
      * @param mTitleTextColor
      */
-    public FastTitleConfigEntity setTitleTextColor(int mTitleTextColor) {
+    public FastTitleConfigEntity setTitleTextColor(@ColorInt int mTitleTextColor) {
         this.mTitleTextColor = mTitleTextColor;
         setActionTextColor(mTitleTextColor);
         setLeftTextColor(mTitleTextColor);
@@ -127,12 +128,13 @@ public class FastTitleConfigEntity {
     }
 
     /**
-     * 设置TitleBarView 海拔Elevation
+     * 设置TitleBarView 海拔Elevation 5.0以上有效
      *
      * @param mTitleElevation 参考{@link android.view.View#setElevation(float)};
      * @return
      */
     public FastTitleConfigEntity setTitleElevation(float mTitleElevation) {
+        LoggerManager.i("mTitleElevation:"+mTitleElevation);
         this.mTitleElevation = mTitleElevation;
         return this;
     }
@@ -215,7 +217,7 @@ public class FastTitleConfigEntity {
      *
      * @param mDividerColor {@link com.aries.ui.view.title.TitleBarView#setDividerColor(int)}
      */
-    public FastTitleConfigEntity setDividerColor(int mDividerColor) {
+    public FastTitleConfigEntity setDividerColor(@ColorInt int mDividerColor) {
         this.mDividerColor = mDividerColor;
         return this;
     }
@@ -245,7 +247,7 @@ public class FastTitleConfigEntity {
      *
      * @param mLeftTextColor {@link com.aries.ui.view.title.TitleBarView#setLeftTextColor(int)}
      */
-    public FastTitleConfigEntity setLeftTextColor(int mLeftTextColor) {
+    public FastTitleConfigEntity setLeftTextColor(@ColorInt int mLeftTextColor) {
         this.mLeftTextColor = mLeftTextColor;
         return this;
     }
@@ -265,7 +267,7 @@ public class FastTitleConfigEntity {
      *
      * @param mTitleMainTextColor {@link com.aries.ui.view.title.TitleBarView#setTitleMainTextColor(int)}
      */
-    public FastTitleConfigEntity setTitleMainTextColor(int mTitleMainTextColor) {
+    public FastTitleConfigEntity setTitleMainTextColor(@ColorInt int mTitleMainTextColor) {
         this.mTitleMainTextColor = mTitleMainTextColor;
         return this;
     }
@@ -305,7 +307,7 @@ public class FastTitleConfigEntity {
      *
      * @param mTitleSubTextColor {@link com.aries.ui.view.title.TitleBarView#setTitleSubTextColor(int)}
      */
-    public FastTitleConfigEntity setTitleSubTextColor(int mTitleSubTextColor) {
+    public FastTitleConfigEntity setTitleSubTextColor(@ColorInt int mTitleSubTextColor) {
         this.mTitleSubTextColor = mTitleSubTextColor;
         return this;
     }
@@ -335,7 +337,7 @@ public class FastTitleConfigEntity {
      *
      * @param mRightTextColor {@link com.aries.ui.view.title.TitleBarView#setRightTextColor(int)}
      */
-    public FastTitleConfigEntity setRightTextColor(int mRightTextColor) {
+    public FastTitleConfigEntity setRightTextColor(@ColorInt int mRightTextColor) {
         this.mRightTextColor = mRightTextColor;
         return this;
     }
@@ -355,7 +357,7 @@ public class FastTitleConfigEntity {
      *
      * @param mActionTextColor {@link com.aries.ui.view.title.TitleBarView#setActionTextColor(int)}
      */
-    public FastTitleConfigEntity setActionTextColor(int mActionTextColor) {
+    public FastTitleConfigEntity setActionTextColor(@ColorInt int mActionTextColor) {
         this.mActionTextColor = mActionTextColor;
         return this;
     }
