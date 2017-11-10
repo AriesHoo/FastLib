@@ -1,4 +1,4 @@
-# FastLib-一个快速搭建静态页面UI效果的Android开发库
+# FastLib-一个快捷实现UI搭建及网络请求的Android开发库
 --------------------------
 
 [![fir.im](https://img.shields.io/badge/download-fir.im-blue.svg)](http://fir.im/hju8)
@@ -7,8 +7,6 @@
 [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/简书-AriesHoo-blue.svg)](http://www.jianshu.com/u/a229eee96115)
-<!-- [![GitHub stars](https://img.shields.io/github/stars/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/stargazers) -->
-<!-- [![GitHub forks](https://img.shields.io/github/forks/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/network) -->
 
 ## 简介：
 
@@ -24,13 +22,13 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 * Fragment 懒加载封装
 * 快速实现Activity滑动返回、下拉刷新加载更多、沉浸式等
 
-其它功能请在demo中发现
-
 **说明:**
 
 **1、V2.1.0版本及以后将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复**
 
 **2、V2.1.5版本及以后新增众多全局设置TitleBarView属性、Adapter加载动画、SmartRefreshLayout刷新配置、Glide加载占位Drawable属性等控制的FastCofig类用于全局设置应用通用属性并减少部分冗余代码及冗余drawable资源文件**
+
+其它功能请在demo中发现
 
 [[Sample PC Download]](https://github.com/AriesHoo/FastLib/blob/master/apk/sample.apk)
 
