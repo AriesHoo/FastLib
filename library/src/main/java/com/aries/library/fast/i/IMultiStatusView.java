@@ -1,5 +1,6 @@
 package com.aries.library.fast.i;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -10,11 +11,35 @@ import android.view.View;
  */
 public interface IMultiStatusView {
 
+    /**
+     * 加载中View
+     *
+     * @return
+     */
+    @NonNull
     View getLoadingView();
 
+    /**
+     * 空视图View
+     *
+     * @return
+     */
+    @NonNull
     View getEmptyView();
 
+    /**
+     * 错误提示View
+     *
+     * @return
+     */
+    @NonNull
     View getErrorView();
 
+    /**
+     * 无网络提示View
+     *
+     * @return
+     */
+    @NonNull
     View getNoNetView();
 }

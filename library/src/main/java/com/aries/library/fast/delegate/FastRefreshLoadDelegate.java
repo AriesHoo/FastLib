@@ -46,7 +46,7 @@ public class FastRefreshLoadDelegate<T> {
     private void initStatusView() {
         if (mStatusView != null) {
             IMultiStatusView iMultiStatusView = mIFastRefreshLoadView.getMultiStatusView() != null ? mIFastRefreshLoadView.getMultiStatusView() :
-                    mConfig.getDefaultMultiStatusView().createMultiStatusView(mStatusView);
+                    mConfig.getMultiStatusView().createMultiStatusView();
             mStatusView.setLoadingView(iMultiStatusView.getLoadingView());
             mStatusView.setEmptyView(iMultiStatusView.getEmptyView());
             mStatusView.setErrorView(iMultiStatusView.getErrorView());
@@ -95,7 +95,7 @@ public class FastRefreshLoadDelegate<T> {
             setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
             mAdapter.setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
                     ? mIFastRefreshLoadView.getLoadMoreView() :
-                    mConfig.getDefaultLoadMoreView().createDefaultLoadMoreView(mAdapter));
+                    mConfig.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter));
             if (mIFastRefreshLoadView.isItemClickEnable()) {
                 mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override

@@ -1,5 +1,7 @@
 package com.aries.library.fast.i;
 
+import android.support.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 
@@ -17,5 +19,6 @@ public interface LoadMoreFoot {
      * @param adapter
      * @return
      */
+    @Nullable
     LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter);
 }

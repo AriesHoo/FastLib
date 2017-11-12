@@ -3,10 +3,15 @@ package com.aries.library.fast;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
@@ -22,12 +27,13 @@ import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+
+import java.util.Arrays;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
 
@@ -42,7 +48,7 @@ public class FastConfig {
     private static volatile FastConfig sInstance;
     private static Context mContext;
 
-    public static FastConfig getInstance(Context context) {
+    public static FastConfig getInstance(@Nullable Context context) {
         LoggerManager.i("FastConfig", "FastConfig:" + context);
         if (sInstance == null) {
             synchronized (FastConfig.class) {
@@ -54,7 +60,7 @@ public class FastConfig {
         return sInstance;
     }
 
-    private FastConfig(Context context) {
+    private FastConfig(@Nullable Context context) {
         if (context == null) {
             throw new NullPointerException(FastConstant.EXCEPTION_FAST_CONFIG_CONTEXT_NOT_NULL);
         }
@@ -105,42 +111,25 @@ public class FastConfig {
                 });
             }
             if (FastUtil.isClassExist("com.chad.library.adapter.base.BaseQuickAdapter")) {
-                setDefaultLoadMoreView(new LoadMoreFoot() {
+                setLoadMoreFoot(new LoadMoreFoot() {
                     @Override
                     public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
-                        FastLoadMoreView.Builder builder = new FastLoadMoreView().getBuilder();
-                        return builder
-                                .setLoadTextColor(mContext.getResources().getColor(R.color.colorLoadMoreText))
-                                .setLoadTextSize(mContext.getResources().getDimensionPixelSize(R.dimen.dp_load_more_text_size))
-                                .setLoadingProgressColor(mContext.getResources().getColor(R.color.colorLoadMoreProgress))
-                                .setLoadingText(mContext.getText(R.string.fast_load_more_loading))
-                                .setLoadFailText(mContext.getText(R.string.fast_load_more_load_failed))
-                                .setLoadEndText(mContext.getText(R.string.fast_load_more_load_end)).build();
+                        return getLoadMoreViewBuilder().build();
                     }
                 });
             }
             if (FastUtil.isClassExist("com.marno.easystatelibrary.EasyStatusView")) {
-                setDefaultMultiStatusView(new MultiStatusView() {
+                setMultiStatusView(new MultiStatusView() {
                     @NonNull
                     @Override
-                    public IMultiStatusView createMultiStatusView(EasyStatusView easyStatusView) {
-                        return new FastMultiStatusView.Builder(mContext)
-                                .setTextColor(mContext.getResources().getColor(R.color.colorMultiText))
-                                .setTextSize(mContext.getResources().getDimensionPixelSize(R.dimen.dp_multi_text_size))
-                                .setLoadingProgressColor(mContext.getResources().getColor(R.color.colorMultiProgress))
-                                .setLoadingText(mContext.getText(R.string.fast_multi_loading))
-                                .setEmptyText(mContext.getText(R.string.fast_multi_empty))
-                                .setEmptyText(mContext.getText(R.string.fast_multi_error))
-                                .setNoNetText(mContext.getText(R.string.fast_multi_network))
-                                .setLoadingProgressColor(Color.MAGENTA)
-                                .setLoadingTextColor(Color.BLUE)
-                                .build();
+                    public IMultiStatusView createMultiStatusView() {
+                        return getMultiStatusViewBuilder().build();
                     }
                 });
             }
             setQuitConfig(new FastQuitConfigEntity()
                     .setQuitDelay(2000)
-                    .setQuitMessage(mContext.getString(R.string.fast_quit_app))
+                    .setQuitMessage(getText(R.string.fast_quit_app))
                     .setBackToTaskEnable(false)
                     .setSnackBarBackgroundColor(Color.argb(210, 0, 0, 0))
                     .setSnackBarEnable(false)
@@ -148,7 +137,7 @@ public class FastConfig {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             setContentViewBackgroundResource(-1);
             setSwipeBackEnable(false, null);
-            setPlaceholderColor(mContext.getResources().getColor(R.color.colorPlaceholder));
+            setPlaceholderColor(getColor(R.color.colorPlaceholder));
             setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius));
         }
     }
@@ -170,7 +159,8 @@ public class FastConfig {
     /**
      * Adapter加载更多View
      */
-    private LoadMoreFoot mDefaultLoadMoreView;
+    private LoadMoreFoot mLoadMoreFoot;
+    private FastLoadMoreView.Builder mLoadMoreViewBuilder;
     /**
      * SmartRefreshLayout默认刷新头
      */
@@ -178,7 +168,11 @@ public class FastConfig {
     /**
      * 多状态布局--加载中/空数据/错误/无网络
      */
-    private MultiStatusView mDefaultMultiStatusView;
+    private MultiStatusView mMultiStatusView;
+    /**
+     * 多状态布局builder
+     */
+    private FastMultiStatusView.Builder mMultiStatusViewBuilder;
 
     public FastTitleConfigEntity getTitleConfig() {
         return mTitleConfig;
@@ -233,6 +227,7 @@ public class FastConfig {
      * @param mRequestedOrientation 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
      *                              竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
      *                              横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+     *                              {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}}
      * @return
      */
     public FastConfig setRequestedOrientation(int mRequestedOrientation) {
@@ -259,21 +254,39 @@ public class FastConfig {
         if (application != null) {
             BGASwipeBackManager.getInstance().init(application);//初始化滑动返回关闭Activity功能
             // 导航栏处理--不设置会预留一块导航栏高度的空白
-//            BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
+            BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
         }
         return sInstance;
     }
 
 
-    public LoadMoreFoot getDefaultLoadMoreView() {
-        return mDefaultLoadMoreView;
+    public LoadMoreFoot getLoadMoreFoot() {
+        return mLoadMoreFoot;
     }
 
-    public FastConfig setDefaultLoadMoreView(LoadMoreFoot mDefaultLoadMoreView) {
-        if (mDefaultLoadMoreView != null) {
-            this.mDefaultLoadMoreView = mDefaultLoadMoreView;
+    public FastConfig setLoadMoreFoot(LoadMoreFoot mLoadMoreFoot) {
+        if (mLoadMoreFoot != null) {
+            this.mLoadMoreFoot = mLoadMoreFoot;
         }
         return this;
+    }
+
+    /**
+     * 获取默认配置加载更多脚布局Builder用于设置新的属性最终build 脚布局View
+     *
+     * @return
+     */
+    public FastLoadMoreView.Builder getLoadMoreViewBuilder() {
+        if (mLoadMoreViewBuilder == null) {
+            mLoadMoreViewBuilder = new FastLoadMoreView().getBuilder()
+                    .setLoadTextColor(getColor(R.color.colorLoadMoreText))
+                    .setLoadTextSize(getDimensionPixelSize(R.dimen.dp_load_more_text_size))
+                    .setLoadingProgressColor(getColor(R.color.colorLoadMoreProgress))
+                    .setLoadingText(getText(R.string.fast_load_more_loading))
+                    .setLoadFailText(getText(R.string.fast_load_more_load_failed))
+                    .setLoadEndText(getText(R.string.fast_load_more_load_end));
+        }
+        return mLoadMoreViewBuilder;
     }
 
     public DefaultRefreshHeaderCreater getDefaultRefreshHeader() {
@@ -291,21 +304,50 @@ public class FastConfig {
         return sInstance;
     }
 
-    public MultiStatusView getDefaultMultiStatusView() {
-        return mDefaultMultiStatusView;
+    public MultiStatusView getMultiStatusView() {
+        return mMultiStatusView;
     }
 
     /**
      * 设置多状态布局--加载中/空数据/错误/无网络
      *
-     * @param mDefaultMultiStatusView
+     * @param mMultiStatusView
      * @return
      */
-    public FastConfig setDefaultMultiStatusView(MultiStatusView mDefaultMultiStatusView) {
-        if (mDefaultMultiStatusView != null) {
-            this.mDefaultMultiStatusView = mDefaultMultiStatusView;
+    public FastConfig setMultiStatusView(MultiStatusView mMultiStatusView) {
+        if (mMultiStatusView != null) {
+            this.mMultiStatusView = mMultiStatusView;
         }
         return this;
+    }
+
+    /**
+     * 获取多状态布局默认设置Builder用于设置新的属性最终创建FastMultiStatusView
+     *
+     * @return
+     */
+    public FastMultiStatusView.Builder getMultiStatusViewBuilder() {
+        if (mMultiStatusViewBuilder == null) {
+            mMultiStatusViewBuilder = new FastMultiStatusView(mContext)
+                    .getBuilder()
+                    .setTextColor(getColor(R.color.colorMultiText))
+                    .setTextSize(getDimensionPixelSize(R.dimen.dp_multi_text_size))
+                    .setLoadingProgressColor(getColor(R.color.colorMultiProgress))
+                    .setLoadingTextColor(getColor(R.color.colorMultiProgress))
+                    .setLoadingText(getText(R.string.fast_multi_loading))
+                    .setEmptyText(getText(R.string.fast_multi_empty))
+                    .setErrorText(getText(R.string.fast_multi_error))
+                    .setNoNetText(getText(R.string.fast_multi_network))
+                    .setTextMargin(getDimensionPixelSize(R.dimen.dp_multi_margin))
+                    .setImageWidthHeight(getDimensionPixelSize(R.dimen.dp_multi_image_size))
+                    .setEmptyImageDrawable(FastUtil.getTintDrawable(
+                            getDrawable(R.drawable.fast_img_multi_empty), getColor(R.color.colorMultiText)))
+                    .setErrorImageDrawable(FastUtil.getTintDrawable(
+                            getDrawable(R.drawable.fast_img_multi_error), getColor(R.color.colorMultiText)))
+                    .setNoNetImageDrawable(FastUtil.getTintDrawable(
+                            getDrawable(R.drawable.fast_img_multi_network), getColor(R.color.colorMultiText)));
+        }
+        return mMultiStatusViewBuilder;
     }
 
     /**
@@ -330,5 +372,23 @@ public class FastConfig {
         return sInstance;
     }
 
+    private Resources getResources() {
+        return mContext.getResources();
+    }
 
+    private int getColor(@ColorInt int color) {
+        return getResources().getColor(color);
+    }
+
+    public int getDimensionPixelSize(@DrawableRes int dimen) {
+        return getResources().getDimensionPixelSize(dimen);
+    }
+
+    public CharSequence getText(@StringRes int id) {
+        return getResources().getText(id);
+    }
+
+    public Drawable getDrawable(@DrawableRes int res) {
+        return getResources().getDrawable(res);
+    }
 }

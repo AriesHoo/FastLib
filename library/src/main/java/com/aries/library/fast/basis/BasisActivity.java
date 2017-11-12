@@ -26,8 +26,9 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
  * Created: AriesHoo on 2017/7/19 15:37
+ * E-Mail: AriesHoo@126.com
  * Function: 所有Activity的基类
- * Desc:
+ * Description:
  */
 public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
 
@@ -97,8 +98,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
      * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
      * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
      * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
      *
-     * @return {@link ActivityInfo}
+     * @return
      */
     public int getOrientation() {
         return FastConfig.getInstance(this).getRequestedOrientation();

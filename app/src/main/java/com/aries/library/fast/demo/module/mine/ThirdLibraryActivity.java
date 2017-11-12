@@ -45,7 +45,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
 
     @Override
     public int getContentLayout() {
-        return R.layout.fast_layout_title_multi_status_refresh_recycler;
+        return R.layout.fast_layout_title_refresh_recycler;
     }
 
     @Override

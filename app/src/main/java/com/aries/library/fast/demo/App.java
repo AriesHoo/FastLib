@@ -2,23 +2,27 @@ package com.aries.library.fast.demo;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
+import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
+import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadMoreView;
+import com.aries.library.fast.widget.FastMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -61,14 +65,17 @@ public class App extends Application {
         //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"test"作为标记
         // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
 
-        //主页返回键是否退回桌面--程序后台
+        //主页返回键是否退回桌面(程序后台)
         boolean isBackTask = false;
         //全局配置参数
-        //推荐先获取library里默认标题栏TitleBarView配置再按需修改的模式 FastTitleConfigEntity
+        //全局标题栏TitleBarView设置--推荐先获取library里默认标题栏TitleBarView配置再按需修改的模式 FastTitleConfigEntity
         FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
-        //推荐先获取library里默认主页面点击返回键配置FastQuitConfigEntity配置再按需修改的模式 FastQuitConfigEntity
+        //全局主页面返回键操作设置--推荐先获取library里默认主页面点击返回键配置FastQuitConfigEntity配置再按需修改的模式 FastQuitConfigEntity
         FastQuitConfigEntity quitConfig = FastConfig.getInstance(mContext).getQuitConfig();
-        //推荐先获取library里默认主页面Tab参数配置FastTabConfigEntity配置再按需修改的模式 FastTabConfigEntity
+        //全局列表Adapter加载更多View相关设置--推荐先获取library里默认参数配置FastLoadMoreView.Builder按需set属性后最终build
+        FastLoadMoreView.Builder loadMoreViewBuilder = FastConfig.getInstance(mContext).getLoadMoreViewBuilder();
+        //全局列表多状态布局设置--推荐先获取library里默认多布局参数配置FastMultiStatusView.Builder再按需set属性后最终build
+        FastMultiStatusView.Builder multiStatusViewBuilder = FastConfig.getInstance(mContext).getMultiStatusViewBuilder();
         FastConfig.getInstance(mContext)
                 // 设置全局TitleBarView-其它属性请查看getInstance默认设置
                 .setTitleConfig(titleConfig
@@ -88,7 +95,7 @@ public class App extends Application {
                         //设置退回桌面是否有一次提示setBackToTaskEnable(true)才有意义
                         .setBackToTaskDelayEnable(isBackTask)
                         .setQuitDelay(2000)
-                        .setQuitMessage(isBackTask ? mContext.getString(R.string.fast_back_home) : mContext.getString(R.string.fast_quit_app))
+                        .setQuitMessage(isBackTask ? mContext.getText(R.string.fast_back_home) : mContext.getText(R.string.fast_quit_app))
                         .setSnackBarBackgroundColor(Color.argb(220, 0, 0, 0))
                         .setSnackBarEnable(false)
                         .setSnackBarMessageColor(Color.WHITE))
@@ -99,25 +106,21 @@ public class App extends Application {
                 //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
                 .setSwipeBackEnable(true, this)
                 //设置Activity横竖屏模式
-//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .setContentViewBackgroundResource(R.color.colorBackground)//设置Activity或Fragment根布局背景资源
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
-                .setDefaultLoadMoreView(new LoadMoreFoot() {
+                .setLoadMoreFoot(new LoadMoreFoot() {
+                    @Nullable
                     @Override
                     public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
                         if (adapter != null) {
                             //设置动画是否一直开启
                             adapter.isFirstOnly(false);
+                            //设置动画
                             adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
                         }
-                        //方式一:设置FastLoadMoreView--以下为FastConfig里默认配置
-                        return new FastLoadMoreView.Builder()
-                                .setLoadTextColor(mContext.getResources().getColor(R.color.colorLoadMoreText))
-                                .setLoadTextSize(mContext.getResources().getDimensionPixelSize(R.dimen.dp_load_more_text_size))
-                                .setLoadingProgressColor(mContext.getResources().getColor(R.color.colorLoadMoreProgress))
-                                .setLoadingText(mContext.getText(R.string.fast_load_more_loading))
-                                .setLoadFailText(mContext.getText(R.string.fast_load_more_load_failed))
-                                .setLoadEndText(mContext.getText(R.string.fast_load_more_load_end))
+                        //方式一:设置FastLoadMoreView--可参考FastLoadMoreView.Builder相应set方法
+                        return loadMoreViewBuilder
 //                                //设置Loading 颜色-5.0以上有效
 //                                .setLoadingProgressColor(Color.MAGENTA)
 //                                //设置Loading drawable--会是Loading颜色失效
@@ -142,12 +145,20 @@ public class App extends Application {
 //                        return MyLoadMoreView();
                     }
                 })
+                .setMultiStatusView(new MultiStatusView() {
+                    @NonNull
+                    @Override
+                    public IMultiStatusView createMultiStatusView() {
+                        //根据具体情况可设置更多属性具体请参考FastMultiStatusView.Builder里set方法
+                        return multiStatusViewBuilder
+                                .build();
+                    }
+                })
                 .setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {//设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
                     @NonNull
                     @Override
                     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
                         layout.setEnableHeaderTranslationContent(false);
-                        layout.setRefreshHeader(new DeliveryHeader(mContext));
                         return RefreshHeaderHelper.getInstance().getRefreshHeader(mContext);
                     }
                 });

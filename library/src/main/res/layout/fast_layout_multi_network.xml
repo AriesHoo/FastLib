@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_networkMulti"
-        android:layout_width="@dimen/dp_multi_img_height"
-        android:layout_height="@dimen/dp_multi_img_height"
+        android:layout_width="@dimen/dp_multi_image_size"
+        android:layout_height="@dimen/dp_multi_image_size"
         android:src="@drawable/fast_img_multi_network"/>
 
     <TextView
