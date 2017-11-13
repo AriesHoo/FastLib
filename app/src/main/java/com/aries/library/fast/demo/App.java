@@ -76,7 +76,7 @@ public class App extends Application {
                 // 设置全局TitleBarView-其它属性请查看getInstance默认设置
                 .setTitleConfig(titleConfig
                         //设置TitleBarView 所有TextView颜色
-                        .setTitleTextColor(mContext.getResources().getColor(R.color.colorTitleText))
+                        .setTitleTextColor(getResources().getColor(R.color.colorTitleText))
                         //设置TitleBarView背景资源
                         .setTitleBackgroundResource(R.color.colorTitleBackground)
                         //设置是否状态栏浅色模式(深色状态栏文字及图标)
@@ -91,12 +91,12 @@ public class App extends Application {
                         //设置退回桌面是否有一次提示setBackToTaskEnable(true)才有意义
                         .setBackToTaskDelayEnable(isBackTask)
                         .setQuitDelay(2000)
-                        .setQuitMessage(isBackTask ? mContext.getText(R.string.fast_back_home) : mContext.getText(R.string.fast_quit_app))
+                        .setQuitMessage(isBackTask ? getText(R.string.fast_back_home) : getText(R.string.fast_quit_app))
                         .setSnackBarBackgroundColor(Color.argb(220, 0, 0, 0))
                         .setSnackBarEnable(false)
                         .setSnackBarMessageColor(Color.WHITE))
                 //设置Glide背景色
-                .setPlaceholderColor(mContext.getResources().getColor(R.color.colorPlaceholder))
+                .setPlaceholderColor(getResources().getColor(R.color.colorPlaceholder))
                 //设置Glide圆角背景弧度
                 .setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius))
                 //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;

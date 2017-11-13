@@ -61,7 +61,7 @@
         <com.allen.library.SuperTextView
             android:id="@+id/stv_libraryMine"
             style="@style/SupperTextStyleItem"
-            app:sDividerLineType="none"
+            app:sDividerLineType="top"
             app:sLeftIconRes="@drawable/ic_github"
             app:sLeftTextString="@string/library_address"/>
 
