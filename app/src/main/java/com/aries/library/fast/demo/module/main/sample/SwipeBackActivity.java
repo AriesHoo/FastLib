@@ -26,6 +26,11 @@ public class SwipeBackActivity extends FastTitleActivity {
 
     private String title;
 
+    @Override
+    public int getContentBackground() {
+        return R.color.colorBackground;
+    }
+
     public static void start(Activity mActivity, String title) {
         Bundle bundle = new Bundle();
         bundle.putString("title", title);

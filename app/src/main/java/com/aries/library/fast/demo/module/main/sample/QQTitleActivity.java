@@ -15,6 +15,11 @@ import com.aries.ui.view.title.TitleBarView;
 public class QQTitleActivity extends FastTitleActivity {
 
     @Override
+    public int getContentBackground() {
+        return R.color.colorBackground;
+    }
+
+    @Override
     public boolean isLightStatusBarEnable() {
         return false;
     }

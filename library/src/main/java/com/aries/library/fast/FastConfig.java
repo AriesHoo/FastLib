@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
@@ -114,7 +113,7 @@ public class FastConfig {
                 setLoadMoreFoot(new LoadMoreFoot() {
                     @Override
                     public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
-                        return getLoadMoreViewBuilder().build();
+                        return new FastLoadMoreView(mContext).getBuilder().build();
                     }
                 });
             }
@@ -123,7 +122,7 @@ public class FastConfig {
                     @NonNull
                     @Override
                     public IMultiStatusView createMultiStatusView() {
-                        return getMultiStatusViewBuilder().build();
+                        return new FastMultiStatusView(mContext).getBuilder().build();
                     }
                 });
             }
@@ -160,7 +159,6 @@ public class FastConfig {
      * Adapter加载更多View
      */
     private LoadMoreFoot mLoadMoreFoot;
-    private FastLoadMoreView.Builder mLoadMoreViewBuilder;
     /**
      * SmartRefreshLayout默认刷新头
      */
@@ -169,10 +167,6 @@ public class FastConfig {
      * 多状态布局--加载中/空数据/错误/无网络
      */
     private MultiStatusView mMultiStatusView;
-    /**
-     * 多状态布局builder
-     */
-    private FastMultiStatusView.Builder mMultiStatusViewBuilder;
 
     public FastTitleConfigEntity getTitleConfig() {
         return mTitleConfig;
@@ -271,24 +265,6 @@ public class FastConfig {
         return this;
     }
 
-    /**
-     * 获取默认配置加载更多脚布局Builder用于设置新的属性最终build 脚布局View
-     *
-     * @return
-     */
-    public FastLoadMoreView.Builder getLoadMoreViewBuilder() {
-        if (mLoadMoreViewBuilder == null) {
-            mLoadMoreViewBuilder = new FastLoadMoreView().getBuilder()
-                    .setLoadTextColor(getColor(R.color.colorLoadMoreText))
-                    .setLoadTextSize(getDimensionPixelSize(R.dimen.dp_load_more_text_size))
-                    .setLoadingProgressColor(getColor(R.color.colorLoadMoreProgress))
-                    .setLoadingText(getText(R.string.fast_load_more_loading))
-                    .setLoadFailText(getText(R.string.fast_load_more_load_failed))
-                    .setLoadEndText(getText(R.string.fast_load_more_load_end));
-        }
-        return mLoadMoreViewBuilder;
-    }
-
     public DefaultRefreshHeaderCreater getDefaultRefreshHeader() {
         return mDefaultRefreshHeader;
     }
@@ -322,35 +298,6 @@ public class FastConfig {
     }
 
     /**
-     * 获取多状态布局默认设置Builder用于设置新的属性最终创建FastMultiStatusView
-     *
-     * @return
-     */
-    public FastMultiStatusView.Builder getMultiStatusViewBuilder() {
-        if (mMultiStatusViewBuilder == null) {
-            mMultiStatusViewBuilder = new FastMultiStatusView(mContext)
-                    .getBuilder()
-                    .setTextColor(getColor(R.color.colorMultiText))
-                    .setTextSize(getDimensionPixelSize(R.dimen.dp_multi_text_size))
-                    .setLoadingProgressColor(getColor(R.color.colorMultiProgress))
-                    .setLoadingTextColor(getColor(R.color.colorMultiProgress))
-                    .setLoadingText(getText(R.string.fast_multi_loading))
-                    .setEmptyText(getText(R.string.fast_multi_empty))
-                    .setErrorText(getText(R.string.fast_multi_error))
-                    .setNoNetText(getText(R.string.fast_multi_network))
-                    .setTextMargin(getDimensionPixelSize(R.dimen.dp_multi_margin))
-                    .setImageWidthHeight(getDimensionPixelSize(R.dimen.dp_multi_image_size))
-                    .setEmptyImageDrawable(FastUtil.getTintDrawable(
-                            getDrawable(R.drawable.fast_img_multi_empty), getColor(R.color.colorMultiText)))
-                    .setErrorImageDrawable(FastUtil.getTintDrawable(
-                            getDrawable(R.drawable.fast_img_multi_error), getColor(R.color.colorMultiText)))
-                    .setNoNetImageDrawable(FastUtil.getTintDrawable(
-                            getDrawable(R.drawable.fast_img_multi_network), getColor(R.color.colorMultiText)));
-        }
-        return mMultiStatusViewBuilder;
-    }
-
-    /**
      * 设置加载图片占位图颜色
      *
      * @param mPlaceholderColor
@@ -380,15 +327,8 @@ public class FastConfig {
         return getResources().getColor(color);
     }
 
-    public int getDimensionPixelSize(@DrawableRes int dimen) {
-        return getResources().getDimensionPixelSize(dimen);
-    }
-
-    public CharSequence getText(@StringRes int id) {
+    private CharSequence getText(@StringRes int id) {
         return getResources().getText(id);
     }
 
-    public Drawable getDrawable(@DrawableRes int res) {
-        return getResources().getDrawable(res);
-    }
 }

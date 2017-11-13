@@ -44,6 +44,7 @@
         <!-- 应用内浏览器 -->
         <activity
             android:name=".module.WebViewActivity"
+            android:screenOrientation="landscape"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"/>
         <!-- 滑动返回Activity-微信效果 -->

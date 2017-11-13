@@ -72,10 +72,6 @@ public class App extends Application {
         FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
         //全局主页面返回键操作设置--推荐先获取library里默认主页面点击返回键配置FastQuitConfigEntity配置再按需修改的模式 FastQuitConfigEntity
         FastQuitConfigEntity quitConfig = FastConfig.getInstance(mContext).getQuitConfig();
-        //全局列表Adapter加载更多View相关设置--推荐先获取library里默认参数配置FastLoadMoreView.Builder按需set属性后最终build
-        FastLoadMoreView.Builder loadMoreViewBuilder = FastConfig.getInstance(mContext).getLoadMoreViewBuilder();
-        //全局列表多状态布局设置--推荐先获取library里默认多布局参数配置FastMultiStatusView.Builder再按需set属性后最终build
-        FastMultiStatusView.Builder multiStatusViewBuilder = FastConfig.getInstance(mContext).getMultiStatusViewBuilder();
         FastConfig.getInstance(mContext)
                 // 设置全局TitleBarView-其它属性请查看getInstance默认设置
                 .setTitleConfig(titleConfig
@@ -107,7 +103,8 @@ public class App extends Application {
                 .setSwipeBackEnable(true, this)
                 //设置Activity横竖屏模式
                 .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                .setContentViewBackgroundResource(R.color.colorBackground)//设置Activity或Fragment根布局背景资源
+                //设置Activity或Fragment根布局背景资源
+//                .setContentViewBackgroundResource(R.color.colorBackground)
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
                 .setLoadMoreFoot(new LoadMoreFoot() {
                     @Nullable
@@ -120,10 +117,11 @@ public class App extends Application {
                             adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
                         }
                         //方式一:设置FastLoadMoreView--可参考FastLoadMoreView.Builder相应set方法
-                        return loadMoreViewBuilder
+                        //默认配置请参考FastLoadMoreView.Builder(mContext)里初始化
+                        return new FastLoadMoreView.Builder(mContext)
 //                                //设置Loading 颜色-5.0以上有效
 //                                .setLoadingProgressColor(Color.MAGENTA)
-//                                //设置Loading drawable--会是Loading颜色失效
+//                                //设置Loading drawable--会使Loading颜色失效
 //                                .setLoadingProgressDrawable(mContext.getResources().getDrawable(R.drawable.dialog_loading_wei_bo))
 //                                //设置全局TextView颜色
 //                                .setLoadTextColor(Color.MAGENTA)
@@ -145,16 +143,35 @@ public class App extends Application {
 //                        return MyLoadMoreView();
                     }
                 })
+                //设置RecyclerView加载过程多布局属性
                 .setMultiStatusView(new MultiStatusView() {
                     @NonNull
                     @Override
                     public IMultiStatusView createMultiStatusView() {
                         //根据具体情况可设置更多属性具体请参考FastMultiStatusView.Builder里set方法
-                        return multiStatusViewBuilder
+                        //默认设置请参考Builder(Context context)里初始化
+                        return new FastMultiStatusView.Builder(mContext)
+//                                .setTextColor(getResources().getColor(R.color.colorMultiText))
+//                                .setTextSize(getResources().getDimensionPixelSize(R.dimen.dp_multi_text_size))
+//                                .setLoadingProgressColor(getResources().getColor(R.color.colorMultiProgress))
+//                                .setLoadingTextColor(getResources().getColor(R.color.colorMultiProgress))
+//                                .setLoadingText(getText(R.string.fast_multi_loading))
+//                                .setEmptyText(getText(R.string.fast_multi_empty))
+//                                .setErrorText(getText(R.string.fast_multi_error))
+//                                .setNoNetText(getText(R.string.fast_multi_network))
+//                                .setTextMargin(getResources().getDimensionPixelSize(R.dimen.dp_multi_margin))
+//                                .setImageWidthHeight(getResources().getDimensionPixelSize(R.dimen.dp_multi_image_size))
+//                                .setEmptyImageDrawable(FastUtil.getTintDrawable(
+//                                        getResources().getDrawable(R.drawable.fast_img_multi_empty), getResources().getColor(R.color.colorMultiText)))
+//                                .setErrorImageDrawable(FastUtil.getTintDrawable(
+//                                        getResources().getDrawable(R.drawable.fast_img_multi_error), getResources().getColor(R.color.colorMultiText)))
+//                                .setNoNetImageDrawable(FastUtil.getTintDrawable(
+//                                        getResources().getDrawable(R.drawable.fast_img_multi_network), getResources().getColor(R.color.colorMultiText)))
                                 .build();
                     }
                 })
-                .setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {//设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
+                //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
+                .setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {
                     @NonNull
                     @Override
                     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {

@@ -47,12 +47,12 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        super.onCreate(savedInstanceState);
         LoggerManager.i(TAG, "getRequestedOrientation:" + (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
         if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
             setRequestedOrientation(getOrientation());
         }
+        super.onCreate(savedInstanceState);
         mContext = this;
         FastStackUtil.getInstance().push(this);
         initSwipeBack();
@@ -148,7 +148,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public void beforeInitView() {
-        if (getContentBackground() > -1) {
+        if (getContentBackground() > 0) {
             mContentView.setBackgroundResource(getContentBackground());
         }
     }

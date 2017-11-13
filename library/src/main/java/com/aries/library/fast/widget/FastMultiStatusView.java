@@ -2,13 +2,15 @@ package com.aries.library.fast.widget;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,7 @@ import android.widget.TextView;
 
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IMultiStatusView;
-import com.aries.library.fast.util.SizeUtil;
+import com.aries.library.fast.util.FastUtil;
 
 /**
  * Created: AriesHoo on 2017/11/10 13:28
@@ -84,7 +86,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         return noNetView();
     }
 
-    public FastMultiStatusView(Context context) {
+    public FastMultiStatusView(@Nullable Context context) {
         this(new Builder(context));
     }
 
@@ -215,10 +217,6 @@ public class FastMultiStatusView implements IMultiStatusView {
     }
 
     public static final class Builder {
-        private final int DEFAULT_TEXT_COLOR = Color.BLACK;
-        private final int DEFAULT_TEXT_SIZE = 14;
-        private final int DEFAULT_IMAGE_SIZE = 72;
-        private final int DEFAULT_TEXT_MARGIN = 12;
         Context mContext;
         CharSequence mLoadingText;
         @ColorInt
@@ -250,20 +248,27 @@ public class FastMultiStatusView implements IMultiStatusView {
         int mImageHeight;
         int mTextMargin;
 
-        public Builder(Context context) {
+        public Builder(@Nullable Context context) {
             mContext = context;
-            mLoadingTextColor = DEFAULT_TEXT_COLOR;
-            mEmptyTextColor = DEFAULT_TEXT_COLOR;
-            mErrorTextColor = DEFAULT_TEXT_COLOR;
-            mNoNetTextColor = DEFAULT_TEXT_COLOR;
-            mLoadingProgressColor = DEFAULT_TEXT_COLOR;
-            mLoadingTextSize = SizeUtil.dp2px(DEFAULT_TEXT_SIZE);
-            mEmptyTextSize = SizeUtil.dp2px(DEFAULT_TEXT_SIZE);
-            mErrorTextSize = SizeUtil.dp2px(DEFAULT_TEXT_SIZE);
-            mNoNetTextSize = SizeUtil.dp2px(DEFAULT_TEXT_SIZE);
-            mImageHeight = SizeUtil.dp2px(DEFAULT_IMAGE_SIZE);
-            mImageWidth = SizeUtil.dp2px(DEFAULT_IMAGE_SIZE);
-            mTextMargin = SizeUtil.dp2px(DEFAULT_TEXT_MARGIN);
+            mLoadingTextColor = getColor(R.color.colorMultiText);
+            mEmptyTextColor = getColor(R.color.colorMultiText);
+            mErrorTextColor = getColor(R.color.colorMultiText);
+            mNoNetTextColor = getColor(R.color.colorMultiText);
+            mLoadingProgressColor = getColor(R.color.colorMultiProgress);
+            mLoadingTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
+            mEmptyTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
+            mErrorTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
+            mNoNetTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
+            mLoadingText = getText(R.string.fast_multi_loading);
+            mEmptyText = getText(R.string.fast_multi_empty);
+            mErrorText = getText(R.string.fast_multi_error);
+            mNoNetText = getText(R.string.fast_multi_network);
+            mEmptyImageDrawable = FastUtil.getTintDrawable(getDrawable(R.drawable.fast_img_multi_empty), mEmptyTextColor);
+            mErrorImageDrawable = FastUtil.getTintDrawable(getDrawable(R.drawable.fast_img_multi_error), mErrorTextColor);
+            mNoNetImageDrawable = FastUtil.getTintDrawable(getDrawable(R.drawable.fast_img_multi_network), mNoNetTextColor);
+            mImageHeight = getDimensionPixelSize(R.dimen.dp_multi_image_size);
+            mImageWidth = getDimensionPixelSize(R.dimen.dp_multi_image_size);
+            mTextMargin = getDimensionPixelSize(R.dimen.dp_multi_margin);
         }
 
         public Builder(FastMultiStatusView fastMultiStatusView) {
@@ -548,6 +553,26 @@ public class FastMultiStatusView implements IMultiStatusView {
         public Builder setTextMargin(int textMargin) {
             this.mTextMargin = textMargin;
             return this;
+        }
+
+        private Resources getResources() {
+            return mContext.getResources();
+        }
+
+        private int getColor(@ColorInt int color) {
+            return getResources().getColor(color);
+        }
+
+        public int getDimensionPixelSize(@DrawableRes int dimen) {
+            return getResources().getDimensionPixelSize(dimen);
+        }
+
+        private CharSequence getText(@StringRes int id) {
+            return getResources().getText(id);
+        }
+
+        private Drawable getDrawable(@DrawableRes int res) {
+            return getResources().getDrawable(res);
         }
 
         public FastMultiStatusView build() {

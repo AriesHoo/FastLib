@@ -26,6 +26,11 @@ public class MainActivity extends FastMainActivity {
     }
 
     @Override
+    public int getContentBackground() {
+        return 0;
+    }
+
+    @Override
     public List<FastTabEntity> getTabList() {
         ArrayList<FastTabEntity> tabEntities = new ArrayList<>();
         tabEntities.add(new FastTabEntity(getString(R.string.home), R.drawable.ic_home_normal, R.drawable.ic_home_selected, HomeFragment.newInstance()));

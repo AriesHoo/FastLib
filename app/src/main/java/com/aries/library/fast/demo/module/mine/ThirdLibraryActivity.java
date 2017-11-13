@@ -34,6 +34,11 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
 
     @Override
+    public int getContentBackground() {
+        return R.color.colorBackground;
+    }
+
+    @Override
     public boolean isLoadMoreEnable() {
         return false;
     }
@@ -63,7 +68,6 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
     @Override
     public void loadData(int page) {
         mAdapter.openLoadAnimation(animationIndex);
-        mEasyStatusView.content();
         List<WidgetEntity> list = new ArrayList<>();
         String[] titles = getResources().getStringArray(R.array.arrays_library_list_title);
         String[] contents = getResources().getStringArray(R.array.arrays_library_list_content);
@@ -83,7 +87,6 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.finishLoadmore();
                         mAdapter.loadMoreComplete();
-                        mEasyStatusView.content();
                         if (mRefreshLayout.isRefreshing()) {
                             mAdapter.setNewData(entity);
                         } else {
@@ -101,7 +104,6 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.finishLoadmore();
                         mAdapter.loadMoreComplete();
-                        mEasyStatusView.content();
                         if (mRefreshLayout.isRefreshing()) {
                             mAdapter.setNewData(entity);
                         } else {

@@ -52,6 +52,11 @@ public class ActivityFragment extends FastTitleFragment {
     }
 
     @Override
+    public int getContentBackground() {
+        return 0;
+    }
+
+    @Override
     public void beforeSetContentView() {
         super.beforeSetContentView();
         LoggerManager.d(TAG, "refreshActivityTab:" + isSliding);
@@ -116,11 +121,6 @@ public class ActivityFragment extends FastTitleFragment {
         }
     }
 
-    @Override
-    public void loadData() {
-        super.loadData();
-    }
-
     private List<String> getTitles(int array) {
         return Arrays.asList(getResources().getStringArray(array));
     }
@@ -131,4 +131,5 @@ public class ActivityFragment extends FastTitleFragment {
         setTitleBar(mTitleBar);
         setTab();
     }
+
 }

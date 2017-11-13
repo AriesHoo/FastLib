@@ -80,7 +80,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     public void loadData() {
 
     }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();

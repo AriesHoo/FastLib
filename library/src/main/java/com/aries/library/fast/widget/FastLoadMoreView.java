@@ -1,17 +1,20 @@
 package com.aries.library.fast.widget;
 
 
+import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.TypedValue;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aries.library.fast.R;
-import com.aries.library.fast.util.SizeUtil;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 
@@ -25,6 +28,7 @@ public class FastLoadMoreView extends LoadMoreView {
 
     private boolean mIsInitView = false;
 
+    private Context mContext;
     private CharSequence mLoadingText;
     @ColorInt
     private int mLoadingTextColor;
@@ -42,12 +46,13 @@ public class FastLoadMoreView extends LoadMoreView {
     private int mLoadEndTextSize;
     private Builder mBuilder;
 
-    public FastLoadMoreView() {
-        this(new Builder());
+    public FastLoadMoreView(@Nullable Context context) {
+        this(new Builder(context));
     }
 
     FastLoadMoreView(Builder builder) {
-        mBuilder = builder;
+        this.mContext = builder.mContext;
+        this.mBuilder = builder;
         this.mLoadingText = builder.mLoadingText;
         this.mLoadingTextColor = builder.mLoadingTextColor;
         this.mLoadingTextSize = builder.mLoadingTextSize;
@@ -126,8 +131,8 @@ public class FastLoadMoreView extends LoadMoreView {
     }
 
     public static final class Builder {
-        private final int DEFAULT_TEXT_COLOR = Color.BLACK;
-        private final int DEFAULT_TEXT_SIZE = 14;
+
+        Context mContext;
         CharSequence mLoadingText;
         @ColorInt
         int mLoadingTextColor;
@@ -144,17 +149,22 @@ public class FastLoadMoreView extends LoadMoreView {
         int mLoadEndTextColor;
         int mLoadEndTextSize;
 
-        public Builder() {
-            mLoadingTextColor = DEFAULT_TEXT_COLOR;
-            mLoadFailTextColor = DEFAULT_TEXT_COLOR;
-            mLoadEndTextColor = DEFAULT_TEXT_COLOR;
-            mLoadingProgressColor = DEFAULT_TEXT_COLOR;
-            mLoadingTextSize = SizeUtil.dp2px(DEFAULT_TEXT_SIZE);
-            mLoadFailTextSize = SizeUtil.dp2px(DEFAULT_TEXT_SIZE);
-            mLoadEndTextSize = SizeUtil.dp2px(DEFAULT_TEXT_SIZE);
+        public Builder(@Nullable Context context) {
+            mContext = context;
+            mLoadingTextColor = getColor(R.color.colorLoadMoreText);
+            mLoadFailTextColor = getColor(R.color.colorLoadMoreText);
+            mLoadEndTextColor = getColor(R.color.colorLoadMoreText);
+            mLoadingProgressColor = getColor(R.color.colorLoadMoreProgress);
+            mLoadingTextSize = getDimensionPixelSize(R.dimen.dp_load_more_text_size);
+            mLoadFailTextSize = getDimensionPixelSize(R.dimen.dp_load_more_text_size);
+            mLoadEndTextSize = getDimensionPixelSize(R.dimen.dp_load_more_text_size);
+            mLoadingText = getText(R.string.fast_load_more_loading);
+            mLoadFailText = getText(R.string.fast_load_more_load_failed);
+            mLoadEndText = getText(R.string.fast_load_more_load_end);
         }
 
         public Builder(FastLoadMoreView fastLoadMoreView) {
+            this.mContext = fastLoadMoreView.mContext;
             this.mLoadingText = fastLoadMoreView.mLoadingText;
             this.mLoadingTextColor = fastLoadMoreView.mLoadingTextColor;
             this.mLoadingTextSize = fastLoadMoreView.mLoadingTextSize;
@@ -166,6 +176,7 @@ public class FastLoadMoreView extends LoadMoreView {
             this.mLoadEndText = fastLoadMoreView.mLoadEndText;
             this.mLoadEndTextColor = fastLoadMoreView.mLoadEndTextColor;
             this.mLoadEndTextSize = fastLoadMoreView.mLoadEndTextSize;
+
         }
 
         /**
@@ -313,6 +324,22 @@ public class FastLoadMoreView extends LoadMoreView {
         public Builder setLoadEndTextSize(int mLoadEndTextSize) {
             this.mLoadEndTextSize = mLoadEndTextSize;
             return this;
+        }
+
+        private Resources getResources() {
+            return mContext.getResources();
+        }
+
+        private int getColor(@ColorInt int color) {
+            return getResources().getColor(color);
+        }
+
+        public int getDimensionPixelSize(@DrawableRes int dimen) {
+            return getResources().getDimensionPixelSize(dimen);
+        }
+
+        private CharSequence getText(@StringRes int id) {
+            return getResources().getText(id);
         }
 
         public FastLoadMoreView build() {
