@@ -128,9 +128,9 @@ dependencies {
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
 
-![(https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
+![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
 
-开启GPU过度绘制检测+GPU呈现模式分析]
+开启GPU过度绘制检测+GPU呈现模式分析
 
 ## 鸣谢
 
