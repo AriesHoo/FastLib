@@ -1,6 +1,10 @@
 package com.aries.library.fast.retrofit;
 
 
+import android.app.Activity;
+import android.support.annotation.Nullable;
+
+import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.widget.FastLoadDialog;
 
 /**
@@ -12,6 +16,15 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
 
 
     private FastLoadDialog mDialog;
+
+    /**
+     * 用于全局配置
+     *
+     * @param activity
+     */
+    public FastLoadingObserver(@Nullable Activity activity) {
+        this(FastConfig.getInstance(activity).getLoadingDialog().createLoadingDialog(activity));
+    }
 
     public FastLoadingObserver(FastLoadDialog dialog) {
         this.mDialog = dialog;

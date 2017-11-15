@@ -14,7 +14,6 @@ import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
-import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -98,7 +97,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                     public void _onError(int errorRes, int errorCode, Throwable e) {
 
                     }
-                } : new FastLoadingObserver<List<WidgetEntity>>(new FastLoadDialog(mContext)) {
+                } : new FastLoadingObserver<List<WidgetEntity>>(mContext) {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
                         mRefreshLayout.finishRefresh();

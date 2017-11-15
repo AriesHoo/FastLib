@@ -71,7 +71,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     @Override
     public void beforeInitView() {
-        if (getContentBackground() > -1) {
+        if (getContentBackground() > 0) {
             mContentView.setBackgroundResource(getContentBackground());
         }
     }
@@ -80,7 +80,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     public void loadData() {
 
     }
-    
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

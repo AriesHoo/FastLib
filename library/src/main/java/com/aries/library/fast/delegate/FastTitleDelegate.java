@@ -58,7 +58,7 @@ public class FastTitleDelegate {
                         ? FastUtil.getTintDrawable(mContext.getResources().getDrawable(iTitleBarView.getLeftIcon()),
                         FastConfig.getInstance(mContext).getTitleConfig().getTitleTextColor())
                         : null)
-                .setBackgroundResource(titleConfig.getTitleBackgroundResource());
+                .setBgResource(titleConfig.getTitleBackgroundResource());
         //是否状态栏一直设置半透明效果--默认只是在状态栏白色背景黑色文字图标情况下设置
         if (titleConfig.isStatusAlwaysEnable()) {
             mTitleBar.setStatusAlpha(titleConfig.getStatusAlpha());

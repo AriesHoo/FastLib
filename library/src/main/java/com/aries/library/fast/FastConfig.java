@@ -1,26 +1,37 @@
 package com.aries.library.fast;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.view.View;
 
+import com.aries.library.fast.basis.BasisActivity;
+import com.aries.library.fast.basis.BasisFragment;
+import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
+import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
+import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
+import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.view.title.TitleBarView;
@@ -133,6 +144,14 @@ public class FastConfig {
                     .setSnackBarBackgroundColor(Color.argb(210, 0, 0, 0))
                     .setSnackBarEnable(false)
                     .setSnackBarMessageColor(Color.WHITE));
+            setLoadingDialog(new LoadingDialog() {
+                @Nullable
+                @Override
+                public FastLoadDialog createLoadingDialog(@Nullable Activity activity) {
+                    return new FastLoadDialog(activity)
+                            .setMessage(getText(R.string.fast_loading));
+                }
+            });
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             setContentViewBackgroundResource(-1);
             setSwipeBackEnable(false, null);
@@ -168,10 +187,22 @@ public class FastConfig {
      */
     private MultiStatusView mMultiStatusView;
 
+    /**
+     * 配置全局通用加载等待Loading提示框
+     */
+    private LoadingDialog mLoadingDialog;
+
     public FastTitleConfigEntity getTitleConfig() {
         return mTitleConfig;
     }
 
+    /**
+     * 设置全局TitleBarView相关属性
+     * 最终调用{@link FastTitleDelegate#FastTitleDelegate(View, Activity, IFastTitleView)}
+     *
+     * @param mTitleConfig
+     * @return
+     */
     public FastConfig setTitleConfig(FastTitleConfigEntity mTitleConfig) {
         if (mTitleConfig != null) {
             this.mTitleConfig = mTitleConfig;
@@ -185,6 +216,7 @@ public class FastConfig {
 
     /**
      * 设置Activity 点击返回键提示退出程序或返回桌面相关参数
+     * 最终调用{@link BasisActivity#quitApp()}
      *
      * @param mQuitConfig
      * @return
@@ -202,6 +234,7 @@ public class FastConfig {
 
     /**
      * 设置 Activity或Fragment根布局背景资源
+     * 最终调用{@link BasisActivity#beforeInitView()} {@link BasisFragment#beforeInitView()}
      *
      * @param contentViewBackgroundResource
      * @return
@@ -217,6 +250,7 @@ public class FastConfig {
 
     /**
      * 设置Activity屏幕方向
+     * 最终调用{@link BasisActivity#onCreate(Bundle)}
      *
      * @param mRequestedOrientation 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
      *                              竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -235,6 +269,7 @@ public class FastConfig {
 
     /**
      * 设置Activity 是否支持滑动返回功能
+     * 最终调用{@link BasisActivity#initSwipeBack()}
      *
      * @param swipeBackEnable
      * @param application     swipeBackEnable为true application必传
@@ -258,6 +293,13 @@ public class FastConfig {
         return mLoadMoreFoot;
     }
 
+    /**
+     * 设置Adapter统一加载更多相关脚布局
+     * 最终调用{@link FastRefreshLoadDelegate#initRecyclerView()}
+     *
+     * @param mLoadMoreFoot
+     * @return
+     */
     public FastConfig setLoadMoreFoot(LoadMoreFoot mLoadMoreFoot) {
         if (mLoadMoreFoot != null) {
             this.mLoadMoreFoot = mLoadMoreFoot;
@@ -271,6 +313,7 @@ public class FastConfig {
 
     /**
      * 设置SmartRefreshLayout 下拉刷新头
+     * 最终调用{@link FastRefreshLoadDelegate#initRefreshHeader()}
      *
      * @param mDefaultRefreshHeader
      * @return
@@ -286,6 +329,7 @@ public class FastConfig {
 
     /**
      * 设置多状态布局--加载中/空数据/错误/无网络
+     * 最终调用{@link FastRefreshLoadDelegate#initStatusView()}
      *
      * @param mMultiStatusView
      * @return
@@ -293,6 +337,24 @@ public class FastConfig {
     public FastConfig setMultiStatusView(MultiStatusView mMultiStatusView) {
         if (mMultiStatusView != null) {
             this.mMultiStatusView = mMultiStatusView;
+        }
+        return this;
+    }
+
+    public LoadingDialog getLoadingDialog() {
+        return mLoadingDialog;
+    }
+
+    /**
+     * 设置全局网络请求等待Loading提示框如登录等待loading
+     * 最终调用{@link FastLoadingObserver#FastLoadingObserver(Activity)}
+     *
+     * @param mLoadingDialog
+     * @return
+     */
+    public FastConfig setLoadingDialog(LoadingDialog mLoadingDialog) {
+        if (mLoadingDialog != null) {
+            this.mLoadingDialog = mLoadingDialog;
         }
         return this;
     }

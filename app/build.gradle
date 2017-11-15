@@ -14,8 +14,8 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 217
-        versionName "2.1.7-alpha"
+        versionCode 218
+        versionName "2.1.8-alpha"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
@@ -83,7 +83,7 @@ dependencies {
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不compile
     compile 'com.just.agentweb:agentweb:2.0.1'
     //常用UI控件(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView等),快速标题栏fast_layout_title_bar,继承FastTitleXXX类需要
-    compile 'com.github.AriesHoo:UIWidget:2.0.4'
+    compile 'com.github.AriesHoo:UIWidget:2.0.5'
     //下拉刷新库注意刷新头SmartRefreshHeader版本要对应
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载

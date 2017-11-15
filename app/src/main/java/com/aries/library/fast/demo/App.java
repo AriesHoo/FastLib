@@ -1,5 +1,6 @@
 package com.aries.library.fast.demo;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -14,13 +15,16 @@ import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
+import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
+import com.aries.ui.widget.progress.UIProgressView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -168,6 +172,24 @@ public class App extends Application {
 //                                .setNoNetImageDrawable(FastUtil.getTintDrawable(
 //                                        getResources().getDrawable(R.drawable.fast_img_multi_network), getResources().getColor(R.color.colorMultiText)))
                                 .build();
+                    }
+                })
+                //设置全局网络请求等待Loading提示框如登录等待loading
+                .setLoadingDialog(new LoadingDialog() {
+                    @Nullable
+                    @Override
+                    public FastLoadDialog createLoadingDialog(@Nullable Activity activity) {
+                        //第一种
+//                        return new FastLoadDialog(activity);
+                        //第二种 使用UIProgressView里的四种模式Loading效果
+                        return new FastLoadDialog(activity, UIProgressView.STYLE_WEI_BO)
+                                .setMessage("请求数据中,请稍候...");
+//                        ProgressDialog progressDialog = new ProgressDialog(activity);
+//                        progressDialog.setMessage("加载中...");
+//                        //第三种--系统ProgressDialog不过系统已标记为过时类不建议使用
+//                        return new FastLoadDialog(activity, progressDialog);
+//                        第四种--完全自定义Dialog形式
+//                        return new FastLoadDialog(activity, MyDialog);
                     }
                 })
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper

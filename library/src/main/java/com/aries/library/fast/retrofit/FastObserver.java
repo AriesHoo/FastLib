@@ -17,6 +17,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
+import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DefaultObserver;
 import retrofit2.HttpException;
 
@@ -80,7 +81,7 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
         _onNext(entity);
     }
 
-    public abstract void _onNext(T entity);
+    public abstract void _onNext(@NonNull T entity);
 
-    public abstract void _onError(int errorRes, int errorCode, Throwable e);
+    public abstract void _onError(int errorRes, int errorCode, @NonNull Throwable e);
 }
