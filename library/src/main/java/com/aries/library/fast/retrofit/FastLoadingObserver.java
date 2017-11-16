@@ -9,8 +9,10 @@ import com.aries.library.fast.widget.FastLoadDialog;
 
 /**
  * Created: AriesHoo on 2017/8/24 16:09
+ * E-Mail: AriesHoo@126.com
  * Function: 快速创建支持Loading的Retrofit观察者
- * Desc:
+ * Description:
+ * 1、2017-11-16 13:38:16 AriesHoo增加多种构造用于实现父类全局设置网络请求错误码
  */
 public abstract class FastLoadingObserver<T> extends FastObserver<T> {
 
@@ -26,8 +28,13 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
         this(FastConfig.getInstance(activity).getLoadingDialog().createLoadingDialog(activity));
     }
 
-    public FastLoadingObserver(FastLoadDialog dialog) {
+    public FastLoadingObserver(FastLoadDialog dialog, Object[] args) {
+        super(dialog.getDialog() != null ? dialog.getDialog().getContext() : null, args);
         this.mDialog = dialog;
+    }
+
+    public FastLoadingObserver(FastLoadDialog dialog) {
+        this(dialog, null);
     }
 
     @Override

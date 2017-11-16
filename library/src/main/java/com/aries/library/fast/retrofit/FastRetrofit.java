@@ -22,10 +22,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created: AriesHoo on 2017/8/18 16:56
- * Function: retrofit封装
- * Desc:
+ * E-Mail: AriesHoo@126.com
+ * Function:retrofit封装
+ * Description:
+ * 1、2017-11-16 12:48:31 AriesHoo 修改读、写、链接超时时间均为readTimeout的BUG会造成超时设置无效BUG
+ * 2、修改初始化FastMultiUrl类的位置到createService以免超时控制不到问题
  */
-
 public class FastRetrofit {
 
     private static volatile FastRetrofit sManager;
@@ -37,13 +39,11 @@ public class FastRetrofit {
     private HttpLoggingInterceptor mLoggingInterceptor;
 
     private FastRetrofit() {
-
         sClientBuilder = new OkHttpClient.Builder();
         sRetrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         setTimeout(mDelayTime);
-        FastMultiUrl.getInstance().with(sClientBuilder);
     }
 
     public static FastRetrofit getInstance() {
@@ -62,6 +62,7 @@ public class FastRetrofit {
         if (sRetrofit == null) {
             sRetrofit = sRetrofitBuilder.build();
         }
+        FastMultiUrl.getInstance().with(sClientBuilder);
         return sRetrofit.create(apiService);
     }
 
@@ -168,7 +169,7 @@ public class FastRetrofit {
      * @return
      */
     public FastRetrofit setWriteTimeout(long second, TimeUnit unit) {
-        sClientBuilder.readTimeout(second, unit);
+        sClientBuilder.writeTimeout(second, unit);
         return this;
     }
 
@@ -184,7 +185,7 @@ public class FastRetrofit {
      * @return
      */
     public FastRetrofit setConnectTimeout(long second, TimeUnit unit) {
-        sClientBuilder.readTimeout(second, unit);
+        sClientBuilder.connectTimeout(second, unit);
         return this;
     }
 

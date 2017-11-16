@@ -2,6 +2,7 @@ package com.aries.library.fast.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created: AriesHoo on 2017/8/1 15:01
@@ -31,6 +32,10 @@ public class TimeFormatUtil {
      * @return
      */
     public static String formatTime(long time, String format) {
+        return formatTime(new Date(time), format);
+    }
+
+    public static String formatTime(Date time, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(time);
     }

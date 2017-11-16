@@ -13,6 +13,7 @@ import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
+import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
@@ -27,6 +28,7 @@ import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.widget.progress.UIProgressView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -58,7 +60,7 @@ public class App extends Application {
                 //.setHeaders(header)//设置统一请求头
                 .setLogEnable(BuildConfig.DEBUG)//设置请求全局log-可设置tag及Level类型
                 //.setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BASIC)
-                .setTimeout(30);//设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
+                .setTimeout(20);//设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
 
         //以下为配置多BaseUrl
         //step1
@@ -176,6 +178,10 @@ public class App extends Application {
                 })
                 //设置全局网络请求等待Loading提示框如登录等待loading
                 .setLoadingDialog(new LoadingDialog() {
+                    /**
+                     * @param activity 可根据Activity不同设置不同属性
+                     * @return
+                     */
                     @Nullable
                     @Override
                     public FastLoadDialog createLoadingDialog(@Nullable Activity activity) {
@@ -190,6 +196,22 @@ public class App extends Application {
 //                        return new FastLoadDialog(activity, progressDialog);
 //                        第四种--完全自定义Dialog形式
 //                        return new FastLoadDialog(activity, MyDialog);
+                    }
+                })
+                //设置Retrofit全局异常处理-观察者必须为FastObserver及其子类
+                .setHttpErrorControl(new HttpErrorControl() {
+                    @Override
+                    public boolean createHttpErrorControl(int errorRes, int errorCode, @io.reactivex.annotations.NonNull Throwable e, Context context, Object... args) {
+                        LoggerManager.d("args:" + args + ";context:" + context.getClass().getSimpleName());
+                        if (args != null) {//可以将具体调用界面部分视图传递到全局控制
+                            if (args[0] instanceof EasyStatusView) {
+                                LoggerManager.d("args:" + args[0]);
+                                ((EasyStatusView) args[0]).error();
+                            }
+                            LoggerManager.d("args:" + args[1]);
+                        }
+                        //返回值true则FastObserver不会回调_onError所有逻辑处理都在全局位置处理
+                        return false;
                     }
                 })
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper

@@ -14,8 +14,8 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 218
-        versionName "2.1.8-alpha"
+        versionCode 219
+        versionName "2.1.9-alpha"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
@@ -89,5 +89,7 @@ dependencies {
     //图片加载
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    //以上库library里使用provided只是编译使用时需根据项目选择相应版本
+
 
 }

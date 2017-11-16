@@ -4,13 +4,12 @@ import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.constant.MovieConstant;
 import com.aries.library.fast.demo.retrofit.service.ApiService;
 import com.aries.library.fast.retrofit.FastRetrofit;
+import com.aries.library.fast.retrofit.FastTransformer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
-
-import static com.aries.library.fast.retrofit.FastTransformer.switchSchedulers;
 
 
 /**
@@ -22,8 +21,10 @@ import static com.aries.library.fast.retrofit.FastTransformer.switchSchedulers;
 public class ApiRepository extends BaseRepository {
 
     private static volatile ApiRepository instance;
+    private ApiService mApiService;
 
     private ApiRepository() {
+        mApiService = getApiService();
     }
 
     public static ApiRepository getInstance() {
@@ -52,7 +53,7 @@ public class ApiRepository extends BaseRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("count", count);
-        return switchSchedulers(getApiService().getTopMovie(params));
+        return FastTransformer.switchSchedulers(mApiService.getTopMovie(params));
     }
 
     /**
@@ -66,7 +67,7 @@ public class ApiRepository extends BaseRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("count", count);
-        return switchSchedulers(getApiService().getInTheatersMovie(params));
+        return FastTransformer.switchSchedulers(getApiService().getInTheatersMovie(params));
     }
 
     /**
@@ -80,7 +81,7 @@ public class ApiRepository extends BaseRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("count", count);
-        return switchSchedulers(getApiService().getComingSoonMovie(params));
+        return FastTransformer.switchSchedulers(getApiService().getComingSoonMovie(params));
     }
 
     public Observable<BaseMovieEntity> getBaseMovie(int type, int start, int count) {

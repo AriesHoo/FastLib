@@ -3,7 +3,9 @@ package com.aries.library.fast.retrofit;
 import android.accounts.AccountsException;
 import android.accounts.NetworkErrorException;
 import android.app.Activity;
+import android.content.Context;
 
+import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.NetworkUtil;
@@ -23,10 +25,27 @@ import retrofit2.HttpException;
 
 /**
  * Created: AriesHoo on 2017/8/24 9:56
- * Function:Retrofit快速观察者
- * Desc:
+ * E-Mail: AriesHoo@126.com
+ * Function: Retrofit快速观察者
+ * Description: 1、2017-11-16 11:35:12 AriesHoo增加返回错误码全局控制
  */
 public abstract class FastObserver<T> extends DefaultObserver<T> {
+
+    private Object[] mArgs;
+    private Context mContext;
+
+    public FastObserver() {
+        this(null);
+    }
+
+    public FastObserver(Context context) {
+        this(context, null);
+    }
+
+    public FastObserver(Context context, Object[] args) {
+        this.mArgs = args;
+        this.mContext = context;
+    }
 
     @Override
     public void onComplete() {
@@ -73,6 +92,11 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
                 code = FastError.EXCEPTION_CLASS_CAST;
             }
         }
+        if (mContext != null && FastConfig.getInstance(mContext).
+                getHttpErrorControl().
+                createHttpErrorControl(reason, code, e,mContext, mArgs)) {
+            return;
+        }
         _onError(reason, code, e);
     }
 
@@ -83,5 +107,6 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     public abstract void _onNext(@NonNull T entity);
 
-    public abstract void _onError(int errorRes, int errorCode, @NonNull Throwable e);
+    public void _onError(int errorRes, int errorCode, @NonNull Throwable e) {
+    }
 }

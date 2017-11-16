@@ -127,7 +127,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getBaseMovie(mType, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
-                .subscribe(new FastObserver<BaseMovieEntity>() {
+                .subscribe(new FastObserver<BaseMovieEntity>(this.getContext(), new Object[]{mEasyStatusView,this}) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
                         mRefreshLayout.finishRefresh();
@@ -145,6 +145,9 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                             mAdapter.setNewData(null);
                         mAdapter.openLoadAnimation();
                         mAdapter.addData(entity.subjects);
+                        if (entity.count < DEFAULT_PAGE_SIZE) {
+                            mAdapter.loadMoreEnd();
+                        }
                         LoggerManager.d("ApiRepository", "title:" + entity.title + ";start:" + entity.start + ";count:" + entity.count + ";total:" + entity.total);
                         if (!entity.hasMore()) {
                             mAdapter.loadMoreEnd(page == 0);
@@ -153,6 +156,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
                     @Override
                     public void _onError(int errorRes, int errorCode, Throwable e) {
+                        super._onError(errorRes, errorCode, e);
                         mRefreshLayout.finishRefresh();
                         mAdapter.loadMoreComplete();
                         LoggerManager.e("error:" + getString(errorRes) + ";errorCode:" + errorCode + ";Throwable:" + e.getMessage());

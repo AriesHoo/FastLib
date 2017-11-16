@@ -103,6 +103,10 @@ public class FastLoadDialog {
         return this;
     }
 
+    public Dialog getDialog() {
+        return mDialog;
+    }
+
     public void show() {
         mActivity = mReference.get();
         if (mActivity != null && mDialog != null && !mActivity.isFinishing()) {

@@ -21,6 +21,7 @@ import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
+import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
@@ -29,6 +30,7 @@ import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
@@ -152,6 +154,12 @@ public class FastConfig {
                             .setMessage(getText(R.string.fast_loading));
                 }
             });
+            setHttpErrorControl(new HttpErrorControl() {
+                @Override
+                public boolean createHttpErrorControl(int errorRes, int errorCode, @NonNull Throwable e, Context con, Object[] args) {
+                    return false;
+                }
+            });
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             setContentViewBackgroundResource(-1);
             setSwipeBackEnable(false, null);
@@ -191,6 +199,11 @@ public class FastConfig {
      * 配置全局通用加载等待Loading提示框
      */
     private LoadingDialog mLoadingDialog;
+
+    /**
+     * 配置全局Http请求返回错误码处理
+     */
+    private HttpErrorControl mHttpErrorControl;
 
     public FastTitleConfigEntity getTitleConfig() {
         return mTitleConfig;
@@ -355,6 +368,24 @@ public class FastConfig {
     public FastConfig setLoadingDialog(LoadingDialog mLoadingDialog) {
         if (mLoadingDialog != null) {
             this.mLoadingDialog = mLoadingDialog;
+        }
+        return this;
+    }
+
+    public HttpErrorControl getHttpErrorControl() {
+        return mHttpErrorControl;
+    }
+
+    /**
+     * 全局设置Retrofit网络请求返回错误码提示
+     * 最终调用{@link FastObserver#onError(Throwable)}
+     *
+     * @param mHttpErrorControl 观察者必须为FastObserver及其子类
+     * @return
+     */
+    public FastConfig setHttpErrorControl(HttpErrorControl mHttpErrorControl) {
+        if (mHttpErrorControl != null) {
+            this.mHttpErrorControl = mHttpErrorControl;
         }
         return this;
     }
