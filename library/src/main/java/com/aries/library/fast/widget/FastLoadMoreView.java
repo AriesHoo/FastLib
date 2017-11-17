@@ -26,7 +26,7 @@ import com.chad.library.adapter.base.loadmore.LoadMoreView;
  */
 public class FastLoadMoreView extends LoadMoreView {
 
-    private boolean mIsInitView = false;
+    private BaseViewHolder mHolder;
 
     private Context mContext;
     private CharSequence mLoadingText;
@@ -89,9 +89,10 @@ public class FastLoadMoreView extends LoadMoreView {
     @Override
     public void convert(BaseViewHolder holder) {
         super.convert(holder);
-        if (!mIsInitView) {
+        if (holder != mHolder) {
             initView(holder);
         }
+        mHolder = holder;
     }
 
     private void initView(BaseViewHolder holder) {
@@ -119,7 +120,6 @@ public class FastLoadMoreView extends LoadMoreView {
             mLoadingProgressDrawable.setBounds(pbLoading.getIndeterminateDrawable().getBounds());
             pbLoading.setIndeterminateDrawable(mLoadingProgressDrawable);
         }
-        mIsInitView = true;
     }
 
 

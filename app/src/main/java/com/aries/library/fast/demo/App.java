@@ -127,6 +127,7 @@ public class App extends Application {
                         //方式一:设置FastLoadMoreView--可参考FastLoadMoreView.Builder相应set方法
                         //默认配置请参考FastLoadMoreView.Builder(mContext)里初始化
                         return new FastLoadMoreView.Builder(mContext)
+                                .setLoadTextColor(Color.MAGENTA)
 //                                //设置Loading 颜色-5.0以上有效
 //                                .setLoadingProgressColor(Color.MAGENTA)
 //                                //设置Loading drawable--会使Loading颜色失效

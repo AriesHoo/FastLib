@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 219
-        versionName "2.1.9-beta"
+        versionName "2.1.9-gamma"
     }
     buildTypes {
         release {
