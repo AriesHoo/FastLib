@@ -42,6 +42,7 @@ public class FastMultiUrl {
     private final List<OnUrlChangedListener> mListeners = new ArrayList<>();
     private FastUrlParser mUrlParser;
     private static volatile FastMultiUrl instance;
+    private OkHttpClient.Builder builder;
 
     public interface OnUrlChangedListener {
         /**
@@ -108,6 +109,7 @@ public class FastMultiUrl {
      * @return
      */
     public OkHttpClient.Builder with(OkHttpClient.Builder builder) {
+        this.builder = builder;
         return builder
                 .addInterceptor(mInterceptor);
     }
@@ -131,7 +133,7 @@ public class FastMultiUrl {
         }
         if (null != httpUrl) {
             HttpUrl newUrl = mUrlParser.parseUrl(httpUrl, request.url());
-            LoggerManager.d(FastMultiUrl.TAG, "New Url is { " + newUrl.toString() + " },Old Url is { " + request.url().toString() + " }");
+            LoggerManager.i(FastMultiUrl.TAG, "New Url is { " + newUrl.toString() + " },Old Url is { " + request.url().toString() + " }");
             Object[] listeners = listenersToArray();
             if (listeners != null) {
                 for (int i = 0; i < listeners.length; i++) {

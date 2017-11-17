@@ -35,7 +35,7 @@ public class FastRetrofit {
     private static volatile Retrofit.Builder sRetrofitBuilder;
     private static OkHttpClient.Builder sClientBuilder;
     private static OkHttpClient sClient;
-    private long mDelayTime = 10;
+    private long mDelayTime = 20;
     private HttpLoggingInterceptor mLoggingInterceptor;
 
     private FastRetrofit() {
@@ -44,6 +44,7 @@ public class FastRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         setTimeout(mDelayTime);
+        FastMultiUrl.getInstance().with(sClientBuilder);
     }
 
     public static FastRetrofit getInstance() {
@@ -57,13 +58,38 @@ public class FastRetrofit {
         return sManager;
     }
 
-    public <T> T createService(Class<T> apiService) {
-        setHttpClient(sClientBuilder.build());
+    /**
+     * 对外暴露 OkHttpClient,方便自定义
+     *
+     * @return
+     */
+    public static OkHttpClient.Builder getOkHttpClientBuilder() {
+        return getInstance().sClientBuilder;
+    }
+
+    public static OkHttpClient getOkHttpClient() {
+        return getOkHttpClientBuilder().build();
+    }
+
+    /**
+     * 对外暴露 Retrofit,方便自定义
+     *
+     * @return
+     */
+    public static Retrofit.Builder getRetrofitBuilder() {
+        sRetrofitBuilder.client(getOkHttpClient());
+        return getInstance().sRetrofitBuilder;
+    }
+
+    public static Retrofit getRetrofit() {
         if (sRetrofit == null) {
-            sRetrofit = sRetrofitBuilder.build();
+            sRetrofit = getRetrofitBuilder().build();
         }
-        FastMultiUrl.getInstance().with(sClientBuilder);
-        return sRetrofit.create(apiService);
+        return sRetrofit;
+    }
+
+    public <T> T createService(Class<T> apiService) {
+        return getRetrofit().create(apiService);
     }
 
     /**
@@ -79,11 +105,15 @@ public class FastRetrofit {
     }
 
     /**
-     * 设置自定义OkHttpClient
+     * 设置自定义OkHttpClient--2.1.9-beta版本后废弃可调用
+     * 可以调用以下方法实现自定义
+     * {@link #getOkHttpClient()}{@link #getOkHttpClientBuilder()}
+     * {@link #getRetrofitBuilder()}{@link #getRetrofit()}
      *
      * @param okClient
      * @return
      */
+    @Deprecated
     public FastRetrofit setHttpClient(OkHttpClient okClient) {
         if (okClient != null && sClient != okClient) {
             sClient = okClient;

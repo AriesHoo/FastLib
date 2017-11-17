@@ -6,7 +6,6 @@ import android.support.annotation.DrawableRes;
 import android.view.View;
 
 import com.aries.library.fast.i.IFastTitleView;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 
 /**
@@ -134,7 +133,6 @@ public class FastTitleConfigEntity {
      * @return
      */
     public FastTitleConfigEntity setTitleElevation(float mTitleElevation) {
-        LoggerManager.i("mTitleElevation:"+mTitleElevation);
         this.mTitleElevation = mTitleElevation;
         return this;
     }

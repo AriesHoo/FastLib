@@ -60,7 +60,9 @@ public class App extends Application {
                 //.setHeaders(header)//设置统一请求头
                 .setLogEnable(BuildConfig.DEBUG)//设置请求全局log-可设置tag及Level类型
                 //.setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BASIC)
-                .setTimeout(20);//设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
+                //设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
+                //默认20 s
+                .setTimeout(20);
 
         //以下为配置多BaseUrl
         //step1

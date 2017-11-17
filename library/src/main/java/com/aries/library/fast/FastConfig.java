@@ -76,10 +76,8 @@ public class FastConfig {
         if (context == null) {
             throw new NullPointerException(FastConstant.EXCEPTION_FAST_CONFIG_CONTEXT_NOT_NULL);
         }
-        LoggerManager.i("FastConfig:" + context);
         if (context != null) {
             this.mContext = context.getApplicationContext();
-            LoggerManager.i("FastConfig:" + mContext + ";isApplication:" + (mContext instanceof Application));
             if (FastUtil.isClassExist("com.aries.ui.view.title.TitleBarView")) {
                 setTitleConfig(new FastTitleConfigEntity()
                         .setTitleBackgroundResource(R.color.colorTitleBackground)

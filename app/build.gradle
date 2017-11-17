@@ -15,7 +15,7 @@ android {
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
         versionCode 219
-        versionName "2.1.9-alpha"
+        versionName "2.1.9-beta"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
