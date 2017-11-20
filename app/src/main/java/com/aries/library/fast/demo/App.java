@@ -127,11 +127,11 @@ public class App extends Application {
                         //方式一:设置FastLoadMoreView--可参考FastLoadMoreView.Builder相应set方法
                         //默认配置请参考FastLoadMoreView.Builder(mContext)里初始化
                         return new FastLoadMoreView.Builder(mContext)
-                                .setLoadTextColor(Color.MAGENTA)
+//                                .setLoadTextColor(Color.MAGENTA)
 //                                //设置Loading 颜色-5.0以上有效
 //                                .setLoadingProgressColor(Color.MAGENTA)
 //                                //设置Loading drawable--会使Loading颜色失效
-//                                .setLoadingProgressDrawable(mContext.getResources().getDrawable(R.drawable.dialog_loading_wei_bo))
+//                                .setLoadingProgressDrawable(R.drawable.dialog_loading_wei_bo)
 //                                //设置全局TextView颜色
 //                                .setLoadTextColor(Color.MAGENTA)
 //                                //设置全局TextView文字字号
@@ -160,22 +160,25 @@ public class App extends Application {
                         //根据具体情况可设置更多属性具体请参考FastMultiStatusView.Builder里set方法
                         //默认设置请参考Builder(Context context)里初始化
                         return new FastMultiStatusView.Builder(mContext)
-//                                .setTextColor(getResources().getColor(R.color.colorMultiText))
+//                                .setTextColor(Color.MAGENTA)
+//                                .setTextColorResource(R.color.colorMultiText)
+//                                .setTextSizeResource(R.dimen.dp_multi_text_size)
 //                                .setTextSize(getResources().getDimensionPixelSize(R.dimen.dp_multi_text_size))
+//                                .setLoadingProgressColorResource(R.color.colorMultiProgress)
 //                                .setLoadingProgressColor(getResources().getColor(R.color.colorMultiProgress))
 //                                .setLoadingTextColor(getResources().getColor(R.color.colorMultiProgress))
-//                                .setLoadingText(getText(R.string.fast_multi_loading))
-//                                .setEmptyText(getText(R.string.fast_multi_empty))
-//                                .setErrorText(getText(R.string.fast_multi_error))
-//                                .setNoNetText(getText(R.string.fast_multi_network))
-//                                .setTextMargin(getResources().getDimensionPixelSize(R.dimen.dp_multi_margin))
-//                                .setImageWidthHeight(getResources().getDimensionPixelSize(R.dimen.dp_multi_image_size))
-//                                .setEmptyImageDrawable(FastUtil.getTintDrawable(
-//                                        getResources().getDrawable(R.drawable.fast_img_multi_empty), getResources().getColor(R.color.colorMultiText)))
-//                                .setErrorImageDrawable(FastUtil.getTintDrawable(
-//                                        getResources().getDrawable(R.drawable.fast_img_multi_error), getResources().getColor(R.color.colorMultiText)))
-//                                .setNoNetImageDrawable(FastUtil.getTintDrawable(
-//                                        getResources().getDrawable(R.drawable.fast_img_multi_network), getResources().getColor(R.color.colorMultiText)))
+//                                .setLoadingText(R.string.fast_multi_loading)
+//                                .setEmptyText(R.string.fast_multi_empty)
+//                                .setErrorText(R.string.fast_multi_error)
+//                                .setNoNetText(R.string.fast_multi_network)
+//                                .setTextMarginResource(R.dimen.dp_multi_margin)
+//                                .setImageWidthHeightResource(R.dimen.dp_multi_image_size)
+//                                .setEmptyImageColorResource(R.color.colorTitleText)
+//                                .setEmptyImageDrawable(R.drawable.fast_img_multi_empty)
+//                                .setErrorImageColorResource(R.color.colorTitleText)
+//                                .setErrorImageDrawable(R.drawable.fast_img_multi_error)
+//                                .setNoNetImageColorResource(R.color.colorTitleText)
+//                                .setNoNetImageDrawable(R.drawable.fast_img_multi_network)
                                 .build();
                     }
                 })

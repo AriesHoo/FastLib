@@ -127,7 +127,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getBaseMovie(mType, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
-                .subscribe(new FastObserver<BaseMovieEntity>(this.getContext(), new Object[]{mEasyStatusView,this}) {
+                .subscribe(new FastObserver<BaseMovieEntity>(this.getContext(), new Object[]{mEasyStatusView, this}) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
                         mRefreshLayout.finishRefresh();

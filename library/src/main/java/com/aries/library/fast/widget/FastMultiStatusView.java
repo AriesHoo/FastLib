@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -56,6 +58,7 @@ public class FastMultiStatusView implements IMultiStatusView {
     private int mNoNetTextSize;
     private Drawable mNoNetImageDrawable;
 
+    private int mLoadingSize;
     private int mImageWidth;
     private int mImageHeight;
     private int mTextMargin;
@@ -110,6 +113,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         mEmptyImageDrawable = builder.mEmptyImageDrawable;
         mErrorImageDrawable = builder.mErrorImageDrawable;
         mNoNetImageDrawable = builder.mNoNetImageDrawable;
+        mLoadingSize = builder.mLoadingSize;
         mImageHeight = builder.mImageHeight;
         mImageWidth = builder.mImageWidth;
         mTextMargin = builder.mTextMargin;
@@ -121,6 +125,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         setText(contentView, R.id.tv_loadingMulti, mLoadingText)
                 .setTextColor(contentView, R.id.tv_loadingMulti, mLoadingTextColor)
                 .setTextSize(contentView, R.id.tv_loadingMulti, mLoadingTextSize)
+                .setViewWidthAndHeight(contentView, R.id.pb_loadingMulti, mLoadingSize, mLoadingSize)
                 .setViewMarginTop(contentView, R.id.tv_loadingMulti, mTextMargin);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pbLoading.setIndeterminateTintList(ColorStateList.valueOf(mLoadingProgressColor));
@@ -138,7 +143,7 @@ public class FastMultiStatusView implements IMultiStatusView {
                 .setTextColor(contentView, R.id.tv_emptyMulti, mEmptyTextColor)
                 .setTextSize(contentView, R.id.tv_emptyMulti, mEmptyTextSize)
                 .setViewMarginTop(contentView, R.id.tv_emptyMulti, mTextMargin)
-                .setViewWidthAndHeight(contentView, R.id.tv_emptyMulti, mImageWidth, mImageHeight)
+                .setViewWidthAndHeight(contentView, R.id.iv_emptyMulti, mImageWidth, mImageHeight)
                 .setImageDrawable(contentView, R.id.iv_emptyMulti, mEmptyImageDrawable);
         return contentView;
     }
@@ -149,7 +154,7 @@ public class FastMultiStatusView implements IMultiStatusView {
                 .setTextColor(contentView, R.id.tv_errorMulti, mErrorTextColor)
                 .setTextSize(contentView, R.id.tv_errorMulti, mErrorTextSize)
                 .setViewMarginTop(contentView, R.id.tv_errorMulti, mTextMargin)
-                .setViewWidthAndHeight(contentView, R.id.tv_errorMulti, mImageWidth, mImageHeight)
+                .setViewWidthAndHeight(contentView, R.id.iv_errorMulti, mImageWidth, mImageHeight)
                 .setImageDrawable(contentView, R.id.iv_errorMulti, mErrorImageDrawable);
         return contentView;
     }
@@ -160,7 +165,7 @@ public class FastMultiStatusView implements IMultiStatusView {
                 .setTextColor(contentView, R.id.tv_networkMulti, mNoNetTextColor)
                 .setTextSize(contentView, R.id.tv_networkMulti, mNoNetTextSize)
                 .setViewMarginTop(contentView, R.id.tv_networkMulti, mTextMargin)
-                .setViewWidthAndHeight(contentView, R.id.tv_networkMulti, mImageWidth, mImageHeight)
+                .setViewWidthAndHeight(contentView, R.id.iv_networkMulti, mImageWidth, mImageHeight)
                 .setImageDrawable(contentView, R.id.iv_networkMulti, mNoNetImageDrawable);
         return contentView;
     }
@@ -230,45 +235,43 @@ public class FastMultiStatusView implements IMultiStatusView {
         @ColorInt
         int mEmptyTextColor;
         int mEmptyTextSize;
+        int mEmptyImageColor;
         Drawable mEmptyImageDrawable;
 
         CharSequence mErrorText;
         @ColorInt
         int mErrorTextColor;
         int mErrorTextSize;
+        int mErrorImageColor;
         Drawable mErrorImageDrawable;
 
         CharSequence mNoNetText;
         @ColorInt
         int mNoNetTextColor;
         int mNoNetTextSize;
+        int mNoNetImageColor;
         Drawable mNoNetImageDrawable;
 
+        int mLoadingSize;
         int mImageWidth;
         int mImageHeight;
         int mTextMargin;
 
         public Builder(@Nullable Context context) {
             mContext = context;
-            mLoadingTextColor = getColor(R.color.colorMultiText);
-            mEmptyTextColor = getColor(R.color.colorMultiText);
-            mErrorTextColor = getColor(R.color.colorMultiText);
-            mNoNetTextColor = getColor(R.color.colorMultiText);
-            mLoadingProgressColor = getColor(R.color.colorMultiProgress);
-            mLoadingTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
-            mEmptyTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
-            mErrorTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
-            mNoNetTextSize = getDimensionPixelSize(R.dimen.dp_multi_text_size);
-            mLoadingText = getText(R.string.fast_multi_loading);
-            mEmptyText = getText(R.string.fast_multi_empty);
-            mErrorText = getText(R.string.fast_multi_error);
-            mNoNetText = getText(R.string.fast_multi_network);
-            mEmptyImageDrawable = FastUtil.getTintDrawable(getDrawable(R.drawable.fast_img_multi_empty), mEmptyTextColor);
-            mErrorImageDrawable = FastUtil.getTintDrawable(getDrawable(R.drawable.fast_img_multi_error), mErrorTextColor);
-            mNoNetImageDrawable = FastUtil.getTintDrawable(getDrawable(R.drawable.fast_img_multi_network), mNoNetTextColor);
-            mImageHeight = getDimensionPixelSize(R.dimen.dp_multi_image_size);
-            mImageWidth = getDimensionPixelSize(R.dimen.dp_multi_image_size);
-            mTextMargin = getDimensionPixelSize(R.dimen.dp_multi_margin);
+            setTextColorResource(R.color.colorMultiText);
+            setTextSizeResource(R.dimen.dp_multi_text_size);
+            setLoadingProgressColorResource(R.color.colorMultiProgress);
+            setLoadingText(R.string.fast_multi_loading);
+            setEmptyText(R.string.fast_multi_empty);
+            setErrorText(R.string.fast_multi_error);
+            setNoNetText(R.string.fast_multi_network);
+            setEmptyImageDrawable(R.drawable.fast_img_multi_empty);
+            setErrorImageDrawable(R.drawable.fast_img_multi_error);
+            setNoNetImageDrawable(R.drawable.fast_img_multi_network);
+            setLoadingSizeResource(R.dimen.dp_multi_loading_size);
+            setImageWidthHeightResource(R.dimen.dp_multi_image_size);
+            setTextMarginResource(R.dimen.dp_multi_margin);
         }
 
         public Builder(FastMultiStatusView fastMultiStatusView) {
@@ -290,9 +293,14 @@ public class FastMultiStatusView implements IMultiStatusView {
             mEmptyImageDrawable = fastMultiStatusView.mEmptyImageDrawable;
             mErrorImageDrawable = fastMultiStatusView.mErrorImageDrawable;
             mNoNetImageDrawable = fastMultiStatusView.mNoNetImageDrawable;
+            mLoadingSize = fastMultiStatusView.mLoadingSize;
             mImageHeight = fastMultiStatusView.mImageHeight;
             mImageWidth = fastMultiStatusView.mImageWidth;
             mTextMargin = fastMultiStatusView.mTextMargin;
+        }
+
+        public Builder setTextColorResource(@ColorRes int mTextColorRes) {
+            return setTextColor(getColor(mTextColorRes));
         }
 
         /**
@@ -309,6 +317,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setTextSizeResource(@DimenRes int mTextSizeRes) {
+            return setTextSize(getDimensionPixelSize(mTextSizeRes));
+        }
+
         /**
          * 设置所有TextView文本尺寸
          *
@@ -323,6 +335,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setLoadingText(@StringRes int mLoadingText) {
+            return setLoadingText(getText(mLoadingText));
+        }
+
         /**
          * 设置加载中文本
          *
@@ -334,15 +350,23 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setLoadingTextColorResource(@ColorRes int mLoadingTextColorRes) {
+            return setLoadingTextColor(getColor(mLoadingTextColorRes));
+        }
+
         /**
-         * 设置加载中文本颜色
+         * 设置加载中文本颜色--默认设置会同步设置ProgressBar颜色注意调用顺序
          *
          * @param mLoadingTextColor
          * @return
          */
         public Builder setLoadingTextColor(int mLoadingTextColor) {
             this.mLoadingTextColor = mLoadingTextColor;
-            return this;
+            return setLoadingProgressColor(mLoadingTextColor);
+        }
+
+        public Builder setLoadingTextSizeResource(@DimenRes int mLoadingTextSizeRes) {
+            return setLoadingTextSize(getDimensionPixelSize(mLoadingTextSizeRes));
         }
 
         /**
@@ -356,15 +380,24 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setLoadingProgressColorResource(@ColorRes int mLoadingProgressColorRes) {
+            return setLoadingProgressColor(getColor(mLoadingProgressColorRes));
+        }
+
         /**
-         * 设置加载中loading颜色--5.0有效
+         * 设置加载中loading颜色--5.0有效--
+         * 调用{@link #setLoadingTextColor(int)}会同步设置Loading颜色注意调用顺序
          *
          * @param mLoadingProgressColor
          * @return
          */
-        public Builder setLoadingProgressColor(int mLoadingProgressColor) {
+        public Builder setLoadingProgressColor(@ColorInt int mLoadingProgressColor) {
             this.mLoadingProgressColor = mLoadingProgressColor;
             return this;
+        }
+
+        public Builder setLoadingProgressDrawable(@DrawableRes int mLoadingProgressDrawable) {
+            return setLoadingProgressDrawable(getDrawable(mLoadingProgressDrawable));
         }
 
         /**
@@ -378,6 +411,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setEmptyText(@StringRes int mEmptyText) {
+            return setEmptyText(getText(mEmptyText));
+        }
+
         /**
          * 设置空布局文字
          *
@@ -389,6 +426,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setEmptyTextColorResource(@ColorRes int mEmptyTextColor) {
+            return setEmptyTextColor(getColor(mEmptyTextColor));
+        }
+
         /**
          * 设置空布局文本颜色
          *
@@ -397,7 +438,11 @@ public class FastMultiStatusView implements IMultiStatusView {
          */
         public Builder setEmptyTextColor(int mEmptyTextColor) {
             this.mEmptyTextColor = mEmptyTextColor;
-            return this;
+            return setEmptyImageColor(mEmptyTextColor);
+        }
+
+        public Builder setEmptyTextSizeResource(@DimenRes int mEmptyTextSizeRes) {
+            return setEmptyTextSize(getDimensionPixelSize(mEmptyTextSizeRes));
         }
 
         /**
@@ -412,14 +457,45 @@ public class FastMultiStatusView implements IMultiStatusView {
         }
 
         /**
+         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * {@link #setEmptyTextColor(int)}顺序及{@link #setEmptyImageDrawable(Drawable)}顺序
+         *
+         * @param mEmptyImageColorRes
+         * @return
+         */
+        public Builder setEmptyImageColorResource(@ColorInt int mEmptyImageColorRes) {
+            return setEmptyImageColor(getColor(mEmptyImageColorRes));
+        }
+
+        /**
+         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * {@link #setEmptyTextColor(int)}顺序及{@link #setEmptyImageDrawable(Drawable)}顺序
+         *
+         * @param mEmptyImageColor
+         * @return
+         */
+        public Builder setEmptyImageColor(@ColorInt int mEmptyImageColor) {
+            this.mEmptyImageColor = mEmptyImageColor;
+            return setEmptyImageDrawable(mEmptyImageDrawable);
+        }
+
+        public Builder setEmptyImageDrawable(@DrawableRes int mEmptyImageDrawableRes) {
+            return setEmptyImageDrawable(getDrawable(mEmptyImageDrawableRes));
+        }
+
+        /**
          * 设置空布局Image 背景
          *
          * @param mEmptyImageDrawable
          * @return
          */
         public Builder setEmptyImageDrawable(Drawable mEmptyImageDrawable) {
-            this.mEmptyImageDrawable = mEmptyImageDrawable;
+            this.mEmptyImageDrawable = FastUtil.getTintDrawable(mEmptyImageDrawable, mEmptyImageColor);
             return this;
+        }
+
+        public Builder setErrorText(@StringRes int mErrorText) {
+            return setErrorText(getText(mErrorText));
         }
 
         /**
@@ -433,6 +509,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setErrorTextColorResource(@ColorRes int mErrorTextColorRes) {
+            return setErrorTextColor(getColor(mErrorTextColorRes));
+        }
+
         /**
          * 设置加载错误文本颜色
          *
@@ -441,7 +521,11 @@ public class FastMultiStatusView implements IMultiStatusView {
          */
         public Builder setErrorTextColor(int mErrorTextColor) {
             this.mErrorTextColor = mErrorTextColor;
-            return this;
+            return setErrorImageColor(mErrorTextColor);
+        }
+
+        public Builder setErrorTextSizeResource(@DimenRes int mErrorTextSizeRes) {
+            return setErrorTextSize(getDimensionPixelSize(mErrorTextSizeRes));
         }
 
         /**
@@ -456,14 +540,45 @@ public class FastMultiStatusView implements IMultiStatusView {
         }
 
         /**
+         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * {@link #setErrorTextColor(int)}顺序及{@link #setErrorImageDrawable(Drawable)}顺序
+         *
+         * @param mErrorImageColorRes
+         * @return
+         */
+        public Builder setErrorImageColorResource(@ColorInt int mErrorImageColorRes) {
+            return setErrorImageColor(getColor(mErrorImageColorRes));
+        }
+
+        /**
+         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * {@link #setErrorTextColor(int)}顺序及{@link #setErrorImageDrawable(Drawable)}顺序
+         *
+         * @param mErrorImageColor
+         * @return
+         */
+        public Builder setErrorImageColor(@ColorInt int mErrorImageColor) {
+            this.mErrorImageColor = mErrorImageColor;
+            return setErrorImageDrawable(mErrorImageDrawable);
+        }
+
+        public Builder setErrorImageDrawable(@DrawableRes int mErrorImageDrawable) {
+            return setErrorImageDrawable(getDrawable(mErrorImageDrawable));
+        }
+
+        /**
          * 设置错误布局Image 背景
          *
          * @param mErrorImageDrawable
          * @return
          */
         public Builder setErrorImageDrawable(Drawable mErrorImageDrawable) {
-            this.mErrorImageDrawable = mErrorImageDrawable;
+            this.mErrorImageDrawable = FastUtil.getTintDrawable(mErrorImageDrawable, mErrorImageColor);
             return this;
+        }
+
+        public Builder setNoNetText(@StringRes int mNoNetText) {
+            return setNoNetText(getText(mNoNetText));
         }
 
         /**
@@ -477,6 +592,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setNoNetTextColorResource(@ColorRes int mNoNetTextColorRes) {
+            return setNoNetTextColor(getColor(mNoNetTextColorRes));
+        }
+
         /**
          * 设置网络错误文本颜色
          *
@@ -485,7 +604,11 @@ public class FastMultiStatusView implements IMultiStatusView {
          */
         public Builder setNoNetTextColor(int mNoNetTextColor) {
             this.mNoNetTextColor = mNoNetTextColor;
-            return this;
+            return setNoNetImageColor(mNoNetTextColor);
+        }
+
+        public Builder setNoNetTextSizeResource(@DimenRes int mNoNetTextSizeRes) {
+            return setNoNetTextSize(getDimensionPixelSize(mNoNetTextSizeRes));
         }
 
         /**
@@ -500,14 +623,66 @@ public class FastMultiStatusView implements IMultiStatusView {
         }
 
         /**
+         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * {@link #setNoNetTextColor(int)}顺序及{@link #setNoNetImageDrawable(Drawable)}顺序
+         *
+         * @param mNoNetImageColorRes
+         * @return
+         */
+        public Builder setNoNetImageColorResource(@ColorInt int mNoNetImageColorRes) {
+            return setNoNetImageColor(getColor(mNoNetImageColorRes));
+        }
+
+        /**
+         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * {@link #setNoNetTextColor(int)}顺序及{@link #setNoNetImageDrawable(Drawable)}顺序
+         *
+         * @param mNoNetImageColor
+         * @return
+         */
+        public Builder setNoNetImageColor(@ColorInt int mNoNetImageColor) {
+            this.mNoNetImageColor = mNoNetImageColor;
+            return setNoNetImageDrawable(mNoNetImageDrawable);
+        }
+
+        public Builder setNoNetImageDrawable(@DrawableRes int mNoNetImageDrawable) {
+            return setNoNetImageDrawable(getDrawable(mNoNetImageDrawable));
+        }
+
+        /**
          * 设置无网络Image 背景
          *
          * @param mNoNetImageDrawable
          * @return
          */
         public Builder setNoNetImageDrawable(Drawable mNoNetImageDrawable) {
-            this.mNoNetImageDrawable = mNoNetImageDrawable;
+            this.mNoNetImageDrawable = FastUtil.getTintDrawable(mNoNetImageDrawable, mNoNetImageColor);
             return this;
+        }
+
+        /**
+         * 设置ProgressBar 大小
+         *
+         * @param loadingSizeRes
+         * @return
+         */
+        public Builder setLoadingSizeResource(@DimenRes int loadingSizeRes) {
+            return setLoadingSize(getDimensionPixelSize(loadingSizeRes));
+        }
+
+        /**
+         * 设置ProgressBar 大小
+         *
+         * @param loadingSize
+         * @return
+         */
+        public Builder setLoadingSize(int loadingSize) {
+            this.mLoadingSize = loadingSize;
+            return this;
+        }
+
+        public Builder setImageWidthHeightResource(@DimenRes int imageWidthHeightRes) {
+            return setImageWidthHeight(getDimensionPixelSize(imageWidthHeightRes));
         }
 
         /**
@@ -522,6 +697,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setImageWidthResource(@DimenRes int imageWidthRes) {
+            return setImageWidth(getDimensionPixelSize(imageWidthRes));
+        }
+
         /**
          * 设置提示图片宽度
          *
@@ -533,6 +712,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        public Builder setImageHeightResource(@DimenRes int imageHeightRes) {
+            return setImageHeight(getDimensionPixelSize(imageHeightRes));
+        }
+
         /**
          * 设置提示图片高度
          *
@@ -542,6 +725,10 @@ public class FastMultiStatusView implements IMultiStatusView {
         public Builder setImageHeight(int imageHeight) {
             this.mImageHeight = imageHeight;
             return this;
+        }
+
+        public Builder setTextMarginResource(@DimenRes int textMarginRes) {
+            return setTextMargin(getDimensionPixelSize(textMarginRes));
         }
 
         /**
@@ -563,7 +750,7 @@ public class FastMultiStatusView implements IMultiStatusView {
             return getResources().getColor(color);
         }
 
-        public int getDimensionPixelSize(@DrawableRes int dimen) {
+        public int getDimensionPixelSize(@DimenRes int dimen) {
             return getResources().getDimensionPixelSize(dimen);
         }
 

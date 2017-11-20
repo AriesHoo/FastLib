@@ -58,7 +58,9 @@ public class FastUtil {
      * @return
      */
     public static Drawable getTintDrawable(Drawable drawable, @ColorInt int color) {
-        DrawableCompat.setTint(drawable, color);
+        if (drawable != null) {
+            DrawableCompat.setTint(drawable, color);
+        }
         return drawable;
     }
 

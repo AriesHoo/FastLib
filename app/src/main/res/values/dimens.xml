@@ -5,7 +5,7 @@
 
     <dimen name="dp_margin_item">10dp</dimen>
     <dimen name="dp_elevation">4dp</dimen>
-    <dimen name="dp_radius">3dp</dimen>
+    <dimen name="dp_radius">2dp</dimen>
 
     <!--以下属性为lib设置默认属性，在app设置同名属性可覆盖lib效果-->
 

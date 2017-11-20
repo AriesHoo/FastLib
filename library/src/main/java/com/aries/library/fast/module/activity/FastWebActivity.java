@@ -63,7 +63,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
      * @return
      */
     protected int getProgressHeight() {
-        return SizeUtil.dp2px(1);
+        return SizeUtil.dp2px(0.6f);
     }
 
     @Override

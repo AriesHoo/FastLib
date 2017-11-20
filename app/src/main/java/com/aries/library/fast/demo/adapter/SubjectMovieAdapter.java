@@ -32,7 +32,7 @@ public class SubjectMovieAdapter extends BaseQuickAdapter<SubjectsEntity, BaseVi
                 .setText(R.id.tv_yearMovie, "年份:" + item.year)
                 .setText(R.id.tv_directorMovie, "导演:" + item.getDirectors())
                 .setText(R.id.tv_castMovie, "主演:" + item.getCasts());
-        GlideManager.loadImg(item.images.large, helper.getView(R.id.iv_coverMovie));
+        GlideManager.loadRoundImg(item.images.large, helper.getView(R.id.iv_coverMovie),2);
         LabelView labelView = helper.getView(R.id.lv_topMovie);
         labelView.setText("Top" + (helper.getLayoutPosition() + 1));
         labelView.setVisibility(isShowTop ? View.VISIBLE : View.GONE);

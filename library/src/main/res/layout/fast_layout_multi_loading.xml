@@ -10,8 +10,8 @@
 
     <ProgressBar
         android:id="@+id/pb_loadingMulti"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_multi_loading_size"
+        android:layout_height="@dimen/dp_multi_loading_size"
         android:indeterminateTint="@color/colorMultiProgress"
         android:indeterminateTintMode="src_atop"/>
 

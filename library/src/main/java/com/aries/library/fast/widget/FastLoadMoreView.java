@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -151,16 +153,13 @@ public class FastLoadMoreView extends LoadMoreView {
 
         public Builder(@Nullable Context context) {
             mContext = context;
-            mLoadingTextColor = getColor(R.color.colorLoadMoreText);
-            mLoadFailTextColor = getColor(R.color.colorLoadMoreText);
-            mLoadEndTextColor = getColor(R.color.colorLoadMoreText);
-            mLoadingProgressColor = getColor(R.color.colorLoadMoreProgress);
-            mLoadingTextSize = getDimensionPixelSize(R.dimen.dp_load_more_text_size);
-            mLoadFailTextSize = getDimensionPixelSize(R.dimen.dp_load_more_text_size);
-            mLoadEndTextSize = getDimensionPixelSize(R.dimen.dp_load_more_text_size);
-            mLoadingText = getText(R.string.fast_load_more_loading);
-            mLoadFailText = getText(R.string.fast_load_more_load_failed);
-            mLoadEndText = getText(R.string.fast_load_more_load_end);
+            setLoadTextColorResource(R.color.colorLoadMoreText);
+            setLoadTextSizeResource(R.dimen.dp_load_more_text_size);
+            setLoadingProgressColorResource(R.color.colorLoadMoreProgress);
+
+            setLoadingText(R.string.fast_load_more_loading);
+            setLoadFailText(R.string.fast_load_more_load_failed);
+            setLoadEndText(R.string.fast_load_more_load_end);
         }
 
         public Builder(FastLoadMoreView fastLoadMoreView) {
@@ -180,6 +179,16 @@ public class FastLoadMoreView extends LoadMoreView {
         }
 
         /**
+         * 设置所有TextView颜色资源
+         *
+         * @param mLoadTextColorRes
+         * @return
+         */
+        public Builder setLoadTextColorResource(@ColorRes int mLoadTextColorRes) {
+            return setLoadTextColor(getColor(mLoadTextColorRes));
+        }
+
+        /**
          * 设置所有TextView 文本颜色
          *
          * @param mLoadTextColor
@@ -190,6 +199,16 @@ public class FastLoadMoreView extends LoadMoreView {
             setLoadFailTextColor(mLoadTextColor);
             setLoadEndTextColor(mLoadTextColor);
             return this;
+        }
+
+        /**
+         * 设置所有TextView 文本尺寸资源
+         *
+         * @param mLoadTextSizeRes
+         * @return
+         */
+        public Builder setLoadTextSizeResource(@DimenRes int mLoadTextSizeRes) {
+            return setLoadTextSize(getDimensionPixelSize(mLoadTextSizeRes));
         }
 
         /**
@@ -206,6 +225,16 @@ public class FastLoadMoreView extends LoadMoreView {
         }
 
         /**
+         * 设置加载中文本资源
+         *
+         * @param mLoadingText
+         * @return
+         */
+        public Builder setLoadingText(@StringRes int mLoadingText) {
+            return setLoadingText(getText(mLoadingText));
+        }
+
+        /**
          * 设置加载中文本
          *
          * @param mLoadingText
@@ -217,14 +246,29 @@ public class FastLoadMoreView extends LoadMoreView {
         }
 
         /**
-         * 设置加载中文本颜色
+         * 设置加载中文本颜色资源
+         *
+         * @param mLoadingTextColorRes
+         * @return
+         */
+        public Builder setLoadingTextColorResource(@ColorRes int mLoadingTextColorRes) {
+            return setLoadingTextColor(getColor(mLoadingTextColorRes));
+        }
+
+        /**
+         * 设置加载中文本颜色--同步设置 ProgressBar颜色
+         * {@link #setLoadingProgressColor(int)} 注意调用顺序
          *
          * @param mLoadingTextColor
          * @return
          */
         public Builder setLoadingTextColor(@ColorInt int mLoadingTextColor) {
             this.mLoadingTextColor = mLoadingTextColor;
-            return this;
+            return setLoadingProgressColor(mLoadingTextColor);
+        }
+
+        public Builder setLoadingTextSizeResource(@DimenRes int mLoadingTextSizeRes) {
+            return setLoadingTextSize(getDimensionPixelSize(mLoadingTextSizeRes));
         }
 
         /**
@@ -239,6 +283,16 @@ public class FastLoadMoreView extends LoadMoreView {
         }
 
         /**
+         * 设置加载ProgressBar颜色资源
+         *
+         * @param mLoadingProgressColorRes
+         * @return
+         */
+        public Builder setLoadingProgressColorResource(@ColorRes int mLoadingProgressColorRes) {
+            return setLoadingProgressColor(getColor(mLoadingProgressColorRes));
+        }
+
+        /**
          * 设置加载ProgressBar颜色--5.0及以上支持
          *
          * @param mLoadingProgressColor
@@ -247,6 +301,10 @@ public class FastLoadMoreView extends LoadMoreView {
         public Builder setLoadingProgressColor(@ColorInt int mLoadingProgressColor) {
             this.mLoadingProgressColor = mLoadingProgressColor;
             return this;
+        }
+
+        public Builder setLoadingProgressDrawable(@DrawableRes int mLoadingProgressDrawable) {
+            return setLoadingProgressDrawable(getResources().getDrawable(mLoadingProgressDrawable));
         }
 
         /**
@@ -258,6 +316,10 @@ public class FastLoadMoreView extends LoadMoreView {
         public Builder setLoadingProgressDrawable(Drawable mLoadingProgressDrawable) {
             this.mLoadingProgressDrawable = mLoadingProgressDrawable;
             return this;
+        }
+
+        public Builder setLoadFailText(@StringRes int mLoadFailText) {
+            return setLoadFailText(getText(mLoadFailText));
         }
 
         /**
@@ -272,6 +334,16 @@ public class FastLoadMoreView extends LoadMoreView {
         }
 
         /**
+         * 设置加载失败文本颜色资源
+         *
+         * @param mLoadFailTextColorRes
+         * @return
+         */
+        public Builder setLoadFailTextColorResource(@ColorRes int mLoadFailTextColorRes) {
+            return setLoadFailTextColor(getColor(mLoadFailTextColorRes));
+        }
+
+        /**
          * 设置加载失败文本颜色
          *
          * @param mLoadFailTextColor
@@ -280,6 +352,10 @@ public class FastLoadMoreView extends LoadMoreView {
         public Builder setLoadFailTextColor(@ColorInt int mLoadFailTextColor) {
             this.mLoadFailTextColor = mLoadFailTextColor;
             return this;
+        }
+
+        public Builder setLoadFailTextSizeResource(@DimenRes int mLoadFailTextSizeRes) {
+            return setLoadFailTextSize(getDimensionPixelSize(mLoadFailTextSizeRes));
         }
 
         /**
@@ -291,6 +367,10 @@ public class FastLoadMoreView extends LoadMoreView {
         public Builder setLoadFailTextSize(int mLoadFailTextSize) {
             this.mLoadFailTextSize = mLoadFailTextSize;
             return this;
+        }
+
+        public Builder setLoadEndText(@StringRes int mLoadEndText) {
+            return setLoadEndText(getText(mLoadEndText));
         }
 
         /**
@@ -305,6 +385,16 @@ public class FastLoadMoreView extends LoadMoreView {
         }
 
         /**
+         * 设置加载结束文本颜色资源
+         *
+         * @param mLoadEndTextColorRes
+         * @return
+         */
+        public Builder setLoadEndTextColorResource(@ColorRes int mLoadEndTextColorRes) {
+            return setLoadEndTextColor(getColor(mLoadEndTextColorRes));
+        }
+
+        /**
          * 设置加载结束文本颜色
          *
          * @param mLoadEndTextColor
@@ -313,6 +403,10 @@ public class FastLoadMoreView extends LoadMoreView {
         public Builder setLoadEndTextColor(@ColorInt int mLoadEndTextColor) {
             this.mLoadEndTextColor = mLoadEndTextColor;
             return this;
+        }
+
+        public Builder setLoadEndTextSizeResource(@DimenRes int mLoadEndTextSizeRes) {
+            return setLoadEndTextSize(getDimensionPixelSize(mLoadEndTextSizeRes));
         }
 
         /**
@@ -330,11 +424,11 @@ public class FastLoadMoreView extends LoadMoreView {
             return mContext.getResources();
         }
 
-        private int getColor(@ColorInt int color) {
+        private int getColor(@ColorRes int color) {
             return getResources().getColor(color);
         }
 
-        public int getDimensionPixelSize(@DrawableRes int dimen) {
+        public int getDimensionPixelSize(@DimenRes int dimen) {
             return getResources().getDimensionPixelSize(dimen);
         }
 
