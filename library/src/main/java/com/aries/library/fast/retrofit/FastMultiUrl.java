@@ -19,9 +19,11 @@ import okhttp3.Response;
 
 /**
  * Created: AriesHoo on 2017/9/22 11:07
+ * E-Mail: AriesHoo@126.com
  * Function:FastMultiUrl 以简洁的 Api,让 Retrofit 不仅支持多 BaseUrl
  * 还可以在 App 运行时动态切换任意 BaseUrl,在多 BaseUrl 场景下也不会影响到其他不需要切换的 BaseUrl
- * Desc: 设置支持多BaseUrl
+ * Description:设置支持多BaseUrl
+ * 1、2017-11-24 14:40:06 AriesHoo 新增部分set put方法返回本对象以便链式调用
  */
 public class FastMultiUrl {
 
@@ -108,10 +110,10 @@ public class FastMultiUrl {
      * @param builder
      * @return
      */
-    public OkHttpClient.Builder with(OkHttpClient.Builder builder) {
+    public FastMultiUrl with(OkHttpClient.Builder builder) {
         this.builder = builder;
-        return builder
-                .addInterceptor(mInterceptor);
+        builder.addInterceptor(mInterceptor);
+        return instance;
     }
 
     /**
@@ -161,8 +163,9 @@ public class FastMultiUrl {
      *
      * @param enable
      */
-    public void setIntercept(boolean enable) {
+    public FastMultiUrl setIntercept(boolean enable) {
         this.isIntercept = enable;
+        return instance;
     }
 
     /**
@@ -181,10 +184,11 @@ public class FastMultiUrl {
      *
      * @param url
      */
-    public void setGlobalBaseUrl(String url) {
+    public FastMultiUrl setGlobalBaseUrl(String url) {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.put(GLOBAL_BASE_URL_NAME, checkUrl(url));
         }
+        return instance;
     }
 
     /**
@@ -197,10 +201,11 @@ public class FastMultiUrl {
     /**
      * 移除全局 BaseUrl
      */
-    public void removeGlobalBaseUrl() {
+    public FastMultiUrl removeGlobalBaseUrl() {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.remove(GLOBAL_BASE_URL_NAME);
         }
+        return instance;
     }
 
     /**
@@ -209,10 +214,11 @@ public class FastMultiUrl {
      * @param urlKey
      * @param urlValue
      */
-    public void putBaseUrl(String urlKey, String urlValue) {
+    public FastMultiUrl putBaseUrl(String urlKey, String urlValue) {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.put(urlKey, checkUrl(urlValue));
         }
+        return instance;
     }
 
     /**
@@ -230,17 +236,19 @@ public class FastMultiUrl {
      *
      * @param urlKey
      */
-    public void removeBaseUrl(String urlKey) {
+    public FastMultiUrl removeBaseUrl(String urlKey) {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.remove(urlKey);
         }
+        return instance;
     }
 
     /**
      * 清除所有BaseUrl
      */
-    public void clearAllBaseUrl() {
+    public FastMultiUrl clearAllBaseUrl() {
         mBaseUrlMap.clear();
+        return instance;
     }
 
     /**
@@ -258,8 +266,9 @@ public class FastMultiUrl {
      *
      * @param parser
      */
-    public void setUrlParser(FastUrlParser parser) {
+    public FastMultiUrl setUrlParser(FastUrlParser parser) {
         this.mUrlParser = parser;
+        return instance;
     }
 
     /**
@@ -267,10 +276,11 @@ public class FastMultiUrl {
      *
      * @param listener
      */
-    public void registerUrlChangeListener(OnUrlChangedListener listener) {
+    public FastMultiUrl registerUrlChangeListener(OnUrlChangedListener listener) {
         synchronized (mListeners) {
             mListeners.add(listener);
         }
+        return instance;
     }
 
     /**
@@ -278,10 +288,11 @@ public class FastMultiUrl {
      *
      * @param listener
      */
-    public void unregisterUrlChangedListener(OnUrlChangedListener listener) {
+    public FastMultiUrl unregisterUrlChangedListener(OnUrlChangedListener listener) {
         synchronized (mListeners) {
             mListeners.remove(listener);
         }
+        return instance;
     }
 
     private Object[] listenersToArray() {

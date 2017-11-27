@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +29,6 @@ import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.manager.GlideManager;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
@@ -61,7 +61,6 @@ public class FastConfig {
     private static Context mContext;
 
     public static FastConfig getInstance(@Nullable Context context) {
-        LoggerManager.i("FastConfig", "FastConfig:" + context);
         if (sInstance == null) {
             synchronized (FastConfig.class) {
                 if (sInstance == null) {
@@ -291,7 +290,8 @@ public class FastConfig {
             throw new NullPointerException(FastConstant.EXCEPTION_SWIPE_BACK_APPLICATION_NOT_NULL);
         }
         mIsSwipeBackEnable = swipeBackEnable;
-        if (application != null) {
+        if (application != null&&
+                FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
             BGASwipeBackManager.getInstance().init(application);//初始化滑动返回关闭Activity功能
             // 导航栏处理--不设置会预留一块导航栏高度的空白
             BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
@@ -414,7 +414,7 @@ public class FastConfig {
         return mContext.getResources();
     }
 
-    private int getColor(@ColorInt int color) {
+    private int getColor(@ColorRes int color) {
         return getResources().getColor(color);
     }
 

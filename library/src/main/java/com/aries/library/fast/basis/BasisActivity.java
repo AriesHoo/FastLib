@@ -13,6 +13,7 @@ import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -110,6 +111,10 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
      * 初始化滑动返回
      */
     private void initSwipeBack() {
+        if (!FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper")) {
+            LoggerManager.e(TAG, "initSwipeBack:Please compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar' in app main program");
+            return;
+        }
         if (isSwipeBackEnable()) {
             mSwipeBackHelper = new BGASwipeBackHelper(this, new BGASwipeBackHelper.Delegate() {
                 @Override

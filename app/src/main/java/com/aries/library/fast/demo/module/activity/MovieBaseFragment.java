@@ -1,20 +1,17 @@
 package com.aries.library.fast.demo.module.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
+import com.aries.library.fast.demo.constant.ApiConstant;
 import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.GlobalConstant;
-import com.aries.library.fast.demo.constant.MovieConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.SubjectsEntity;
+import com.aries.library.fast.demo.helper.BackToTopHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.manager.LoggerManager;
@@ -22,7 +19,6 @@ import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastError;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
-import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -39,15 +35,14 @@ import org.simple.eventbus.ThreadMode;
 public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     private BaseQuickAdapter mAdapter;
-    private int mType = 0;
-    private ImageView imageViewTop;
+    private String mUrl;
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
     private boolean animationAlways = true;
 
-    public static MovieBaseFragment newInstance(int type) {
+    public static MovieBaseFragment newInstance(String url) {
         Bundle args = new Bundle();
         MovieBaseFragment fragment = new MovieBaseFragment();
-        args.putInt("type", type);
+        args.putString("url", url);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,12 +50,12 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     @Override
     public void beforeSetContentView() {
         super.beforeSetContentView();
-        mType = getArguments().getInt("type");
+        mUrl = getArguments().getString("url");
     }
 
     @Override
     public BaseQuickAdapter<SubjectsEntity, BaseViewHolder> getAdapter() {
-        mAdapter = new SubjectMovieAdapter(mType == MovieConstant.MOVIE_TOP);
+        mAdapter = new SubjectMovieAdapter(mUrl == ApiConstant.API_MOVIE_TOP);
         changeAdapterAnimation(0);
         changeAdapterAnimationAlways(true);
         return mAdapter;
@@ -73,59 +68,13 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-
-    }
-
-    /**
-     * 控制回到顶部
-     *
-     * @param enable
-     */
-    private void setBackToTop(boolean enable) {
-        if (imageViewTop == null) {
-            imageViewTop = new ImageView(mContext);
-            imageViewTop.setImageResource(R.drawable.ic_top);
-            mEasyStatusView.addView(imageViewTop);
-            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) imageViewTop.getLayoutParams();
-            lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);//与父容器的左侧对齐
-            lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);//与父容器的上侧对齐
-            lp.rightMargin = SizeUtil.dp2px(20);
-            lp.bottomMargin = SizeUtil.dp2px(20);
-            imageViewTop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mRecyclerView.smoothScrollToPosition(0);
-                }
-            });
-        }
-        imageViewTop.setVisibility(enable ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void loadData() {
-        super.loadData();
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                if (layoutManager instanceof LinearLayoutManager) {
-                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                    int firstVisibleItemPosition = linearManager.findFirstVisibleItemPosition();
-                    if (firstVisibleItemPosition > 10) {
-                        setBackToTop(true);
-                    } else {
-                        setBackToTop(false);
-                    }
-                }
-            }
-        });
+        new BackToTopHelper().init(mRecyclerView, mEasyStatusView);
     }
 
     @Override
     public void loadData(int page) {
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
-        ApiRepository.getInstance().getBaseMovie(mType, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
+        ApiRepository.getInstance().getMovie(mUrl, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(new FastObserver<BaseMovieEntity>(this.getContext(), new Object[]{mEasyStatusView, this}) {
                     @Override

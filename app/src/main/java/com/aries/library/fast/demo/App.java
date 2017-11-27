@@ -19,6 +19,7 @@ import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.retrofit.FastMultiUrl;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
@@ -66,11 +67,13 @@ public class App extends Application {
 
         //以下为配置多BaseUrl
         //step1
-        //FastMultiUrl.getInstance().putBaseUrl("test", "http://www.baidu.com");
+        FastMultiUrl.getInstance().putBaseUrl("taobao", "http://www.taobao.com")
+                .putBaseUrl("baidu", "http://www.baidu.com");
         //step2
         // 需要step1中baseUrl的方法需要在对应service里增加
-        // @Headers({FastMultiUrl.BASE_URL_NAME_HEADER + "test"})
-        //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"test"作为标记
+        // @Headers({FastMultiUrl.BASE_URL_NAME_HEADER + "taobao"})
+        //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"taobao"作为标记
+        // 参考com.aries.library.fast.demo.retrofit.service.ApiService
         // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
 
         //主页返回键是否退回桌面(程序后台)

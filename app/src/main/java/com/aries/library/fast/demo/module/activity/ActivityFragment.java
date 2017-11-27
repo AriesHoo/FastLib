@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.constant.ApiConstant;
 import com.aries.library.fast.demo.constant.EventConstant;
-import com.aries.library.fast.demo.constant.MovieConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.TabLayoutManager;
@@ -109,9 +109,10 @@ public class ActivityFragment extends FastTitleFragment {
         isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, isSliding);
         vpContent.removeAllViews();
         listFragment.clear();
-        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_IN_THEATERS));
-        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_COMING_SOON));
-        listFragment.add(MovieBaseFragment.newInstance(MovieConstant.MOVIE_TOP));
+
+        listFragment.add(MovieBaseFragment.newInstance(ApiConstant.API_MOVIE_IN_THEATERS));
+        listFragment.add(MovieBaseFragment.newInstance(ApiConstant.API_MOVIE_COMING_SOON));
+        listFragment.add(MovieBaseFragment.newInstance(ApiConstant.API_MOVIE_TOP));
         if (isSliding) {
             TabLayoutManager.getInstance().setSlidingTabData(this, mSlidingTab, vpContent,
                     getTitles(R.array.arrays_tab_activity), listFragment);
