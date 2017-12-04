@@ -47,6 +47,11 @@ public class WebViewActivity extends FastWebActivity {
     }
 
     @Override
+    public int getContentBackground() {
+        return -1;
+    }
+
+    @Override
     public void setTitleBar(TitleBarView titleBar) {
         if (!mIsShowTitle) {
             titleBar.setVisibility(View.GONE);

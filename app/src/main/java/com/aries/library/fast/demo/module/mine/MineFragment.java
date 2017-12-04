@@ -46,6 +46,11 @@ public class MineFragment extends FastTitleFragment {
     }
 
     @Override
+    public int getContentBackground() {
+        return -1;
+    }
+
+    @Override
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setTitleMainText(R.string.mine);
     }

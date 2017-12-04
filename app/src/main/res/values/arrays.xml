@@ -11,6 +11,7 @@
         <item>QQ默认主题TitleBar背景渐变效果</item>
         <item>支付宝主界面效果</item>
         <item>腾讯新闻主界面效果</item>
+        <item>Activity直接嵌套Fragment效果</item>
     </array>
 
     <array name="arrays_tab_ali">

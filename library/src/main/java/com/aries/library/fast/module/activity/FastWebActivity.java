@@ -16,12 +16,12 @@ import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.util.FastUtil;
-import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetView;
 import com.just.library.AgentWeb;
 import com.just.library.ChromeClientCallbackManager;
+import com.just.library.DefaultWebCreator;
 
 /**
  * Created: AriesHoo on 2017/8/5 19:42
@@ -58,12 +58,13 @@ public abstract class FastWebActivity extends FastTitleActivity {
     }
 
     /**
-     * 设置进度条高度
+     * 设置进度条高度 注意此处最终AgentWeb会将其作为float 转dp2px
+     * {@link DefaultWebCreator#createGroupWithWeb()  height_dp}
      *
      * @return
      */
     protected int getProgressHeight() {
-        return SizeUtil.dp2px(0.6f);
+        return 2;
     }
 
     @Override

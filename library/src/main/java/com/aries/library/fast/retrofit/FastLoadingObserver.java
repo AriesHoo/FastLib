@@ -28,13 +28,18 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
         this(FastConfig.getInstance(activity).getLoadingDialog().createLoadingDialog(activity));
     }
 
-    public FastLoadingObserver(FastLoadDialog dialog, Object[] args) {
+    public FastLoadingObserver(@Nullable Activity activity, Object... args) {
+        this(FastConfig.getInstance(activity).getLoadingDialog().createLoadingDialog(activity), args);
+    }
+
+    public FastLoadingObserver(FastLoadDialog dialog, Object... args) {
         super(dialog.getDialog() != null ? dialog.getDialog().getContext() : null, args);
         this.mDialog = dialog;
     }
 
     public FastLoadingObserver(FastLoadDialog dialog) {
-        this(dialog, null);
+        super(dialog.getDialog() != null ? dialog.getDialog().getContext() : null);
+        this.mDialog = dialog;
     }
 
     @Override

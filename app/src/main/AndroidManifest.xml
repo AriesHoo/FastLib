@@ -39,13 +39,17 @@
         </activity>
         <activity
             android:name=".module.main.MainActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:theme="@style/AppTheme.NotTranslucent"/>
         <!-- 应用内浏览器 -->
         <activity
             android:name=".module.WebViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"/>
+        <!-- TitleBarView 嵌套Fragment -->
+        <activity
+            android:name=".module.main.sample.TestFragmentActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
         <!-- 滑动返回Activity-微信效果 -->
         <activity
             android:name=".module.main.sample.SwipeBackActivity"

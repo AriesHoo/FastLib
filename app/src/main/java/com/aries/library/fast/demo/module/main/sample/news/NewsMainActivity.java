@@ -30,12 +30,6 @@ public class NewsMainActivity extends FastMainActivity {
     }
 
     @Override
-    public int getContentBackground() {
-        return 0;
-
-    }
-
-    @Override
     public List<FastTabEntity> getTabList() {
         titles = getResources().getStringArray(R.array.arrays_tab_news);
         ArrayList<FastTabEntity> list = new ArrayList<>();

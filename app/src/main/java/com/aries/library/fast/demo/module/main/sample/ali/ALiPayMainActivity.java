@@ -25,11 +25,6 @@ public class ALiPayMainActivity extends FastMainActivity {
     }
 
     @Override
-    public int getContentBackground() {
-        return 0;
-    }
-
-    @Override
     public List<FastTabEntity> getTabList() {
         ArrayList<FastTabEntity> list = new ArrayList<>();
         list.add(new FastTabEntity(titles[0], R.drawable.ic_tab_main_ali, R.drawable.ic_tab_main_ali_selected, ALiPayItemFragment.newInstance(0)));

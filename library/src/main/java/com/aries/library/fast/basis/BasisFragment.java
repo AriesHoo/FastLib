@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.i.IBasisView;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
@@ -33,6 +34,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected boolean mIsViewLoaded;
     protected Unbinder mUnBinder;
     protected final String TAG = getClass().getSimpleName();
+    protected boolean mIsVisibleChanged = false;
 
     @Override
     public void onAttach(Context context) {
@@ -51,6 +53,10 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         EventBus.getDefault().register(this);
         beforeInitView();
         initView(savedInstanceState);
+        if (!mIsVisibleChanged && (getUserVisibleHint() || isVisible() || !isHidden())) {
+            onVisibleChanged(true);
+        }
+        LoggerManager.i(TAG, "mIsVisibleChanged:" + mIsVisibleChanged + ";getUserVisibleHint:" + getUserVisibleHint() + ";isHidden:" + isHidden() + ";isVisible:" + isVisible());
         return mContentView;
     }
 
@@ -119,6 +125,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
      * @param isVisibleToUser
      */
     protected void onVisibleChanged(final boolean isVisibleToUser) {
+        LoggerManager.i(TAG, "isVisibleToUser:" + isVisibleToUser);
+        mIsVisibleChanged = true;
         if (isVisibleToUser) {
             if (!mIsViewLoaded) {//避免因视图未加载子类刷新UI抛出异常
                 RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {

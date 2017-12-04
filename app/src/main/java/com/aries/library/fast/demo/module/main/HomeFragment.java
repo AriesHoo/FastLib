@@ -17,6 +17,7 @@ import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
 import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
+import com.aries.library.fast.demo.module.main.sample.TestFragmentActivity;
 import com.aries.library.fast.demo.module.main.sample.ali.ALiPayMainActivity;
 import com.aries.library.fast.demo.module.main.sample.news.NewsMainActivity;
 import com.aries.library.fast.manager.GlideManager;
@@ -81,6 +82,8 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setRightTextDrawable(R.drawable.ic_transition)
                 .setDividerVisible(false)
+//                .setTitleMainText(getClass().getSimpleName())
+//                .setTitleMainTextColor(Color.MAGENTA)
                 .setOnRightTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -110,12 +113,17 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                     }
                 })
                 .setStatusAlpha(0)
-                .setBackgroundColor(Color.TRANSPARENT);
+                .setBgColor(Color.TRANSPARENT);
     }
 
     @Override
     public int getContentLayout() {
         return R.layout.fragment_home;
+    }
+
+    @Override
+    public int getContentBackground() {
+        return -1;
     }
 
     @Override
@@ -153,6 +161,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         listActivity.add(QQTitleActivity.class);
         listActivity.add(ALiPayMainActivity.class);
         listActivity.add(NewsMainActivity.class);
+        listActivity.add(TestFragmentActivity.class);
         List<WidgetEntity> list = new ArrayList<>();
         String[] titles = getResources().getStringArray(R.array.arrays_home_list_title);
         for (int i = 0; i < titles.length; i++) {

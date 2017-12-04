@@ -16,10 +16,8 @@ import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
-import com.aries.library.fast.retrofit.FastError;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
-import com.aries.library.fast.util.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -67,6 +65,11 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     }
 
     @Override
+    public int getContentBackground() {
+        return -1;
+    }
+
+    @Override
     public void initView(Bundle savedInstanceState) {
         new BackToTopHelper().init(mRecyclerView, mEasyStatusView);
     }
@@ -76,7 +79,8 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getMovie(mUrl, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
-                .subscribe(new FastObserver<BaseMovieEntity>(this.getContext(), new Object[]{mEasyStatusView, this}) {
+                .subscribe(new FastObserver<BaseMovieEntity>(mContext,
+                        this, mRefreshLayout, mAdapter, mEasyStatusView,page) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
                         mRefreshLayout.finishRefresh();
@@ -103,29 +107,29 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                         }
                     }
 
-                    @Override
-                    public void _onError(int errorRes, int errorCode, Throwable e) {
-                        super._onError(errorRes, errorCode, e);
-                        mRefreshLayout.finishRefresh();
-                        mAdapter.loadMoreComplete();
-                        LoggerManager.e("error:" + getString(errorRes) + ";errorCode:" + errorCode + ";Throwable:" + e.getMessage());
-                        if (page == 0) {
-                            mEasyStatusView.error();
-                            if (errorCode == FastError.EXCEPTION_ACCOUNTS) {
-
-                            } else if (errorCode == FastError.EXCEPTION_JSON_SYNTAX) {
-
-                            } else if (errorCode == FastError.EXCEPTION_OTHER_ERROR) {
-
-                            } else if (errorCode == FastError.EXCEPTION_TIME_OUT) {
-
-                            } else {
-                                mEasyStatusView.noNet();
-                            }
-                        } else {
-                            ToastUtil.show(errorRes);
-                        }
-                    }
+//                    @Override
+//                    public void _onError(int errorRes, int errorCode, Throwable e) {
+//                        super._onError(errorRes, errorCode, e);
+//                        mRefreshLayout.finishRefresh();
+//                        mAdapter.loadMoreComplete();
+//                        LoggerManager.e("error:" + getString(errorRes) + ";errorCode:" + errorCode + ";Throwable:" + e.getMessage());
+//                        if (page == 0) {
+//                            mEasyStatusView.error();
+//                            if (errorCode == FastError.EXCEPTION_ACCOUNTS) {
+//
+//                            } else if (errorCode == FastError.EXCEPTION_JSON_SYNTAX) {
+//
+//                            } else if (errorCode == FastError.EXCEPTION_OTHER_ERROR) {
+//
+//                            } else if (errorCode == FastError.EXCEPTION_TIME_OUT) {
+//
+//                            } else {
+//                                mEasyStatusView.noNet();
+//                            }
+//                        } else {
+//                            ToastUtil.show(errorRes);
+//                        }
+//                    }
                 });
     }
 

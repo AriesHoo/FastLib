@@ -32,4 +32,9 @@ public abstract class ALiPayBaseFragment extends FastTitleFragment {
                 .setRightTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
                 .setBackgroundResource(R.color.colorMainAli);
     }
+
+    @Override
+    public int getContentBackground() {
+        return -1;
+    }
 }

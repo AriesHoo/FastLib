@@ -53,7 +53,7 @@ public class ActivityFragment extends FastTitleFragment {
 
     @Override
     public int getContentBackground() {
-        return 0;
+        return -1;
     }
 
     @Override
@@ -102,8 +102,25 @@ public class ActivityFragment extends FastTitleFragment {
      */
     @Override
     public void initView(Bundle savedInstanceState) {
+//        setTab();
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
         setTab();
     }
+
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+//            LoggerManager.d(TAG, "竖屏");
+//        } else {
+//            LoggerManager.d(TAG, "横屏");
+//        }
+//        setTab();
+//    }
 
     private void setTab() {
         isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, isSliding);

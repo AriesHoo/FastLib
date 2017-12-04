@@ -38,13 +38,12 @@ public class FastMultiUrl {
     /**
      * 是否开启拦截开始运行,可以随时停止运行,比如你在 App 启动后已经不需要在动态切换 baseUrl 了
      */
-    private boolean isIntercept = true;
+    private boolean mIsIntercept = true;
     private final Map<String, HttpUrl> mBaseUrlMap = new HashMap<>();
     private final Interceptor mInterceptor;
     private final List<OnUrlChangedListener> mListeners = new ArrayList<>();
     private FastUrlParser mUrlParser;
-    private static volatile FastMultiUrl instance;
-    private OkHttpClient.Builder builder;
+    private static volatile FastMultiUrl sInstance;
 
     public interface OnUrlChangedListener {
         /**
@@ -69,22 +68,20 @@ public class FastMultiUrl {
     }
 
     public static FastMultiUrl getInstance() {
-        if (instance == null) {
+        if (sInstance == null) {
             synchronized (FastMultiUrl.class) {
-                if (instance == null) {
-                    instance = new FastMultiUrl();
+                if (sInstance == null) {
+                    sInstance = new FastMultiUrl();
                 }
             }
         }
-        return instance;
+        return sInstance;
     }
 
     private FastMultiUrl() {
         setUrlParser(new FastUrlParser() {
             @Override
             public HttpUrl parseUrl(HttpUrl domainUrl, HttpUrl url) {
-                // 如果 HttpUrl.parse(url); 解析为 null 说明,url 格式不正确,正确的格式为 "https://github.com:443"
-                // http 默认端口 80,https 默认端口 443 ,如果端口号是默认端口号就可以将 ":443" 去掉
                 // 只支持 http 和 https
                 if (null == domainUrl) return url;
                 return url.newBuilder()
@@ -111,9 +108,8 @@ public class FastMultiUrl {
      * @return
      */
     public FastMultiUrl with(OkHttpClient.Builder builder) {
-        this.builder = builder;
         builder.addInterceptor(mInterceptor);
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -155,7 +151,7 @@ public class FastMultiUrl {
      * @return
      */
     public boolean isIntercept() {
-        return isIntercept;
+        return mIsIntercept;
     }
 
     /**
@@ -164,8 +160,8 @@ public class FastMultiUrl {
      * @param enable
      */
     public FastMultiUrl setIntercept(boolean enable) {
-        this.isIntercept = enable;
-        return instance;
+        this.mIsIntercept = enable;
+        return sInstance;
     }
 
     /**
@@ -188,7 +184,7 @@ public class FastMultiUrl {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.put(GLOBAL_BASE_URL_NAME, checkUrl(url));
         }
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -205,7 +201,7 @@ public class FastMultiUrl {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.remove(GLOBAL_BASE_URL_NAME);
         }
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -218,7 +214,7 @@ public class FastMultiUrl {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.put(urlKey, checkUrl(urlValue));
         }
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -240,7 +236,7 @@ public class FastMultiUrl {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.remove(urlKey);
         }
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -248,7 +244,7 @@ public class FastMultiUrl {
      */
     public FastMultiUrl clearAllBaseUrl() {
         mBaseUrlMap.clear();
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -268,7 +264,7 @@ public class FastMultiUrl {
      */
     public FastMultiUrl setUrlParser(FastUrlParser parser) {
         this.mUrlParser = parser;
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -280,7 +276,7 @@ public class FastMultiUrl {
         synchronized (mListeners) {
             mListeners.add(listener);
         }
-        return instance;
+        return sInstance;
     }
 
     /**
@@ -292,7 +288,7 @@ public class FastMultiUrl {
         synchronized (mListeners) {
             mListeners.remove(listener);
         }
-        return instance;
+        return sInstance;
     }
 
     private Object[] listenersToArray() {

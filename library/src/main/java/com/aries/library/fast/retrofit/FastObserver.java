@@ -39,10 +39,10 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
     }
 
     public FastObserver(Context context) {
-        this(context, null);
+        this(context, "");
     }
 
-    public FastObserver(Context context, Object[] args) {
+    public FastObserver(Context context, Object... args) {
         this.mArgs = args;
         this.mContext = context;
     }

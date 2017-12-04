@@ -22,7 +22,7 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public boolean isSwipeEnable() {
-        return true;
+        return false;
     }
 
     @Override
