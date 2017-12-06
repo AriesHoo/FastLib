@@ -39,6 +39,7 @@ public class FastMultiUrl {
      * 是否开启拦截开始运行,可以随时停止运行,比如你在 App 启动后已经不需要在动态切换 baseUrl 了
      */
     private boolean mIsIntercept = true;
+    //    private boolean mParserUrlEnable = true;
     private final Map<String, HttpUrl> mBaseUrlMap = new HashMap<>();
     private final Interceptor mInterceptor;
     private final List<OnUrlChangedListener> mListeners = new ArrayList<>();
@@ -59,7 +60,7 @@ public class FastMultiUrl {
     public interface FastUrlParser {
         /**
          * 将 {@link FastMultiUrl#mBaseUrlMap} 中映射的 Url 解析成完整的{@link HttpUrl}
-         * 用来替换 @{@link Request#url} 达到动态切换 Url
+         * 用来替换 @{@link Request#url} 里的BaseUrl以达到动态切换 Url的目的
          *
          * @param domainUrl
          * @return
@@ -83,12 +84,19 @@ public class FastMultiUrl {
             @Override
             public HttpUrl parseUrl(HttpUrl domainUrl, HttpUrl url) {
                 // 只支持 http 和 https
-                if (null == domainUrl) return url;
-                return url.newBuilder()
-                        .scheme(domainUrl.scheme())
-                        .host(domainUrl.host())
-                        .port(domainUrl.port())
-                        .build();
+                if (null == domainUrl) {
+                    return url;
+                }
+                //解析得到service里的方法名(即@POST或@GET里的内容)
+                String method = "";
+                try {
+                    HttpUrl base = getGlobalBaseUrl();
+                    method = url.toString().replace(base.toString(), "");
+                } catch (Exception e) {
+                    LoggerManager.e(TAG, "parseUrl:" + e.getMessage());
+                }
+                LoggerManager.d(TAG, "Old Url is{" + url.newBuilder().toString() + "};Method is <<" + method + ">>");
+                return checkUrl(domainUrl.toString() + method);
             }
         });
         this.mInterceptor = new Interceptor() {
@@ -131,7 +139,9 @@ public class FastMultiUrl {
         }
         if (null != httpUrl) {
             HttpUrl newUrl = mUrlParser.parseUrl(httpUrl, request.url());
-            LoggerManager.i(FastMultiUrl.TAG, "New Url is { " + newUrl.toString() + " },Old Url is { " + request.url().toString() + " }");
+            LoggerManager.i(FastMultiUrl.TAG, "Target Base Url is{" + httpUrl + "}" +
+                    ";New Url is { " + newUrl + " }" +
+                    ";Old Url is { " + request.url() + " }");
             Object[] listeners = listenersToArray();
             if (listeners != null) {
                 for (int i = 0; i < listeners.length; i++) {
@@ -216,6 +226,19 @@ public class FastMultiUrl {
         }
         return sInstance;
     }
+//
+//    /**
+//     * 设置多BaseUrl是否进行二次解析 最终只变更 第一个(除了http://外)/之前部分
+//     * {@link FastUrlParser#parseUrl(HttpUrl, HttpUrl)}
+//     * {@link FastMultiUrl#FastMultiUrl()}
+//     *
+//     * @param enable
+//     * @return
+//     */
+//    public FastMultiUrl setParserUrlEnable(boolean enable) {
+//        this.mParserUrlEnable = enable;
+//        return sInstance;
+//    }
 
     /**
      * 取出对应 urlKey 的 Url

@@ -2,12 +2,14 @@ package com.aries.library.fast.demo.retrofit.service;
 
 
 import com.aries.library.fast.demo.base.BaseMovieEntity;
+import com.aries.library.fast.retrofit.FastMultiUrl;
 
 import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -19,7 +21,7 @@ import retrofit2.http.Path;
 public interface ApiService {
 
     @FormUrlEncoded
-//    @Headers({FastMultiUrl.BASE_URL_NAME_HEADER+"taobao"})
+    @Headers({FastMultiUrl.BASE_URL_NAME_HEADER+"taobao"})
     @POST("{url}")
     Observable<BaseMovieEntity> getMovie(@Path("url") String url, @FieldMap Map<String, Object> map);
 
