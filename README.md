@@ -49,7 +49,7 @@ allprojects {
 
 ```
 dependencies {
-     //compile 'com.github.AriesHoo:FastLib:2.2.0'
+     //compile 'com.github.AriesHoo:FastLib:2.2.1'
      compile 'com.github.AriesHoo:FastLib:${LATEST_VERSION}'
 }
 ```
@@ -65,41 +65,41 @@ compile project(':fastLib')
 ```
 dependencies {
     def supportVersion = "25.3.1"
-    provided 'com.android.support:design:'.concat(supportVersion)
-    provided 'com.android.support:appcompat-v7:'.concat(supportVersion)
-    provided 'com.android.support:recyclerview-v7:'.concat(supportVersion)
-    //万能适配器
-    provided 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
-    //webView库
-    provided 'com.just.agentweb:agentweb:2.0.1'
-    //常用UI控件(TitleBarView、RadiusView等)
-    provided 'com.github.AriesHoo:UIWidget:2.0.0'
-    //下拉刷新库
-    provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    //图片加载
-    provided 'com.github.bumptech.glide:glide:4.0.0'
-    //日志打印
-    compile 'com.orhanobut:logger:2.1.1'
-    //注解
-    compile 'com.jakewharton:butterknife:8.8.1'
-    //retrofit+rxjava 网络请求及数据解析相关
-    compile "io.reactivex.rxjava2:rxjava:2.1.3"
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    compile 'com.google.code.gson:gson:2.8.1'
-    //处理rxjava内存泄漏-生命周期绑定
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
-    //滑动返回Activity
-    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar'
-    //快速Tab库
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-    //页面事件交互
-    compile 'org.simple:androideventbus:1.0.5.1'
-    //多状态视图切换
-    compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
+        provided 'com.android.support:design:'.concat(supportVersion)
+        provided 'com.android.support:appcompat-v7:'.concat(supportVersion)
+        provided 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+        //万能适配器
+        provided 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+        //webView库
+        provided 'com.just.agentweb:agentweb:2.0.1'
+        //常用UI控件(TitleBarView、RadiusView等)
+        provided 'com.github.AriesHoo:UIWidget:2.0.7'
+        //下拉刷新库
+        provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+        //图片加载
+        provided 'com.github.bumptech.glide:glide:4.0.0'
+        //日志打印
+        compile 'com.orhanobut:logger:2.1.1'
+        //注解
+        compile 'com.jakewharton:butterknife:8.8.1'
+        //retrofit+rxjava 网络请求及数据解析相关
+        compile "io.reactivex.rxjava2:rxjava:2.1.7"
+        compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+        compile 'com.squareup.retrofit2:retrofit:2.3.0'
+        compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+        compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+        compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+        compile 'com.google.code.gson:gson:2.8.1'
+        //处理rxjava内存泄漏-生命周期绑定
+        compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+        //滑动返回Activity
+        compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar'
+        //快速Tab库
+        compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+        //页面事件交互
+        compile 'org.simple:androideventbus:1.0.5.1'
+        //多状态视图切换
+        compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
 }
 ```
 

@@ -151,19 +151,19 @@ public class AppImpl implements DefaultRefreshHeaderCreater
 
     @Override
     public boolean createHttpErrorControl(int errorRes, int errorCode, @io.reactivex.annotations.NonNull Throwable e, Context context, Object... args) {
-        LoggerManager.e(TAG,"args:" + args + ";context:" + context.getClass().getSimpleName());
+        LoggerManager.e(TAG, "args:" + args + ";context:" + context.getClass().getSimpleName());
         if (args != null) {//可以将具体调用界面部分视图传递到全局控制
             if (args.length >= 5) {
                 if (args[1] instanceof SmartRefreshLayout) {
-                    LoggerManager.e(TAG,"args:" + args[1]);
+                    LoggerManager.e(TAG, "args:" + args[1]);
                     ((SmartRefreshLayout) args[1]).finishRefresh();
                 }
                 if (args[2] instanceof BaseQuickAdapter) {
-                    LoggerManager.e(TAG,"args:" + args[2]);
+                    LoggerManager.e(TAG, "args:" + args[2]);
                     ((BaseQuickAdapter) args[2]).loadMoreComplete();
                 }
                 if (args[3] instanceof EasyStatusView) {
-                    LoggerManager.e(TAG,"args:" + args[3]);
+                    LoggerManager.e(TAG, "args:" + args[3]);
                     ((EasyStatusView) args[3]).error();
                     if ((Integer) args[4] == 0) {
                         if (errorCode == FastError.EXCEPTION_ACCOUNTS) {

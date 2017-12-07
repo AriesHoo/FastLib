@@ -2,6 +2,7 @@ package com.aries.library.fast.demo;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 
@@ -25,10 +26,13 @@ public class App extends Application {
     private static Context mContext;
     private String TAG = "FastLib";
     private static int imageHeight = 0;
+    private long start;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        start = System.currentTimeMillis();
+        LoggerManager.d(TAG, "start:" + start);
         mContext = this;
         //初始化Logger日志打印
         LoggerManager.init(TAG, BuildConfig.DEBUG);
@@ -100,19 +104,20 @@ public class App extends Application {
                 //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
                 .setSwipeBackEnable(true, this)
                 //设置Activity横竖屏模式
-//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 //设置Activity或Fragment根布局背景资源
                 .setContentViewBackgroundResource(R.color.colorBackground)
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
                 .setLoadMoreFoot(impl)
                 //设置RecyclerView加载过程多布局属性
                 .setMultiStatusView(impl)
-                //设置全局网络请求等待Loading提示框如登录等待loading
+                //设置全局网络请求等待Loading提示框如登录等待loading--观察者必须为FastLoadingObserver及其子类
                 .setLoadingDialog(impl)
                 //设置Retrofit全局异常处理-观察者必须为FastObserver及其子类
                 .setHttpErrorControl(impl)
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
                 .setDefaultRefreshHeader(impl);
+        LoggerManager.d(TAG, "total:" + (System.currentTimeMillis() - start));
     }
 
     /**
