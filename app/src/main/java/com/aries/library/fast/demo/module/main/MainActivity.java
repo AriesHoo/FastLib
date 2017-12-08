@@ -45,6 +45,17 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+//        ToastUtil.show("测试", ToastUtil.newBuilder()
+//                .setTextSize(SizeUtil.dp2px(24))
+//                .setTextDrawableGravity(Gravity.TOP)
+//                .setTextGravity(Gravity.CENTER)
+//                .setPaddingLeft(60)
+//                .setPaddingRight(60)
+//                .setRadius(12)
+//                .setTextDrawable(getResources().getDrawable(R.drawable.ic_launcher))
+//                .setGravity(Gravity.CENTER)
+//                .setGravityYOffset(0)
+//                .setBackgroundColor(Color.MAGENTA));
     }
 
 }

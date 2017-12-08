@@ -463,7 +463,7 @@ public class FastMultiStatusView implements IMultiStatusView {
          * @param mEmptyImageColorRes
          * @return
          */
-        public Builder setEmptyImageColorResource(@ColorInt int mEmptyImageColorRes) {
+        public Builder setEmptyImageColorResource(@ColorRes int mEmptyImageColorRes) {
             return setEmptyImageColor(getColor(mEmptyImageColorRes));
         }
 
@@ -546,7 +546,7 @@ public class FastMultiStatusView implements IMultiStatusView {
          * @param mErrorImageColorRes
          * @return
          */
-        public Builder setErrorImageColorResource(@ColorInt int mErrorImageColorRes) {
+        public Builder setErrorImageColorResource(@ColorRes int mErrorImageColorRes) {
             return setErrorImageColor(getColor(mErrorImageColorRes));
         }
 
@@ -629,7 +629,7 @@ public class FastMultiStatusView implements IMultiStatusView {
          * @param mNoNetImageColorRes
          * @return
          */
-        public Builder setNoNetImageColorResource(@ColorInt int mNoNetImageColorRes) {
+        public Builder setNoNetImageColorResource(@ColorRes int mNoNetImageColorRes) {
             return setNoNetImageColor(getColor(mNoNetImageColorRes));
         }
 
@@ -746,7 +746,7 @@ public class FastMultiStatusView implements IMultiStatusView {
             return mContext.getResources();
         }
 
-        private int getColor(@ColorInt int color) {
+        private int getColor(@ColorRes int color) {
             return getResources().getColor(color);
         }
 

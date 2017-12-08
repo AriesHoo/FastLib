@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
+import android.view.Gravity;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
@@ -37,7 +38,12 @@ public class App extends Application {
         //初始化Logger日志打印
         LoggerManager.init(TAG, BuildConfig.DEBUG);
         //初始化toast工具
-        ToastUtil.init(mContext, true);
+        ToastUtil.init(mContext, true, ToastUtil.newBuilder()
+                .setRadius(10000)
+                .setPaddingLeft(SizeUtil.dp2px(24))
+                .setPaddingRight(SizeUtil.dp2px(24))
+                .setTextSize(SizeUtil.dp2px(16))
+                .setGravity(Gravity.BOTTOM));
         //初始化Retrofit配置
         FastRetrofit.getInstance()
                 //配置全局网络请求BaseUrl
