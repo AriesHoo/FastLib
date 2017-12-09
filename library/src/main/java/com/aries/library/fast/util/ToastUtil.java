@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -132,7 +131,9 @@ public class ToastUtil {
                     sTextView.setBackgroundDrawable(builder.background);
                 }
             }
-            ViewCompat.setElevation(sTextView,120);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                sTextView.setElevation(builder.elevation);
+            }
             sTextView.setText(content);
             sSystemToast.setView(sTextView);
             sSystemToast.setDuration(duration);
@@ -208,6 +209,7 @@ public class ToastUtil {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
         return new Builder()
+                .setElevation(8)
                 .setTextDrawable(sContext.getResources().getDrawable(res))
                 .setTextDrawableGravity(Gravity.TOP)
                 .setTextDrawablePadding(SizeUtil.dp2px(8))
@@ -235,6 +237,7 @@ public class ToastUtil {
     }
 
     public static final class Builder {
+        float elevation;
         int gravity;
         int gravityXOffset;
         int gravityYOffset;
@@ -261,6 +264,7 @@ public class ToastUtil {
 
         public Builder() {
             setGravity(Gravity.BOTTOM)
+                    .setElevation(0)
                     .setGravityXOffset(-1)
                     .setGravityYOffset(-1)
                     .setTextGravity(Gravity.LEFT)
@@ -282,6 +286,16 @@ public class ToastUtil {
                     .setRadius(SizeUtil.dp2px(4f));
         }
 
+        /**
+         * 设置海拔效果 5.0以上{@link android.view.View#setElevation(float)}
+         *
+         * @param elevation
+         * @return
+         */
+        public Builder setElevation(float elevation) {
+            this.elevation = elevation;
+            return this;
+        }
 
         /**
          * 设置Toast位置 {@link Gravity }{@link Toast#setGravity(int, int, int)}
