@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/fast_layout_title_bar"/>
+    <com.aries.ui.view.radius.RadiusTextView
+        android:id="@+id/rtv_system"
+        style="@style/RadiusTextStyle"
+        android:text="@string/toast_system"/>
+    <com.aries.ui.view.radius.RadiusTextView
+        android:id="@+id/rtv_normal"
+        style="@style/RadiusTextStyle"
+        android:text="@string/toast_normal"/>
+
+    <com.aries.ui.view.radius.RadiusTextView
+        android:id="@+id/rtv_success"
+        style="@style/RadiusTextStyle"
+        android:text="@string/toast_success"/>
+
+    <com.aries.ui.view.radius.RadiusTextView
+        android:id="@+id/rtv_failed"
+        style="@style/RadiusTextStyle"
+        android:text="@string/toast_failed"/>
+
+    <com.aries.ui.view.radius.RadiusTextView
+        android:id="@+id/rtv_warning"
+        style="@style/RadiusTextStyle"
+        android:text="@string/toast_warning"/>
+</LinearLayout>

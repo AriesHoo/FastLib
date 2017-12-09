@@ -12,6 +12,7 @@
         <item>支付宝主界面效果</item>
         <item>腾讯新闻主界面效果</item>
         <item>Activity直接嵌套Fragment效果</item>
+        <item>ToastUtil工具类示例</item>
     </array>
 
     <array name="arrays_tab_ali">

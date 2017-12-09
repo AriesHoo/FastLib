@@ -98,6 +98,9 @@ public class NewsItemFragment extends FastTitleFragment {
             List<String> titles = getTitles(slidingTab[mPosition]);
             setListFragment(titles);
             TabLayoutManager.getInstance().setSlidingTabData(this, mSlidingTab, vpContent, titles, listFragments);
+            //SlidingTabLayout--需这样切换一下不然选中变粗没有效果不知是SlidingTabLayout BUG还是设置问题
+            mSlidingTab.setCurrentTab(1);
+            mSlidingTab.setCurrentTab(0);
         }
     }
 

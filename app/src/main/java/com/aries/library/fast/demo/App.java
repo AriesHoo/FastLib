@@ -39,11 +39,12 @@ public class App extends Application {
         LoggerManager.init(TAG, BuildConfig.DEBUG);
         //初始化toast工具
         ToastUtil.init(mContext, true, ToastUtil.newBuilder()
-                .setRadius(10000)
-                .setPaddingLeft(SizeUtil.dp2px(24))
-                .setPaddingRight(SizeUtil.dp2px(24))
-                .setTextSize(SizeUtil.dp2px(16))
-                .setGravity(Gravity.BOTTOM));
+                .setRadius(SizeUtil.dp2px(6))
+//                .setPaddingLeft(SizeUtil.dp2px(24))
+//                .setPaddingRight(SizeUtil.dp2px(24))
+//                .setTextSize(SizeUtil.dp2px(16))
+                .setGravity(Gravity.BOTTOM)
+        );
         //初始化Retrofit配置
         FastRetrofit.getInstance()
                 //配置全局网络请求BaseUrl

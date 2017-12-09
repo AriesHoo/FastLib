@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Toast;
 
 import com.aries.library.fast.FastConstant;
+import com.aries.library.fast.R;
 import com.aries.ui.view.radius.RadiusTextView;
 
 /**
@@ -24,6 +26,9 @@ public class ToastUtil {
     private static RadiusTextView sTextView;
     private static boolean sIsShowRunningForeground;//是否前台运行才显示toast
     private static Builder sBuilder;
+    private static Builder sBuilderSuccess;
+    private static Builder sBuilderFailed;
+    private static Builder sBuilderWarning;
 
     public static void init(Context context) {
         sContext = context;
@@ -63,7 +68,7 @@ public class ToastUtil {
         if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
-        return show(sContext.getString(content), isShowRunningForeground, builder);
+        return show(sContext.getText(content), isShowRunningForeground, builder);
     }
 
     public static Toast show(CharSequence content) {
@@ -127,6 +132,7 @@ public class ToastUtil {
                     sTextView.setBackgroundDrawable(builder.background);
                 }
             }
+            ViewCompat.setElevation(sTextView,120);
             sTextView.setText(content);
             sSystemToast.setView(sTextView);
             sSystemToast.setDuration(duration);
@@ -140,6 +146,30 @@ public class ToastUtil {
         return sSystemToast;
     }
 
+    public static Toast showSuccess(CharSequence msg) {
+        return show(msg, sIsShowRunningForeground, getSuccessBuilder());
+    }
+
+    public static Toast showSuccess(int msg) {
+        return show(msg, sIsShowRunningForeground, getSuccessBuilder());
+    }
+
+    public static Toast showFailed(CharSequence msg) {
+        return show(msg, sIsShowRunningForeground, getFailedBuilder());
+    }
+
+    public static Toast showFailed(int msg) {
+        return show(msg, sIsShowRunningForeground, getFailedBuilder());
+    }
+
+    public static Toast showWarning(CharSequence msg) {
+        return show(msg, sIsShowRunningForeground, getWarningBuilder());
+    }
+
+    public static Toast showWarning(int msg) {
+        return show(msg, sIsShowRunningForeground, getWarningBuilder());
+    }
+
     /**
      * 获取当前全局设置属性Builder
      *
@@ -150,6 +180,49 @@ public class ToastUtil {
             sBuilder = new Builder();
         }
         return sBuilder;
+    }
+
+    public static Builder getSuccessBuilder() {
+        if (sBuilderSuccess == null) {
+            sBuilderSuccess = getDrawableBuilder(R.drawable.fast_ic_success);
+        }
+        return sBuilderSuccess;
+    }
+
+    public static Builder getFailedBuilder() {
+        if (sBuilderFailed == null) {
+            sBuilderFailed = getDrawableBuilder(R.drawable.fast_ic_failed);
+        }
+        return sBuilderFailed;
+    }
+
+    public static Builder getWarningBuilder() {
+        if (sBuilderWarning == null) {
+            sBuilderWarning = getDrawableBuilder(R.drawable.fast_ic_warning);
+        }
+        return sBuilderWarning;
+    }
+
+    private static Builder getDrawableBuilder(int res) {
+        if (null == sContext) {
+            throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
+        }
+        return new Builder()
+                .setTextDrawable(sContext.getResources().getDrawable(res))
+                .setTextDrawableGravity(Gravity.TOP)
+                .setTextDrawablePadding(SizeUtil.dp2px(8))
+                .setTextDrawableWidth(SizeUtil.dp2px(36))
+                .setTextDrawableHeight(SizeUtil.dp2px(36))
+                .setTextGravity(Gravity.CENTER)
+                .setPaddingLeft(SizeUtil.dp2px(24))
+                .setPaddingTop(SizeUtil.dp2px(20))
+                .setPaddingRight(SizeUtil.dp2px(24))
+                .setPaddingBottom(SizeUtil.dp2px(20))
+                .setRadius(SizeUtil.dp2px(8))
+                .setTextSize(SizeUtil.dp2px(16))
+                .setGravityYOffset(0)
+                .setGravity(Gravity.CENTER);
+
     }
 
     /**
@@ -199,9 +272,9 @@ public class ToastUtil {
                     .setTextDrawablePadding(SizeUtil.dp2px(2))
                     .setTextDrawableGravity(Gravity.LEFT)
                     .setPaddingLeft(SizeUtil.dp2px(16))
-                    .setPaddingTop(SizeUtil.dp2px(12))
+                    .setPaddingTop(SizeUtil.dp2px(10))
                     .setPaddingRight(SizeUtil.dp2px(16))
-                    .setPaddingBottom(SizeUtil.dp2px(12))
+                    .setPaddingBottom(SizeUtil.dp2px(10))
                     .setBackground(null)
                     .setBackgroundColor(Color.argb(187, 0, 0, 0))
                     .setStrokeColor(Color.TRANSPARENT)
