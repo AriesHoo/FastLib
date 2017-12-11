@@ -92,7 +92,6 @@ public class ToastUtil {
         if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         } else {
-            int duration = content.length() > 10 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
             if (sSystemToast == null) {
                 sSystemToast = new Toast(sContext);
                 sTextView = new RadiusTextView(sContext);
@@ -100,6 +99,8 @@ public class ToastUtil {
             if (builder == null) {
                 builder = getBuilder();
             }
+            int duration = builder.duration == Toast.LENGTH_LONG || builder.duration == Toast.LENGTH_SHORT ? builder.duration :
+                    content.length() > 10 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
             sTextView.getDelegate()
                     .setTextColor(builder.textColor)
                     .setRadius(builder.radius)
@@ -237,8 +238,10 @@ public class ToastUtil {
     }
 
     public static final class Builder {
-        float elevation;
+
         int gravity;
+        int duration;
+        float elevation;
         int gravityXOffset;
         int gravityYOffset;
         int textGravity;
@@ -264,9 +267,10 @@ public class ToastUtil {
 
         public Builder() {
             setGravity(Gravity.BOTTOM)
-                    .setElevation(0)
                     .setGravityXOffset(-1)
                     .setGravityYOffset(-1)
+                    .setDuration(-1)
+                    .setElevation(0)
                     .setTextGravity(Gravity.LEFT)
                     .setTextColor(Color.WHITE)
                     .setTextSize(SizeUtil.dp2px(14))
@@ -284,17 +288,6 @@ public class ToastUtil {
                     .setStrokeColor(Color.TRANSPARENT)
                     .setStrokeWidth(0)
                     .setRadius(SizeUtil.dp2px(4f));
-        }
-
-        /**
-         * 设置海拔效果 5.0以上{@link android.view.View#setElevation(float)}
-         *
-         * @param elevation
-         * @return
-         */
-        public Builder setElevation(float elevation) {
-            this.elevation = elevation;
-            return this;
         }
 
         /**
@@ -327,6 +320,31 @@ public class ToastUtil {
          */
         public Builder setGravityYOffset(int gravityYOffset) {
             this.gravityYOffset = gravityYOffset;
+            return this;
+        }
+
+        /**
+         * 显示时长
+         * {@link Toast#LENGTH_LONG} 3500ms
+         * {@link Toast#LENGTH_SHORT} 2000ms
+         * 其它参数则根据长度 >10 长时长 其它短时长
+         *
+         * @param duration
+         * @return
+         */
+        public Builder setDuration(int duration) {
+            this.duration = duration;
+            return this;
+        }
+
+        /**
+         * 设置海拔效果 5.0以上{@link android.view.View#setElevation(float)}
+         *
+         * @param elevation
+         * @return
+         */
+        public Builder setElevation(float elevation) {
+            this.elevation = elevation;
             return this;
         }
 
