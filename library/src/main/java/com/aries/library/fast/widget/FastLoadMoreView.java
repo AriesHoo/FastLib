@@ -35,6 +35,7 @@ public class FastLoadMoreView extends LoadMoreView {
     @ColorInt
     private int mLoadingTextColor;
     private int mLoadingTextSize;
+    private boolean mLoadingTextFakeBold;
     @ColorInt
     private int mLoadingProgressColor;
     private Drawable mLoadingProgressDrawable;
@@ -42,10 +43,12 @@ public class FastLoadMoreView extends LoadMoreView {
     @ColorInt
     private int mLoadFailTextColor;
     private int mLoadFailTextSize;
+    private boolean mLoadFailTextFakeBold;
     private CharSequence mLoadEndText;
     @ColorInt
     private int mLoadEndTextColor;
     private int mLoadEndTextSize;
+    private boolean mLoadEndTextFakeBold;
     private Builder mBuilder;
 
     public FastLoadMoreView(@Nullable Context context) {
@@ -58,14 +61,17 @@ public class FastLoadMoreView extends LoadMoreView {
         this.mLoadingText = builder.mLoadingText;
         this.mLoadingTextColor = builder.mLoadingTextColor;
         this.mLoadingTextSize = builder.mLoadingTextSize;
+        this.mLoadingTextFakeBold = builder.mLoadingTextFakeBold;
         this.mLoadingProgressColor = builder.mLoadingProgressColor;
         this.mLoadingProgressDrawable = builder.mLoadingProgressDrawable;
         this.mLoadFailText = builder.mLoadFailText;
         this.mLoadFailTextColor = builder.mLoadFailTextColor;
         this.mLoadFailTextSize = builder.mLoadFailTextSize;
+        this.mLoadFailTextFakeBold = builder.mLoadFailTextFakeBold;
         this.mLoadEndText = builder.mLoadEndText;
         this.mLoadEndTextColor = builder.mLoadEndTextColor;
         this.mLoadEndTextSize = builder.mLoadEndTextSize;
+        this.mLoadEndTextFakeBold = builder.mLoadEndTextFakeBold;
     }
 
     @Override
@@ -113,8 +119,11 @@ public class FastLoadMoreView extends LoadMoreView {
         TextView tvLoadEnd = holder.getView(R.id.tv_loadEndFastLoadMore);
         ProgressBar pbLoading = holder.getView(R.id.pb_loadingFastLoadMore);
         tvLoading.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLoadingTextSize);
+        tvLoading.getPaint().setFakeBoldText(mLoadingTextFakeBold);
         tvLoadFail.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLoadFailTextSize);
+        tvLoadFail.getPaint().setFakeBoldText(mLoadFailTextFakeBold);
         tvLoadEnd.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLoadEndTextSize);
+        tvLoadEnd.getPaint().setFakeBoldText(mLoadEndTextFakeBold);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pbLoading.setIndeterminateTintList(ColorStateList.valueOf(mLoadingProgressColor));
         }
@@ -139,6 +148,7 @@ public class FastLoadMoreView extends LoadMoreView {
         @ColorInt
         int mLoadingTextColor;
         int mLoadingTextSize;
+        boolean mLoadingTextFakeBold;
         @ColorInt
         int mLoadingProgressColor;
         Drawable mLoadingProgressDrawable;
@@ -146,15 +156,19 @@ public class FastLoadMoreView extends LoadMoreView {
         @ColorInt
         int mLoadFailTextColor;
         int mLoadFailTextSize;
+        boolean mLoadFailTextFakeBold;
         CharSequence mLoadEndText;
         @ColorInt
         int mLoadEndTextColor;
         int mLoadEndTextSize;
+        boolean mLoadEndTextFakeBold;
 
         public Builder(@Nullable Context context) {
             mContext = context;
             setLoadTextColorResource(R.color.colorLoadMoreText);
+//            setLoadEndTextColorResource(android.R.color.darker_gray);
             setLoadTextSizeResource(R.dimen.dp_load_more_text_size);
+            setLoadTextFakeBold(false);
             setLoadingProgressColorResource(R.color.colorLoadMoreProgress);
 
             setLoadingText(R.string.fast_load_more_loading);
@@ -225,6 +239,19 @@ public class FastLoadMoreView extends LoadMoreView {
         }
 
         /**
+         * 设置所有TextView 文本粗体
+         *
+         * @param mLoadTextFakeBold
+         * @return
+         */
+        public Builder setLoadTextFakeBold(boolean mLoadTextFakeBold) {
+            setLoadingTextFakeBold(mLoadTextFakeBold);
+            setLoadFailTextFakeBold(mLoadTextFakeBold);
+            setLoadEndTextFakeBold(mLoadTextFakeBold);
+            return this;
+        }
+
+        /**
          * 设置加载中文本资源
          *
          * @param mLoadingText
@@ -279,6 +306,17 @@ public class FastLoadMoreView extends LoadMoreView {
          */
         public Builder setLoadingTextSize(int mLoadingTextSize) {
             this.mLoadingTextSize = mLoadingTextSize;
+            return this;
+        }
+
+        /**
+         * 设置加载中文本粗体
+         *
+         * @param mLoadingTextFakeBold
+         * @return
+         */
+        public Builder setLoadingTextFakeBold(boolean mLoadingTextFakeBold) {
+            this.mLoadingTextFakeBold = mLoadingTextFakeBold;
             return this;
         }
 
@@ -369,6 +407,17 @@ public class FastLoadMoreView extends LoadMoreView {
             return this;
         }
 
+        /**
+         * 设置加载失败文本粗体
+         *
+         * @param mLoadFailTextFakeBold
+         * @return
+         */
+        public Builder setLoadFailTextFakeBold(boolean mLoadFailTextFakeBold) {
+            this.mLoadFailTextFakeBold = mLoadFailTextFakeBold;
+            return this;
+        }
+
         public Builder setLoadEndText(@StringRes int mLoadEndText) {
             return setLoadEndText(getText(mLoadEndText));
         }
@@ -417,6 +466,17 @@ public class FastLoadMoreView extends LoadMoreView {
          */
         public Builder setLoadEndTextSize(int mLoadEndTextSize) {
             this.mLoadEndTextSize = mLoadEndTextSize;
+            return this;
+        }
+
+        /**
+         * 设置加载结束文本粗体
+         *
+         * @param mLoadEndTextFakeBold
+         * @return
+         */
+        public Builder setLoadEndTextFakeBold(boolean mLoadEndTextFakeBold) {
+            this.mLoadEndTextFakeBold = mLoadEndTextFakeBold;
             return this;
         }
 

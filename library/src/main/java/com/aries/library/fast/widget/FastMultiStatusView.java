@@ -36,6 +36,7 @@ public class FastMultiStatusView implements IMultiStatusView {
     @ColorInt
     private int mLoadingTextColor;
     private int mLoadingTextSize;
+    private boolean mLoadingTextFakeBold;
     @ColorInt
     private int mLoadingProgressColor;
     private Drawable mLoadingProgressDrawable;
@@ -44,18 +45,21 @@ public class FastMultiStatusView implements IMultiStatusView {
     @ColorInt
     private int mEmptyTextColor;
     private int mEmptyTextSize;
+    private boolean mEmptyTextFakeBold;
     private Drawable mEmptyImageDrawable;
 
     private CharSequence mErrorText;
     @ColorInt
     private int mErrorTextColor;
     private int mErrorTextSize;
+    private boolean mErrorTextFakeBold;
     private Drawable mErrorImageDrawable;
 
     private CharSequence mNoNetText;
     @ColorInt
     private int mNoNetTextColor;
     private int mNoNetTextSize;
+    private boolean mNoNetTextFakeBold;
     private Drawable mNoNetImageDrawable;
 
     private int mLoadingSize;
@@ -106,6 +110,10 @@ public class FastMultiStatusView implements IMultiStatusView {
         mEmptyTextSize = builder.mEmptyTextSize;
         mErrorTextSize = builder.mErrorTextSize;
         mNoNetTextSize = builder.mNoNetTextSize;
+        mLoadingTextFakeBold = builder.mLoadingTextFakeBold;
+        mEmptyTextFakeBold = builder.mEmptyTextFakeBold;
+        mErrorTextFakeBold = builder.mErrorTextFakeBold;
+        mNoNetTextFakeBold = builder.mNoNetTextFakeBold;
         mLoadingText = builder.mLoadingText;
         mEmptyText = builder.mEmptyText;
         mErrorText = builder.mErrorText;
@@ -125,6 +133,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         setText(contentView, R.id.tv_loadingMulti, mLoadingText)
                 .setTextColor(contentView, R.id.tv_loadingMulti, mLoadingTextColor)
                 .setTextSize(contentView, R.id.tv_loadingMulti, mLoadingTextSize)
+                .setTextFakeBold(contentView, R.id.tv_loadingMulti, mLoadingTextFakeBold)
                 .setViewWidthAndHeight(contentView, R.id.pb_loadingMulti, mLoadingSize, mLoadingSize)
                 .setViewMarginTop(contentView, R.id.tv_loadingMulti, mTextMargin);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -142,6 +151,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         setText(contentView, R.id.tv_emptyMulti, mEmptyText)
                 .setTextColor(contentView, R.id.tv_emptyMulti, mEmptyTextColor)
                 .setTextSize(contentView, R.id.tv_emptyMulti, mEmptyTextSize)
+                .setTextFakeBold(contentView, R.id.tv_emptyMulti, mEmptyTextFakeBold)
                 .setViewMarginTop(contentView, R.id.tv_emptyMulti, mTextMargin)
                 .setViewWidthAndHeight(contentView, R.id.iv_emptyMulti, mImageWidth, mImageHeight)
                 .setImageDrawable(contentView, R.id.iv_emptyMulti, mEmptyImageDrawable);
@@ -153,6 +163,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         setText(contentView, R.id.tv_errorMulti, mErrorText)
                 .setTextColor(contentView, R.id.tv_errorMulti, mErrorTextColor)
                 .setTextSize(contentView, R.id.tv_errorMulti, mErrorTextSize)
+                .setTextFakeBold(contentView, R.id.tv_errorMulti, mErrorTextFakeBold)
                 .setViewMarginTop(contentView, R.id.tv_errorMulti, mTextMargin)
                 .setViewWidthAndHeight(contentView, R.id.iv_errorMulti, mImageWidth, mImageHeight)
                 .setImageDrawable(contentView, R.id.iv_errorMulti, mErrorImageDrawable);
@@ -164,6 +175,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         setText(contentView, R.id.tv_networkMulti, mNoNetText)
                 .setTextColor(contentView, R.id.tv_networkMulti, mNoNetTextColor)
                 .setTextSize(contentView, R.id.tv_networkMulti, mNoNetTextSize)
+                .setTextFakeBold(contentView, R.id.tv_networkMulti, mNoNetTextFakeBold)
                 .setViewMarginTop(contentView, R.id.tv_networkMulti, mTextMargin)
                 .setViewWidthAndHeight(contentView, R.id.iv_networkMulti, mImageWidth, mImageHeight)
                 .setImageDrawable(contentView, R.id.iv_networkMulti, mNoNetImageDrawable);
@@ -185,6 +197,12 @@ public class FastMultiStatusView implements IMultiStatusView {
     private FastMultiStatusView setTextSize(View contentView, int id, int size) {
         TextView txt = findViewById(contentView, id);
         txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        return this;
+    }
+
+    private FastMultiStatusView setTextFakeBold(View contentView, int id, boolean fakeBold) {
+        TextView txt = findViewById(contentView, id);
+        txt.getPaint().setFakeBoldText(fakeBold);
         return this;
     }
 
@@ -227,6 +245,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         @ColorInt
         int mLoadingTextColor;
         int mLoadingTextSize;
+        boolean mLoadingTextFakeBold;
         @ColorInt
         int mLoadingProgressColor;
         Drawable mLoadingProgressDrawable;
@@ -235,6 +254,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         @ColorInt
         int mEmptyTextColor;
         int mEmptyTextSize;
+        boolean mEmptyTextFakeBold;
         int mEmptyImageColor;
         Drawable mEmptyImageDrawable;
 
@@ -242,6 +262,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         @ColorInt
         int mErrorTextColor;
         int mErrorTextSize;
+        boolean mErrorTextFakeBold;
         int mErrorImageColor;
         Drawable mErrorImageDrawable;
 
@@ -249,6 +270,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         @ColorInt
         int mNoNetTextColor;
         int mNoNetTextSize;
+        boolean mNoNetTextFakeBold;
         int mNoNetImageColor;
         Drawable mNoNetImageDrawable;
 
@@ -261,6 +283,7 @@ public class FastMultiStatusView implements IMultiStatusView {
             mContext = context;
             setTextColorResource(R.color.colorMultiText);
             setTextSizeResource(R.dimen.dp_multi_text_size);
+            setTextFakeBold(false);
             setLoadingProgressColorResource(R.color.colorMultiProgress);
             setLoadingText(R.string.fast_multi_loading);
             setEmptyText(R.string.fast_multi_empty);
@@ -286,6 +309,10 @@ public class FastMultiStatusView implements IMultiStatusView {
             mEmptyTextSize = fastMultiStatusView.mEmptyTextSize;
             mErrorTextSize = fastMultiStatusView.mErrorTextSize;
             mNoNetTextSize = fastMultiStatusView.mNoNetTextSize;
+            mLoadingTextFakeBold = fastMultiStatusView.mLoadingTextFakeBold;
+            mEmptyTextFakeBold = fastMultiStatusView.mEmptyTextFakeBold;
+            mErrorTextFakeBold = fastMultiStatusView.mErrorTextFakeBold;
+            mNoNetTextFakeBold = fastMultiStatusView.mNoNetTextFakeBold;
             mLoadingText = fastMultiStatusView.mLoadingText;
             mEmptyText = fastMultiStatusView.mEmptyText;
             mErrorText = fastMultiStatusView.mErrorText;
@@ -335,6 +362,20 @@ public class FastMultiStatusView implements IMultiStatusView {
             return this;
         }
 
+        /**
+         * 设置所有TextView 文本是否粗体
+         *
+         * @param mTextFakeBold
+         * @return
+         */
+        public Builder setTextFakeBold(boolean mTextFakeBold) {
+            setLoadingTextFakeBold(mTextFakeBold);
+            setEmptyTextFakeBold(mTextFakeBold);
+            setErrorTextFakeBold(mTextFakeBold);
+            setNoNetTextFakeBold(mTextFakeBold);
+            return this;
+        }
+
         public Builder setLoadingText(@StringRes int mLoadingText) {
             return setLoadingText(getText(mLoadingText));
         }
@@ -377,6 +418,17 @@ public class FastMultiStatusView implements IMultiStatusView {
          */
         public Builder setLoadingTextSize(int mLoadingTextSize) {
             this.mLoadingTextSize = mLoadingTextSize;
+            return this;
+        }
+
+        /**
+         * 设置加载中文本是否粗体
+         *
+         * @param mLoadingTextFakeBold
+         * @return
+         */
+        public Builder setLoadingTextFakeBold(boolean mLoadingTextFakeBold) {
+            this.mLoadingTextFakeBold = mLoadingTextFakeBold;
             return this;
         }
 
@@ -453,6 +505,17 @@ public class FastMultiStatusView implements IMultiStatusView {
          */
         public Builder setEmptyTextSize(int mEmptyTextSize) {
             this.mEmptyTextSize = mEmptyTextSize;
+            return this;
+        }
+
+        /**
+         * 设置空布局文本是否粗体
+         *
+         * @param mEmptyTextFakeBold
+         * @return
+         */
+        public Builder setEmptyTextFakeBold(boolean mEmptyTextFakeBold) {
+            this.mEmptyTextFakeBold = mEmptyTextFakeBold;
             return this;
         }
 
@@ -540,7 +603,18 @@ public class FastMultiStatusView implements IMultiStatusView {
         }
 
         /**
-         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * 设置加载错误文本是否粗体
+         *
+         * @param mErrorTextFakeBold
+         * @return
+         */
+        public Builder setErrorTextFakeBold(boolean mErrorTextFakeBold) {
+            this.mErrorTextFakeBold = mErrorTextFakeBold;
+            return this;
+        }
+
+        /**
+         * 设置加载错误Image颜色--默认设置与TextView颜色相同注意与
          * {@link #setErrorTextColor(int)}顺序及{@link #setErrorImageDrawable(Drawable)}顺序
          *
          * @param mErrorImageColorRes
@@ -551,7 +625,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         }
 
         /**
-         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * 设置加载错误Image颜色--默认设置与TextView颜色相同注意与
          * {@link #setErrorTextColor(int)}顺序及{@link #setErrorImageDrawable(Drawable)}顺序
          *
          * @param mErrorImageColor
@@ -623,7 +697,18 @@ public class FastMultiStatusView implements IMultiStatusView {
         }
 
         /**
-         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * 设置无网络文本是否粗体
+         *
+         * @param mNoNetTextFakeBold
+         * @return
+         */
+        public Builder setNoNetTextFakeBold(boolean mNoNetTextFakeBold) {
+            this.mNoNetTextFakeBold = mNoNetTextFakeBold;
+            return this;
+        }
+
+        /**
+         * 设置无网络Image颜色--默认设置与TextView颜色相同注意与
          * {@link #setNoNetTextColor(int)}顺序及{@link #setNoNetImageDrawable(Drawable)}顺序
          *
          * @param mNoNetImageColorRes
@@ -634,7 +719,7 @@ public class FastMultiStatusView implements IMultiStatusView {
         }
 
         /**
-         * 设置空布局Image颜色--默认设置与TextView颜色相同注意与
+         * 设置无网络Image颜色--默认设置与TextView颜色相同注意与
          * {@link #setNoNetTextColor(int)}顺序及{@link #setNoNetImageDrawable(Drawable)}顺序
          *
          * @param mNoNetImageColor

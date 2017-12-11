@@ -74,6 +74,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         //方式一:设置FastLoadMoreView--可参考FastLoadMoreView.Builder相应set方法
         //默认配置请参考FastLoadMoreView.Builder(mContext)里初始化
         return new FastLoadMoreView.Builder(mContext)
+                .setLoadingTextFakeBold(true)
 //                                .setLoadTextColor(Color.MAGENTA)
 //                                //设置Loading 颜色-5.0以上有效
 //                                .setLoadingProgressColor(Color.MAGENTA)
@@ -110,6 +111,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         //根据具体情况可设置更多属性具体请参考FastMultiStatusView.Builder里set方法
         //默认设置请参考Builder(Context context)里初始化
         return new FastMultiStatusView.Builder(mContext)
+                .setLoadingTextFakeBold(true)
 //                                .setTextColor(Color.MAGENTA)
 //                                .setTextColorResource(R.color.colorMultiText)
 //                                .setTextSizeResource(R.dimen.dp_multi_text_size)
