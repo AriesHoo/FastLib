@@ -32,18 +32,18 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //初始化Logger日志打印
+        LoggerManager.init(TAG, BuildConfig.DEBUG);
         start = System.currentTimeMillis();
         LoggerManager.d(TAG, "start:" + start);
         mContext = this;
-        //初始化Logger日志打印
-        LoggerManager.init(TAG, BuildConfig.DEBUG);
         //初始化toast工具
         ToastUtil.init(mContext, true, ToastUtil.newBuilder()
-                .setRadius(SizeUtil.dp2px(6))
+                        .setRadius(SizeUtil.dp2px(6))
 //                .setPaddingLeft(SizeUtil.dp2px(24))
 //                .setPaddingRight(SizeUtil.dp2px(24))
 //                .setTextSize(SizeUtil.dp2px(16))
-                .setGravity(Gravity.BOTTOM)
+                        .setGravity(Gravity.BOTTOM)
         );
         //初始化Retrofit配置
         FastRetrofit.getInstance()
@@ -123,7 +123,9 @@ public class App extends Application {
                 //设置Retrofit全局异常处理-观察者必须为FastObserver及其子类
                 .setHttpErrorControl(impl)
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
-                .setDefaultRefreshHeader(impl);
+                .setDefaultRefreshHeader(impl)
+                //设置虚拟导航栏控制
+                .setNavigationBarControl(impl);
         LoggerManager.d(TAG, "total:" + (System.currentTimeMillis() - start));
     }
 

@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.main;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
@@ -58,4 +59,8 @@ public class MainActivity extends FastMainActivity {
 //                .setBackgroundColor(Color.MAGENTA));
     }
 
+    @Override
+    protected View getNavigationBarControlView() {
+        return null;
+    }
 }

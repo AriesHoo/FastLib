@@ -23,9 +23,9 @@ import butterknife.BindView;
  * Desc:
  */
 public class SplashActivity extends FastTitleActivity {
-    
-    @BindView(R.id.tv_versionSplash) TextView tvVersion;
 
+    @BindView(R.id.tv_versionSplash) TextView tvVersion;
+    @BindView(R.id.tv_copyRightSplash) TextView tvCopyRight;
     @Override
     public void beforeSetContentView() {
         if (!isTaskRoot()) {//防止应用后台后点击桌面图标造成重启的假象---MIUI及Flyme上发现过(原生未发现)
@@ -64,4 +64,22 @@ public class SplashActivity extends FastTitleActivity {
         }).compose(bindUntilEvent(ActivityEvent.DESTROY));
     }
 
+//    @Override
+//    protected NavigationBarControl getNavigationBarControl() {
+//        return new NavigationBarControl() {
+//            @NonNull
+//            @Override
+//            public FastNavigationConfigEntity createNavigationBarControl(Activity activity) {
+//                return new FastNavigationConfigEntity()
+//                        .setControlEnable(true)
+//                        .setTransEnable(true)
+//                        .setColor(Color.argb(80,0,0,0));
+//            }
+//        };
+//    }
+//
+//    @Override
+//    protected View getNavigationBarControlView() {
+//        return tvCopyRight;
+//    }
 }

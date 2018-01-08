@@ -19,9 +19,9 @@ import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetView;
-import com.just.library.AgentWeb;
-import com.just.library.ChromeClientCallbackManager;
-import com.just.library.DefaultWebCreator;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.ChromeClientCallbackManager;
+import com.just.agentweb.DefaultWebCreator;
 
 /**
  * Created: AriesHoo on 2017/8/5 19:42
@@ -45,7 +45,18 @@ public abstract class FastWebActivity extends FastTitleActivity {
         FastUtil.startActivity(mActivity, activity, bundle);
     }
 
-    protected abstract void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder);
+    @Deprecated
+    protected void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder) {
+
+    }
+
+    protected void setAgentWeb(AgentWeb mAgentWeb) {
+
+    }
+
+    protected void setAgentWeb(AgentWeb.CommonAgentBuilder mAgentBuilder) {
+
+    }
 
     /**
      * 设置进度条颜色
@@ -123,8 +134,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))//
                 .useDefaultIndicator()//
                 .setIndicatorColorWithHeight(getProgressColor() != -1 ? getProgressColor() : mTitleConfig.getTitleTextColor(),
-                        getProgressHeight());
-        mAgentWeb = mAgentBuilder
+                        getProgressHeight())
                 .setReceivedTitleCallback(new ChromeClientCallbackManager.ReceivedTitleCallback() {
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
@@ -132,12 +142,13 @@ public abstract class FastWebActivity extends FastTitleActivity {
                         mTitleBar.setTitleMainText(title);
                     }
                 })
-                .setWebChromeClient(null)
-                .setWebViewClient(null)
-                .setSecutityType(AgentWeb.SecurityType.default_check)
+                .setSecurityType(AgentWeb.SecurityType.strict);
+        setAgentWeb(mAgentBuilder);
+        mAgentWeb = mAgentBuilder
                 .createAgentWeb()//
                 .ready()
                 .go(url);
+        setAgentWeb(mAgentWeb);
         setAgentWeb(mAgentWeb, mAgentBuilder);
     }
 
@@ -192,8 +203,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                     .setTitleColorResource(R.color.colorTabTextSelect)
                     .setCancelMessage(R.string.fast_cancel)
                     .setCancelMessageTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
-                    .setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
-                    .setBackgroundResource(android.R.color.darker_gray);
+                    .setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         }
         mActionSheetView.show();
     }

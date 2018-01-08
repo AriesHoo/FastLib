@@ -13,6 +13,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class FastLoadMoreView extends LoadMoreView {
     private BaseViewHolder mHolder;
 
     private Context mContext;
+    private int mLoadingSize;
     private CharSequence mLoadingText;
     @ColorInt
     private int mLoadingTextColor;
@@ -58,6 +60,7 @@ public class FastLoadMoreView extends LoadMoreView {
     FastLoadMoreView(Builder builder) {
         this.mContext = builder.mContext;
         this.mBuilder = builder;
+        this.mLoadingSize = builder.mLoadingSize;
         this.mLoadingText = builder.mLoadingText;
         this.mLoadingTextColor = builder.mLoadingTextColor;
         this.mLoadingTextSize = builder.mLoadingTextSize;
@@ -124,6 +127,12 @@ public class FastLoadMoreView extends LoadMoreView {
         tvLoadFail.getPaint().setFakeBoldText(mLoadFailTextFakeBold);
         tvLoadEnd.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLoadEndTextSize);
         tvLoadEnd.getPaint().setFakeBoldText(mLoadEndTextFakeBold);
+        if (mLoadingSize >= 0) {
+            pbLoading.getIndeterminateDrawable().setBounds(0, 0, mLoadingSize, mLoadingSize);
+            ViewGroup.LayoutParams params = pbLoading.getLayoutParams();
+            params.width = mLoadingSize;
+            params.height = mLoadingSize;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pbLoading.setIndeterminateTintList(ColorStateList.valueOf(mLoadingProgressColor));
         }
@@ -144,6 +153,7 @@ public class FastLoadMoreView extends LoadMoreView {
     public static final class Builder {
 
         Context mContext;
+        int mLoadingSize;
         CharSequence mLoadingText;
         @ColorInt
         int mLoadingTextColor;
@@ -166,11 +176,12 @@ public class FastLoadMoreView extends LoadMoreView {
         public Builder(@Nullable Context context) {
             mContext = context;
             setLoadTextColorResource(R.color.colorLoadMoreText);
-//            setLoadEndTextColorResource(android.R.color.darker_gray);
+            setLoadEndTextColorResource(android.R.color.darker_gray);
             setLoadTextSizeResource(R.dimen.dp_load_more_text_size);
             setLoadTextFakeBold(false);
             setLoadingProgressColorResource(R.color.colorLoadMoreProgress);
 
+            setLoadingSize(-1);
             setLoadingText(R.string.fast_load_more_loading);
             setLoadFailText(R.string.fast_load_more_load_failed);
             setLoadEndText(R.string.fast_load_more_load_end);
@@ -178,6 +189,7 @@ public class FastLoadMoreView extends LoadMoreView {
 
         public Builder(FastLoadMoreView fastLoadMoreView) {
             this.mContext = fastLoadMoreView.mContext;
+            this.mLoadingSize = fastLoadMoreView.mLoadingSize;
             this.mLoadingText = fastLoadMoreView.mLoadingText;
             this.mLoadingTextColor = fastLoadMoreView.mLoadingTextColor;
             this.mLoadingTextSize = fastLoadMoreView.mLoadingTextSize;
@@ -248,6 +260,27 @@ public class FastLoadMoreView extends LoadMoreView {
             setLoadingTextFakeBold(mLoadTextFakeBold);
             setLoadFailTextFakeBold(mLoadTextFakeBold);
             setLoadEndTextFakeBold(mLoadTextFakeBold);
+            return this;
+        }
+
+        /**
+         * 设置ProgressBar 大小
+         *
+         * @param loadingSizeRes
+         * @return
+         */
+        public Builder setLoadingSizeResource(@DimenRes int loadingSizeRes) {
+            return setLoadingSize(getDimensionPixelSize(loadingSizeRes));
+        }
+
+        /**
+         * 设置ProgressBar 大小
+         *
+         * @param loadingSize
+         * @return
+         */
+        public Builder setLoadingSize(int loadingSize) {
+            this.mLoadingSize = loadingSize;
             return this;
         }
 

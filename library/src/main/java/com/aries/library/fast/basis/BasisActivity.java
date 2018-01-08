@@ -2,18 +2,25 @@ package com.aries.library.fast.basis;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 
 import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.entity.FastNavigationConfigEntity;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.i.IBasisView;
+import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.NavigationBarUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -41,9 +48,18 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean mIsViewLoaded = false;
     protected boolean mIsFirstShow = true;
     protected boolean mIsFirstBack = true;
+    private boolean mIsGlobal = false;
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
     protected FastQuitConfigEntity mQuitEntity;
+
+    protected NavigationBarControl getNavigationBarControl() {
+        return FastConfig.getInstance(this).getNavigationBarControl();
+    }
+
+    protected View getNavigationBarControlView() {
+        return mContentView;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +77,54 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         mContentView = View.inflate(mContext, getContentLayout(), null);
         setContentView(mContentView);
         mUnBinder = ButterKnife.bind(this);
+        setNavigationBar();
         mIsViewLoaded = true;
         beforeInitView();
         initView(savedInstanceState);
+    }
+
+    private void setNavigationBar() {
+        if (getNavigationBarControl() == null) {
+            return;
+        }
+        FastNavigationConfigEntity entity = getNavigationBarControl().createNavigationBarControl(this);
+        if (entity == null || !entity.isControlEnable()) {
+            return;
+        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && entity.isTransEnable()) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            getWindow().setNavigationBarColor(entity.getColor());
+        }
+        final View controlView = getNavigationBarControlView();
+        if (!entity.isTransEnable()) {
+            mContentView.setFitsSystemWindows(true);
+            mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mContentView.setPadding(mContentView.getPaddingLeft(), 0
+                            , mContentView.getPaddingRight(), mContentView.getPaddingBottom());
+                }
+            });
+        } else {
+            if (controlView != null && NavigationBarUtil.hasSoftKeys(getWindowManager())) {
+                controlView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        if (mIsGlobal) {
+                            return;
+                        }
+                        mIsGlobal = true;
+                        ViewGroup.LayoutParams params = controlView.getLayoutParams();
+                        if (params != null && params.height >= 0) {//默认
+                            params.height = params.height + NavigationBarUtil.getNavigationBarHeight(getWindowManager());
+                        }
+                        controlView.setPadding(controlView.getPaddingLeft(), controlView.getPaddingTop(), controlView.getPaddingRight(),
+                                controlView.getPaddingBottom() + NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
+                    }
+                });
+            }
+        }
     }
 
     @Override

@@ -140,7 +140,8 @@ public class ToastUtil {
             sSystemToast.setDuration(duration);
             sSystemToast.setGravity(builder.gravity,
                     builder.gravityXOffset > -1 ? builder.gravityXOffset : 0,
-                    builder.gravityYOffset > -1 ? builder.gravityYOffset : SizeUtil.dp2px(64));
+                    builder.gravityYOffset > -1 ? builder.gravityYOffset :
+                            builder.gravity == Gravity.BOTTOM ? SizeUtil.dp2px(64) : 0);
             if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(sContext))) {
                 sSystemToast.show();
             }

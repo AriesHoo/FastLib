@@ -20,6 +20,7 @@ import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
+import com.aries.library.fast.entity.FastNavigationConfigEntity;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.i.HttpErrorControl;
@@ -28,6 +29,7 @@ import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
+import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
@@ -157,6 +159,15 @@ public class FastConfig {
                     return false;
                 }
             });
+            setNavigationBarControl(new NavigationBarControl() {
+                @NonNull
+                @Override
+                public FastNavigationConfigEntity createNavigationBarControl(Activity activity) {
+                    return new FastNavigationConfigEntity()
+                            .setControlEnable(true)
+                            .setTransEnable(false);
+                }
+            });
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             setContentViewBackgroundResource(-1);
             setSwipeBackEnable(false, null);
@@ -201,6 +212,8 @@ public class FastConfig {
      * 配置全局Http请求返回错误码处理
      */
     private HttpErrorControl mHttpErrorControl;
+
+    private NavigationBarControl mNavigationBarControl;
 
     public FastTitleConfigEntity getTitleConfig() {
         return mTitleConfig;
@@ -290,7 +303,7 @@ public class FastConfig {
             throw new NullPointerException(FastConstant.EXCEPTION_SWIPE_BACK_APPLICATION_NOT_NULL);
         }
         mIsSwipeBackEnable = swipeBackEnable;
-        if (application != null&&
+        if (application != null &&
                 FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
             BGASwipeBackManager.getInstance().init(application);//初始化滑动返回关闭Activity功能
             // 导航栏处理--不设置会预留一块导航栏高度的空白
@@ -384,6 +397,17 @@ public class FastConfig {
     public FastConfig setHttpErrorControl(HttpErrorControl mHttpErrorControl) {
         if (mHttpErrorControl != null) {
             this.mHttpErrorControl = mHttpErrorControl;
+        }
+        return this;
+    }
+
+    public NavigationBarControl getNavigationBarControl() {
+        return mNavigationBarControl;
+    }
+
+    public FastConfig setNavigationBarControl(NavigationBarControl navigationBarControl) {
+        if (navigationBarControl != null) {
+            mNavigationBarControl = navigationBarControl;
         }
         return this;
     }

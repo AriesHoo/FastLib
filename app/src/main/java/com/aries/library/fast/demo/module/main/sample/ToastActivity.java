@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.main.sample;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class ToastActivity extends FastTitleActivity {
                 Toast.makeText(mContext, R.string.toast_system, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rtv_normal:
-                ToastUtil.show(R.string.toast_normal);
+                ToastUtil.show(R.string.toast_normal, ToastUtil.newBuilder().setGravity(Gravity.CENTER));
                 break;
             case R.id.rtv_success:
                 ToastUtil.showSuccess(R.string.toast_success);

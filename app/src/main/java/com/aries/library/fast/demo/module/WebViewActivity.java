@@ -1,16 +1,24 @@
 package com.aries.library.fast.demo.module;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.ui.view.title.TitleBarView;
-import com.just.library.AgentWeb;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.DownLoadResultListener;
+
+import java.io.File;
 
 /**
  * Created: AriesHoo on 2017/10/13 8:47
@@ -61,7 +69,26 @@ public class WebViewActivity extends FastWebActivity {
     }
 
     @Override
-    protected void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder) {
+    protected void setAgentWeb(AgentWeb.CommonAgentBuilder mAgentBuilder) {
+        super.setAgentWeb(mAgentBuilder);
+        mAgentBuilder.addDownLoadResultListener(new DownLoadResultListener() {
+            @Override
+            public void success(String path) {
+                if (path.endsWith(".apk")) {
+                    installApk(getApplicationContext(), path);
+                }
+            }
+
+            @Override
+            public void error(String path, String resUrl, String cause, Throwable e) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void setAgentWeb(AgentWeb mAgentWeb) {
+        super.setAgentWeb(mAgentWeb);
         WebView mWebView = mAgentWeb.getWebCreator().get();
         mWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -82,6 +109,24 @@ public class WebViewActivity extends FastWebActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
 
+    }
+
+
+    private void installApk(Context context, String apkPath) {
+        if (context == null || TextUtils.isEmpty(apkPath)) {
+            return;
+        }
+        File file = new File(apkPath);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        //判读版本是否在7.0以上
+        if (Build.VERSION.SDK_INT >= 24) {
+            Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName() + ".AgentWebFileProvider", file);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        }
+        context.startActivity(intent);
     }
 
     @Override

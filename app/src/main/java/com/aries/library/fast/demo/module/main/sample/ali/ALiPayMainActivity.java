@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.main.sample.ali;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.entity.FastTabEntity;
@@ -10,6 +11,8 @@ import com.flyco.tablayout.CommonTabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * Created: AriesHoo on 2017/8/5 20:48
  * Function: 快速实现支付宝主页
@@ -17,6 +20,7 @@ import java.util.List;
  */
 public class ALiPayMainActivity extends FastMainActivity {
 
+    @BindView(R.id.tabLayout_commonFastLib) CommonTabLayout mTabLayout;
     String[] titles;
 
     @Override
@@ -57,5 +61,10 @@ public class ALiPayMainActivity extends FastMainActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    protected View getNavigationBarControlView() {
+        return mTabLayout;
     }
 }

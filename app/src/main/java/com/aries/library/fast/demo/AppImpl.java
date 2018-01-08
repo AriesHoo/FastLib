@@ -2,17 +2,21 @@ package com.aries.library.fast.demo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
+import com.aries.library.fast.entity.FastNavigationConfigEntity;
 import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
+import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastError;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
@@ -33,7 +37,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
  * Description:
  */
 public class AppImpl implements DefaultRefreshHeaderCreater
-        , LoadMoreFoot, MultiStatusView, LoadingDialog, HttpErrorControl {
+        , LoadMoreFoot, MultiStatusView, LoadingDialog, HttpErrorControl, NavigationBarControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -75,6 +79,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         //默认配置请参考FastLoadMoreView.Builder(mContext)里初始化
         return new FastLoadMoreView.Builder(mContext)
                 .setLoadingTextFakeBold(true)
+                .setLoadingSize(SizeUtil.dp2px(20))
 //                                .setLoadTextColor(Color.MAGENTA)
 //                                //设置Loading 颜色-5.0以上有效
 //                                .setLoadingProgressColor(Color.MAGENTA)
@@ -187,5 +192,17 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         }
         //返回值true则FastObserver不会回调_onError所有逻辑处理都在全局位置处理
         return false;
+    }
+
+    @NonNull
+    @Override
+    public FastNavigationConfigEntity createNavigationBarControl(Activity activity) {
+        return new FastNavigationConfigEntity()
+                //设置为true其它两个属性才有效
+                .setControlEnable(true)
+                //设置为true color属性有效不然为系统默认的半透明效果
+                .setTransEnable(false)
+                .setColor(Color.argb(102,0,0,0));
+                //半透明效果alpha为102;
     }
 }
