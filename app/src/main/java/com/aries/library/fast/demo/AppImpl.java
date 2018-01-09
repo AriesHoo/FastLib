@@ -21,6 +21,7 @@ import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
+import com.aries.ui.util.RomUtil;
 import com.aries.ui.widget.progress.UIProgressView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
@@ -201,8 +202,9 @@ public class AppImpl implements DefaultRefreshHeaderCreater
                 //设置为true其它两个属性才有效
                 .setControlEnable(true)
                 //设置为true color属性有效不然为系统默认的半透明效果
-                .setTransEnable(false)
-                .setColor(Color.argb(102,0,0,0));
-                //半透明效果alpha为102;
+                //华为的系统默认半透明和白色很接近目前还没有解决方案
+                .setTransEnable(RomUtil.isEMUI())
+                //半透明效果alpha为102--如果使用滑动返回不建议使用透明度不然滑动返回后有一种导航栏颜色又变化的视觉;
+                .setColor(Color.argb(102, 0, 0, 0));
     }
 }

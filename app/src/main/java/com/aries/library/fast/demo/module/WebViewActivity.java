@@ -12,8 +12,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.aries.library.fast.demo.R;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
+import com.aries.library.fast.util.NavigationBarUtil;
+import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DownLoadResultListener;
@@ -107,8 +110,15 @@ public class WebViewActivity extends FastWebActivity {
     }
 
     @Override
-    public void initView(Bundle savedInstanceState) {
+    protected boolean isSwipeBackEnable() {
+        return super.isSwipeBackEnable() && !(RomUtil.isEMUI() && NavigationBarUtil.hasSoftKeys(getWindowManager()));
+    }
 
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        if(!isSwipeBackEnable()){
+            getWindow().getDecorView().setBackgroundResource(R.color.colorBackground);
+        }
     }
 
 
@@ -136,5 +146,10 @@ public class WebViewActivity extends FastWebActivity {
         if (mSwipeBackHelper != null) {
             mSwipeBackHelper.setSwipeBackEnable(false);
         }
+    }
+
+    @Override
+    protected View getNavigationBarControlView() {
+        return isSwipeBackEnable()?super.getNavigationBarControlView():null;
     }
 }

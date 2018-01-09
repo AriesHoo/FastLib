@@ -126,6 +126,10 @@ dependencies {
 
 ## 录屏预览
 
+![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
+
+虚拟导航栏控制-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
+
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
