@@ -135,6 +135,8 @@ public class ToastUtil {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 sTextView.setElevation(builder.elevation);
             }
+            sTextView.setMinimumHeight(builder.minHeight);
+            sTextView.setMinimumWidth(builder.minWidth);
             sTextView.setText(content);
             sSystemToast.setView(sTextView);
             sSystemToast.setDuration(duration);
@@ -214,7 +216,7 @@ public class ToastUtil {
                 .setElevation(8)
                 .setTextDrawable(sContext.getResources().getDrawable(res))
                 .setTextDrawableGravity(Gravity.TOP)
-                .setTextDrawablePadding(SizeUtil.dp2px(8))
+                .setTextDrawablePadding(SizeUtil.dp2px(10))
                 .setTextDrawableWidth(SizeUtil.dp2px(36))
                 .setTextDrawableHeight(SizeUtil.dp2px(36))
                 .setTextGravity(Gravity.CENTER)
@@ -225,7 +227,8 @@ public class ToastUtil {
                 .setRadius(SizeUtil.dp2px(8))
                 .setTextSize(SizeUtil.dp2px(16))
                 .setGravityYOffset(0)
-                .setGravity(Gravity.CENTER);
+                .setGravity(Gravity.CENTER)
+                .setMinWidth(SizeUtil.dp2px(140));
 
     }
 
@@ -265,6 +268,8 @@ public class ToastUtil {
         int strokeColor;
         int strokeWidth;
         int radius;
+        int minWidth;
+        int minHeight;
 
         public Builder() {
             setGravity(Gravity.BOTTOM)
@@ -288,7 +293,9 @@ public class ToastUtil {
                     .setBackgroundColor(Color.argb(187, 0, 0, 0))
                     .setStrokeColor(Color.TRANSPARENT)
                     .setStrokeWidth(0)
-                    .setRadius(SizeUtil.dp2px(4f));
+                    .setRadius(SizeUtil.dp2px(4f))
+                    .setMinWidth(0)
+                    .setMinHeight(0);
         }
 
         /**
@@ -543,6 +550,16 @@ public class ToastUtil {
          */
         public Builder setRadius(int radius) {
             this.radius = radius;
+            return this;
+        }
+
+        public Builder setMinWidth(int minWidth) {
+            this.minWidth = minWidth;
+            return this;
+        }
+
+        public Builder setMinHeight(int minHeight) {
+            this.minHeight = minHeight;
             return this;
         }
     }

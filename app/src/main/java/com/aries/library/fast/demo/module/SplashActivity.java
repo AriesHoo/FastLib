@@ -72,14 +72,14 @@ public class SplashActivity extends FastTitleActivity {
 //            public FastNavigationConfigEntity createNavigationBarControl(Activity activity) {
 //                return new FastNavigationConfigEntity()
 //                        .setControlEnable(true)
-//                        .setTransEnable(true)
+//                        .setTransEnable(false)
 //                        .setColor(Color.argb(80,0,0,0));
 //            }
 //        };
 //    }
-//
-//    @Override
-//    protected View getNavigationBarControlView() {
-//        return tvCopyRight;
-//    }
+
+    @Override
+    protected View getNavigationBarControlView() {
+        return tvCopyRight;
+    }
 }

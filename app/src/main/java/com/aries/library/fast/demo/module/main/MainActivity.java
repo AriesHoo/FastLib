@@ -3,6 +3,7 @@ package com.aries.library.fast.demo.module.main;
 import android.os.Bundle;
 import android.view.View;
 
+import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
@@ -61,6 +62,7 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     protected View getNavigationBarControlView() {
-        return null;
+        return FastConfig.getInstance(mContext).getNavigationBarControl().createNavigationBarControl(mContext)
+                .isTransEnable() ?  null:super.getNavigationBarControlView();
     }
 }

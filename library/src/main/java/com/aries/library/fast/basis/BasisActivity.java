@@ -97,33 +97,22 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             getWindow().setNavigationBarColor(entity.getColor());
         }
         final View controlView = getNavigationBarControlView();
-        if (!entity.isTransEnable()) {
-            mContentView.setFitsSystemWindows(true);
-            mContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        if (controlView != null && NavigationBarUtil.hasSoftKeys(getWindowManager())) {
+            controlView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    mContentView.setPadding(mContentView.getPaddingLeft(), 0
-                            , mContentView.getPaddingRight(), mContentView.getPaddingBottom());
+                    if (mIsGlobal) {
+                        return;
+                    }
+                    mIsGlobal = true;
+                    ViewGroup.LayoutParams params = controlView.getLayoutParams();
+                    if (params != null && params.height >= 0) {//默认
+                        params.height = params.height + NavigationBarUtil.getNavigationBarHeight(getWindowManager());
+                    }
+                    controlView.setPadding(controlView.getPaddingLeft(), controlView.getPaddingTop(), controlView.getPaddingRight(),
+                            controlView.getPaddingBottom() + NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
                 }
             });
-        } else {
-            if (controlView != null && NavigationBarUtil.hasSoftKeys(getWindowManager())) {
-                controlView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        if (mIsGlobal) {
-                            return;
-                        }
-                        mIsGlobal = true;
-                        ViewGroup.LayoutParams params = controlView.getLayoutParams();
-                        if (params != null && params.height >= 0) {//默认
-                            params.height = params.height + NavigationBarUtil.getNavigationBarHeight(getWindowManager());
-                        }
-                        controlView.setPadding(controlView.getPaddingLeft(), controlView.getPaddingTop(), controlView.getPaddingRight(),
-                                controlView.getPaddingBottom() + NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
-                    }
-                });
-            }
         }
     }
 
