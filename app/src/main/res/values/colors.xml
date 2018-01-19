@@ -23,7 +23,7 @@
     <!--以下属性为lib属性app里设置可以影响lib默认-->
 
     <!--TitleBarView背景色-->
-    <color name="colorTitleBackground">#FFFFFF</color>
+    <color name="colorTitleBackground">#ffffff</color>
     <!--TitleBarView 文字颜色-->
     <color name="colorTitleText">#393939</color>
     <!--TitleBarView 下划线颜色-->
@@ -39,19 +39,19 @@
     <color name="colorTabTextSelect">#393939</color>
 
     <!--多状态 loading颜色-->
-    <color name="colorMultiProgress">#393939</color>
+    <color name="colorMultiProgress">@color/colorTitleText</color>
     <!--多状态文字颜色-->
-    <color name="colorMultiText">#393939</color>
+    <color name="colorMultiText">@color/colorTitleText</color>
     <!--多状态布局背景色-->
     <color name="colorMultiBackground">#fafafa</color>
     <!--多状态布局图片颜色-->
-    <color name="colorMultiImage">#393939</color>
+    <color name="colorMultiImage">@color/colorTitleText</color>
 
     <!--Glide加载图片默认占位图背景色-->
     <color name="colorPlaceholder">#bdbdbd</color>
 
     <!--LoadMoreView 文本颜色-->
-    <color name="colorLoadMoreText">#393939</color>
+    <color name="colorLoadMoreText">@color/colorTitleText</color>
     <!--LoadMoreView loading颜色-->
-    <color name="colorLoadMoreProgress">#393939</color>
+    <color name="colorLoadMoreProgress">@color/colorTitleText</color>
 </resources>

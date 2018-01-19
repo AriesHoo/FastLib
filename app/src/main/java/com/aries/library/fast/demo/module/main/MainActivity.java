@@ -1,13 +1,17 @@
 package com.aries.library.fast.demo.module.main;
 
+import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
+import com.aries.library.fast.entity.FastNavigationConfigEntity;
 import com.aries.library.fast.entity.FastTabEntity;
+import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.module.activity.FastMainActivity;
 import com.flyco.tablayout.CommonTabLayout;
 
@@ -61,8 +65,23 @@ public class MainActivity extends FastMainActivity {
     }
 
     @Override
+    protected NavigationBarControl getNavigationBarControl() {
+        return new NavigationBarControl() {
+            @NonNull
+            @Override
+            public FastNavigationConfigEntity createNavigationBarControl(Activity activity) {
+                return new FastNavigationConfigEntity()
+                        .setControlEnable(true)
+                        .setTransEnable(true)
+                        .setAddNavigationViewEnable(false)
+                        .setColor(Color.argb(102,0,0,0));
+            }
+        };
+    }
+
+    @Override
     protected View getNavigationBarControlView() {
-        return FastConfig.getInstance(mContext).getNavigationBarControl().createNavigationBarControl(mContext)
-                .isTransEnable() ?  null:super.getNavigationBarControlView();
+        return getNavigationBarControl().createNavigationBarControl(mContext)
+                .isTransEnable() ? null : super.getNavigationBarControlView();
     }
 }

@@ -2,6 +2,7 @@ package com.aries.library.fast.basis;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -9,7 +10,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.entity.FastNavigationConfigEntity;
@@ -52,6 +55,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
     protected FastQuitConfigEntity mQuitEntity;
+    protected ViewGroup mLayoutNavigation;
 
     protected NavigationBarControl getNavigationBarControl() {
         return FastConfig.getInstance(this).getNavigationBarControl();
@@ -71,30 +75,93 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
         super.onCreate(savedInstanceState);
         mContext = this;
+        addNavigationBar();
         FastStackUtil.getInstance().push(this);
         initSwipeBack();
         beforeSetContentView();
         mContentView = View.inflate(mContext, getContentLayout(), null);
         setContentView(mContentView);
         mUnBinder = ButterKnife.bind(this);
-        setNavigationBar();
         mIsViewLoaded = true;
+        setNavigationBar();
         beforeInitView();
         initView(savedInstanceState);
     }
 
-    private void setNavigationBar() {
-        if (getNavigationBarControl() == null) {
+    /**
+     * 添加一层假NavigationView用于占位
+     */
+    private void addNavigationBar() {
+        if (!isSupportNavigationBarControl()) {
             return;
         }
         FastNavigationConfigEntity entity = getNavigationBarControl().createNavigationBarControl(this);
-        if (entity == null || !entity.isControlEnable()) {
+        if (entity == null || !entity.isControlEnable() || !entity.isAddNavigationViewEnable()) {
             return;
         }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(window.getDecorView().getSystemUiVisibility() |
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }
+        ViewGroup root = (ViewGroup) getWindow().getDecorView();
+        LoggerManager.i(TAG, "widow-DecorView的第一个子View为:" + root.getChildAt(0).getClass().getSimpleName());
+        if (root.getChildAt(0) instanceof LinearLayout) {
+            final LinearLayout linearLayout = (LinearLayout) root.getChildAt(0);
+            LoggerManager.i(TAG, "widow-DecorView的第一个子View总有子View数量为:" + linearLayout.getChildCount());
+            if (linearLayout.getChildCount() >= 2) {//其实也只有2个子View
+                View viewChild = linearLayout.getChildAt(1);
+                //设置LinearLayout第二个View占用屏幕高度权重为1
+                // 预留假的NavigationView位置并保证Navigation始终在最底部--被虚拟导航栏遮住
+                viewChild.setLayoutParams(new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f));
+                //创建假的NavigationView
+                View navigationView = new View(mContext);
+                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    navigationView.setBackground(entity.getDrawable());
+                } else {
+                    navigationView.setBackgroundDrawable(entity.getDrawable());
+                }
+                //创建假的NavigationView包裹ViewGroup用于设置背景与mContentView一致
+                mLayoutNavigation = new LinearLayout(mContext);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mLayoutNavigation.setBackground(entity.getBackgroundDrawable());
+                }else {
+                    mLayoutNavigation.setBackgroundDrawable(entity.getBackgroundDrawable());
+                }
+                mLayoutNavigation.addView(navigationView, params);
+
+                linearLayout.addView(mLayoutNavigation,
+                        new ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+        }
+    }
+
+    /**
+     * 控制虚拟导航栏
+     */
+    private void setNavigationBar() {
+        if (!isSupportNavigationBarControl()) {
+            return;
+        }
+        FastNavigationConfigEntity entity = getNavigationBarControl().createNavigationBarControl(this);
+        if (entity == null || !entity.isControlEnable() || entity.isAddNavigationViewEnable()) {
+            return;
+        }
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && entity.isTransEnable()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            getWindow().setNavigationBarColor(entity.getColor());
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.setNavigationBarColor(entity.getColor());
         }
         final View controlView = getNavigationBarControlView();
         if (controlView != null && NavigationBarUtil.hasSoftKeys(getWindowManager())) {
@@ -109,8 +176,12 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
                     if (params != null && params.height >= 0) {//默认
                         params.height = params.height + NavigationBarUtil.getNavigationBarHeight(getWindowManager());
                     }
-                    controlView.setPadding(controlView.getPaddingLeft(), controlView.getPaddingTop(), controlView.getPaddingRight(),
-                            controlView.getPaddingBottom() + NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
+                    controlView.setPadding(
+                            controlView.getPaddingLeft(),
+                            controlView.getPaddingTop(),
+                            controlView.getPaddingRight(),
+                            controlView.getPaddingBottom() +
+                                    NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
                 }
             });
         }
@@ -271,5 +342,16 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
                 FastStackUtil.getInstance().exit();
             }
         }
+    }
+
+    /**
+     * 是否支持虚拟导航栏控制--有虚拟导航栏且配置操作参数
+     *
+     * @return
+     */
+    protected boolean isSupportNavigationBarControl() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+                NavigationBarUtil.hasSoftKeys(getWindowManager()) &&
+                getNavigationBarControl() != null;
     }
 }

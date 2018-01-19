@@ -76,6 +76,8 @@ public class FastMainTabDelegate {
         mTabLayout.setIconMargin(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_margin)));
         mTabLayout.setIconWidth(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_icon)));
         mTabLayout.setIconHeight(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_icon)));
+        //设置指示器高度为0
+        mTabLayout.setIndicatorHeight(0);
         ViewGroup.LayoutParams params = mTabLayout.getLayoutParams();
         if (params != null) {
             params.height = mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_height);
