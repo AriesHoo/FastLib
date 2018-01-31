@@ -2,7 +2,6 @@ package com.aries.library.fast.basis;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -15,10 +14,8 @@ import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
-import com.aries.library.fast.util.FastKeyboardUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
-import com.aries.library.fast.util.NavigationBarUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -28,6 +25,7 @@ import org.simple.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -96,8 +94,13 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     }
 
     @Override
+    public void finish() {
+        BGAKeyboardUtil.closeKeyboard(this);
+        super.finish();
+    }
+
+    @Override
     protected void onDestroy() {
-        FastKeyboardUtil.hide(mContentView);
         EventBus.getDefault().unregister(this);
         super.onDestroy();
         if (mUnBinder != null) {
@@ -223,7 +226,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
         if (mIsFirstBack) {
             if (isSnackBar) {
-                SnackBarUtil.with(getWindow().getDecorView())
+                SnackBarUtil.with(mContentView)
                         .setBgColor(mQuitEntity.getSnackBarBackgroundColor())
                         .setMessageColor(mQuitEntity.getSnackBarMessageColor())
                         .setMessage(mQuitEntity.getQuitMessage())
@@ -247,14 +250,4 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
-    /**
-     * 是否支持虚拟导航栏控制--有虚拟导航栏且配置操作参数
-     *
-     * @return
-     */
-    protected boolean isSupportNavigationBarControl() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                NavigationBarUtil.hasSoftKeys(getWindowManager()) &&
-                getNavigationBarControl() != null;
-    }
 }

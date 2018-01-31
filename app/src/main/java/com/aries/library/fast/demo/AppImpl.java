@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.helper.NavigationViewHelper;
@@ -23,6 +22,7 @@ import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
+import com.aries.ui.util.RomUtil;
 import com.aries.ui.widget.progress.UIProgressView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
@@ -200,11 +200,14 @@ public class AppImpl implements DefaultRefreshHeaderCreater
     @Override
     public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
         NavigationViewHelper helper = NavigationViewHelper.with(activity)
-                .setControlEnable(GlobalConstant.mControlEnable)
-                .setTransEnable(GlobalConstant.mTransEnable)
-                .setPlusNavigationViewEnable(activity.getClass() == SplashActivity.class ? false :
-                        GlobalConstant.mPlusNavigationViewEnable)
+                .setControlEnable(true)
+                .setTransEnable(false)
+                .setPlusNavigationViewEnable(
+                        activity.getClass() == SplashActivity.class ? false :
+                                RomUtil.isEMUI())
+                .setControlBottomEditTextEnable(true)
                 .setBottomView(bottomView);
         return helper;
     }
+
 }

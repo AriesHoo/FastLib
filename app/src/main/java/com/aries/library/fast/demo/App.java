@@ -113,7 +113,7 @@ public class App extends Application {
                 //设置Activity横竖屏模式
                 .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 //设置Activity或Fragment根布局背景资源
-                .setContentViewBackgroundResource(R.color.colorBackground)
+                .setContentViewBackgroundResource(R.color.colorWhite)
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
                 .setLoadMoreFoot(impl)
                 //设置RecyclerView加载过程多布局属性

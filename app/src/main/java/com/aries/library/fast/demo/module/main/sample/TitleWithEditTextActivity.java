@@ -5,8 +5,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.constant.GlobalConstant;
-import com.aries.library.fast.helper.KeyboardHelper;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.ui.view.title.TitleBarView;
 
@@ -30,19 +28,10 @@ public class TitleWithEditTextActivity extends FastTitleActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        KeyboardHelper.with(this)
-                .setControlNavigationBar(!GlobalConstant.mPlusNavigationViewEnable&&GlobalConstant.mControlEnable)
-                .setEnable();
     }
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setTitleMainText("Title+底部输入框测试");
-    }
-
-    @Override
-    protected View getNavigationBarControlView() {
-        return !GlobalConstant.mPlusNavigationViewEnable&&GlobalConstant.mControlEnable?
-                null:super.getNavigationBarControlView();
     }
 }

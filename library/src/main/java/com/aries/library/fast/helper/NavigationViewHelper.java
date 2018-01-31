@@ -35,10 +35,11 @@ public class NavigationViewHelper {
     private boolean mControlEnable;
     private boolean mTransEnable;
     private boolean mPlusNavigationViewEnable;
+    private boolean mControlBottomEditTextEnable = true;
     @ColorInt
     private int mNavigationViewColor = Color.TRANSPARENT;
     private Drawable mNavigationViewDrawable = new ColorDrawable(mNavigationViewColor);
-    private Drawable mNavigationLayoutDrawable = new ColorDrawable(mNavigationViewColor);
+    private Drawable mNavigationLayoutDrawable = new ColorDrawable(Color.WHITE);
     private View mBottomView;//设置activity最底部View用于增加导航栏的padding
 
     private View mContentView;//activity xml设置根布局
@@ -66,7 +67,8 @@ public class NavigationViewHelper {
         mControlEnable = controlEnable;
         if (!controlEnable) {
             setPlusNavigationViewEnable(true)
-                    .setNavigationViewColor(Color.BLACK);
+                    .setNavigationViewColor(Color.BLACK)
+                    .setNavigationLayoutColor(Color.BLACK);
         }
         return this;
     }
@@ -79,10 +81,8 @@ public class NavigationViewHelper {
      */
     public NavigationViewHelper setTransEnable(boolean transEnable) {
         this.mTransEnable = transEnable;
-        if (!transEnable) {
-            setNavigationLayoutColor(Color.WHITE);
-        }
-        return setNavigationViewColor(transEnable ? Color.TRANSPARENT : Color.argb(6, 0, 0, 0));
+        setNavigationLayoutColor(Color.WHITE);
+        return setNavigationViewColor(transEnable ? Color.TRANSPARENT : Color.argb(102, 0, 0, 0));
     }
 
     /**
@@ -93,6 +93,17 @@ public class NavigationViewHelper {
      */
     public NavigationViewHelper setPlusNavigationViewEnable(boolean plusNavigationViewEnable) {
         this.mPlusNavigationViewEnable = plusNavigationViewEnable;
+        return this;
+    }
+
+    /**
+     * 设置是否自动控制底部输入框
+     *
+     * @param controlBottomEditTextEnable
+     * @return
+     */
+    public NavigationViewHelper setControlBottomEditTextEnable(boolean controlBottomEditTextEnable) {
+        mControlBottomEditTextEnable = controlBottomEditTextEnable;
         return this;
     }
 
@@ -162,20 +173,20 @@ public class NavigationViewHelper {
         final Window window = activity.getWindow();
         mContentView = ((ViewGroup) window.getDecorView().findViewById(android.R.id.content)).getChildAt(0);
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (!mPlusNavigationViewEnable) {
-                if (mTransEnable) {
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-                    window.getDecorView().setSystemUiVisibility(window.getDecorView().getSystemUiVisibility() |
-                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setNavigationBarColor(Color.TRANSPARENT);
-                }
-            } else {
-                window.setNavigationBarColor(Color.TRANSPARENT);
-            }
-            LoggerManager.i(TAG, activity.getClass().getSimpleName() + "-NavigationBarColor:" + window.getNavigationBarColor()
-                    + ";mTransEnable:" + mTransEnable + ";mPlusNavigationViewEnable:" + mPlusNavigationViewEnable);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                && ((!mPlusNavigationViewEnable && mTransEnable) || mPlusNavigationViewEnable)) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(window.getDecorView().getSystemUiVisibility() |
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }
+        //控制底部输入框
+        if (mControlBottomEditTextEnable) {
+            setBottomView(!mPlusNavigationViewEnable && mControlEnable ? null : mBottomView);
+            KeyboardHelper.with(activity)
+                    .setControlNavigationBar(!mPlusNavigationViewEnable && mControlEnable)
+                    .setEnable();
         }
         addNavigationBar(window);
         if (mLayoutNavigation != null) {
@@ -190,7 +201,6 @@ public class NavigationViewHelper {
                         if (params != null && params.height >= 0) {//默认
                             params.height = params.height + NavigationBarUtil.getNavigationBarHeight(window.getWindowManager());
                         }
-                        ;
                         Object isSet = mBottomView.getTag(TAG_SET_NAVIGATION_CONTROL);
                         if (isSet == null) {
                             mBottomView.setPadding(

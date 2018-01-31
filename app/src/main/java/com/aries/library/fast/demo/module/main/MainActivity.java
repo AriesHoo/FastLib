@@ -26,6 +26,11 @@ public class MainActivity extends FastMainActivity {
     }
 
     @Override
+    protected boolean isSwipeBackEnable() {
+        return true;
+    }
+
+    @Override
     public int getContentBackground() {
         return 0;
     }
