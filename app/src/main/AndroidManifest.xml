@@ -46,6 +46,10 @@
             android:name=".module.WebViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"/>
+        <!-- Title+EditTex示例-->
+        <activity
+            android:name=".module.main.sample.TitleWithEditTextActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"/>
         <!-- ToastUtil工具类示例-->
         <activity
             android:name=".module.main.sample.ToastActivity"

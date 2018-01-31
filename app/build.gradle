@@ -15,7 +15,7 @@ android {
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
         versionCode 229
-        versionName "2.2.9-beta"
+        versionName "2.2.9-beta1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
@@ -27,6 +27,11 @@ android {
             keyAlias 'fast'
             keyPassword 'fast123#@!'
         }
+    }
+//    忽略打包资源错误
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
     buildTypes {
         debug {

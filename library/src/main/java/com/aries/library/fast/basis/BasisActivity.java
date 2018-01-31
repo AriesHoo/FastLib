@@ -2,25 +2,20 @@ package com.aries.library.fast.basis;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.aries.library.fast.FastConfig;
-import com.aries.library.fast.entity.FastNavigationConfigEntity;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
+import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.util.FastKeyboardUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.NavigationBarUtil;
@@ -47,15 +42,14 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected View mContentView;
     protected Unbinder mUnBinder;
     protected BGASwipeBackHelper mSwipeBackHelper;
+    protected NavigationViewHelper mNavigationViewHelper;
 
     protected boolean mIsViewLoaded = false;
     protected boolean mIsFirstShow = true;
     protected boolean mIsFirstBack = true;
-    private boolean mIsGlobal = false;
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
     protected FastQuitConfigEntity mQuitEntity;
-    protected ViewGroup mLayoutNavigation;
 
     protected NavigationBarControl getNavigationBarControl() {
         return FastConfig.getInstance(this).getNavigationBarControl();
@@ -75,7 +69,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
         super.onCreate(savedInstanceState);
         mContext = this;
-        addNavigationBar();
         FastStackUtil.getInstance().push(this);
         initSwipeBack();
         beforeSetContentView();
@@ -83,108 +76,17 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         setContentView(mContentView);
         mUnBinder = ButterKnife.bind(this);
         mIsViewLoaded = true;
-        setNavigationBar();
         beforeInitView();
+        setControlNavigation();
         initView(savedInstanceState);
     }
 
-    /**
-     * 添加一层假NavigationView用于占位
-     */
-    private void addNavigationBar() {
-        if (!isSupportNavigationBarControl()) {
-            return;
-        }
-        FastNavigationConfigEntity entity = getNavigationBarControl().createNavigationBarControl(this);
-        if (entity == null || !entity.isControlEnable() || !entity.isAddNavigationViewEnable()) {
-            return;
-        }
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(window.getDecorView().getSystemUiVisibility() |
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setNavigationBarColor(Color.TRANSPARENT);
-        }
-        ViewGroup root = (ViewGroup) getWindow().getDecorView();
-        LoggerManager.i(TAG, "widow-DecorView的第一个子View为:" + root.getChildAt(0).getClass().getSimpleName());
-        if (root.getChildAt(0) instanceof LinearLayout) {
-            final LinearLayout linearLayout = (LinearLayout) root.getChildAt(0);
-            LoggerManager.i(TAG, "widow-DecorView的第一个子View总有子View数量为:" + linearLayout.getChildCount());
-            if (linearLayout.getChildCount() >= 2) {//其实也只有2个子View
-                View viewChild = linearLayout.getChildAt(1);
-                //设置LinearLayout第二个View占用屏幕高度权重为1
-                // 预留假的NavigationView位置并保证Navigation始终在最底部--被虚拟导航栏遮住
-                viewChild.setLayoutParams(new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f));
-                //创建假的NavigationView
-                View navigationView = new View(mContext);
-                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    navigationView.setBackground(entity.getDrawable());
-                } else {
-                    navigationView.setBackgroundDrawable(entity.getDrawable());
-                }
-                //创建假的NavigationView包裹ViewGroup用于设置背景与mContentView一致
-                mLayoutNavigation = new LinearLayout(mContext);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mLayoutNavigation.setBackground(entity.getBackgroundDrawable());
-                }else {
-                    mLayoutNavigation.setBackgroundDrawable(entity.getBackgroundDrawable());
-                }
-                mLayoutNavigation.addView(navigationView, params);
-
-                linearLayout.addView(mLayoutNavigation,
-                        new ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
-        }
-    }
-
-    /**
-     * 控制虚拟导航栏
-     */
-    private void setNavigationBar() {
-        if (!isSupportNavigationBarControl()) {
-            return;
-        }
-        FastNavigationConfigEntity entity = getNavigationBarControl().createNavigationBarControl(this);
-        if (entity == null || !entity.isControlEnable() || entity.isAddNavigationViewEnable()) {
-            return;
-        }
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && entity.isTransEnable()) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.setNavigationBarColor(entity.getColor());
-        }
-        final View controlView = getNavigationBarControlView();
-        if (controlView != null && NavigationBarUtil.hasSoftKeys(getWindowManager())) {
-            controlView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    if (mIsGlobal) {
-                        return;
-                    }
-                    mIsGlobal = true;
-                    ViewGroup.LayoutParams params = controlView.getLayoutParams();
-                    if (params != null && params.height >= 0) {//默认
-                        params.height = params.height + NavigationBarUtil.getNavigationBarHeight(getWindowManager());
-                    }
-                    controlView.setPadding(
-                            controlView.getPaddingLeft(),
-                            controlView.getPaddingTop(),
-                            controlView.getPaddingRight(),
-                            controlView.getPaddingBottom() +
-                                    NavigationBarUtil.getNavigationBarHeight(getWindowManager()));
-                }
-            });
-        }
+    private void setControlNavigation() {
+        mNavigationViewHelper =
+                getNavigationBarControl() != null ?
+                        getNavigationBarControl().createNavigationBarControl(this, getNavigationBarControlView()) :
+                        FastConfig.getInstance(this).getNavigationBarControl().createNavigationBarControl(this, getNavigationBarControlView());
+        mNavigationViewHelper.init();
     }
 
     @Override
@@ -195,6 +97,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     protected void onDestroy() {
+        FastKeyboardUtil.hide(mContentView);
         EventBus.getDefault().unregister(this);
         super.onDestroy();
         if (mUnBinder != null) {
@@ -320,7 +223,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
         if (mIsFirstBack) {
             if (isSnackBar) {
-                SnackBarUtil.with(mContentView)
+                SnackBarUtil.with(getWindow().getDecorView())
                         .setBgColor(mQuitEntity.getSnackBarBackgroundColor())
                         .setMessageColor(mQuitEntity.getSnackBarMessageColor())
                         .setMessage(mQuitEntity.getQuitMessage())

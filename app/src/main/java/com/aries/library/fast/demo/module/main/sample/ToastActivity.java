@@ -1,5 +1,6 @@
 package com.aries.library.fast.demo.module.main.sample;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -27,7 +28,7 @@ public class ToastActivity extends FastTitleActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-
+        mContentView.setBackgroundColor(Color.BLUE);
     }
 
     @Override

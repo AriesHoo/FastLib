@@ -30,7 +30,6 @@ public class ToastUtil {
     private static Builder sBuilderWarning;
 
     public static void init(Context context) {
-        sContext = context;
         init(context, false);
     }
 

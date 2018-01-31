@@ -20,9 +20,9 @@ import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
-import com.aries.library.fast.entity.FastNavigationConfigEntity;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
+import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.IMultiStatusView;
@@ -162,10 +162,12 @@ public class FastConfig {
             setNavigationBarControl(new NavigationBarControl() {
                 @NonNull
                 @Override
-                public FastNavigationConfigEntity createNavigationBarControl(Activity activity) {
-                    return new FastNavigationConfigEntity()
+                public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
+                    return NavigationViewHelper.with(activity)
                             .setControlEnable(true)
-                            .setTransEnable(false);
+                            .setTransEnable(false)
+                            .setPlusNavigationViewEnable(false)
+                            .setBottomView(bottomView);
                 }
             });
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);

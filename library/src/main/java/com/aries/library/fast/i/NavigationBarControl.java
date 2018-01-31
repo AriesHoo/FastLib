@@ -2,8 +2,9 @@ package com.aries.library.fast.i;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.view.View;
 
-import com.aries.library.fast.entity.FastNavigationConfigEntity;
+import com.aries.library.fast.helper.NavigationViewHelper;
 
 /**
  * Created: AriesHoo on 2018/1/5 0005 下午 2:41
@@ -19,5 +20,5 @@ public interface NavigationBarControl {
      * @return
      */
     @NonNull
-    FastNavigationConfigEntity createNavigationBarControl(Activity activity);
+    NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView);
 }

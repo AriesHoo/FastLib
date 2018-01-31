@@ -2,12 +2,14 @@ package com.aries.library.fast.demo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 
+import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
-import com.aries.library.fast.entity.FastNavigationConfigEntity;
+import com.aries.library.fast.demo.module.SplashActivity;
+import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
@@ -196,22 +198,13 @@ public class AppImpl implements DefaultRefreshHeaderCreater
 
     @NonNull
     @Override
-    public FastNavigationConfigEntity createNavigationBarControl(Activity activity) {
-        return new FastNavigationConfigEntity()
-                //是否控制导航栏优先级最高-设置为true其余属性方有效
-                .setControlEnable(true)
-                //是否添加假NavigationView优先级第二高--用于沉浸并修改背景
-                .setAddNavigationViewEnable(true)
-                //是否设置导航栏全透明优先级第三高--只对setControlEnable(true)且setAddNavigationViewEnable(false)有效
-                .setTransEnable(false)
-                //设置假NavigationView父Layout背景色--最终会调用setBackgroundDrawable,故注意调用顺序
-                //设置setControlEnable(true)且setAddNavigationViewEnable(true)有效
-                .setBackgroundColor(mContext.getResources().getColor(R.color.colorTabBackground))
-                //设置假NavigationView父Layout背景资源
-//                .setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.bg_drawer_mine))
-                //设置导航栏颜色(包括系统默认及假NavigationView)半透明效果alpha为102--最终调用setDrawable
-                .setColor(Color.argb(102, 0, 0, 0));
-        //设置假NavigationView背景资源--设置setControlEnable(true)且setAddNavigationViewEnable(true)有效
-//                .setDrawable(mContext.getResources().getDrawable(R.drawable.bg_drawer_mine));
+    public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
+        NavigationViewHelper helper = NavigationViewHelper.with(activity)
+                .setControlEnable(GlobalConstant.mControlEnable)
+                .setTransEnable(GlobalConstant.mTransEnable)
+                .setPlusNavigationViewEnable(activity.getClass() == SplashActivity.class ? false :
+                        GlobalConstant.mPlusNavigationViewEnable)
+                .setBottomView(bottomView);
+        return helper;
     }
 }

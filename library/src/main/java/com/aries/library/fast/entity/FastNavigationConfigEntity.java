@@ -16,16 +16,11 @@ import com.aries.library.fast.basis.BasisActivity;
 public class FastNavigationConfigEntity {
     private boolean controlEnable;
     private boolean transEnable;
-
-
     private boolean addNavigationViewEnable;
     @ColorInt
     private int color = Color.TRANSPARENT;
-
-    @ColorInt
-    private int backgroundColor = Color.parseColor("#f8f8f8");
     private Drawable drawable;
-    private Drawable backgroundDrawable = new ColorDrawable(backgroundColor);
+    private Drawable backgroundDrawable = new ColorDrawable(Color.parseColor("#f8f8f8"));
 
     public boolean isControlEnable() {
         return controlEnable;
@@ -41,10 +36,6 @@ public class FastNavigationConfigEntity {
 
     public int getColor() {
         return color;
-    }
-
-    public int getBackgroundColor() {
-        return backgroundColor;
     }
 
     public Drawable getDrawable() {
@@ -101,7 +92,6 @@ public class FastNavigationConfigEntity {
     }
 
     public FastNavigationConfigEntity setBackgroundColor(int backgroundColor) {
-        this.backgroundColor = color;
         return setBackgroundDrawable(new ColorDrawable(backgroundColor));
     }
 

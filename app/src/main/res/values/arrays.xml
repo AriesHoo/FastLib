@@ -13,6 +13,7 @@
         <item>腾讯新闻主界面效果</item>
         <item>Activity直接嵌套Fragment效果</item>
         <item>ToastUtil工具类示例</item>
+        <item>Title+EditText示例</item>
     </array>
 
     <array name="arrays_tab_ali">

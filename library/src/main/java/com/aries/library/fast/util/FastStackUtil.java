@@ -142,10 +142,24 @@ public class FastStackUtil {
     }
 
     /**
+     * 只留下栈顶一个Activity
+     */
+    public void popAllExceptCurrent() {
+        while (true) {
+            Activity activity = this.getPrevious();
+            if (activity == null) {
+                return;
+            }
+            pop(activity);
+        }
+    }
+
+    /**
      * 将栈里除某个Activity全部清空
      *
      * @param cls
      */
+    @Deprecated
     public void popAllExcept(Class cls) {
         if (mActivityStack == null || mActivityStack.size() == 0) {
             return;
