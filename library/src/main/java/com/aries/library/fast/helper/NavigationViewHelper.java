@@ -178,12 +178,9 @@ public class NavigationViewHelper {
                 && ((!mPlusNavigationViewEnable && mTransEnable) || mPlusNavigationViewEnable)) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             window.getDecorView().setSystemUiVisibility(window.getDecorView().getSystemUiVisibility() |
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setNavigationBarColor(Color.TRANSPARENT);
-            if (mTransEnable && !mPlusNavigationViewEnable) {
-                window.setNavigationBarColor(mNavigationViewColor);
-            }
+            window.setNavigationBarColor(!mPlusNavigationViewEnable ? mNavigationViewColor : Color.TRANSPARENT);
         }
         SPUtil.put(activity, activity.getClass().getSimpleName() + "0", mTransEnable);
         SPUtil.put(activity, activity.getClass().getSimpleName() + "1", mPlusNavigationViewEnable);

@@ -82,6 +82,9 @@ public class App extends Application {
         //全局主页面返回键操作设置--推荐先获取library里默认主页面点击返回键配置FastQuitConfigEntity配置再按需修改的模式 FastQuitConfigEntity
         FastQuitConfigEntity quitConfig = FastConfig.getInstance(mContext).getQuitConfig();
         FastConfig.getInstance(mContext)
+                //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
+                //说明该配置必填--注意注意
+                .setSwipeBackEnable(true, this)
                 // 设置全局TitleBarView-其它属性请查看getInstance默认设置
                 .setTitleConfig(titleConfig
                         //设置TitleBarView 所有TextView颜色
@@ -108,8 +111,6 @@ public class App extends Application {
                 .setPlaceholderColor(getResources().getColor(R.color.colorPlaceholder))
                 //设置Glide圆角背景弧度
                 .setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius))
-                //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
-                .setSwipeBackEnable(true, this)
                 //设置Activity横竖屏模式
                 .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 //设置Activity或Fragment根布局背景资源

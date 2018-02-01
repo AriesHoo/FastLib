@@ -172,7 +172,6 @@ public class FastConfig {
             });
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             setContentViewBackgroundResource(-1);
-            setSwipeBackEnable(false, null);
             setPlaceholderColor(getColor(R.color.colorPlaceholder));
             setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius));
         }
@@ -297,11 +296,11 @@ public class FastConfig {
      * 最终调用{@link BasisActivity#initSwipeBack()}
      *
      * @param swipeBackEnable
-     * @param application     swipeBackEnable为true application必传
+     * @param application     application必传
      * @return
      */
     public FastConfig setSwipeBackEnable(boolean swipeBackEnable, Application application) {
-        if (swipeBackEnable && application == null) {
+        if (application == null) {
             throw new NullPointerException(FastConstant.EXCEPTION_SWIPE_BACK_APPLICATION_NOT_NULL);
         }
         mIsSwipeBackEnable = swipeBackEnable;

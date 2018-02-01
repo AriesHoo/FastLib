@@ -25,11 +25,6 @@ public class NewsMainActivity extends FastMainActivity {
     }
 
     @Override
-    protected boolean isSwipeBackEnable() {
-        return true;
-    }
-
-    @Override
     public List<FastTabEntity> getTabList() {
         titles = getResources().getStringArray(R.array.arrays_tab_news);
         ArrayList<FastTabEntity> list = new ArrayList<>();

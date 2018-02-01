@@ -33,6 +33,11 @@ public class SwipeBackActivity extends FastTitleActivity {
     }
 
     @Override
+    protected boolean isSwipeBackEnable() {
+        return true;
+    }
+
+    @Override
     public boolean isLightStatusBarEnable() {
         return false;
     }

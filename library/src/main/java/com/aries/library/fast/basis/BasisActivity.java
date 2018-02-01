@@ -140,29 +140,27 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             LoggerManager.e(TAG, "initSwipeBack:Please compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar' in app main program");
             return;
         }
-        if (isSwipeBackEnable()) {
-            mSwipeBackHelper = new BGASwipeBackHelper(this, new BGASwipeBackHelper.Delegate() {
-                @Override
-                public boolean isSupportSwipeBack() {
-                    return true;
-                }
+        mSwipeBackHelper = new BGASwipeBackHelper(this, new BGASwipeBackHelper.Delegate() {
+            @Override
+            public boolean isSupportSwipeBack() {
+                return true;
+            }
 
-                @Override
-                public void onSwipeBackLayoutSlide(float slideOffset) {
-                }
+            @Override
+            public void onSwipeBackLayoutSlide(float slideOffset) {
+            }
 
-                @Override
-                public void onSwipeBackLayoutCancel() {
+            @Override
+            public void onSwipeBackLayoutCancel() {
 
-                }
+            }
 
-                @Override
-                public void onSwipeBackLayoutExecuted() {
-                    //滑动返回执行完毕，销毁当前 Activity
-                    mSwipeBackHelper.swipeBackward();
-                }
-            });
-        }
+            @Override
+            public void onSwipeBackLayoutExecuted() {
+                //滑动返回执行完毕，销毁当前 Activity
+                mSwipeBackHelper.swipeBackward();
+            }
+        }).setSwipeBackEnable(isSwipeBackEnable());
     }
 
     @Override
