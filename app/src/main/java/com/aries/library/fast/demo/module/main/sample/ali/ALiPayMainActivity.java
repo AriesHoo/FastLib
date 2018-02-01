@@ -1,10 +1,10 @@
 package com.aries.library.fast.demo.module.main.sample.ali;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.entity.FastTabEntity;
+import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.module.activity.FastMainActivity;
 import com.flyco.tablayout.CommonTabLayout;
 
@@ -48,6 +48,12 @@ public class ALiPayMainActivity extends FastMainActivity {
     }
 
     @Override
+    protected void beforeControlNavigation(NavigationViewHelper navigationHelper) {
+        super.beforeControlNavigation(navigationHelper);
+        navigationHelper.setBottomView(mTabLayout);
+    }
+
+    @Override
     public void beforeInitView() {
         titles = getResources().getStringArray(R.array.arrays_tab_ali);
         super.beforeInitView();
@@ -61,10 +67,5 @@ public class ALiPayMainActivity extends FastMainActivity {
     @Override
     public void onBackPressed() {
         finish();
-    }
-
-    @Override
-    protected View getNavigationBarControlView() {
-        return mTabLayout;
     }
 }

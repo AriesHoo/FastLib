@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -27,13 +28,19 @@ public class ToastActivity extends FastTitleActivity {
     }
 
     @Override
-    public void initView(Bundle savedInstanceState) {
-        mContentView.setBackgroundColor(Color.BLUE);
+    protected void beforeControlNavigation(NavigationViewHelper navigationHelper) {
+        super.beforeControlNavigation(navigationHelper);
+        navigationHelper.setNavigationLayoutColor(Color.BLUE);
     }
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setTitleMainText("ToastUtil工具类示例");
+    }
+
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        mContentView.setBackgroundColor(Color.BLUE);
     }
 
     @OnClick({R.id.rtv_system, R.id.rtv_normal, R.id.rtv_success, R.id.rtv_failed, R.id.rtv_warning})

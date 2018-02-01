@@ -144,9 +144,4 @@ public class WebViewActivity extends FastWebActivity {
             mSwipeBackHelper.setSwipeBackEnable(false);
         }
     }
-
-    @Override
-    protected View getNavigationBarControlView() {
-        return isSwipeBackEnable()?super.getNavigationBarControlView():null;
-    }
 }

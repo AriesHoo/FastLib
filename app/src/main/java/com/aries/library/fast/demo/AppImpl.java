@@ -2,6 +2,7 @@ package com.aries.library.fast.demo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -200,13 +201,27 @@ public class AppImpl implements DefaultRefreshHeaderCreater
     @Override
     public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
         NavigationViewHelper helper = NavigationViewHelper.with(activity)
+                //是否控制虚拟导航栏true 后续属性有效--第一优先级
                 .setControlEnable(true)
-                .setTransEnable(false)
+                //是否全透明导航栏优先级第二--同步设置setNavigationViewColor故注意调用顺序
+                //华为的半透明和全透明类似
+                .setTransEnable(RomUtil.isEMUI())
+                //是否增加假的NavigationView用于沉浸至虚拟导航栏遮住
                 .setPlusNavigationViewEnable(
                         activity.getClass() == SplashActivity.class ? false :
                                 RomUtil.isEMUI())
+                //设置是否控制底部输入框--默认属性
                 .setControlBottomEditTextEnable(true)
-                .setBottomView(bottomView);
+                //设置最下边View用于增加paddingBottom--建议activity 根布局
+                .setBottomView(bottomView)
+                //影响setPlusNavigationViewEnable(true)单个条件
+                //或者(setPlusNavigationViewEnable(false)&&setControlEnable(true))--两个前置条件
+                //半透明默认设置102
+                .setNavigationViewColor(Color.argb(102, 0, 0, 0))
+                //setPlusNavigationViewEnable(true)才有效注意与setNavigationViewColor调用顺序
+//                .setNavigationViewDrawable(mContext.getResources().getDrawable(R.drawable.img_bg_login))
+                //setPlusNavigationViewEnable(true)有效
+                .setNavigationLayoutColor(Color.WHITE);
         return helper;
     }
 

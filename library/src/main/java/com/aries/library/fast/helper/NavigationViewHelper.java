@@ -18,6 +18,7 @@ import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.R;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.NavigationBarUtil;
+import com.aries.library.fast.util.SPUtil;
 
 import java.lang.ref.SoftReference;
 
@@ -180,7 +181,12 @@ public class NavigationViewHelper {
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setNavigationBarColor(Color.TRANSPARENT);
+            if (mTransEnable && !mPlusNavigationViewEnable) {
+                window.setNavigationBarColor(mNavigationViewColor);
+            }
         }
+        SPUtil.put(activity, activity.getClass().getSimpleName() + "0", mTransEnable);
+        SPUtil.put(activity, activity.getClass().getSimpleName() + "1", mPlusNavigationViewEnable);
         //控制底部输入框
         if (mControlBottomEditTextEnable) {
             setBottomView(!mPlusNavigationViewEnable && mControlEnable ? null : mBottomView);

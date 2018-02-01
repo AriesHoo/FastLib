@@ -6,11 +6,14 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.entity.FastTabEntity;
+import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.module.activity.FastMainActivity;
 import com.flyco.tablayout.CommonTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 
 /**
@@ -19,6 +22,8 @@ import java.util.List;
  * Desc:
  */
 public class MainActivity extends FastMainActivity {
+
+    @BindView(R.id.tabLayout_commonFastLib) CommonTabLayout mTabLayout;
 
     @Override
     public boolean isSwipeEnable() {
@@ -33,6 +38,12 @@ public class MainActivity extends FastMainActivity {
     @Override
     public int getContentBackground() {
         return 0;
+    }
+
+    @Override
+    protected void beforeControlNavigation(NavigationViewHelper navigationHelper) {
+        super.beforeControlNavigation(navigationHelper);
+        navigationHelper.setBottomView(mTabLayout);
     }
 
     @Override

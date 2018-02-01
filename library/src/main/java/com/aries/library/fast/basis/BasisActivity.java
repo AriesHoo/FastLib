@@ -11,11 +11,12 @@ import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.i.IBasisView;
-import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.NavigationBarUtil;
+import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -40,7 +41,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected View mContentView;
     protected Unbinder mUnBinder;
     protected BGASwipeBackHelper mSwipeBackHelper;
-    protected NavigationViewHelper mNavigationViewHelper;
 
     protected boolean mIsViewLoaded = false;
     protected boolean mIsFirstShow = true;
@@ -48,13 +48,44 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
     protected FastQuitConfigEntity mQuitEntity;
+    private NavigationViewHelper mNavigationViewHelper;
 
-    protected NavigationBarControl getNavigationBarControl() {
-        return FastConfig.getInstance(this).getNavigationBarControl();
+    @Nullable
+    public <T extends View> T findViewByViewId(@IdRes int viewId) {
+        return (T) findViewById(viewId);
     }
 
-    protected View getNavigationBarControlView() {
-        return mContentView;
+    @Override
+    public int getContentBackground() {
+        return FastConfig.getInstance(this).getContentViewBackgroundResource();
+    }
+
+    /**
+     * 设置屏幕方向
+     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
+     *
+     * @return
+     */
+    public int getOrientation() {
+        return FastConfig.getInstance(this).getRequestedOrientation();
+    }
+
+    /**
+     * 是否开启滑动返回
+     */
+    protected boolean isSwipeBackEnable() {
+        return FastConfig.getInstance(this).isSwipeBackEnable();
+    }
+
+    /**
+     * 设置init之前用于调整属性
+     *
+     * @param navigationHelper
+     */
+    protected void beforeControlNavigation(NavigationViewHelper navigationHelper) {
     }
 
     @Override
@@ -79,14 +110,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         initView(savedInstanceState);
     }
 
-    private void setControlNavigation() {
-        mNavigationViewHelper =
-                getNavigationBarControl() != null ?
-                        getNavigationBarControl().createNavigationBarControl(this, getNavigationBarControlView()) :
-                        FastConfig.getInstance(this).getNavigationBarControl().createNavigationBarControl(this, getNavigationBarControlView());
-        mNavigationViewHelper.init();
-    }
-
     @Override
     protected void onResume() {
         beforeLazyLoad();
@@ -107,31 +130,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             mUnBinder.unbind();
         }
         FastStackUtil.getInstance().pop(this, false);
-    }
-
-    /**
-     * 是否开启滑动返回
-     */
-    protected boolean isSwipeBackEnable() {
-        return FastConfig.getInstance(this).isSwipeBackEnable();
-    }
-
-    @Override
-    public int getContentBackground() {
-        return FastConfig.getInstance(this).getContentViewBackgroundResource();
-    }
-
-    /**
-     * 设置屏幕方向
-     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
-     *
-     * @return
-     */
-    public int getOrientation() {
-        return FastConfig.getInstance(this).getRequestedOrientation();
     }
 
     /**
@@ -167,11 +165,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
-    @Nullable
-    public <T extends View> T findViewByViewId(@IdRes int viewId) {
-        return (T) findViewById(viewId);
-    }
-
     @Override
     public void beforeSetContentView() {
         mQuitEntity = FastConfig.getInstance(this).getQuitConfig();
@@ -184,6 +177,17 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             mContentView.setBackgroundResource(getContentBackground());
         }
     }
+
+    /**
+     * 设置NavigationView控制
+     */
+    private void setControlNavigation() {
+        mNavigationViewHelper = FastConfig.getInstance(this).getNavigationBarControl()
+                .createNavigationBarControl(this, mContentView);
+        beforeControlNavigation(mNavigationViewHelper);
+        mNavigationViewHelper.init();
+    }
+
 
     @Override
     public void loadData() {
@@ -226,10 +230,14 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
         if (mIsFirstBack) {
             if (isSnackBar) {
+                boolean transEnable = (boolean) SPUtil.get(this, getClass().getSimpleName() + "0", false);
+                boolean plusNavigationViewEnable = (boolean) SPUtil.get(this, getClass().getSimpleName() + "1", false);
                 SnackBarUtil.with(mContentView)
                         .setBgColor(mQuitEntity.getSnackBarBackgroundColor())
                         .setMessageColor(mQuitEntity.getSnackBarMessageColor())
                         .setMessage(mQuitEntity.getQuitMessage())
+                        .setBottomMargin(transEnable && !plusNavigationViewEnable ?
+                                NavigationBarUtil.getNavigationBarHeight(getWindowManager()) : 0)
                         .show();
             } else {
                 ToastUtil.show(mQuitEntity.getQuitMessage());
