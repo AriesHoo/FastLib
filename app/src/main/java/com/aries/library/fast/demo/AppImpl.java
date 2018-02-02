@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
-import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
@@ -23,6 +22,7 @@ import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.widget.progress.UIProgressView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -201,6 +201,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater
     @Override
     public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
         NavigationViewHelper helper = NavigationViewHelper.with(activity)
+                .setLogEnable(BuildConfig.DEBUG)
                 //是否控制虚拟导航栏true 后续属性有效--第一优先级
                 .setControlEnable(true)
                 //是否全透明导航栏优先级第二--同步设置setNavigationViewColor故注意调用顺序

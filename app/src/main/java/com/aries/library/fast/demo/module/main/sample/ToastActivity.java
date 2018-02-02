@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.view.title.TitleBarView;
 
 import butterknife.OnClick;

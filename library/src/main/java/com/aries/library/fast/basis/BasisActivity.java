@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
-import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -19,6 +18,7 @@ import com.aries.library.fast.util.NavigationBarUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -48,7 +48,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
     protected FastQuitConfigEntity mQuitEntity;
-    private NavigationViewHelper mNavigationViewHelper;
+    protected NavigationViewHelper mNavigationViewHelper;
 
     @Nullable
     public <T extends View> T findViewByViewId(@IdRes int viewId) {

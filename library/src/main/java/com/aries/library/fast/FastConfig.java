@@ -22,7 +22,6 @@ import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.entity.FastTitleConfigEntity;
-import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.IMultiStatusView;
@@ -31,6 +30,7 @@ import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.GlideManager;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
@@ -38,6 +38,7 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
@@ -77,6 +78,7 @@ public class FastConfig {
         if (context == null) {
             throw new NullPointerException(FastConstant.EXCEPTION_FAST_CONFIG_CONTEXT_NOT_NULL);
         }
+        LoggerManager.i("FastConfig",mContext+"");
         if (context != null) {
             this.mContext = context.getApplicationContext();
             if (FastUtil.isClassExist("com.aries.ui.view.title.TitleBarView")) {

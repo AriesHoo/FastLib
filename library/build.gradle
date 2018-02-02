@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 229
-        versionName "2.2.9-beta3"
+        versionName "2.2.9-beta4"
     }
     buildTypes {
         release {
@@ -76,4 +76,6 @@ dependencies {
     compile 'org.simple:androideventbus:1.0.5.1'
     //多状态视图切换
     compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
+    //虚拟导航栏控制-沉浸
+    compile 'com.github.AriesHoo:NavigationViewHelper:1.0.0'
 }

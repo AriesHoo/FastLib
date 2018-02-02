@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.entity.FastTabEntity;
-import com.aries.library.fast.helper.NavigationViewHelper;
 import com.aries.library.fast.module.activity.FastMainActivity;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.flyco.tablayout.CommonTabLayout;
 
 import java.util.ArrayList;
