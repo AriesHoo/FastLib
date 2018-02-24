@@ -94,7 +94,7 @@ public class FastStackUtil {
      */
     public void pop(Activity activity, boolean isFinish) {
         if (activity != null) {
-            LoggerManager.i(TAG, "remove current activity:isFinishing" + activity.isFinishing() + ";" + activity.getClass().getSimpleName());
+            LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
             if (isFinish) {
                 activity.finish();
             }

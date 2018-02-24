@@ -98,7 +98,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
         super.onCreate(savedInstanceState);
         mContext = this;
-        FastStackUtil.getInstance().push(this);
         initSwipeBack();
         beforeSetContentView();
         mContentView = View.inflate(mContext, getContentLayout(), null);
@@ -129,7 +128,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
-        FastStackUtil.getInstance().pop(this, false);
     }
 
     /**

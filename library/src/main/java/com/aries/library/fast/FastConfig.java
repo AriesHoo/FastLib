@@ -33,6 +33,7 @@ import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
@@ -57,11 +58,13 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
  * E-Mail: AriesHoo@126.com
  * Function: 全局参数配置--可在Application处设置Library全局属性
  * Description:
+ * 1、2018-2-24 18:55:26新增setSwipeBackEnable 全局控制Activity堆栈及滑动返回
  */
 public class FastConfig {
 
     private static volatile FastConfig sInstance;
     private static Context mContext;
+    private Application mApplication;
 
     public static FastConfig getInstance(@Nullable Context context) {
         if (sInstance == null) {
@@ -78,7 +81,6 @@ public class FastConfig {
         if (context == null) {
             throw new NullPointerException(FastConstant.EXCEPTION_FAST_CONFIG_CONTEXT_NOT_NULL);
         }
-        LoggerManager.i("FastConfig",mContext+"");
         if (context != null) {
             this.mContext = context.getApplicationContext();
             if (FastUtil.isClassExist("com.aries.ui.view.title.TitleBarView")) {
@@ -139,6 +141,9 @@ public class FastConfig {
                         return new FastMultiStatusView(mContext).getBuilder().build();
                     }
                 });
+            }
+            if (mContext instanceof Application) {
+                setSwipeBackEnable(false, (Application) mContext);
             }
             setQuitConfig(new FastQuitConfigEntity()
                     .setQuitDelay(2000)
@@ -302,15 +307,49 @@ public class FastConfig {
      * @return
      */
     public FastConfig setSwipeBackEnable(boolean swipeBackEnable, Application application) {
-        if (application == null) {
-            throw new NullPointerException(FastConstant.EXCEPTION_SWIPE_BACK_APPLICATION_NOT_NULL);
-        }
         mIsSwipeBackEnable = swipeBackEnable;
-        if (application != null &&
-                FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
+        if (application != null && mApplication == null && FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
             BGASwipeBackManager.getInstance().init(application);//初始化滑动返回关闭Activity功能
             // 导航栏处理--不设置会预留一块导航栏高度的空白
             BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
+            mApplication = application;
+            mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                    FastStackUtil.getInstance().push(activity);
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityResumed(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    FastStackUtil.getInstance().pop(activity, false);
+                }
+            });
+
         }
         return sInstance;
     }

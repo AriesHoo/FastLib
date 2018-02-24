@@ -83,7 +83,6 @@ public class App extends Application {
         FastQuitConfigEntity quitConfig = FastConfig.getInstance(mContext).getQuitConfig();
         FastConfig.getInstance(mContext)
                 //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
-                //说明该配置必填--注意注意
                 .setSwipeBackEnable(true, this)
                 // 设置全局TitleBarView-其它属性请查看getInstance默认设置
                 .setTitleConfig(titleConfig
