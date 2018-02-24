@@ -30,7 +30,6 @@ import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.manager.GlideManager;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
