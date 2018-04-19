@@ -145,7 +145,7 @@ dependencies {
 
 * 2.1.0 更新
         
-	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复**
+	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复
     
 	
 ## 录屏预览
