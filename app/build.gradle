@@ -14,8 +14,8 @@ android {
         applicationId "com.aries.library.fast.demo"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-        versionCode 229
-        versionName "2.2.9-beta4"
+        versionCode ext.versionCode
+        versionName ext.versionName
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
@@ -70,16 +70,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
-    //compile 'com.github.AriesHoo:FastLib:+'
-//    compile 'com.github.AriesHoo:FastLib:2.2.0'
-    apt 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
 
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     //设置界面Item库
-    compile 'com.github.lygttpod:SuperTextView:2.1.5'
-    compile 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
-
     //以下库library里使用provided只是编译使用时需根据项目选择相应版本
     compile 'com.android.support:design:'.concat(ext.supportVersion)
     compile 'com.android.support:appcompat-v7:'.concat(ext.supportVersion)
@@ -87,13 +79,17 @@ dependencies {
     //万能适配器--一般都需要吧
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不compile
-    compile 'com.just.agentweb:agentweb:3.0.0'
-    //常用UI控件(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView等),快速标题栏fast_layout_title_bar,继承FastTitleXXX类需要
-    compile 'com.github.AriesHoo:UIWidget:2.0.9'
+    compile 'com.just.agentweb:agentweb:3.1.0'
     //下拉刷新库注意刷新头SmartRefreshHeader版本最好对应尤其头版本不要低于SmartRefreshLayout版本
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载 4.X
     compile 'com.github.bumptech.glide:glide:4.0.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
     //以上库library里使用provided只是编译使用时需根据项目选择相应版本
+    compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    compile 'com.github.lygttpod:SuperTextView:2.1.5'
+    compile 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
+    compile 'com.just.agentweb:agentweb:3.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    apt 'com.jakewharton:butterknife-compiler:8.8.1'
 }

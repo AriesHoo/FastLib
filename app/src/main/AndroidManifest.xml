@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.aries.library.fast.demo">
 
-    <uses-feature android:name="android.hardware.screen.portrait"/>
+    <!--<uses-feature android:name="android.hardware.screen.portrait"/>-->
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -22,7 +22,6 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -46,14 +45,13 @@
             android:name=".module.WebViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"/>
-        <!-- Title+EditTex示例-->
+        <!-- Title+EditTex示例 -->
         <activity
             android:name=".module.main.sample.TitleWithEditTextActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- ToastUtil工具类示例-->
+        <!-- ToastUtil工具类示例 -->
         <activity
-            android:name=".module.main.sample.ToastActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
+            android:name=".module.main.sample.ToastActivity"/>
         <!-- TitleBarView 嵌套Fragment -->
         <activity
             android:name=".module.main.sample.TestFragmentActivity"

@@ -24,7 +24,6 @@ import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.util.RomUtil;
-import com.aries.ui.widget.progress.UIProgressView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.marno.easystatelibrary.EasyStatusView;
@@ -148,15 +147,9 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         //第一种
 //                        return new FastLoadDialog(activity);
         //第二种 使用UIProgressView里的四种模式Loading效果
-        return new FastLoadDialog(activity, UIProgressView.STYLE_WEI_BO)
+        return new FastLoadDialog(activity)
                 .setCanceledOnTouchOutside(false)
                 .setMessage("请求数据中,请稍候...");
-//                        ProgressDialog progressDialog = new ProgressDialog(activity);
-//                        progressDialog.setMessage("加载中...");
-//                        //第三种--系统ProgressDialog不过系统已标记为过时类不建议使用
-//                        return new FastLoadDialog(activity, progressDialog);
-//                        第四种--完全自定义Dialog形式
-//                        return new FastLoadDialog(activity, MyDialog);
     }
 
     @Override
@@ -206,11 +199,11 @@ public class AppImpl implements DefaultRefreshHeaderCreater
                 .setControlEnable(true)
                 //是否全透明导航栏优先级第二--同步设置setNavigationViewColor故注意调用顺序
                 //华为的半透明和全透明类似
-                .setTransEnable(RomUtil.isEMUI())
+                .setTransEnable(isTrans())
                 //是否增加假的NavigationView用于沉浸至虚拟导航栏遮住
                 .setPlusNavigationViewEnable(
                         activity.getClass() == SplashActivity.class ? false :
-                                RomUtil.isEMUI())
+                                RomUtil.isEMUI() && isTrans())
                 //设置是否控制底部输入框--默认属性
                 .setControlBottomEditTextEnable(true)
                 //设置最下边View用于增加paddingBottom--建议activity 根布局
@@ -218,7 +211,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater
                 //影响setPlusNavigationViewEnable(true)单个条件
                 //或者(setPlusNavigationViewEnable(false)&&setControlEnable(true))--两个前置条件
                 //半透明默认设置102
-                .setNavigationViewColor(Color.argb(102, 0, 0, 0))
+                .setNavigationViewColor(Color.argb(isTrans() ? 0 : 102, 0, 0, 0))
                 //setPlusNavigationViewEnable(true)才有效注意与setNavigationViewColor调用顺序
 //                .setNavigationViewDrawable(mContext.getResources().getDrawable(R.drawable.img_bg_login))
                 //setPlusNavigationViewEnable(true)有效
@@ -226,4 +219,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         return helper;
     }
 
+    protected boolean isTrans() {
+        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0);
+    }
 }

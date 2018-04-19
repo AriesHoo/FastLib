@@ -50,7 +50,7 @@ public class FastTitleDelegate {
                 .setRightTextColor(titleConfig.getRightTextColor())
                 .setActionTextSize(titleConfig.getActionTextSize())
                 .setActionTextColor(titleConfig.getActionTextColor())
-                .setDividerColor(titleConfig.getDividerColor())
+                .setDividerBackgroundColor(titleConfig.getDividerColor())
                 .setDividerHeight(titleConfig.getDividerHeight())
                 .setActionPadding(titleConfig.getActionPadding())
                 .setOutPadding(titleConfig.getOutPadding())

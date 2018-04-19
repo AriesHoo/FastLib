@@ -6,7 +6,7 @@ import android.app.ProgressDialog;
 import android.view.WindowManager;
 
 import com.aries.library.fast.R;
-import com.aries.ui.widget.progress.UIProgressView;
+import com.aries.ui.widget.progress.UIProgressDialog;
 
 import java.lang.ref.WeakReference;
 
@@ -23,15 +23,9 @@ public class FastLoadDialog {
     private final WeakReference<Activity> mReference;
 
     public FastLoadDialog(Activity activity) {
-        this(activity, UIProgressView.STYLE_NORMAL);
-    }
-
-    /**
-     * @param activity
-     * @param style
-     */
-    public FastLoadDialog(Activity activity, int style) {
-        this(activity, new UIProgressView(activity, style).setMessage(R.string.fast_loading));
+        this(activity, new UIProgressDialog.NormalBuilder(activity)
+                .setMessage(R.string.fast_loading)
+                .create());
     }
 
     public FastLoadDialog(Activity activity, Dialog dialog) {
@@ -70,8 +64,12 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setMessage(CharSequence msg) {
-        if (mDialog instanceof UIProgressView) {
-            ((UIProgressView) mDialog).setMessage(msg);
+        if (mDialog instanceof UIProgressDialog) {
+            try {
+                ((UIProgressDialog) mDialog).getMessage().setText(msg);
+            } catch (Exception e) {
+
+            }
         } else if (mDialog instanceof ProgressDialog) {
             ((ProgressDialog) mDialog).setMessage(msg);
         }
@@ -85,7 +83,7 @@ public class FastLoadDialog {
     public FastLoadDialog setMessage(int msg) {
         mActivity = mReference.get();
         if (mActivity != null) {
-            return setMessage(mActivity.getString(msg));
+            return setMessage(mActivity.getText(msg));
         }
         return this;
     }

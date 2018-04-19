@@ -19,11 +19,12 @@ import android.text.TextUtils;
 import java.util.List;
 import java.util.Random;
 
-
 /**
- * Created: AriesHoo on 2017-03-14 08:54
- * Function: app使用工具类
- * Desc:
+ * Created: AriesHoo on AriesHoo on 2017-03-14 08:54
+ * E-Mail: AriesHoo@126.com
+ * Function:app使用工具类
+ * Description:
+ * 1、将startActivity 参数Activity 改为Context
  */
 public class FastUtil {
 
@@ -177,7 +178,7 @@ public class FastUtil {
         if (mContext == null) {
             return;
         }
-        if (packageName == null || packageName.isEmpty()) {
+        if (TextUtils.isEmpty(packageName)) {
             packageName = mContext.getPackageName();
         }
         String mAddress = "market://details?id=" + packageName;
@@ -191,55 +192,55 @@ public class FastUtil {
     }
 
     /**
-     * @param mContext
+     * @param context
      * @param activity 跳转Activity
      * @param bundle
      * @param isSingle
      */
-    public static void startActivity(Activity mContext, Class<? extends Activity> activity, Bundle bundle, boolean isSingle) {
-        if (mContext == null) {
+    public static void startActivity(Context context, Class<? extends Activity> activity, Bundle bundle, boolean isSingle) {
+        if (context == null) {
             return;
         }
-        Intent intent = new Intent(mContext, activity);
+        Intent intent = new Intent(context, activity);
         intent.setFlags(isSingle ? Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP : Intent.FLAG_ACTIVITY_NEW_TASK);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        mContext.startActivity(intent);
+        context.startActivity(intent);
     }
 
-    public static void startActivity(Activity mContext, Class<? extends Activity> activity, Bundle bundle) {
-        startActivity(mContext, activity, bundle, true);
+    public static void startActivity(Context context, Class<? extends Activity> activity, Bundle bundle) {
+        startActivity(context, activity, bundle, true);
     }
 
-    public static void startActivity(Activity mContext, Class<? extends Activity> activity) {
-        startActivity(mContext, activity, null);
+    public static void startActivity(Context context, Class<? extends Activity> activity) {
+        startActivity(context, activity, null);
     }
 
-    public static void startActivity(Activity mContext, Class<? extends Activity> activity, boolean isSingle) {
-        startActivity(mContext, activity, null, isSingle);
+    public static void startActivity(Context context, Class<? extends Activity> activity, boolean isSingle) {
+        startActivity(context, activity, null, isSingle);
     }
 
     /**
-     * @param mActivity
-     * @param url
+     * @param context 上下文
+     * @param text    分享内容
+     * @param title   分享标题
      */
-
-    public static void startShareText(Activity mActivity, String url) {
-        startShareText(mActivity, url, null);
-    }
-
-    public static void startShareText(Activity mActivity, String url, CharSequence title) {
-        if (mActivity == null) {
+    public static void startShareText(Context context, String text, CharSequence title) {
+        if (context == null) {
             return;
         }
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
         shareIntent.setType("text/plain");
         //设置分享列表的标题，并且每次都显示分享列表
-        mActivity.startActivity(Intent.createChooser(shareIntent, title));
+        context.startActivity(Intent.createChooser(shareIntent, title));
+    }
+
+    public static void startShareText(Context mActivity, String url) {
+        startShareText(mActivity, url, null);
     }
 
     /**

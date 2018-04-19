@@ -18,7 +18,8 @@ import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.aries.ui.widget.action.sheet.UIActionSheetView;
+import com.aries.ui.widget.BasisDialog;
+import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.ChromeClientCallbackManager;
 import com.just.agentweb.DefaultWebCreator;
@@ -36,7 +37,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected AlertDialog mAlertDialog;
     protected AgentWeb mAgentWeb;
     protected AgentWeb.CommonAgentBuilder mAgentBuilder;
-    protected UIActionSheetView mActionSheetView;
+    protected UIActionSheetDialog mActionSheetView;
     protected FastTitleConfigEntity mTitleConfig;
 
     protected static void start(Activity mActivity, Class<? extends FastWebActivity> activity, String url) {
@@ -180,10 +181,11 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     protected void showActionSheet() {
         if (mActionSheetView == null) {
-            mActionSheetView = new UIActionSheetView(mContext, UIActionSheetView.STYLE_NORMAL)
-                    .setItems(R.array.fast_arrays_web_more, new UIActionSheetView.OnSheetItemListener() {
+            mActionSheetView = new UIActionSheetDialog.ListSheetBuilder(mContext)
+                    .addItems(R.array.fast_arrays_web_more)
+                    .setOnItemClickListener(new UIActionSheetDialog.OnItemClickListener() {
                         @Override
-                        public void onClick(int i) {
+                        public void onClick(BasisDialog dialog, View itemView, int i) {
                             switch (i) {
                                 case 0:
                                     mAgentWeb.getLoader().reload();
@@ -198,12 +200,9 @@ public abstract class FastWebActivity extends FastTitleActivity {
                             }
                         }
                     })
-                    .setItemsTextColorResource(R.color.colorTabTextSelect)
-                    .setCancelColorResource(R.color.colorTabTextSelect)
-                    .setTitleColorResource(R.color.colorTabTextSelect)
-                    .setCancelMessage(R.string.fast_cancel)
-                    .setCancelMessageTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)
-                    .setItemsTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                    .setCancel(R.string.fast_cancel)
+                    .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
+                    .create();
         }
         mActionSheetView.show();
     }

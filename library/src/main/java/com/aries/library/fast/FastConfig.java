@@ -307,7 +307,9 @@ public class FastConfig {
      */
     public FastConfig setSwipeBackEnable(boolean swipeBackEnable, Application application) {
         mIsSwipeBackEnable = swipeBackEnable;
-        if (application != null && mApplication == null && FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
+        //先保证
+        if (application != null && mApplication == null
+                && FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
             BGASwipeBackManager.getInstance().init(application);//初始化滑动返回关闭Activity功能
             // 导航栏处理--不设置会预留一块导航栏高度的空白
             BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));

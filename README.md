@@ -1,7 +1,7 @@
 # FastLib-一个快捷实现UI搭建及网络请求的Android开发库
 --------------------------
 
-[![fir.im](https://img.shields.io/badge/download-fir.im-blue.svg)](http://fir.im/hju8)
+[![](https://img.shields.io/badge/download-demo-blue.svg)](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 [![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)
 [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
@@ -22,17 +22,9 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 * Fragment 懒加载封装
 * 快速实现Activity滑动返回、下拉刷新加载更多、沉浸式等
 
-**说明:**
-
-**1、V2.1.0版本及以后将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复**
-
-**2、V2.1.5版本及以后新增众多全局设置TitleBarView属性、Adapter加载动画、SmartRefreshLayout刷新配置、Glide加载占位Drawable属性等控制的FastCofig类用于全局设置应用通用属性并减少部分冗余代码及冗余drawable资源文件**
-
 其它功能请在demo中发现
 
-[[Sample PC Download]](https://github.com/AriesHoo/FastLib/blob/master/apk/sample.apk)
-
-[[Sample Mobile Download]](http://fir.im/hju8)
+[[Download]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
 
 ![](/apk/qr.png)
 
@@ -49,9 +41,27 @@ allprojects {
 
 ```
 dependencies {
-     //compile 'com.github.AriesHoo:FastLib:2.2.1'
-     compile 'com.github.AriesHoo:FastLib:${LATEST_VERSION}'
+     compile 'com.github.AriesHoo:FastLib:2.2.1'
 }
+```
+
+**Maven集成**
+
+```
+   <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+```
+
+```
+<dependency>
+	    <groupId>com.github.AriesHoo</groupId>
+	    <artifactId>FastLib</artifactId>
+	    <version>2.2.1</version>
+	</dependency>
 ```
 
 **Compile集成**
@@ -109,7 +119,6 @@ dependencies {
 * Retrofit2.x+RxJava2.x 网络请求简要封装
 * Basis开头是通用基类:[BasisActivity](/library/src/main/java/com/aries/library/fast/basis/BasisActivity.java)和[BasisFragment](/library/src/main/java/com/aries/library/fast/basis/BasisFragment.java)
 * Fast开头的是快速创建常见功能页面:[FastMainActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastMainActivity.java)-快速创建包含tab主Activity;[FastTitleActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastTitleActivity.java)-快速创建包含TitleBarView的Activity;[FastRefreshLoadActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastRefreshLoadActivity.java)-快速创建包含TitleBarView及下拉刷新、多状态切换的Activity;[FastWebActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastWebActivity.java)快速创建应用内webView的Activity;[FastTitleFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastTitleFragment.java)-快速创建包含TitleBarView的Fragment;[FastRefreshLoadFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastRefreshLoadFragment.java)-快速实现下拉刷新的Fragment;[FastTitleRefreshLoadFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastTitleRefreshLoadFragment.java)-快速实现包含TitleBarView及下拉刷新与多状态切换Fragment
-* [FastApplication](/library/src/main/java/com/aries/library/fast/FastApplication.java):快速配置ToastUtil及滑动关闭Activity的Application可以根据需要继承(需要滑动关闭Activity需要参考初始化)
 * Manager类是三方库二次封装:目前有[GlideManager](/library/src/main/java/com/aries/library/fast/manager/GlideManager.java)-图片加载库Glide库封装;[LoggerManager](/library/src/main/java/com/aries/library/fast/manager/LoggerManager.java)-日志打印logger库封装;[RxJavaManager](/library/src/main/java/com/aries/library/fast/manager/RxJavaManager.java)-RxJava实现timer;[TabLayoutManager](/library/src/main/java/com/aries/library/fast/manager/TabLayoutManager.java)-FlycoTabLayout+ViewPager使用:包括CommonTabLayout、SlidingTabLayout、SegmentTabLayout在FragmentActivity与Fragment中使用的封装
 * Util类为常用工具:[FastStackUtil](/library/src/main/java/com/aries/library/fast/util/FastStackUtil.java)-应用Activity栈管理类;[FastUtil](/library/src/main/java/com/aries/library/fast/util/FastUtil.java)-部分应用常用功能类;[SizeUtil](/src/main/java/com/aries/library/fast/util/SizeUtil.java)-尺寸转换类;[SPUtil](/library/src/main/java/com/aries/library/fast/util/SPUtil.java) -SharedPreferences使用类;[TimeFormatUtil](/library/src/main/java/com/aries/library/fast/util/TimeFormatUtil.java)-时间转换类;[ToastUtil](/library/src/main/java/com/aries/library/fast/util/ToastUtil.java)-单例模式toast工具类:可配置是否后台显示
 * Delegate为代理类:[FastTitleDelegate](/library/src/main/java/com/aries/library/fast/delegate/FastTitleDelegate.java)-快速实现包含TitleBarView的Fragment/Activity;[FastRefreshLoadDelegate](/library/src/main/java/com/aries/library/fast/delegate/FastRefreshLoadDelegate.java)-快速实现下拉刷新、上拉加载更多、多状态切换的Fragment/Activity
@@ -124,6 +133,21 @@ dependencies {
 
 ## 注意事项
 
+## 重大更新日志
+
+* 2.2.9-beta5
+        
+	* library 直接compile UIWidget core 3.1.0版本
+	
+* 2.1.5 更新
+            
+    * 新增众多全局设置TitleBarView属性、Adapter加载动画、SmartRefreshLayout刷新配置、Glide加载占位Drawable属性等控制的FastConfig类用于全局设置应用通用属性并减少部分冗余代码及冗余drawable资源文件
+
+* 2.1.0 更新
+        
+	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复**
+    
+	
 ## 录屏预览
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)

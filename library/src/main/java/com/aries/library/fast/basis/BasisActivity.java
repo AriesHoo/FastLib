@@ -233,7 +233,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
                         .setMessageColor(mQuitEntity.getSnackBarMessageColor())
                         .setMessage(mQuitEntity.getQuitMessage())
                         .setBottomMargin(transEnable && !plusNavigationViewEnable ?
-                                NavigationBarUtil.getNavigationBarHeight(getWindowManager()) : 0)
+                                NavigationBarUtil.getNavigationBarHeight(getWindowManager()) : 1)
                         .show();
             } else {
                 ToastUtil.show(mQuitEntity.getQuitMessage());

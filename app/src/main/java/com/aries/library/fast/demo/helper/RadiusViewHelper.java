@@ -2,7 +2,7 @@ package com.aries.library.fast.demo.helper;
 
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
-import com.aries.ui.view.radius.RadiusViewDelegate;
+import com.aries.ui.view.radius.delegate.RadiusViewDelegate;
 
 /**
  * Created: AriesHoo on 2017/11/1 10:00

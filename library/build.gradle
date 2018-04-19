@@ -2,14 +2,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    def ext = rootProject.ext
+    compileSdkVersion ext.compileSdkVersion
+    buildToolsVersion ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 229
-        versionName "2.2.9-beta4"
+        minSdkVersion ext.minSdkVersion
+        targetSdkVersion ext.targetSdkVersion
+        versionCode ext.versionCode
+        versionName ext.versionName
     }
     buildTypes {
         release {
@@ -40,7 +41,6 @@ android {
     }
 }
 dependencies {
-    def supportVersion = "25.3.1"
     provided 'com.android.support:design:'.concat(supportVersion)
     provided 'com.android.support:appcompat-v7:'.concat(supportVersion)
     provided 'com.android.support:recyclerview-v7:'.concat(supportVersion)
@@ -48,12 +48,12 @@ dependencies {
     provided 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     //webView库
     provided 'com.just.agentweb:agentweb:3.0.0'
-    //常用UI控件(TitleBarView、RadiusView等)
-    provided 'com.github.AriesHoo:UIWidget:2.0.9'
     //下拉刷新库
     provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载
     provided 'com.github.bumptech.glide:glide:4.0.0'
+    //常用UI控件(TitleBarView、RadiusView等)
+    compile 'com.github.AriesHoo.UIWidget:widget-core:3.1.1'
     //日志打印
     compile 'com.orhanobut:logger:2.1.1'
     //注解
@@ -76,6 +76,4 @@ dependencies {
     compile 'org.simple:androideventbus:1.0.5.1'
     //多状态视图切换
     compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
-    //虚拟导航栏控制-沉浸
-    compile 'com.github.AriesHoo:NavigationViewHelper:1.0.0'
 }
