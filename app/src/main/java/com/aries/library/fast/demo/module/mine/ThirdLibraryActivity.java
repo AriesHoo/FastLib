@@ -8,12 +8,11 @@ import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
-import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
+import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
-import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -121,7 +120,6 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
     public void onItemClicked(BaseQuickAdapter<WidgetEntity, BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WidgetEntity entity = adapter.getItem(position);
-//        WebViewActivity.start(mContext, entity.url);
-        FastUtil.startActivity(mContext, SwipeBackActivity.class);
+        WebViewActivity.start(mContext, entity.url);
     }
 }
