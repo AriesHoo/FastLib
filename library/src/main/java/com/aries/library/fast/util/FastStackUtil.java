@@ -74,7 +74,7 @@ public class FastStackUtil {
     }
 
     /**
-     * 如栈
+     * 入栈
      *
      * @param activity
      */

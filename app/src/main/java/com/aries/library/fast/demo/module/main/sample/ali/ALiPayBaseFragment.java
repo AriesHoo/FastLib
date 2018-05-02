@@ -15,17 +15,12 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public abstract class ALiPayBaseFragment extends FastTitleFragment {
     String[] titles;
-
-    @Override
-    public boolean isLightStatusBarEnable() {
-        return false;
-    }
-
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
         titles = getResources().getStringArray(R.array.arrays_tab_ali);
         titleBar.setStatusAlpha(75)
+                .setStatusBarLightMode(false)
                 .setLeftTextColor(Color.WHITE)
                 .setRightTextColor(Color.WHITE)
                 .setLeftTextSize(TypedValue.COMPLEX_UNIT_DIP, 16)

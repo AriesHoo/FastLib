@@ -16,7 +16,6 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.ui.view.title.TitleBarView;
 import com.just.agentweb.AgentWeb;
-import com.just.agentweb.DownLoadResultListener;
 
 import java.io.File;
 
@@ -50,11 +49,6 @@ public class WebViewActivity extends FastWebActivity {
     }
 
     @Override
-    public boolean isLightStatusBarEnable() {
-        return mIsShowTitle;
-    }
-
-    @Override
     public int getContentBackground() {
         return -1;
     }
@@ -69,27 +63,14 @@ public class WebViewActivity extends FastWebActivity {
     }
 
     @Override
-    protected void setAgentWeb(AgentWeb.CommonAgentBuilder mAgentBuilder) {
+    protected void setAgentWeb(AgentWeb.CommonBuilder mAgentBuilder) {
         super.setAgentWeb(mAgentBuilder);
-        mAgentBuilder.addDownLoadResultListener(new DownLoadResultListener() {
-            @Override
-            public void success(String path) {
-                if (path.endsWith(".apk")) {
-                    installApk(getApplicationContext(), path);
-                }
-            }
-
-            @Override
-            public void error(String path, String resUrl, String cause, Throwable e) {
-
-            }
-        });
     }
 
     @Override
     protected void setAgentWeb(AgentWeb mAgentWeb) {
         super.setAgentWeb(mAgentWeb);
-        WebView mWebView = mAgentWeb.getWebCreator().get();
+        WebView mWebView = mAgentWeb.getWebCreator().getWebView();
         mWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

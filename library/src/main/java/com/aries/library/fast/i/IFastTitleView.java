@@ -1,14 +1,22 @@
 package com.aries.library.fast.i;
 
-import android.support.annotation.DrawableRes;
 import android.view.View;
 
 import com.aries.ui.view.title.TitleBarView;
 
 /**
  * Created: AriesHoo on 2017/7/25 11:27
- * Function: 包含TitleBarView
+ * Function:
  * Desc:
+ */
+
+/**
+ * Created: AriesHoo on 2018/4/20/020 10:14
+ * E-Mail: AriesHoo@126.com
+ * Function:包含TitleBarView
+ * Description:
+ * 1、2018-4-20 10:15:01 去掉isLightStatusBarEnable通过{@link TitleBarView#setStatusBarLightMode(boolean)}
+ * 去掉getLeftIcon控制通过{@link TitleBarView#setLeftTextDrawable(int)}设置
  */
 public interface IFastTitleView {
     /**
@@ -24,21 +32,6 @@ public interface IFastTitleView {
      * @param titleBar
      */
     void setTitleBar(TitleBarView titleBar);
-
-    /**
-     * 是否浅色状态栏(设置黑色文字--Flyme 4.0 MIUI 6.0及Android 6.0 以上支持)
-     *
-     * @return
-     */
-    boolean isLightStatusBarEnable();
-
-    /**
-     * 设置左边icon
-     *
-     * @return
-     */
-    @DrawableRes
-    int getLeftIcon();
 
     /**
      * 设置左边TextView点击事件

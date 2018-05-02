@@ -135,6 +135,10 @@ dependencies {
 
 ## 重大更新日志
 
+* 2.2.9-beta6
+        
+	* 重构设置全局TitleBarView设置方式(通过TitleBarViewControl实现可参看AppImpl实现类)
+	
 * 2.2.9-beta5
         
 	* library 直接compile UIWidget core 3.1.0版本

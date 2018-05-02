@@ -38,20 +38,17 @@ public class SwipeBackActivity extends FastTitleActivity {
     }
 
     @Override
-    public boolean isLightStatusBarEnable() {
-        return false;
-    }
-
-    @Override
     public void setTitleBar(TitleBarView titleBar) {
         title = getIntent().getStringExtra("title");
-        titleBar.setStatusAlpha(102)
+        titleBar.setStatusBarLightMode(false)
                 .setCenterGravityLeft(true)
+                //微信之前版本是有半透明效果最新版是全透明的
+//                .setStatusAlpha(102)
                 .setCenterGravityLeftPadding(SizeUtil.dp2px(24))
                 .setTitleMainText(title)
                 .setTitleMainTextColor(Color.WHITE)
                 .setLeftTextDrawable(R.drawable.ic_back_white)
-                .setBackgroundColor(Color.parseColor("#38393E"));
+                .setBgColor(Color.parseColor("#373A41"));
     }
 
     @Override

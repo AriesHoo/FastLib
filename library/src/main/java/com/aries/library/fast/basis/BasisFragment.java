@@ -43,7 +43,6 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mIsFirstShow = true;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         beforeSetContentView();

@@ -47,7 +47,7 @@ dependencies {
     //万能适配器
     provided 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     //webView库
-    provided 'com.just.agentweb:agentweb:3.0.0'
+    provided 'com.just.agentweb:agentweb:4.0.2'
     //下拉刷新库
     provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载

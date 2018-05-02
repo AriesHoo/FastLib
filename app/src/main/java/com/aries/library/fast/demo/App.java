@@ -9,7 +9,6 @@ import android.view.Gravity;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
-import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastMultiUrl;
 import com.aries.library.fast.retrofit.FastRetrofit;
@@ -77,24 +76,11 @@ public class App extends Application {
 
         //全局配置参数
         AppImpl impl = new AppImpl(mContext);
-        //全局标题栏TitleBarView设置--推荐先获取library里默认标题栏TitleBarView配置再按需修改的模式 FastTitleConfigEntity
-        FastTitleConfigEntity titleConfig = FastConfig.getInstance(mContext).getTitleConfig();
         //全局主页面返回键操作设置--推荐先获取library里默认主页面点击返回键配置FastQuitConfigEntity配置再按需修改的模式 FastQuitConfigEntity
         FastQuitConfigEntity quitConfig = FastConfig.getInstance(mContext).getQuitConfig();
         FastConfig.getInstance(mContext)
                 //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
                 .setSwipeBackEnable(true, this)
-                // 设置全局TitleBarView-其它属性请查看getInstance默认设置
-                .setTitleConfig(titleConfig
-                        //设置TitleBarView 所有TextView颜色
-                        .setTitleTextColor(getResources().getColor(R.color.colorTitleText))
-                        //设置TitleBarView背景资源
-                        .setTitleBackgroundResource(R.color.colorTitleBackground)
-                        //设置是否状态栏浅色模式(深色状态栏文字及图标)
-                        .setLightStatusBarEnable(true)
-                        .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0)
-                        //设置TitleBarView海拔高度
-                        .setTitleElevation(mContext.getResources().getDimension(R.dimen.dp_elevation)))
                 //设置Activity 点击返回键提示退出程序或返回桌面相关参数
                 .setQuitConfig(quitConfig
                         //设置是否退回桌面否则直接退出程序
@@ -124,6 +110,7 @@ public class App extends Application {
                 .setHttpErrorControl(impl)
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
                 .setDefaultRefreshHeader(impl)
+                .setTitleBarViewControl(impl)
                 //设置虚拟导航栏控制
                 .setNavigationBarControl(impl);
         LoggerManager.d(TAG, "total:" + (System.currentTimeMillis() - start));

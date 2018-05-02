@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,26 +18,24 @@ import android.view.View;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
-import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
-import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.i.HttpErrorControl;
-import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
+import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
-import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
+import com.aries.ui.util.ResourceUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
@@ -64,6 +61,7 @@ public class FastConfig {
     private static volatile FastConfig sInstance;
     private static Context mContext;
     private Application mApplication;
+    private ResourceUtil mResourceUtil;
 
     public static FastConfig getInstance(@Nullable Context context) {
         if (sInstance == null) {
@@ -81,40 +79,8 @@ public class FastConfig {
             throw new NullPointerException(FastConstant.EXCEPTION_FAST_CONFIG_CONTEXT_NOT_NULL);
         }
         if (context != null) {
+            this.mResourceUtil = new ResourceUtil(context);
             this.mContext = context.getApplicationContext();
-            if (FastUtil.isClassExist("com.aries.ui.view.title.TitleBarView")) {
-                setTitleConfig(new FastTitleConfigEntity()
-                        .setTitleBackgroundResource(R.color.colorTitleBackground)
-                        .setLeftTextDrawable(R.drawable.fast_ic_back)
-                        .setLeftTextFinishEnable(true)
-                        .setCenterLayoutPadding(SizeUtil.dp2px(2))
-                        .setCenterGravityLeftPadding(SizeUtil.dp2px(24))
-                        .setCenterGravityLeft(false)
-                        .setTitleTextColor(mContext.getResources().getColor(R.color.colorTitleText))
-                        .setTitleMainTextSize(SizeUtil.dp2px(18))
-                        .setTitleMainTextColor(mContext.getResources().getColor(R.color.colorTitleText))
-                        .setTitleMainTextFakeBold(false)
-                        .setTitleMainTextMarquee(false)
-                        .setTitleSubTextSize(SizeUtil.dp2px(12))
-                        .setTitleSubTextColor(mContext.getResources().getColor(R.color.colorTitleText))
-                        .setTitleSubTextFakeBold(false)
-                        .setLeftTextSize(SizeUtil.dp2px(14))
-                        .setLeftTextColor(mContext.getResources().getColor(R.color.colorTitleText))
-                        .setRightTextSize(SizeUtil.dp2px(14))
-                        .setRightTextColor(mContext.getResources().getColor(R.color.colorTitleText))
-                        .setActionTextSize(SizeUtil.dp2px(14))
-                        .setActionTextColor(mContext.getResources().getColor(R.color.colorTitleText))
-                        .setStatusAlpha(TitleBarView.DEFAULT_STATUS_BAR_ALPHA)
-                        .setStatusAlwaysEnable(false)
-                        .setTitleHeight(mContext.getResources().getDimensionPixelSize(R.dimen.dp_title_height))
-                        .setTitleElevation(0)
-                        .setLightStatusBarEnable(false)
-                        .setOutPadding(SizeUtil.dp2px(12))
-                        .setActionPadding(SizeUtil.dp2px(1))
-                        .setDividerColor(mContext.getResources().getColor(R.color.colorTitleDivider))
-                        .setDividerHeight(SizeUtil.dp2px(0.5f))
-                );
-            }
             if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
                 setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {
                     @NonNull
@@ -165,6 +131,12 @@ public class FastConfig {
                     return false;
                 }
             });
+            setTitleBarViewControl(new TitleBarViewControl() {
+                @Override
+                public boolean createTitleBarViewControl(TitleBarView titleBar, boolean isActivity) {
+                    return false;
+                }
+            });
             setNavigationBarControl(new NavigationBarControl() {
                 @NonNull
                 @Override
@@ -183,7 +155,6 @@ public class FastConfig {
         }
     }
 
-    private FastTitleConfigEntity mTitleConfig;
     private FastQuitConfigEntity mQuitConfig;
     /**
      * Activity或Fragment根布局背景
@@ -220,25 +191,8 @@ public class FastConfig {
      */
     private HttpErrorControl mHttpErrorControl;
 
+    private TitleBarViewControl mTitleBarViewControl;
     private NavigationBarControl mNavigationBarControl;
-
-    public FastTitleConfigEntity getTitleConfig() {
-        return mTitleConfig;
-    }
-
-    /**
-     * 设置全局TitleBarView相关属性
-     * 最终调用{@link FastTitleDelegate#FastTitleDelegate(View, Activity, IFastTitleView)}
-     *
-     * @param mTitleConfig
-     * @return
-     */
-    public FastConfig setTitleConfig(FastTitleConfigEntity mTitleConfig) {
-        if (mTitleConfig != null) {
-            this.mTitleConfig = mTitleConfig;
-        }
-        return sInstance;
-    }
 
     public FastQuitConfigEntity getQuitConfig() {
         return mQuitConfig;
@@ -444,6 +398,17 @@ public class FastConfig {
         return this;
     }
 
+    public TitleBarViewControl getTitleBarViewControl() {
+        return mTitleBarViewControl;
+    }
+
+    public FastConfig setTitleBarViewControl(TitleBarViewControl control) {
+        if (control != null) {
+            mTitleBarViewControl = control;
+        }
+        return this;
+    }
+
     public NavigationBarControl getNavigationBarControl() {
         return mNavigationBarControl;
     }
@@ -477,16 +442,12 @@ public class FastConfig {
         return sInstance;
     }
 
-    private Resources getResources() {
-        return mContext.getResources();
-    }
-
     private int getColor(@ColorRes int color) {
-        return getResources().getColor(color);
+        return mResourceUtil.getColor(color);
     }
 
     private CharSequence getText(@StringRes int id) {
-        return getResources().getText(id);
+        return mResourceUtil.getText(id);
     }
 
 }

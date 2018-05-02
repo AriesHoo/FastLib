@@ -3,11 +3,12 @@ package com.aries.library.fast.delegate;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IMultiStatusView;
+import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.marno.easystatelibrary.EasyStatusView;
@@ -119,15 +120,9 @@ public class FastRefreshLoadDelegate<T> {
      * @return
      */
     private void getRefreshLayout(View rootView) {
-        if (rootView instanceof SmartRefreshLayout && mRefreshLayout == null) {
-            mRefreshLayout = (SmartRefreshLayout) rootView;
-        } else if (rootView instanceof ViewGroup) {
-            ViewGroup contentView = (ViewGroup) rootView;
-            int childCount = contentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = contentView.getChildAt(i);
-                getRefreshLayout(childView);
-            }
+        mRefreshLayout = rootView.findViewById(R.id.smartLayout_rootFastLib);
+        if (mRefreshLayout == null) {
+            mRefreshLayout = FindViewUtil.getTargetView(rootView, SmartRefreshLayout.class);
         }
     }
 
@@ -137,15 +132,9 @@ public class FastRefreshLoadDelegate<T> {
      * @param rootView
      */
     private void getRecyclerView(View rootView) {
-        if (rootView instanceof RecyclerView && mRecyclerView == null) {
-            mRecyclerView = (RecyclerView) rootView;
-        } else if (rootView instanceof ViewGroup) {
-            ViewGroup contentView = (ViewGroup) rootView;
-            int childCount = contentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = contentView.getChildAt(i);
-                getRecyclerView(childView);
-            }
+        mRecyclerView = rootView.findViewById(R.id.rv_contentFastLib);
+        if (mRecyclerView == null) {
+            mRecyclerView = FindViewUtil.getTargetView(rootView, RecyclerView.class);
         }
     }
 
@@ -155,15 +144,9 @@ public class FastRefreshLoadDelegate<T> {
      * @param rootView
      */
     private void getStatusView(View rootView) {
-        if (rootView instanceof EasyStatusView && mStatusView == null) {
-            mStatusView = (EasyStatusView) rootView;
-        } else if (rootView instanceof ViewGroup) {
-            ViewGroup contentView = (ViewGroup) rootView;
-            int childCount = contentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = contentView.getChildAt(i);
-                getStatusView(childView);
-            }
+        mStatusView = rootView.findViewById(R.id.esv_layoutFastLib);
+        if (mStatusView == null) {
+            mStatusView = FindViewUtil.getTargetView(rootView, EasyStatusView.class);
         }
     }
 }

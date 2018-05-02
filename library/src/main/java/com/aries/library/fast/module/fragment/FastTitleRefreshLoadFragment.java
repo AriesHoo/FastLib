@@ -2,7 +2,6 @@ package com.aries.library.fast.module.fragment;
 
 import android.view.View;
 
-import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.ui.view.title.TitleBarView;
@@ -23,24 +22,14 @@ public abstract class FastTitleRefreshLoadFragment<T> extends FastRefreshLoadFra
     }
 
     @Override
-    public int getLeftIcon() {
-        return 0;
-    }
-
-    @Override
     public View.OnClickListener getLeftClickListener() {
         return null;
     }
 
     @Override
-    public boolean isLightStatusBarEnable() {
-        return FastConfig.getInstance(getContext()).getTitleConfig().isLightStatusBarEnable();
-    }
-
-    @Override
     public void beforeInitView() {
         super.beforeInitView();
-        mFastTitleDelegate = new FastTitleDelegate(mContentView, mContext, this);
+        mFastTitleDelegate = new FastTitleDelegate(mContentView, mContext, this, false);
         mTitleBar = mFastTitleDelegate.mTitleBar;
     }
 }

@@ -367,7 +367,7 @@ public class ToastUtil {
         }
 
         /**
-         * 设置文本颜色{@link com.aries.ui.view.radius.RadiusViewDelegate#setTextColor(int)}
+         * 设置文本颜色{@link com.aries.ui.view.radius.delegate.RadiusTextViewDelegate#setTextColor(int)}
          *
          * @param textColor
          * @return

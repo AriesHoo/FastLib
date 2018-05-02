@@ -15,11 +15,6 @@ import com.aries.ui.view.title.TitleBarView;
 public class QQTitleActivity extends FastTitleActivity {
 
     @Override
-    public boolean isLightStatusBarEnable() {
-        return false;
-    }
-
-    @Override
     public int getContentLayout() {
         return R.layout.activity_qq_title;
     }
@@ -32,6 +27,7 @@ public class QQTitleActivity extends FastTitleActivity {
     @Override
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setLeftTextDrawable(R.drawable.ic_back_white)
+                .setStatusBarLightMode(false)
                 .setTitleMainText("QQ默认主题TitleBar背景渐变")
                 .setTitleMainTextColor(Color.WHITE)
                 .setBgResource(R.drawable.shape_qq_bg);

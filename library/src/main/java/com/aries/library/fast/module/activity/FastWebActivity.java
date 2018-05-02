@@ -10,18 +10,17 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.R;
-import com.aries.library.fast.entity.FastTitleConfigEntity;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.BasisDialog;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.just.agentweb.AgentWeb;
-import com.just.agentweb.ChromeClientCallbackManager;
 import com.just.agentweb.DefaultWebCreator;
 
 /**
@@ -36,9 +35,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected String mCurrentUrl;
     protected AlertDialog mAlertDialog;
     protected AgentWeb mAgentWeb;
-    protected AgentWeb.CommonAgentBuilder mAgentBuilder;
+    protected AgentWeb.CommonBuilder mAgentBuilder;
     protected UIActionSheetDialog mActionSheetView;
-    protected FastTitleConfigEntity mTitleConfig;
 
     protected static void start(Activity mActivity, Class<? extends FastWebActivity> activity, String url) {
         Bundle bundle = new Bundle();
@@ -46,16 +44,12 @@ public abstract class FastWebActivity extends FastTitleActivity {
         FastUtil.startActivity(mActivity, activity, bundle);
     }
 
-    @Deprecated
-    protected void setAgentWeb(AgentWeb mAgentWeb, AgentWeb.CommonAgentBuilder mAgentBuilder) {
-
-    }
 
     protected void setAgentWeb(AgentWeb mAgentWeb) {
 
     }
 
-    protected void setAgentWeb(AgentWeb.CommonAgentBuilder mAgentBuilder) {
+    protected void setAgentWeb(AgentWeb.CommonBuilder mAgentBuilder) {
 
     }
 
@@ -71,7 +65,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     /**
      * 设置进度条高度 注意此处最终AgentWeb会将其作为float 转dp2px
-     * {@link DefaultWebCreator#createGroupWithWeb()  height_dp}
+     * {@link DefaultWebCreator#createWebView()}   height_dp}
      *
      * @return
      */
@@ -81,7 +75,6 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     public void beforeSetContentView() {
-        mTitleConfig = FastConfig.getInstance(this).getTitleConfig();
         super.beforeSetContentView();
     }
 
@@ -98,17 +91,17 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
-
-        titleBar.setTitleMainTextMarquee(mTitleConfig.isTitleMainTextMarquee())
-                .setOnLeftTextClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onBackPressed();
-                    }
-                })
+        FastConfig.getInstance(mContext).getTitleBarViewControl()
+                .createTitleBarViewControl(titleBar, true);
+        titleBar.setOnLeftTextClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        })
                 .setRightTextDrawable(FastUtil.getTintDrawable(
                         getResources().getDrawable(R.drawable.fast_ic_more),
-                        mTitleConfig.getTitleTextColor()))
+                        getResources().getColor(R.color.colorTitleText)))
                 .setOnRightTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -117,7 +110,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                 })
                 .addLeftAction(titleBar.new ImageAction(
                         FastUtil.getTintDrawable(getResources().getDrawable(R.drawable.fast_ic_close),
-                                mTitleConfig.getTitleTextColor()), new View.OnClickListener() {
+                                getResources().getColor(R.color.colorTitleText)), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showDialog();
@@ -133,24 +126,23 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected void initAgentWeb() {
         mAgentBuilder = AgentWeb.with(this)//
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))//
-                .useDefaultIndicator()//
-                .setIndicatorColorWithHeight(getProgressColor() != -1 ? getProgressColor() : mTitleConfig.getTitleTextColor(),
+                .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : getResources().getColor(R.color.colorTitleText),
                         getProgressHeight())
-                .setReceivedTitleCallback(new ChromeClientCallbackManager.ReceivedTitleCallback() {
+                .setWebChromeClient(new WebChromeClient() {
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
+                        super.onReceivedTitle(view, title);
                         mCurrentUrl = view.getUrl();
                         mTitleBar.setTitleMainText(title);
                     }
                 })
-                .setSecurityType(AgentWeb.SecurityType.strict);
+                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK);
         setAgentWeb(mAgentBuilder);
         mAgentWeb = mAgentBuilder
                 .createAgentWeb()//
                 .ready()
                 .go(url);
         setAgentWeb(mAgentWeb);
-        setAgentWeb(mAgentWeb, mAgentBuilder);
     }
 
     protected void showDialog() {
@@ -188,7 +180,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                         public void onClick(BasisDialog dialog, View itemView, int i) {
                             switch (i) {
                                 case 0:
-                                    mAgentWeb.getLoader().reload();
+                                    mAgentWeb.getUrlLoader().reload();
                                     break;
                                 case 1:
                                     FastUtil.copyToClipboard(mContext, mCurrentUrl);

@@ -3,8 +3,11 @@ package com.aries.library.fast.demo;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
@@ -15,8 +18,10 @@ import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
+import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastError;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
@@ -24,6 +29,8 @@ import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.util.RomUtil;
+import com.aries.ui.util.StatusBarUtil;
+import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.marno.easystatelibrary.EasyStatusView;
@@ -39,7 +46,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
  * Description:
  */
 public class AppImpl implements DefaultRefreshHeaderCreater
-        , LoadMoreFoot, MultiStatusView, LoadingDialog, HttpErrorControl, NavigationBarControl {
+        , LoadMoreFoot, MultiStatusView, LoadingDialog, HttpErrorControl, TitleBarViewControl, NavigationBarControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -118,7 +125,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         //根据具体情况可设置更多属性具体请参考FastMultiStatusView.Builder里set方法
         //默认设置请参考Builder(Context context)里初始化
         return new FastMultiStatusView.Builder(mContext)
-                .setLoadingTextFakeBold(true)
+                .setLoadingTextFakeBold(false)
 //                                .setTextColor(Color.MAGENTA)
 //                                .setTextColorResource(R.color.colorMultiText)
 //                                .setTextSizeResource(R.dimen.dp_multi_text_size)
@@ -190,6 +197,30 @@ public class AppImpl implements DefaultRefreshHeaderCreater
         return false;
     }
 
+    /**
+     * 控制全局TitleBarView
+     *
+     * @param titleBar
+     * @param isActivity
+     * @return
+     */
+    @Override
+    public boolean createTitleBarViewControl(TitleBarView titleBar, boolean isActivity) {
+        //默认的MD风格返回箭头icon如使用该风格可以不用设置
+        Drawable mDrawable = FastUtil.getTintDrawable(mContext.getResources().getDrawable(R.drawable.fast_ic_back),
+                mContext.getResources().getColor(R.color.colorTitleText));
+        //是否支持状态栏白色
+        boolean isSupport = StatusBarUtil.isSupportStatusBarFontChange();
+        //设置TitleBarView 所有TextView颜色
+        titleBar.setStatusBarLightMode(isSupport)
+                //不支持黑字的设置白透明
+                .setStatusAlpha(isSupport ? 0 : 102)
+                .setLeftTextDrawable(isActivity ? mDrawable : null)
+                .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0);
+        ViewCompat.setElevation(titleBar, mContext.getResources().getDimension(R.dimen.dp_elevation));
+        return false;
+    }
+
     @NonNull
     @Override
     public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
@@ -222,4 +253,6 @@ public class AppImpl implements DefaultRefreshHeaderCreater
     protected boolean isTrans() {
         return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0);
     }
+
+
 }
