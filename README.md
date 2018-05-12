@@ -8,11 +8,7 @@
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/简书-AriesHoo-blue.svg)](http://www.jianshu.com/u/a229eee96115)
 
-## 简介：
-
-一个Android项目级快速开发框架,节约大部分写常用功能时间以实现更多项目业务功能及体验上的优化.有问题欢迎issue。
-
-Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.douban.com/wiki/?title=api_v2) ***版权及最终解释权归d豆瓣所有,如有侵权请联系删除!***
+## 简介：快速搭建UI的库
 
 ## 主要功能
 
@@ -22,11 +18,7 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 * Fragment 懒加载封装
 * 快速实现Activity滑动返回、下拉刷新加载更多、沉浸式等
 
-其它功能请在demo中发现
 
-[[Download]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
-
-![](/apk/qr.png)
 
 **Gradle集成**
 
@@ -43,32 +35,6 @@ allprojects {
 dependencies {
      compile 'com.github.AriesHoo:FastLib:2.2.1'
 }
-```
-
-**Maven集成**
-
-```
-   <repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-
-```
-<dependency>
-	    <groupId>com.github.AriesHoo</groupId>
-	    <artifactId>FastLib</artifactId>
-	    <version>2.2.1</version>
-	</dependency>
-```
-
-**Compile集成**
-
-```
-compile project(':fastLib')
-```
 
 **包含第三方库**
 
@@ -130,39 +96,6 @@ dependencies {
 * 万能适配器（ListView、GridView，RecyclerView):可添加多个Header和Footer
 * Fragment懒加载,Activity可见时加载--统一了普通Fragment及与ViewPager配合滑动的用户可见回调
 * 下拉刷新、上拉加载:支持多种效果的刷新头及自定义刷新头-参考库[SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
-
-## 注意事项
-
-## 重大更新日志
-
-* 2.2.9-beta6
-        
-	* 重构设置全局TitleBarView设置方式(通过TitleBarViewControl实现可参看AppImpl实现类)
-	
-* 2.2.9-beta5
-        
-	* library 直接compile UIWidget core 3.1.0版本
-	
-* 2.1.5 更新
-            
-    * 新增众多全局设置TitleBarView属性、Adapter加载动画、SmartRefreshLayout刷新配置、Glide加载占位Drawable属性等控制的FastConfig类用于全局设置应用通用属性并减少部分冗余代码及冗余drawable资源文件
-
-* 2.1.0 更新
-        
-	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复
-    
-	
-## 录屏预览
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
-
-虚拟导航栏控制-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
-
-开启GPU过度绘制检测+GPU呈现模式分析
 
 ## 鸣谢
 
