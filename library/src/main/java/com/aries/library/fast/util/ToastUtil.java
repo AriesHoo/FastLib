@@ -91,10 +91,9 @@ public class ToastUtil {
         if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         } else {
-            if (sSystemToast == null) {
-                sSystemToast = new Toast(sContext);
-                sTextView = new RadiusTextView(sContext);
-            }
+            //修复快速点击无法显示的问题,修复超过50之后无法显示的问题
+            Toast sSystemToast = SingleToast.getInstance();
+            sTextView = new RadiusTextView(sContext);
             if (builder == null) {
                 builder = getBuilder();
             }
@@ -560,6 +559,25 @@ public class ToastUtil {
         public Builder setMinHeight(int minHeight) {
             this.minHeight = minHeight;
             return this;
+        }
+    }
+
+    public static class SingleToast {
+        private static Toast mToast;
+        private static class SingleToastHolder {
+            private static final SingleToast INSTANCE = new SingleToast();
+        }
+
+        private SingleToast() {
+            mToast = new Toast(sContext);
+        }
+
+        private Toast getToast() {
+            return mToast;
+        }
+
+        public static final Toast getInstance() {
+            return SingleToastHolder.INSTANCE.getToast();
         }
     }
 }
