@@ -14,9 +14,10 @@ import com.aries.library.fast.R;
 import com.aries.ui.view.radius.RadiusTextView;
 
 /**
- * Created: AriesHoo on 2017/7/24 11:20
- * Function: Toast 工具
- * Desc:
+ * Created: AriesHoo on 2018/5/25 13:57
+ * E-Mail: AriesHoo@126.com
+ * Function:Toast 工具
+ * Description:
  */
 public class ToastUtil {
 
@@ -104,7 +105,8 @@ public class ToastUtil {
                     .setRadius(builder.radius)
                     .setStrokeColor(builder.strokeColor)
                     .setBackgroundColor(builder.backgroundColor)
-                    .setRippleEnable(false);
+                    .setRippleEnable(false)
+                    .init();
             sTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, builder.textSize);
             sTextView.setPadding(builder.paddingLeft, builder.paddingTop, builder.paddingRight, builder.paddingBottom);
             sTextView.setCompoundDrawablePadding(builder.textDrawablePadding);
@@ -564,6 +566,7 @@ public class ToastUtil {
 
     public static class SingleToast {
         private static Toast mToast;
+
         private static class SingleToastHolder {
             private static final SingleToast INSTANCE = new SingleToast();
         }

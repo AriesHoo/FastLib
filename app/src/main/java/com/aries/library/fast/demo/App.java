@@ -90,7 +90,7 @@ public class App extends Application {
                         .setQuitDelay(2000)
                         .setQuitMessage(isBackTask ? getText(R.string.fast_back_home) : getText(R.string.fast_quit_app))
                         .setSnackBarBackgroundColor(Color.argb(220, 0, 0, 0))
-                        .setSnackBarEnable(true)
+                        .setSnackBarEnable(false)
                         .setSnackBarMessageColor(Color.WHITE))
                 //设置Glide背景色
                 .setPlaceholderColor(getResources().getColor(R.color.colorPlaceholder))

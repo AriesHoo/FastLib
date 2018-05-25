@@ -10,5 +10,4 @@
 /.idea
 /build
 gradlew
-gradlew.bat
-/gradle
+/gradlew.bat
