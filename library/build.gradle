@@ -51,9 +51,9 @@ dependencies {
     //下拉刷新库
     provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片加载
-    provided 'com.github.bumptech.glide:glide:4.0.0'
+    provided 'com.github.bumptech.glide:glide:4.5.0'
     //常用UI控件(TitleBarView、RadiusView等)
-    compile 'com.github.AriesHoo.UIWidget:widget-core:3.1.1'
+    compile 'com.github.AriesHoo.UIWidget:widget-core:3.2.1'
     //日志打印
     compile 'com.orhanobut:logger:2.1.1'
     //注解
