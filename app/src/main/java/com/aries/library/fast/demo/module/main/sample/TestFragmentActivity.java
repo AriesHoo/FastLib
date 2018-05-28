@@ -6,7 +6,6 @@ import android.util.TypedValue;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.constant.ApiConstant;
-import com.aries.library.fast.demo.module.activity.MovieBaseFragment;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.ui.view.title.TitleBarView;
 
@@ -44,7 +43,7 @@ public class TestFragmentActivity extends FastTitleActivity {
     @Override
     public void loadData() {
         super.loadData();
-        mFragment = MovieBaseFragment.newInstance(ApiConstant.API_MOVIE_IN_THEATERS);
+        mFragment = SingleFragment.newInstance(ApiConstant.API_MOVIE_IN_THEATERS);
         //此处设置先隐藏再显示方能进入Fragment类的显示隐藏回调--懒加载
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fLayout_containerTestFragment, mFragment)

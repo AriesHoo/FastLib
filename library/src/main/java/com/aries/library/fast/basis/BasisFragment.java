@@ -1,6 +1,7 @@
 package com.aries.library.fast.basis;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,9 +23,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created: AriesHoo on 2017/7/19 16:11
- * Function:所有Fragment的基类
- * Desc:
+ * Created: AriesHoo on 2018/5/28/028 21:30
+ * E-Mail: AriesHoo@126.com
+ * Function:所有Fragment的基类实现懒加载
+ * Description:
+ * 1、新增控制是否为FragmentActivity的唯一Fragment 方法以优化懒加载方式
  */
 public abstract class BasisFragment extends RxFragment implements IBasisView {
 
@@ -35,6 +38,15 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected Unbinder mUnBinder;
     protected final String TAG = getClass().getSimpleName();
     protected boolean mIsVisibleChanged = false;
+
+    /**
+     * 控制是否为单个fragment--优化懒加载
+     *
+     * @return
+     */
+    protected boolean isSingle() {
+        return false;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -52,7 +64,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         EventBus.getDefault().register(this);
         beforeInitView();
         initView(savedInstanceState);
-        if (!mIsVisibleChanged && (getUserVisibleHint() || isVisible() || !isHidden())) {
+        if (isSingle() && !mIsVisibleChanged && (getUserVisibleHint() || isVisible() || !isHidden())) {
             onVisibleChanged(true);
         }
         LoggerManager.i(TAG, "mIsVisibleChanged:" + mIsVisibleChanged + ";getUserVisibleHint:" + getUserVisibleHint() + ";isHidden:" + isHidden() + ";isVisible:" + isVisible());
@@ -74,6 +86,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void beforeInitView() {
         if (getContentBackground() > 0) {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.aries.library.fast.R;
 import com.aries.ui.widget.progress.UIProgressDialog;
@@ -65,10 +66,10 @@ public class FastLoadDialog {
      */
     public FastLoadDialog setMessage(CharSequence msg) {
         if (mDialog instanceof UIProgressDialog) {
-            try {
-                ((UIProgressDialog) mDialog).getMessage().setText(msg);
-            } catch (Exception e) {
-
+            UIProgressDialog dialog = (UIProgressDialog) mDialog;
+            TextView textView = dialog.getMessage();
+            if (textView != null) {
+                textView.setText(msg);
             }
         } else if (mDialog instanceof ProgressDialog) {
             ((ProgressDialog) mDialog).setMessage(msg);
