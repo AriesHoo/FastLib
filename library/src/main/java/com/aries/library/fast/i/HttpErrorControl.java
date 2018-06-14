@@ -25,5 +25,6 @@ public interface HttpErrorControl {
      * @param args      初始化 {@link FastObserver#FastObserver(Context, Object...)}用作全局处理如
      * @return 返回true表示不再将结果传递_onError(reason, code, e)
      */
+
     boolean createHttpErrorControl(int errorRes, int errorCode, @NonNull Throwable e,Context context, Object... args);
 }
