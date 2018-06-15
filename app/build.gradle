@@ -79,7 +79,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     implementation 'com.github.lygttpod:SuperTextView:2.1.5'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
-    implementation 'com.just.agentweb:agentweb:3.0.0'
+    implementation 'com.just.agentweb:agentweb:+'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

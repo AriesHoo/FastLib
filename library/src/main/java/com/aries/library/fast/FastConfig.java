@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -45,9 +44,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
-import java.util.Arrays;
-
-import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
  * Created: AriesHoo on 2017/10/25 10:27
@@ -263,10 +260,10 @@ public class FastConfig {
         mIsSwipeBackEnable = swipeBackEnable;
         //先保证
         if (application != null && mApplication == null
-                && FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
-            BGASwipeBackManager.getInstance().init(application);//初始化滑动返回关闭Activity功能
+                && FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper")) {
+            BGASwipeBackHelper.init(application,null);//初始化滑动返回关闭Activity功能
             // 导航栏处理--不设置会预留一块导航栏高度的空白
-            BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
+//            BGASwipeBackHelper.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
             mApplication = application;
             mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                 @Override

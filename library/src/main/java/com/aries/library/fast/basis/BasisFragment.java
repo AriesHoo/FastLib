@@ -39,6 +39,11 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected final String TAG = getClass().getSimpleName();
     protected boolean mIsVisibleChanged = false;
 
+    @Override
+    public boolean isEventBusEnable() {
+        return true;
+    }
+
     /**
      * 控制是否为单个fragment--优化懒加载
      *
@@ -61,7 +66,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mContentView = inflater.inflate(getContentLayout(), container, false);
         mUnBinder = ButterKnife.bind(this, mContentView);
         mIsViewLoaded = true;
-        EventBus.getDefault().register(this);
+        if (isEventBusEnable())
+            EventBus.getDefault().register(this);
         beforeInitView();
         initView(savedInstanceState);
         if (isSingle() && !mIsVisibleChanged && (getUserVisibleHint() || isVisible() || !isHidden())) {
@@ -109,7 +115,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
+        if (isEventBusEnable())
+            EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 

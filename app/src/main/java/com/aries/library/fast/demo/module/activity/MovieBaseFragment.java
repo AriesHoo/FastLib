@@ -3,6 +3,7 @@ package com.aries.library.fast.demo.module.activity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
@@ -14,7 +15,6 @@ import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.helper.BackToTopHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
@@ -24,6 +24,8 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 /**
  * Created: AriesHoo on 2017/8/25 17:03
@@ -80,31 +82,32 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
         ApiRepository.getInstance().getMovie(mUrl, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(new FastObserver<BaseMovieEntity>(mContext,
-                        this, mRefreshLayout, mAdapter, mEasyStatusView,page) {
+                        this, mRefreshLayout, mAdapter, mEasyStatusView, page) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
-                        mRefreshLayout.finishRefresh();
-                        mAdapter.loadMoreComplete();
-                        if (entity == null || entity.subjects == null || entity.subjects.size() == 0) {
-                            if (page == 0) {
-                                mEasyStatusView.empty();
-                            } else {
-                                mAdapter.loadMoreEnd();
-                            }
-                            return;
-                        }
-                        mEasyStatusView.content();
-                        if (mRefreshLayout.isRefreshing())
-                            mAdapter.setNewData(null);
-                        mAdapter.openLoadAnimation();
-                        mAdapter.addData(entity.subjects);
-                        if (entity.count < DEFAULT_PAGE_SIZE) {
-                            mAdapter.loadMoreEnd();
-                        }
-                        LoggerManager.d("ApiRepository", "title:" + entity.title + ";start:" + entity.start + ";count:" + entity.count + ";total:" + entity.total);
-                        if (!entity.hasMore()) {
-                            mAdapter.loadMoreEnd(page == 0);
-                        }
+//                        mRefreshLayout.finishRefresh();
+//                        mAdapter.loadMoreComplete();
+//                        if (entity == null || entity.subjects == null || entity.subjects.size() == 0) {
+//                            if (page == 0) {
+//                                mEasyStatusView.empty();
+//                            } else {
+//                                mAdapter.loadMoreEnd();
+//                            }
+//                            return;
+//                        }
+                        FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity == null || entity.subjects == null ? new ArrayList<>() : entity.subjects, null);
+//                        mEasyStatusView.content();
+//                        if (mRefreshLayout.isRefreshing())
+//                            mAdapter.setNewData(null);
+//                        mAdapter.openLoadAnimation();
+//                        mAdapter.addData(entity.subjects);
+//                        if (entity.count < DEFAULT_PAGE_SIZE) {
+//                            mAdapter.loadMoreEnd();
+//                        }
+//                        LoggerManager.d("ApiRepository", "title:" + entity.title + ";start:" + entity.start + ";count:" + entity.count + ";total:" + entity.total);
+//                        if (!entity.hasMore()) {
+//                            mAdapter.loadMoreEnd(page == 0);
+//                        }
                     }
 
 //                    @Override

@@ -1,23 +1,32 @@
 package com.aries.library.fast.demo;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
+import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.HttpErrorControl;
+import com.aries.library.fast.i.HttpRequestControl;
+import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
+import com.aries.library.fast.i.OnHttpRequestListener;
+import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastError;
@@ -33,11 +42,17 @@ import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.google.gson.Gson;
 import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
  * Created: AriesHoo on 2017/11/30 11:43
@@ -45,8 +60,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
  * Function: 应用全局配置管理实现
  * Description:
  */
-public class AppImpl implements DefaultRefreshHeaderCreater
-        , LoadMoreFoot, MultiStatusView, LoadingDialog, HttpErrorControl, TitleBarViewControl, NavigationBarControl {
+public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, MultiStatusView, LoadingDialog, HttpErrorControl,
+        TitleBarViewControl, NavigationBarControl, SwipeBackControl, ActivityFragmentControl, HttpRequestControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -255,4 +270,114 @@ public class AppImpl implements DefaultRefreshHeaderCreater
     }
 
 
+    @Override
+    public void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
+        swipeBackHelper.setSwipeBackEnable(true);
+    }
+
+    @Override
+    public void setContentViewBackground(View contentView, boolean isFragment) {
+
+    }
+
+    @Override
+    public void setRequestedOrientation(Activity activity) {
+        //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
+        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    @Override
+    public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
+        return new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        };
+    }
+
+    @Override
+    public FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
+        return null;
+    }
+
+    @Override
+    public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener) {
+        if (httpRequestControl == null) return;
+        SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
+        BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
+        EasyStatusView statusView = httpRequestControl.getStatusView();
+        int page = httpRequestControl.getCurrentPage();
+        int size = httpRequestControl.getPageSize();
+
+        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + statusView + ";page:" + page + ";data:" + new Gson().toJson(list));
+        smartRefreshLayout.finishRefresh();
+        adapter.loadMoreComplete();
+        if (list == null || list.size() == 0) {
+            if (page == 0) {//第一页没有
+                adapter.setNewData(new ArrayList());
+                statusView.empty();
+                if (listener != null) {
+                    listener.onEmpty();
+                }
+            } else {
+                adapter.loadMoreEnd();
+                if (listener != null) {
+                    listener.onNoMore();
+                }
+            }
+            return;
+        }
+        statusView.content();
+        if (smartRefreshLayout.isRefreshing() || page == 0) {
+            adapter.setNewData(new ArrayList());
+        }
+        adapter.addData(list);
+        if (listener != null) {
+            listener.onNext();
+        }
+        if (list.size() < size) {
+            adapter.loadMoreEnd();
+            if (listener != null) {
+                listener.onNoMore();
+            }
+        }
+    }
+
+    @Override
+    public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+
+    }
 }

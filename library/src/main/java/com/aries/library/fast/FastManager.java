@@ -4,21 +4,27 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
+import com.aries.library.fast.i.ActivityFragmentControl;
+import com.aries.library.fast.i.HttpRequestControl;
+import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
+import com.aries.library.fast.i.OnHttpRequestListener;
+import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
@@ -34,9 +40,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
-import java.util.Arrays;
+import java.util.List;
 
-import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
+import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
  * Created: AriesHoo on 2018/6/6 10:40
@@ -46,6 +53,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
  */
 public class FastManager {
 
+    private String TAG = getClass().getSimpleName();
     private static volatile FastManager sInstance;
 
     private FastManager() {
@@ -76,7 +84,6 @@ public class FastManager {
      * Activity是否支持滑动返回
      */
     private boolean mIsSwipeBackEnable;
-
     /**
      * Adapter加载更多View
      */
@@ -89,14 +96,28 @@ public class FastManager {
      * 多状态布局--加载中/空数据/错误/无网络
      */
     private MultiStatusView mMultiStatusView;
-
     /**
      * 配置全局通用加载等待Loading提示框
      */
     private LoadingDialog mLoadingDialog;
-
+    /**
+     * 配置TitleBarView相关属性
+     */
     private TitleBarViewControl mTitleBarViewControl;
+    /**
+     * 配置虚拟导航栏(NavigationViewHelper)
+     */
     private NavigationBarControl mNavigationBarControl;
+    /**
+     * 配置Activity滑动返回相关属性
+     */
+    private SwipeBackControl mSwipeBackControl;
+    /**
+     * 配置Activity/Fragment(背景+Activity强制横竖屏+Activity 生命周期回调+Fragment生命周期回调)
+     */
+    private ActivityFragmentControl mActivityFragmentControl;
+
+    private HttpRequestControl mHttpRequestControl;
 
     public Application getApplication() {
         return mApplication;
@@ -109,9 +130,75 @@ public class FastManager {
      * @return
      */
     public FastManager init(Application application) {
-        if (mApplication == null && application != null) {
+        if (mApplication == null && application != null) {//保证只执行一次初始化属性
             mApplication = application;
-            setSwipeBackEnable(false);
+            //注册activity生命周期
+            mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                    LoggerManager.i(TAG, "onActivityCreated:" + activity.getClass().getSimpleName());
+                    FastStackUtil.getInstance().push(activity);
+                    mActivityFragmentControl.setRequestedOrientation(activity);
+                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityCreated(activity, savedInstanceState);
+
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+                    LoggerManager.i(TAG, "onActivityStarted:" + activity.getClass().getSimpleName());
+                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStarted(activity);
+                }
+
+                @Override
+                public void onActivityResumed(Activity activity) {
+                    LoggerManager.i(TAG, "onActivityResumed:" + activity.getClass().getSimpleName());
+                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityResumed(activity);
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityPaused(activity);
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStopped(activity);
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivitySaveInstanceState(activity, outState);
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName());
+                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityDestroyed(activity);
+                    FastStackUtil.getInstance().pop(activity, false);
+                    Activity current = FastStackUtil.getInstance().getCurrent();
+                    if (current != null)
+                        BGAKeyboardUtil.closeKeyboard(current);
+                }
+            });
+            //配置默认滑动返回
+            if (FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper")) {//滑动返回
+                BGASwipeBackHelper.init(mApplication, null);//初始化滑动返回关闭Activity功能
+                setSwipeBackControl(new SwipeBackControl() {
+                    @Override
+                    public void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
+                        swipeBackHelper.setSwipeBackEnable(false)
+                                .setShadowResId(R.drawable.bga_sbl_shadow);
+                    }
+                });
+            }
+            //配置默认智能下拉刷新
             if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
                 setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {
                     @NonNull
@@ -121,6 +208,7 @@ public class FastManager {
                     }
                 });
             }
+            //配置BaseQuickAdapter
             if (FastUtil.isClassExist("com.chad.library.adapter.base.BaseQuickAdapter")) {
                 setLoadMoreFoot(new LoadMoreFoot() {
                     @Override
@@ -129,6 +217,7 @@ public class FastManager {
                     }
                 });
             }
+            //配置多状态属性
             if (FastUtil.isClassExist("com.marno.easystatelibrary.EasyStatusView")) {
                 setMultiStatusView(new MultiStatusView() {
                     @NonNull
@@ -138,13 +227,14 @@ public class FastManager {
                     }
                 });
             }
-
+            //配置TitleBarView
             setTitleBarViewControl(new TitleBarViewControl() {
                 @Override
                 public boolean createTitleBarViewControl(TitleBarView titleBar, boolean isActivity) {
                     return false;
                 }
             });
+            //配置虚拟导航栏
             setNavigationBarControl(new NavigationBarControl() {
                 @NonNull
                 @Override
@@ -154,6 +244,38 @@ public class FastManager {
                             .setTransEnable(false)
                             .setPlusNavigationViewEnable(false)
                             .setBottomView(bottomView);
+                }
+            });
+            setActivityFragmentControl(new ActivityFragmentControl() {
+                @Override
+                public void setContentViewBackground(View contentView, boolean isFragment) {
+
+                }
+
+                @Override
+                public void setRequestedOrientation(Activity activity) {
+
+                }
+
+                @Override
+                public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
+                    return null;
+                }
+
+                @Override
+                public FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
+                    return null;
+                }
+            });
+            setHttpRequestControl(new HttpRequestControl() {
+                @Override
+                public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener) {
+
+                }
+
+                @Override
+                public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+
                 }
             });
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
@@ -196,69 +318,6 @@ public class FastManager {
     public FastManager setRequestedOrientation(int mRequestedOrientation) {
         this.mRequestedOrientation = mRequestedOrientation;
         return this;
-    }
-
-    public boolean isSwipeBackEnable() {
-        return mIsSwipeBackEnable;
-    }
-
-    /**
-     * 设置Activity 是否支持滑动返回功能
-     * 最终调用{@link BasisActivity#initSwipeBack()}
-     *
-     * @param swipeBackEnable
-     * @return
-     */
-    public FastManager setSwipeBackEnable(boolean swipeBackEnable) {
-        if (mApplication == null) {
-            throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT_FAST_MANAGER);
-        }
-        mIsSwipeBackEnable = swipeBackEnable;
-        //先保证
-        if (!mIsSetSwipeBack && FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackManager")) {
-            mIsSetSwipeBack = true;
-            BGASwipeBackManager.getInstance().init(mApplication);//初始化滑动返回关闭Activity功能
-            // 导航栏处理--不设置会预留一块导航栏高度的空白
-            BGASwipeBackManager.ignoreNavigationBarModels(Arrays.asList(Build.MODEL));
-            mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-                @Override
-                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                    FastStackUtil.getInstance().push(activity);
-                }
-
-                @Override
-                public void onActivityStarted(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityResumed(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityPaused(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityStopped(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-                }
-
-                @Override
-                public void onActivityDestroyed(Activity activity) {
-                    FastStackUtil.getInstance().pop(activity, false);
-                }
-            });
-
-        }
-        return sInstance;
     }
 
 
@@ -347,9 +406,67 @@ public class FastManager {
         return mNavigationBarControl;
     }
 
+    /**
+     * 配置虚拟导航栏(NavigationViewHelper)
+     * {@link NavigationViewHelper}
+     *
+     * @param navigationBarControl
+     * @return
+     */
     public FastManager setNavigationBarControl(NavigationBarControl navigationBarControl) {
         if (navigationBarControl != null) {
             mNavigationBarControl = navigationBarControl;
+        }
+        return this;
+    }
+
+    public SwipeBackControl getSwipeBackControl() {
+        return mSwipeBackControl;
+    }
+
+    /**
+     * 配置Activity滑动返回相关属性
+     *
+     * @param swipeBackControl
+     * @return
+     */
+    public FastManager setSwipeBackControl(SwipeBackControl swipeBackControl) {
+        if (swipeBackControl != null) {
+            mSwipeBackControl = swipeBackControl;
+        }
+        return this;
+    }
+
+    public ActivityFragmentControl getActivityFragmentControl() {
+        return mActivityFragmentControl;
+    }
+
+    /**
+     * 配置Activity/Fragment(背景+Activity强制横竖屏+Activity 生命周期回调+Fragment生命周期回调)
+     *
+     * @param control
+     * @return
+     */
+    public FastManager setActivityFragmentControl(ActivityFragmentControl control) {
+        if (control != null) {
+            mActivityFragmentControl = control;
+        }
+        return this;
+    }
+
+    public HttpRequestControl getHttpRequestControl() {
+        return mHttpRequestControl;
+    }
+
+    /**
+     * 配置Http请求成功及失败相关回调-方便全局处理
+     *
+     * @param control
+     * @return
+     */
+    public FastManager setHttpRequestControl(HttpRequestControl control) {
+        if (control != null) {
+            mHttpRequestControl = control;
         }
         return this;
     }

@@ -28,8 +28,7 @@
         <!-- android:screenOrientation="portrait" -->
         <activity
             android:name=".module.SplashActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:theme="@style/AppTheme.NotTranslucent">
+            android:configChanges="locale|layoutDirection|mcc|mnc">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -38,8 +37,7 @@
         </activity>
         <activity
             android:name=".module.main.MainActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
-            android:theme="@style/AppTheme.NotTranslucent"/>
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"/>
         <!-- 应用内浏览器 -->
         <activity
             android:name=".module.WebViewActivity"

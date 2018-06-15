@@ -8,6 +8,7 @@ import android.os.Build;
 import android.view.Gravity;
 
 import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastMultiUrl;
@@ -114,6 +115,25 @@ public class App extends Application {
                 //设置虚拟导航栏控制
                 .setNavigationBarControl(impl);
         LoggerManager.d(TAG, "total:" + (System.currentTimeMillis() - start));
+        //最简单模式-必须进行初始化
+        FastManager.getInstance().init(this);
+        //以下为更丰富自定义方法
+        FastManager.getInstance()
+                //设置Adapter加载更多视图--默认设置了FastLoadMoreView
+                .setLoadMoreFoot(impl)
+                //设置RecyclerView加载过程多布局属性
+                .setMultiStatusView(impl)
+                //设置全局网络请求等待Loading提示框如登录等待loading--观察者必须为FastLoadingObserver及其子类
+                .setLoadingDialog(impl)
+                //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
+                .setDefaultRefreshHeader(impl)
+                .setTitleBarViewControl(impl)
+                //设置虚拟导航栏控制
+                .setNavigationBarControl(impl)
+                //设置Activity滑动返回控制
+                .setSwipeBackControl(impl)
+                .setActivityFragmentControl(impl)
+                .setHttpRequestControl(impl);
     }
 
     /**

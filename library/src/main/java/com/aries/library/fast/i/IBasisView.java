@@ -10,6 +10,14 @@ import android.support.annotation.LayoutRes;
  * Desc:
  */
 public interface IBasisView {
+
+    /**
+     * 是否注册EventBus
+     *
+     * @return
+     */
+    boolean isEventBusEnable();
+
     /**
      * Activity或Fragment 布局xml
      *

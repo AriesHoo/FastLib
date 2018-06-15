@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -57,6 +58,36 @@ public abstract class FastRefreshLoadActivity<T>
     @Override
     public IMultiStatusView getMultiStatusView() {
         return null;
+    }
+
+    @Override
+    public IHttpRequestControl getIHttpRequestControl() {
+        return new IHttpRequestControl() {
+            @Override
+            public SmartRefreshLayout getRefreshLayout() {
+                return mRefreshLayout;
+            }
+
+            @Override
+            public BaseQuickAdapter getRecyclerAdapter() {
+                return getAdapter();
+            }
+
+            @Override
+            public EasyStatusView getStatusView() {
+                return mEasyStatusView;
+            }
+
+            @Override
+            public int getCurrentPage() {
+                return DEFAULT_PAGE;
+            }
+
+            @Override
+            public int getPageSize() {
+                return DEFAULT_PAGE_SIZE;
+            }
+        };
     }
 
     @Override

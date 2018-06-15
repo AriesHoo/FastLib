@@ -7,6 +7,7 @@ import android.view.View;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.i.IMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -28,6 +29,7 @@ public abstract class FastRefreshLoadFragment<T>
     protected EasyStatusView mEasyStatusView;
     protected int DEFAULT_PAGE = 0;
     protected int DEFAULT_PAGE_SIZE = 10;
+    private BaseQuickAdapter mQuickAdapter;
 
     protected FastRefreshLoadDelegate<T> mFastRefreshLoadDelegate;
 
@@ -38,6 +40,7 @@ public abstract class FastRefreshLoadFragment<T>
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;
         mEasyStatusView = mFastRefreshLoadDelegate.mStatusView;
+        mQuickAdapter = mFastRefreshLoadDelegate.mAdapter;
     }
 
     @Override
@@ -53,6 +56,36 @@ public abstract class FastRefreshLoadFragment<T>
     @Override
     public IMultiStatusView getMultiStatusView() {
         return null;
+    }
+
+    @Override
+    public IHttpRequestControl getIHttpRequestControl() {
+        return new IHttpRequestControl() {
+            @Override
+            public SmartRefreshLayout getRefreshLayout() {
+                return mRefreshLayout;
+            }
+
+            @Override
+            public BaseQuickAdapter getRecyclerAdapter() {
+                return mQuickAdapter;
+            }
+
+            @Override
+            public EasyStatusView getStatusView() {
+                return mEasyStatusView;
+            }
+
+            @Override
+            public int getCurrentPage() {
+                return DEFAULT_PAGE;
+            }
+
+            @Override
+            public int getPageSize() {
+                return DEFAULT_PAGE_SIZE;
+            }
+        };
     }
 
     @Override

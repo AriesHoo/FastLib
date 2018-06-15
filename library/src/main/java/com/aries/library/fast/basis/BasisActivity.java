@@ -1,5 +1,6 @@
 package com.aries.library.fast.basis;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.FastManager;
+import com.aries.library.fast.R;
 import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.LoggerManager;
@@ -26,7 +29,6 @@ import org.simple.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -34,8 +36,9 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * E-Mail: AriesHoo@126.com
  * Function: 所有Activity的基类
  * Description:
+ * 1、2018-6-15 09:31:42 调整滑动返回类控制
  */
-public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
+public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView, BGASwipeBackHelper.Delegate {
 
     protected Activity mContext;
     protected View mContentView;
@@ -53,6 +56,11 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     @Nullable
     public <T extends View> T findViewByViewId(@IdRes int viewId) {
         return (T) findViewById(viewId);
+    }
+
+    @Override
+    public boolean isEventBusEnable() {
+        return true;
     }
 
     @Override
@@ -77,7 +85,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
      * 是否开启滑动返回
      */
     protected boolean isSwipeBackEnable() {
-        return FastConfig.getInstance(this).isSwipeBackEnable();
+        return true;
     }
 
     /**
@@ -90,12 +98,8 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
-        LoggerManager.i(TAG, "getRequestedOrientation:" + (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
-        //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
-        if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-            setRequestedOrientation(getOrientation());
-        }
+        if (isEventBusEnable())
+            EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         mContext = this;
         initSwipeBack();
@@ -117,13 +121,14 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public void finish() {
-        BGAKeyboardUtil.closeKeyboard(this);
+//        BGAKeyboardUtil.closeKeyboard(this);
         super.finish();
     }
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
+        if (isEventBusEnable())
+            EventBus.getDefault().unregister(this);
         super.onDestroy();
         if (mUnBinder != null) {
             mUnBinder.unbind();
@@ -135,30 +140,13 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
      */
     private void initSwipeBack() {
         if (!FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper")) {
-            LoggerManager.e(TAG, "initSwipeBack:Please compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar' in app main program");
+            LoggerManager.e(TAG, "initSwipeBack:Please compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.8@aar' in app main program");
             return;
         }
-        mSwipeBackHelper = new BGASwipeBackHelper(this, new BGASwipeBackHelper.Delegate() {
-            @Override
-            public boolean isSupportSwipeBack() {
-                return true;
-            }
-
-            @Override
-            public void onSwipeBackLayoutSlide(float slideOffset) {
-            }
-
-            @Override
-            public void onSwipeBackLayoutCancel() {
-
-            }
-
-            @Override
-            public void onSwipeBackLayoutExecuted() {
-                //滑动返回执行完毕，销毁当前 Activity
-                mSwipeBackHelper.swipeBackward();
-            }
-        }).setSwipeBackEnable(isSwipeBackEnable());
+        mSwipeBackHelper = new BGASwipeBackHelper(this, this)
+                .setShadowResId(R.drawable.bga_sbl_shadow);
+        FastManager.getInstance().getSwipeBackControl().setSwipeBack(this, mSwipeBackHelper);
+        mSwipeBackHelper.setSwipeBackEnable(isSwipeBackEnable());
     }
 
     @Override
@@ -167,6 +155,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         mDelayBack = mQuitEntity.getQuitDelay();
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void beforeInitView() {
         if (getContentBackground() > 0) {
@@ -254,4 +243,39 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mSwipeBackHelper == null) {
+            super.onBackPressed();
+            return;
+        }
+        // 正在滑动返回的时候取消返回按钮事件
+        if (mSwipeBackHelper.isSliding()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean isSupportSwipeBack() {
+        return true;
+    }
+
+    @Override
+    public void onSwipeBackLayoutSlide(float slideOffset) {
+
+    }
+
+    @Override
+    public void onSwipeBackLayoutCancel() {
+
+    }
+
+    @Override
+    public void onSwipeBackLayoutExecuted() {
+        //滑动返回执行完毕，销毁当前 Activity
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.swipeBackward();
+        }
+    }
 }

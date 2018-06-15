@@ -82,4 +82,6 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
     void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
 
     IMultiStatusView getMultiStatusView();
+
+    IHttpRequestControl getIHttpRequestControl();
 }

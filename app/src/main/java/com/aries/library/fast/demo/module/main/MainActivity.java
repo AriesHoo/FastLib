@@ -30,10 +30,6 @@ public class MainActivity extends FastMainActivity {
         return false;
     }
 
-    @Override
-    public int getContentBackground() {
-        return 0;
-    }
 
     @Override
     protected void beforeControlNavigation(NavigationViewHelper navigationHelper) {
