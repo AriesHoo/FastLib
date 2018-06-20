@@ -29,7 +29,7 @@ public abstract class FastTitleRefreshLoadFragment<T> extends FastRefreshLoadFra
     @Override
     public void beforeInitView() {
         super.beforeInitView();
-        mFastTitleDelegate = new FastTitleDelegate(mContentView, mContext, this, false);
+        mFastTitleDelegate = new FastTitleDelegate(mContentView, mContext, this, this.getClass());
         mTitleBar = mFastTitleDelegate.mTitleBar;
     }
 }

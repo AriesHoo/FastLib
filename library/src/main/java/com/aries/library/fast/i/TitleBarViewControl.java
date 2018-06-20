@@ -10,5 +10,5 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public interface TitleBarViewControl {
 
-    boolean createTitleBarViewControl(TitleBarView titleBar, boolean isActivity);
+    boolean createTitleBarViewControl(TitleBarView titleBar, Class<?> cls);
 }

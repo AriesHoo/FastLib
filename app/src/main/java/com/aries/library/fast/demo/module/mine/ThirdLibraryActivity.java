@@ -33,11 +33,6 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
 
     @Override
-    public int getContentBackground() {
-        return R.color.colorBackground;
-    }
-
-    @Override
     public boolean isLoadMoreEnable() {
         return false;
     }
@@ -92,12 +87,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                             mAdapter.addData(entity);
                         }
                     }
-
-                    @Override
-                    public void _onError(int errorRes, int errorCode, Throwable e) {
-
-                    }
-                } : new FastLoadingObserver<List<WidgetEntity>>(mContext) {
+                } : new FastLoadingObserver<List<WidgetEntity>>(mContext, "加载中...") {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
                         mRefreshLayout.finishRefresh();
@@ -108,10 +98,6 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                         } else {
                             mAdapter.addData(entity);
                         }
-                    }
-
-                    @Override
-                    public void _onError(int errorRes, int errorCode, Throwable e) {
                     }
                 });
     }

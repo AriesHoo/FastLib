@@ -3,8 +3,10 @@ package com.aries.library.fast.retrofit;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
-import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.FastManager;
+import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.widget.FastLoadDialog;
 
 /**
@@ -16,7 +18,6 @@ import com.aries.library.fast.widget.FastLoadDialog;
  */
 public abstract class FastLoadingObserver<T> extends FastObserver<T> {
 
-
     private FastLoadDialog mDialog;
 
     /**
@@ -24,23 +25,39 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
      *
      * @param activity
      */
+    public FastLoadingObserver(@Nullable Activity activity, IHttpRequestControl httpRequestControl, @StringRes int resId) {
+        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity).setMessage(resId), httpRequestControl);
+    }
+
+    public FastLoadingObserver(@Nullable Activity activity, IHttpRequestControl httpRequestControl, CharSequence msg) {
+        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity).setMessage(msg), httpRequestControl);
+    }
+
+    public FastLoadingObserver(@Nullable Activity activity, @StringRes int resId) {
+        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity).setMessage(resId));
+    }
+
+    public FastLoadingObserver(@Nullable Activity activity, CharSequence msg) {
+        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity).setMessage(msg));
+    }
+
+    public FastLoadingObserver(@Nullable Activity activity, IHttpRequestControl httpRequestControl) {
+        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity), httpRequestControl);
+    }
+
     public FastLoadingObserver(@Nullable Activity activity) {
-        this(FastConfig.getInstance(activity).getLoadingDialog().createLoadingDialog(activity));
-    }
-
-    public FastLoadingObserver(@Nullable Activity activity, Object... args) {
-        this(FastConfig.getInstance(activity).getLoadingDialog().createLoadingDialog(activity), args);
-    }
-
-    public FastLoadingObserver(FastLoadDialog dialog, Object... args) {
-        super(dialog.getDialog() != null ? dialog.getDialog().getContext() : null, args);
-        this.mDialog = dialog;
+        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity));
     }
 
     public FastLoadingObserver(FastLoadDialog dialog) {
-        super(dialog.getDialog() != null ? dialog.getDialog().getContext() : null);
+        this(dialog, null);
+    }
+
+    public FastLoadingObserver(FastLoadDialog dialog, IHttpRequestControl httpRequestControl) {
+        super(httpRequestControl);
         this.mDialog = dialog;
     }
+
 
     @Override
     public void onNext(T entity) {

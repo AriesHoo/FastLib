@@ -1,7 +1,6 @@
 package com.aries.library.fast.basis;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -83,21 +82,13 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     }
 
     @Override
-    public int getContentBackground() {
-        return FastConfig.getInstance(getContext()).getContentViewBackgroundResource();
-    }
-
-    @Override
     public void beforeSetContentView() {
 
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void beforeInitView() {
-        if (getContentBackground() > 0) {
-            mContentView.setBackgroundResource(getContentBackground());
-        }
+        FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
     }
 
     @Override

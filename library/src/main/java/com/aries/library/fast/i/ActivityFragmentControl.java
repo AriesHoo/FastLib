@@ -17,9 +17,9 @@ public interface ActivityFragmentControl {
      * 设置背景色
      *
      * @param contentView
-     * @param isFragment
+     * @param cls
      */
-    void setContentViewBackground(View contentView, boolean isFragment);
+    void setContentViewBackground(View contentView, Class<?> cls);
 
     /**
      * 强制设置横竖屏

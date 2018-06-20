@@ -33,11 +33,6 @@ public class SwipeBackActivity extends FastTitleActivity {
     }
 
     @Override
-    protected boolean isSwipeBackEnable() {
-        return true;
-    }
-
-    @Override
     public void setTitleBar(TitleBarView titleBar) {
         title = getIntent().getStringExtra("title");
         titleBar.setStatusBarLightMode(false)

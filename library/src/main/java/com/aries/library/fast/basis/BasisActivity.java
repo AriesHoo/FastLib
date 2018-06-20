@@ -2,33 +2,25 @@ package com.aries.library.fast.basis;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
-import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
-import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
-import com.aries.library.fast.util.SPUtil;
-import com.aries.library.fast.util.SnackBarUtil;
-import com.aries.library.fast.util.ToastUtil;
-import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
-import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -37,6 +29,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Function: 所有Activity的基类
  * Description:
  * 1、2018-6-15 09:31:42 调整滑动返回类控制
+ * 2、2018-6-20 17:15:12 调整主页back键操作逻辑
  */
 public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView, BGASwipeBackHelper.Delegate {
 
@@ -50,7 +43,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean mIsFirstBack = true;
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
-    protected FastQuitConfigEntity mQuitEntity;
     protected NavigationViewHelper mNavigationViewHelper;
 
     @Nullable
@@ -60,31 +52,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public boolean isEventBusEnable() {
-        return true;
-    }
-
-    @Override
-    public int getContentBackground() {
-        return FastConfig.getInstance(this).getContentViewBackgroundResource();
-    }
-
-    /**
-     * 设置屏幕方向
-     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
-     *
-     * @return
-     */
-    public int getOrientation() {
-        return FastConfig.getInstance(this).getRequestedOrientation();
-    }
-
-    /**
-     * 是否开启滑动返回
-     */
-    protected boolean isSwipeBackEnable() {
         return true;
     }
 
@@ -100,9 +67,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected void onCreate(Bundle savedInstanceState) {
         if (isEventBusEnable())
             EventBus.getDefault().register(this);
+        initSwipeBack();
         super.onCreate(savedInstanceState);
         mContext = this;
-        initSwipeBack();
         beforeSetContentView();
         mContentView = View.inflate(mContext, getContentLayout(), null);
         setContentView(mContentView);
@@ -121,7 +88,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public void finish() {
-//        BGAKeyboardUtil.closeKeyboard(this);
+        BGAKeyboardUtil.closeKeyboard(this);
         super.finish();
     }
 
@@ -144,30 +111,26 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             return;
         }
         mSwipeBackHelper = new BGASwipeBackHelper(this, this)
-                .setShadowResId(R.drawable.bga_sbl_shadow);
+                .setShadowResId(R.drawable.bga_sbl_shadow)
+                .setIsNavigationBarOverlap(true);
         FastManager.getInstance().getSwipeBackControl().setSwipeBack(this, mSwipeBackHelper);
-        mSwipeBackHelper.setSwipeBackEnable(isSwipeBackEnable());
     }
 
     @Override
     public void beforeSetContentView() {
-        mQuitEntity = FastConfig.getInstance(this).getQuitConfig();
-        mDelayBack = mQuitEntity.getQuitDelay();
     }
 
     @SuppressLint("ResourceType")
     @Override
     public void beforeInitView() {
-        if (getContentBackground() > 0) {
-            mContentView.setBackgroundResource(getContentBackground());
-        }
+        FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
     }
 
     /**
      * 设置NavigationView控制
      */
     private void setControlNavigation() {
-        mNavigationViewHelper = FastConfig.getInstance(this).getNavigationBarControl()
+        mNavigationViewHelper = FastManager.getInstance().getNavigationBarControl()
                 .createNavigationBarControl(this, mContentView);
         beforeControlNavigation(mNavigationViewHelper);
         mNavigationViewHelper.init();
@@ -199,48 +162,29 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
-    protected void quitApp() {
-        quitApp(mQuitEntity.isSnackBarEnable(), mQuitEntity.isBackToTaskEnable());
-    }
 
     /**
      * 退出程序
-     *
-     * @param isSnackBar
      */
-    protected void quitApp(boolean isSnackBar, boolean isBackToTask) {
-        if (isBackToTask && !mQuitEntity.isBackToTaskDelayEnable()) {//设置退回桌面且不等待
-            moveTaskToBack(true);
+    protected void quitApp() {
+        mDelayBack = FastManager.getInstance().getQuitAppControl().quipApp(mIsFirstBack, this);
+        if (mDelayBack <= 0) {
+            FastManager.getInstance().getQuitAppControl().quipApp(false, this);
             return;
         }
+        //编写逻辑
         if (mIsFirstBack) {
-            if (isSnackBar) {
-                boolean transEnable = (boolean) SPUtil.get(this, getClass().getSimpleName() + "0", false);
-                boolean plusNavigationViewEnable = (boolean) SPUtil.get(this, getClass().getSimpleName() + "1", false);
-                SnackBarUtil.with(mContentView)
-                        .setBgColor(mQuitEntity.getSnackBarBackgroundColor())
-                        .setMessageColor(mQuitEntity.getSnackBarMessageColor())
-                        .setMessage(mQuitEntity.getQuitMessage())
-                        .setBottomMargin(transEnable && !plusNavigationViewEnable ?
-                                NavigationBarUtil.getNavigationBarHeight(getWindowManager()) : 0)
-                        .show();
-            } else {
-                ToastUtil.show(mQuitEntity.getQuitMessage());
-            }
             mIsFirstBack = false;
             RxJavaManager.getInstance().setTimer(mDelayBack, new RxJavaManager.TimerListener() {
                 @Override
                 public void timeEnd() {
                     mIsFirstBack = true;
                 }
-            }).compose(bindUntilEvent(ActivityEvent.DESTROY));
-        } else {
-            if (isBackToTask) {
-                moveTaskToBack(true);
-            } else {
-                FastStackUtil.getInstance().exit();
-            }
+            });
+            return;
         }
+        //通知执行操作
+        FastManager.getInstance().getQuitAppControl().quipApp(mIsFirstBack, this);
     }
 
     @Override

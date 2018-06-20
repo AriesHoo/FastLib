@@ -36,7 +36,7 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
     @Override
     public void beforeInitView() {
         super.beforeInitView();
-        mFastTitleDelegate = new FastTitleDelegate(mContentView, mContext, this, true);
+        mFastTitleDelegate = new FastTitleDelegate(mContentView, mContext, this, this.getClass());
         mTitleBar = mFastTitleDelegate.mTitleBar;
     }
 }

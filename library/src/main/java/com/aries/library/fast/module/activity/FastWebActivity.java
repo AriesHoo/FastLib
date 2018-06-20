@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
@@ -91,8 +91,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
-        FastConfig.getInstance(mContext).getTitleBarViewControl()
-                .createTitleBarViewControl(titleBar, true);
+        FastManager.getInstance().getTitleBarViewControl()
+                .createTitleBarViewControl(titleBar, this.getClass());
         titleBar.setOnLeftTextClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

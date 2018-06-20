@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.util.FastUtil;
@@ -21,7 +21,7 @@ import com.aries.ui.view.title.TitleBarView;
 public class FastTitleDelegate {
     public TitleBarView mTitleBar;
 
-    public FastTitleDelegate(View rootView, Activity activity, IFastTitleView iTitleBarView, boolean isActivity) {
+    public FastTitleDelegate(View rootView, Activity activity, IFastTitleView iTitleBarView, Class<?> cls) {
         mTitleBar = rootView.findViewById(R.id.titleBar_headFastLib);
         if (mTitleBar == null) {
             mTitleBar = FindViewUtil.getTargetView(rootView, TitleBarView.class);
@@ -31,8 +31,8 @@ public class FastTitleDelegate {
         }
         Drawable mDrawable = FastUtil.getTintDrawable(activity.getResources().getDrawable(R.drawable.fast_ic_back),
                 activity.getResources().getColor(R.color.colorTitleText));
-        mTitleBar.setLeftTextDrawable(isActivity ? mDrawable:null);
-        FastConfig.getInstance(activity).getTitleBarViewControl().createTitleBarViewControl(mTitleBar, isActivity);
+        mTitleBar.setLeftTextDrawable(cls.isAssignableFrom(Activity.class) ? mDrawable : null);
+        FastManager.getInstance().getTitleBarViewControl().createTitleBarViewControl(mTitleBar, cls);
         mTitleBar.setOnLeftTextClickListener(iTitleBarView.getLeftClickListener());
         iTitleBarView.beforeSetTitleBar(mTitleBar);
         iTitleBarView.setTitleBar(mTitleBar);

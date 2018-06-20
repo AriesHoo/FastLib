@@ -24,11 +24,6 @@ public class TestFragmentActivity extends FastTitleActivity {
     }
 
     @Override
-    public int getContentBackground() {
-        return R.color.colorBackground;
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
 
     }

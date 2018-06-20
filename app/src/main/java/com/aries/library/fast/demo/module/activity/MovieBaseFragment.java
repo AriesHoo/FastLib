@@ -67,11 +67,6 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     }
 
     @Override
-    public int getContentBackground() {
-        return -1;
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
         new BackToTopHelper().init(mRecyclerView, mEasyStatusView);
     }
@@ -81,8 +76,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getMovie(mUrl, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
-                .subscribe(new FastObserver<BaseMovieEntity>(mContext,
-                        this, mRefreshLayout, mAdapter, mEasyStatusView, page) {
+                .subscribe(new FastObserver<BaseMovieEntity>(getIHttpRequestControl()) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
 //                        mRefreshLayout.finishRefresh();

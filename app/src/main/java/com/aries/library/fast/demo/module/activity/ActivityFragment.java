@@ -52,11 +52,6 @@ public class ActivityFragment extends FastTitleFragment {
     }
 
     @Override
-    public int getContentBackground() {
-        return -1;
-    }
-
-    @Override
     public void beforeSetContentView() {
         super.beforeSetContentView();
         LoggerManager.d(TAG, "refreshActivityTab:" + isSliding);

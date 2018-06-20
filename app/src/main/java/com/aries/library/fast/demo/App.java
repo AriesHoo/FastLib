@@ -2,14 +2,10 @@ package com.aries.library.fast.demo;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Build;
 import android.view.Gravity;
 
-import com.aries.library.fast.FastConfig;
 import com.aries.library.fast.FastManager;
-import com.aries.library.fast.entity.FastQuitConfigEntity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastMultiUrl;
 import com.aries.library.fast.retrofit.FastRetrofit;
@@ -71,53 +67,12 @@ public class App extends Application {
         //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"taobao"作为标记
         // 参考com.aries.library.fast.demo.retrofit.service.ApiService
         // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
-
-        //主页返回键是否退回桌面(程序后台)
-        boolean isBackTask = false;
-
-        //全局配置参数
-        AppImpl impl = new AppImpl(mContext);
-        //全局主页面返回键操作设置--推荐先获取library里默认主页面点击返回键配置FastQuitConfigEntity配置再按需修改的模式 FastQuitConfigEntity
-        FastQuitConfigEntity quitConfig = FastConfig.getInstance(mContext).getQuitConfig();
-        FastConfig.getInstance(mContext)
-                //设置Activity是否支持滑动返回-添加透明主题参考Demo样式;
-                .setSwipeBackEnable(true, this)
-                //设置Activity 点击返回键提示退出程序或返回桌面相关参数
-                .setQuitConfig(quitConfig
-                        //设置是否退回桌面否则直接退出程序
-                        .setBackToTaskEnable(isBackTask)
-                        //设置退回桌面是否有一次提示setBackToTaskEnable(true)才有意义
-                        .setBackToTaskDelayEnable(isBackTask)
-                        .setQuitDelay(2000)
-                        .setQuitMessage(isBackTask ? getText(R.string.fast_back_home) : getText(R.string.fast_quit_app))
-                        .setSnackBarBackgroundColor(Color.argb(220, 0, 0, 0))
-                        .setSnackBarEnable(false)
-                        .setSnackBarMessageColor(Color.WHITE))
-                //设置Glide背景色
-                .setPlaceholderColor(getResources().getColor(R.color.colorPlaceholder))
-                //设置Glide圆角背景弧度
-                .setPlaceholderRoundRadius(mContext.getResources().getDimension(R.dimen.dp_placeholder_radius))
-                //设置Activity横竖屏模式
-                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                //设置Activity或Fragment根布局背景资源
-                .setContentViewBackgroundResource(R.color.colorBackground)
-                //设置Adapter加载更多视图--默认设置了FastLoadMoreView
-                .setLoadMoreFoot(impl)
-                //设置RecyclerView加载过程多布局属性
-                .setMultiStatusView(impl)
-                //设置全局网络请求等待Loading提示框如登录等待loading--观察者必须为FastLoadingObserver及其子类
-                .setLoadingDialog(impl)
-                //设置Retrofit全局异常处理-观察者必须为FastObserver及其子类
-                .setHttpErrorControl(impl)
-                //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
-                .setDefaultRefreshHeader(impl)
-                .setTitleBarViewControl(impl)
-                //设置虚拟导航栏控制
-                .setNavigationBarControl(impl);
         LoggerManager.d(TAG, "total:" + (System.currentTimeMillis() - start));
         //最简单模式-必须进行初始化
-        FastManager.getInstance().init(this);
+        FastManager.init(this);
         //以下为更丰富自定义方法
+        //全局配置参数
+        AppImpl impl = new AppImpl(mContext);
         FastManager.getInstance()
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
                 .setLoadMoreFoot(impl)
@@ -127,13 +82,18 @@ public class App extends Application {
                 .setLoadingDialog(impl)
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
                 .setDefaultRefreshHeader(impl)
+                //设置全局TitleBarView相关配置
                 .setTitleBarViewControl(impl)
                 //设置虚拟导航栏控制
                 .setNavigationBarControl(impl)
                 //设置Activity滑动返回控制
                 .setSwipeBackControl(impl)
+                //设置Activity/Fragment相关配置(横竖屏+背景+生命周期)
                 .setActivityFragmentControl(impl)
-                .setHttpRequestControl(impl);
+                //设置http请求结果全局控制
+                .setHttpRequestControl(impl)
+                //设置主页返回键控制
+                .setQuitAppControl(impl);
     }
 
     /**

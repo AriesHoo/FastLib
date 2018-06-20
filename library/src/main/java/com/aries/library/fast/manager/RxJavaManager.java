@@ -55,7 +55,7 @@ public class RxJavaManager {
             }
 
             @Override
-            public void _onError(int errorRes, int errorCode, Throwable e) {
+            public void _onError(Throwable e) {
 
             }
 

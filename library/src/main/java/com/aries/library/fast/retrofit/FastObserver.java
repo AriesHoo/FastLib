@@ -1,50 +1,29 @@
 package com.aries.library.fast.retrofit;
 
-import android.accounts.AccountsException;
-import android.accounts.NetworkErrorException;
-import android.app.Activity;
-import android.content.Context;
-
-import com.aries.library.fast.FastConfig;
-import com.aries.library.fast.R;
-import com.aries.library.fast.util.FastStackUtil;
-import com.aries.library.fast.util.NetworkUtil;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
-
-import java.net.ConnectException;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.concurrent.TimeoutException;
+import com.aries.library.fast.FastManager;
+import com.aries.library.fast.i.IHttpRequestControl;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DefaultObserver;
-import retrofit2.HttpException;
 
 /**
  * Created: AriesHoo on 2017/8/24 9:56
  * E-Mail: AriesHoo@126.com
  * Function: Retrofit快速观察者
- * Description: 1、2017-11-16 11:35:12 AriesHoo增加返回错误码全局控制
+ * Description:
+ * 1、2017-11-16 11:35:12 AriesHoo增加返回错误码全局控制
+ * 2、2018-6-20 15:15:45 重构
  */
 public abstract class FastObserver<T> extends DefaultObserver<T> {
 
-    private Object[] mArgs;
-    private Context mContext;
+    private IHttpRequestControl mHttpRequestControl;
 
     public FastObserver() {
         this(null);
     }
 
-    public FastObserver(Context context) {
-        this(context, "");
-    }
-
-    public FastObserver(Context context, Object... args) {
-        this.mArgs = args;
-        this.mContext = context;
+    public FastObserver(IHttpRequestControl httpRequestControl) {
+        this.mHttpRequestControl = httpRequestControl;
     }
 
     @Override
@@ -54,50 +33,8 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
     public void onError(Throwable e) {
-        int reason = R.string.fast_exception_other_error;
-        int code = FastError.EXCEPTION_OTHER_ERROR;
-        Activity current = FastStackUtil.getInstance().getCurrent();
-        if (!NetworkUtil.isConnected(current)) {
-            reason = R.string.fast_exception_network_not_connected;
-            code = FastError.EXCEPTION_NETWORK_NOT_CONNECTED;
-        } else {
-            if (e instanceof NetworkErrorException) {//网络异常--继承于AccountsException
-                reason = R.string.fast_exception_network_error;
-                code = FastError.EXCEPTION_NETWORK_ERROR;
-            } else if (e instanceof AccountsException) {//账户异常
-                reason = R.string.fast_exception_accounts;
-                code = FastError.EXCEPTION_ACCOUNTS;
-            } else if (e instanceof ConnectException) {//连接异常--继承于SocketException
-                reason = R.string.fast_exception_connect;
-                code = FastError.EXCEPTION_CONNECT;
-            } else if (e instanceof SocketException) {//socket异常
-                reason = R.string.fast_exception_socket;
-                code = FastError.EXCEPTION_SOCKET;
-            } else if (e instanceof HttpException) {// http异常
-                reason = R.string.fast_exception_http;
-                code = FastError.EXCEPTION_HTTP;
-            } else if (e instanceof UnknownHostException) {//DNS错误
-                reason = R.string.fast_exception_unknown_host;
-                code = FastError.EXCEPTION_UNKNOWN_HOST;
-            } else if (e instanceof JsonSyntaxException
-                    || e instanceof JsonIOException
-                    || e instanceof JsonParseException) {//数据格式化错误
-                reason = R.string.fast_exception_json_syntax;
-                code = FastError.EXCEPTION_JSON_SYNTAX;
-            } else if (e instanceof SocketTimeoutException || e instanceof TimeoutException) {
-                reason = R.string.fast_exception_time_out;
-                code = FastError.EXCEPTION_TIME_OUT;
-            } else if (e instanceof ClassCastException) {
-                reason = R.string.fast_exception_class_cast;
-                code = FastError.EXCEPTION_CLASS_CAST;
-            }
-        }
-        if (mContext != null && FastConfig.getInstance(mContext).
-                getHttpErrorControl().
-                createHttpErrorControl(reason, code, e,mContext, mArgs)) {
-            return;
-        }
-        _onError(reason, code, e);
+        FastManager.getInstance().getHttpRequestControl().httpRequestError(mHttpRequestControl,e);
+        _onError(e);
     }
 
     @Override
@@ -107,6 +44,6 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     public abstract void _onNext(@NonNull T entity);
 
-    public void _onError(int errorRes, int errorCode, @NonNull Throwable e) {
+    public void _onError(@NonNull Throwable e) {
     }
 }

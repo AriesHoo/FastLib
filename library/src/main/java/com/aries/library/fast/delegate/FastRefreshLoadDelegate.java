@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.aries.library.fast.FastConfig;
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IMultiStatusView;
@@ -27,12 +27,12 @@ public class FastRefreshLoadDelegate<T> {
     public EasyStatusView mStatusView;
     private IFastRefreshLoadView<T> mIFastRefreshLoadView;
     private Context mContext;
-    private FastConfig mConfig;
+    private FastManager mManager;
 
     public FastRefreshLoadDelegate(View rootView, IFastRefreshLoadView<T> iFastRefreshLoadView) {
         this.mIFastRefreshLoadView = iFastRefreshLoadView;
         this.mContext = rootView.getContext().getApplicationContext();
-        this.mConfig = FastConfig.getInstance(mContext);
+        this.mManager = FastManager.getInstance();
         getRefreshLayout(rootView);
         getRecyclerView(rootView);
         getStatusView(rootView);
@@ -47,7 +47,7 @@ public class FastRefreshLoadDelegate<T> {
     private void initStatusView() {
         if (mStatusView != null) {
             IMultiStatusView iMultiStatusView = mIFastRefreshLoadView.getMultiStatusView() != null ? mIFastRefreshLoadView.getMultiStatusView() :
-                    mConfig.getMultiStatusView().createMultiStatusView();
+                    mManager.getMultiStatusView().createMultiStatusView();
             mStatusView.setLoadingView(iMultiStatusView.getLoadingView());
             mStatusView.setEmptyView(iMultiStatusView.getEmptyView());
             mStatusView.setErrorView(iMultiStatusView.getErrorView());
@@ -75,7 +75,7 @@ public class FastRefreshLoadDelegate<T> {
         }
         mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader() != null
                 ? mIFastRefreshLoadView.getRefreshHeader() :
-                mConfig.getDefaultRefreshHeader()
+                mManager.getDefaultRefreshHeader()
                         .createRefreshHeader(mContext, mRefreshLayout));
         mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
         mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
@@ -96,7 +96,7 @@ public class FastRefreshLoadDelegate<T> {
             setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
             mAdapter.setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
                     ? mIFastRefreshLoadView.getLoadMoreView() :
-                    mConfig.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter));
+                    mManager.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter));
             if (mIFastRefreshLoadView.isItemClickEnable()) {
                 mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override

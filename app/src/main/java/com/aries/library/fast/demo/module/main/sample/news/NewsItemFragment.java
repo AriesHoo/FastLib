@@ -70,11 +70,6 @@ public class NewsItemFragment extends FastTitleFragment {
     }
 
     @Override
-    public int getContentBackground() {
-        return -1;
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
     }
 

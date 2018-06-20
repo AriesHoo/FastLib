@@ -3,15 +3,11 @@ package com.aries.library.fast;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.aries.library.fast.basis.BasisActivity;
-import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.HttpRequestControl;
@@ -22,12 +18,14 @@ import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.i.OnHttpRequestListener;
+import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
@@ -53,7 +51,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  */
 public class FastManager {
 
-    private String TAG = getClass().getSimpleName();
+    private static String TAG = "FastManager";
     private static volatile FastManager sInstance;
 
     private FastManager() {
@@ -61,29 +59,13 @@ public class FastManager {
 
     public static FastManager getInstance() {
         if (sInstance == null) {
-            synchronized (FastManager.class) {
-                if (sInstance == null) {
-                    sInstance = new FastManager();
-                }
-            }
+            throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT_FAST_MANAGER);
         }
         return sInstance;
     }
 
-    private boolean mIsSetSwipeBack = false;
-    private Application mApplication;
+    private static Application mApplication;
 
-    /**
-     * Activity或Fragment根布局背景
-     */
-    @DrawableRes
-    private int mContentViewBackgroundResource = -1;
-
-    private int mRequestedOrientation;
-    /**
-     * Activity是否支持滑动返回
-     */
-    private boolean mIsSwipeBackEnable;
     /**
      * Adapter加载更多View
      */
@@ -116,71 +98,69 @@ public class FastManager {
      * 配置Activity/Fragment(背景+Activity强制横竖屏+Activity 生命周期回调+Fragment生命周期回调)
      */
     private ActivityFragmentControl mActivityFragmentControl;
-
+    /**
+     * 配置网络请求
+     */
     private HttpRequestControl mHttpRequestControl;
+    private QuitAppControl mQuitAppControl;
 
     public Application getApplication() {
         return mApplication;
     }
 
-    /**
-     * 最简单-初始化
-     *
-     * @param application
-     * @return
-     */
-    public FastManager init(Application application) {
+    public static void init(Application application) {
         if (mApplication == null && application != null) {//保证只执行一次初始化属性
             mApplication = application;
+            sInstance = new FastManager();
             //注册activity生命周期
             mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                 @Override
                 public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                     LoggerManager.i(TAG, "onActivityCreated:" + activity.getClass().getSimpleName());
                     FastStackUtil.getInstance().push(activity);
-                    mActivityFragmentControl.setRequestedOrientation(activity);
-                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityCreated(activity, savedInstanceState);
+                    sInstance.mActivityFragmentControl.setRequestedOrientation(activity);
+                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityCreated(activity, savedInstanceState);
 
                 }
 
                 @Override
                 public void onActivityStarted(Activity activity) {
                     LoggerManager.i(TAG, "onActivityStarted:" + activity.getClass().getSimpleName());
-                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStarted(activity);
+                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStarted(activity);
                 }
 
                 @Override
                 public void onActivityResumed(Activity activity) {
                     LoggerManager.i(TAG, "onActivityResumed:" + activity.getClass().getSimpleName());
-                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityResumed(activity);
+                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityResumed(activity);
                 }
 
                 @Override
                 public void onActivityPaused(Activity activity) {
-                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityPaused(activity);
+                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityPaused(activity);
                 }
 
                 @Override
                 public void onActivityStopped(Activity activity) {
-                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStopped(activity);
+                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStopped(activity);
                 }
 
                 @Override
                 public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivitySaveInstanceState(activity, outState);
+                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivitySaveInstanceState(activity, outState);
                 }
 
                 @Override
                 public void onActivityDestroyed(Activity activity) {
                     LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName());
-                    if (mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityDestroyed(activity);
+                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
+                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityDestroyed(activity);
                     FastStackUtil.getInstance().pop(activity, false);
                     Activity current = FastStackUtil.getInstance().getCurrent();
                     if (current != null)
@@ -190,7 +170,8 @@ public class FastManager {
             //配置默认滑动返回
             if (FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper")) {//滑动返回
                 BGASwipeBackHelper.init(mApplication, null);//初始化滑动返回关闭Activity功能
-                setSwipeBackControl(new SwipeBackControl() {
+
+                sInstance.setSwipeBackControl(new SwipeBackControl() {
                     @Override
                     public void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
                         swipeBackHelper.setSwipeBackEnable(false)
@@ -200,7 +181,7 @@ public class FastManager {
             }
             //配置默认智能下拉刷新
             if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
-                setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {
+                sInstance.setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {
                     @NonNull
                     @Override
                     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
@@ -210,7 +191,7 @@ public class FastManager {
             }
             //配置BaseQuickAdapter
             if (FastUtil.isClassExist("com.chad.library.adapter.base.BaseQuickAdapter")) {
-                setLoadMoreFoot(new LoadMoreFoot() {
+                sInstance.setLoadMoreFoot(new LoadMoreFoot() {
                     @Override
                     public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
                         return new FastLoadMoreView(mApplication).getBuilder().build();
@@ -219,7 +200,7 @@ public class FastManager {
             }
             //配置多状态属性
             if (FastUtil.isClassExist("com.marno.easystatelibrary.EasyStatusView")) {
-                setMultiStatusView(new MultiStatusView() {
+                sInstance.setMultiStatusView(new MultiStatusView() {
                     @NonNull
                     @Override
                     public IMultiStatusView createMultiStatusView() {
@@ -228,14 +209,14 @@ public class FastManager {
                 });
             }
             //配置TitleBarView
-            setTitleBarViewControl(new TitleBarViewControl() {
+            sInstance.setTitleBarViewControl(new TitleBarViewControl() {
                 @Override
-                public boolean createTitleBarViewControl(TitleBarView titleBar, boolean isActivity) {
+                public boolean createTitleBarViewControl(TitleBarView titleBar, Class<?> cls) {
                     return false;
                 }
             });
             //配置虚拟导航栏
-            setNavigationBarControl(new NavigationBarControl() {
+            sInstance.setNavigationBarControl(new NavigationBarControl() {
                 @NonNull
                 @Override
                 public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
@@ -246,9 +227,10 @@ public class FastManager {
                             .setBottomView(bottomView);
                 }
             });
-            setActivityFragmentControl(new ActivityFragmentControl() {
+            //配置Activity/Fragment相关
+            sInstance.setActivityFragmentControl(new ActivityFragmentControl() {
                 @Override
-                public void setContentViewBackground(View contentView, boolean isFragment) {
+                public void setContentViewBackground(View contentView, Class<?> cls) {
 
                 }
 
@@ -267,7 +249,7 @@ public class FastManager {
                     return null;
                 }
             });
-            setHttpRequestControl(new HttpRequestControl() {
+            sInstance.setHttpRequestControl(new HttpRequestControl() {
                 @Override
                 public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener) {
 
@@ -278,46 +260,19 @@ public class FastManager {
 
                 }
             });
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-            setContentViewBackgroundResource(-1);
+            //配置退出程序相关
+            sInstance.setQuitAppControl(new QuitAppControl() {
+                @Override
+                public long quipApp(boolean isFirst, Activity activity) {
+                    if (isFirst) {
+                        ToastUtil.show(R.string.fast_quit_app);
+                    } else {
+                        FastStackUtil.getInstance().exit();
+                    }
+                    return 2000;
+                }
+            });
         }
-        return this;
-    }
-
-
-    public int getContentViewBackgroundResource() {
-        return mContentViewBackgroundResource;
-    }
-
-    /**
-     * 设置 Activity或Fragment根布局背景资源
-     * 最终调用{@link BasisActivity#beforeInitView()} {@link BasisFragment#beforeInitView()}
-     *
-     * @param contentViewBackgroundResource
-     * @return
-     */
-    public FastManager setContentViewBackgroundResource(@DrawableRes int contentViewBackgroundResource) {
-        mContentViewBackgroundResource = contentViewBackgroundResource;
-        return sInstance;
-    }
-
-    public int getRequestedOrientation() {
-        return mRequestedOrientation;
-    }
-
-    /**
-     * 设置Activity屏幕方向
-     * 最终调用{@link BasisActivity#onCreate(Bundle)}
-     *
-     * @param mRequestedOrientation 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-     *                              竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-     *                              横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-     *                              {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}}
-     * @return
-     */
-    public FastManager setRequestedOrientation(int mRequestedOrientation) {
-        this.mRequestedOrientation = mRequestedOrientation;
-        return this;
     }
 
 
@@ -347,11 +302,13 @@ public class FastManager {
      * 设置SmartRefreshLayout 下拉刷新头
      * 最终调用{@link FastRefreshLoadDelegate#initRefreshHeader()}
      *
-     * @param mDefaultRefreshHeader
+     * @param control
      * @return
      */
-    public FastManager setDefaultRefreshHeader(DefaultRefreshHeaderCreater mDefaultRefreshHeader) {
-        this.mDefaultRefreshHeader = mDefaultRefreshHeader;
+    public FastManager setDefaultRefreshHeader(DefaultRefreshHeaderCreater control) {
+        if (control != null) {
+            this.mDefaultRefreshHeader = control;
+        }
         return sInstance;
     }
 
@@ -363,12 +320,12 @@ public class FastManager {
      * 设置多状态布局--加载中/空数据/错误/无网络
      * 最终调用{@link FastRefreshLoadDelegate#initStatusView()}
      *
-     * @param mMultiStatusView
+     * @param control
      * @return
      */
-    public FastManager setMultiStatusView(MultiStatusView mMultiStatusView) {
-        if (mMultiStatusView != null) {
-            this.mMultiStatusView = mMultiStatusView;
+    public FastManager setMultiStatusView(MultiStatusView control) {
+        if (control != null) {
+            this.mMultiStatusView = control;
         }
         return this;
     }
@@ -381,12 +338,12 @@ public class FastManager {
      * 设置全局网络请求等待Loading提示框如登录等待loading
      * 最终调用{@link FastLoadingObserver#FastLoadingObserver(Activity)}
      *
-     * @param mLoadingDialog
+     * @param control
      * @return
      */
-    public FastManager setLoadingDialog(LoadingDialog mLoadingDialog) {
-        if (mLoadingDialog != null) {
-            this.mLoadingDialog = mLoadingDialog;
+    public FastManager setLoadingDialog(LoadingDialog control) {
+        if (control != null) {
+            this.mLoadingDialog = control;
         }
         return this;
     }
@@ -410,12 +367,12 @@ public class FastManager {
      * 配置虚拟导航栏(NavigationViewHelper)
      * {@link NavigationViewHelper}
      *
-     * @param navigationBarControl
+     * @param control
      * @return
      */
-    public FastManager setNavigationBarControl(NavigationBarControl navigationBarControl) {
-        if (navigationBarControl != null) {
-            mNavigationBarControl = navigationBarControl;
+    public FastManager setNavigationBarControl(NavigationBarControl control) {
+        if (control != null) {
+            mNavigationBarControl = control;
         }
         return this;
     }
@@ -427,12 +384,12 @@ public class FastManager {
     /**
      * 配置Activity滑动返回相关属性
      *
-     * @param swipeBackControl
+     * @param control
      * @return
      */
-    public FastManager setSwipeBackControl(SwipeBackControl swipeBackControl) {
-        if (swipeBackControl != null) {
-            mSwipeBackControl = swipeBackControl;
+    public FastManager setSwipeBackControl(SwipeBackControl control) {
+        if (control != null) {
+            mSwipeBackControl = control;
         }
         return this;
     }
@@ -467,6 +424,24 @@ public class FastManager {
     public FastManager setHttpRequestControl(HttpRequestControl control) {
         if (control != null) {
             mHttpRequestControl = control;
+        }
+        return this;
+    }
+
+
+    public QuitAppControl getQuitAppControl() {
+        return mQuitAppControl;
+    }
+
+    /**
+     * 配置Http请求成功及失败相关回调-方便全局处理
+     *
+     * @param control
+     * @return
+     */
+    public FastManager setQuitAppControl(QuitAppControl control) {
+        if (control != null) {
+            mQuitAppControl = control;
         }
         return this;
     }

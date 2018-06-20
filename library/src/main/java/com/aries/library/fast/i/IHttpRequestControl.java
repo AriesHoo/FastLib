@@ -21,4 +21,5 @@ public interface IHttpRequestControl {
     int getCurrentPage();
 
     int getPageSize();
+
 }

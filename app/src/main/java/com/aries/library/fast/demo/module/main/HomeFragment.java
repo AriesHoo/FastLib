@@ -124,11 +124,6 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     }
 
     @Override
-    public int getContentBackground() {
-        return -1;
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
         LoggerManager.d(TAG, "initView");
         listTransitionEffect.add(TransitionEffect.Default);
@@ -183,13 +178,6 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                         mEasyStatusView.content();
                         mAdapter.setNewData(entity);
                         mRefreshLayout.finishRefresh();
-                    }
-
-                    @Override
-                    public void _onError(int errorRes, int errorCode, Throwable e) {
-                        mEasyStatusView.error();
-                        mRefreshLayout.finishRefresh(false);
-                        mAdapter.loadMoreComplete();
                     }
                 });
     }

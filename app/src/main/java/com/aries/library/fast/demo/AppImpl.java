@@ -1,5 +1,7 @@
 package com.aries.library.fast.demo;
 
+import android.accounts.AccountsException;
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
@@ -17,7 +20,6 @@ import android.view.View;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.i.ActivityFragmentControl;
-import com.aries.library.fast.i.HttpErrorControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.i.IMultiStatusView;
@@ -26,11 +28,13 @@ import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.i.OnHttpRequestListener;
+import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastError;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.NetworkUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
@@ -40,19 +44,29 @@ import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
+import com.aries.ui.widget.progress.UIProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import java.net.ConnectException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
+import retrofit2.HttpException;
 
 /**
  * Created: AriesHoo on 2017/11/30 11:43
@@ -60,8 +74,8 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Function: 应用全局配置管理实现
  * Description:
  */
-public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, MultiStatusView, LoadingDialog, HttpErrorControl,
-        TitleBarViewControl, NavigationBarControl, SwipeBackControl, ActivityFragmentControl, HttpRequestControl {
+public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, MultiStatusView, LoadingDialog,
+        TitleBarViewControl, NavigationBarControl, SwipeBackControl, ActivityFragmentControl, HttpRequestControl, QuitAppControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -166,61 +180,22 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
     @Nullable
     @Override
     public FastLoadDialog createLoadingDialog(@Nullable Activity activity) {
-        //第一种
-//                        return new FastLoadDialog(activity);
-        //第二种 使用UIProgressView里的四种模式Loading效果
-        return new FastLoadDialog(activity)
+        return new FastLoadDialog(activity,
+                new UIProgressDialog.WeBoBuilder(activity)
+                        .setMessage("加载中")
+                        .create())
                 .setCanceledOnTouchOutside(false)
                 .setMessage("请求数据中,请稍候...");
-    }
-
-    @Override
-    public boolean createHttpErrorControl(int errorRes, int errorCode, @io.reactivex.annotations.NonNull Throwable e, Context context, Object... args) {
-        LoggerManager.e(TAG, "args:" + args + ";context:" + context.getClass().getSimpleName());
-        if (args != null) {//可以将具体调用界面部分视图传递到全局控制
-            if (args.length >= 5) {
-                if (args[1] instanceof SmartRefreshLayout) {
-                    LoggerManager.e(TAG, "args:" + args[1]);
-                    ((SmartRefreshLayout) args[1]).finishRefresh();
-                }
-                if (args[2] instanceof BaseQuickAdapter) {
-                    LoggerManager.e(TAG, "args:" + args[2]);
-                    ((BaseQuickAdapter) args[2]).loadMoreComplete();
-                }
-                if (args[3] instanceof EasyStatusView) {
-                    LoggerManager.e(TAG, "args:" + args[3]);
-                    ((EasyStatusView) args[3]).error();
-                    if ((Integer) args[4] == 0) {
-                        if (errorCode == FastError.EXCEPTION_ACCOUNTS) {
-
-                        } else if (errorCode == FastError.EXCEPTION_JSON_SYNTAX) {
-
-                        } else if (errorCode == FastError.EXCEPTION_OTHER_ERROR) {
-
-                        } else if (errorCode == FastError.EXCEPTION_TIME_OUT) {
-
-                        } else {
-                            ((EasyStatusView) args[3]).noNet();
-                        }
-                    } else {
-                        ToastUtil.show(errorRes);
-                    }
-                }
-            }
-        }
-        //返回值true则FastObserver不会回调_onError所有逻辑处理都在全局位置处理
-        return false;
     }
 
     /**
      * 控制全局TitleBarView
      *
      * @param titleBar
-     * @param isActivity
      * @return
      */
     @Override
-    public boolean createTitleBarViewControl(TitleBarView titleBar, boolean isActivity) {
+    public boolean createTitleBarViewControl(TitleBarView titleBar, Class<?> cls) {
         //默认的MD风格返回箭头icon如使用该风格可以不用设置
         Drawable mDrawable = FastUtil.getTintDrawable(mContext.getResources().getDrawable(R.drawable.fast_ic_back),
                 mContext.getResources().getColor(R.color.colorTitleText));
@@ -230,7 +205,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         titleBar.setStatusBarLightMode(isSupport)
                 //不支持黑字的设置白透明
                 .setStatusAlpha(isSupport ? 0 : 102)
-                .setLeftTextDrawable(isActivity ? mDrawable : null)
+                .setLeftTextDrawable(cls.isAssignableFrom(Activity.class) ? mDrawable : null)
                 .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0);
         ViewCompat.setElevation(titleBar, mContext.getResources().getDimension(R.dimen.dp_elevation));
         return false;
@@ -265,29 +240,63 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         return helper;
     }
 
+    /**
+     * 是否全透明-华为4.1以上可根据导航栏位置颜色设置导航图标颜色
+     *
+     * @return
+     */
     protected boolean isTrans() {
         return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0);
     }
 
-
+    /**
+     * 设置Activity 全局滑动属性--包括三方库
+     *
+     * @param activity
+     * @param swipeBackHelper BGASwipeBackHelper 控制详见{@link com.aries.library.fast.FastManager}
+     */
     @Override
     public void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
-        swipeBackHelper.setSwipeBackEnable(true);
+        swipeBackHelper.setSwipeBackEnable(true)
+                .setIsNavigationBarOverlap(true);//底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
     }
 
+    /**
+     * 设置Fragment/Activity根布局背景
+     *
+     * @param contentView
+     * @param cls
+     */
     @Override
-    public void setContentViewBackground(View contentView, boolean isFragment) {
-
+    public void setContentViewBackground(View contentView, Class<?> cls) {
+        if (!cls.isAssignableFrom(Fragment.class) && !cls.isAssignableFrom(android.app.Fragment.class)) {//避免背景色重复
+            contentView.setBackgroundResource(R.color.colorBackground);
+        }
     }
 
+    /**
+     * 设置屏幕方向
+     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
+     *
+     * @param activity
+     */
     @Override
     public void setRequestedOrientation(Activity activity) {
+        //全局控制屏幕横竖屏
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
         if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 
+    /**
+     * Activity 生命周期监听--可用于三方统计页面数据
+     *
+     * @return
+     */
     @Override
     public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
         return new Application.ActivityLifecycleCallbacks() {
@@ -378,6 +387,74 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
 
     @Override
     public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+        int reason = R.string.fast_exception_other_error;
+        int code = FastError.EXCEPTION_OTHER_ERROR;
+        if (!NetworkUtil.isConnected(mContext)) {
+            reason = R.string.fast_exception_network_not_connected;
+            code = FastError.EXCEPTION_NETWORK_NOT_CONNECTED;
+        } else {
+            if (e instanceof NetworkErrorException) {//网络异常--继承于AccountsException
+                reason = R.string.fast_exception_network_error;
+                code = FastError.EXCEPTION_NETWORK_ERROR;
+            } else if (e instanceof AccountsException) {//账户异常
+                reason = R.string.fast_exception_accounts;
+                code = FastError.EXCEPTION_ACCOUNTS;
+            } else if (e instanceof ConnectException) {//连接异常--继承于SocketException
+                reason = R.string.fast_exception_connect;
+                code = FastError.EXCEPTION_CONNECT;
+            } else if (e instanceof SocketException) {//socket异常
+                reason = R.string.fast_exception_socket;
+                code = FastError.EXCEPTION_SOCKET;
+            } else if (e instanceof HttpException) {// http异常
+                reason = R.string.fast_exception_http;
+                code = FastError.EXCEPTION_HTTP;
+            } else if (e instanceof UnknownHostException) {//DNS错误
+                reason = R.string.fast_exception_unknown_host;
+                code = FastError.EXCEPTION_UNKNOWN_HOST;
+            } else if (e instanceof JsonSyntaxException
+                    || e instanceof JsonIOException
+                    || e instanceof JsonParseException) {//数据格式化错误
+                reason = R.string.fast_exception_json_syntax;
+                code = FastError.EXCEPTION_JSON_SYNTAX;
+            } else if (e instanceof SocketTimeoutException || e instanceof TimeoutException) {
+                reason = R.string.fast_exception_time_out;
+                code = FastError.EXCEPTION_TIME_OUT;
+            } else if (e instanceof ClassCastException) {
+                reason = R.string.fast_exception_class_cast;
+                code = FastError.EXCEPTION_CLASS_CAST;
+            }
+        }
+        if (httpRequestControl == null) {
+            ToastUtil.show(reason);
+            return;
+        } else {
+            SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
+            BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
+            EasyStatusView statusView = httpRequestControl.getStatusView();
 
+            statusView.error();
+            smartRefreshLayout.finishRefresh(false);
+            adapter.loadMoreComplete();
+        }
+    }
+
+    /**
+     * @param isFirst  是否首次提示
+     * @param activity 操作的Activity
+     * @return 延迟间隔--如不需要设置两次提示可设置0--最佳方式是直接在回调中执行你想要的操作
+     */
+    @Override
+    public long quipApp(boolean isFirst, Activity activity) {
+//        if (isFirst) {
+//            ToastUtil.show(com.aries.library.fast.R.string.fast_quit_app);
+//        } else {
+//            FastStackUtil.getInstance().exit();
+//        }
+        if (isFirst) {
+            ToastUtil.show(com.aries.library.fast.R.string.fast_back_home);
+        } else {
+            activity.moveTaskToBack(true);
+        }
+        return 2000;
     }
 }
