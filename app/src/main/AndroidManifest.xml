@@ -43,41 +43,41 @@
             android:name=".module.WebViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"/>
-        <!-- Title+EditTex示例 -->
         <activity
             android:name=".module.main.sample.TitleWithEditTextActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- ToastUtil工具类示例 -->
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="Title+底部输入框测试"/>
         <activity
-            android:name=".module.main.sample.ToastActivity"/>
-        <!-- TitleBarView 嵌套Fragment -->
+            android:name=".module.main.sample.ToastActivity"
+            android:label="ToastUtil工具类示例"/>
         <activity
             android:name=".module.main.sample.TestFragmentActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- 滑动返回Activity-微信效果 -->
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="Activity直接嵌套Fragment懒加载效果"/>
         <activity
             android:name=".module.main.sample.SwipeBackActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- QQ默认主题TitleBar样式 -->
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="微信滑动返回样式效果"/>
         <activity
             android:name=".module.main.sample.QQTitleActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- 支付宝主界面效果 -->
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="QQ默认主题TitleBar背景渐变"/>
         <activity
             android:name=".module.main.sample.ali.ALiPayMainActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- 腾讯新闻主界面效果 -->
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="支付宝主界面效果"/>
         <activity
             android:name=".module.main.sample.news.NewsMainActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- 设置页 -->
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="腾讯新闻主界面效果"/>
         <activity
             android:name=".module.mine.SettingActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
-        <!-- 第三方库 -->
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="@string/setting"/>
         <activity
             android:name=".module.mine.ThirdLibraryActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"/>
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="@string/third_part"/>
     </application>
 
 </manifest>

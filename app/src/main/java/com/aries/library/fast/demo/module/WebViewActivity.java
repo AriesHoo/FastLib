@@ -116,8 +116,5 @@ public class WebViewActivity extends FastWebActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         //横竖屏切换过后不能设置滑动返回--可以切换试一试效果
-        if (mSwipeBackHelper != null) {
-            mSwipeBackHelper.setSwipeBackEnable(false);
-        }
     }
 }

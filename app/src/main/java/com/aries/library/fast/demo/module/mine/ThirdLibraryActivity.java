@@ -39,7 +39,6 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setTitleMainText(R.string.third_part);
     }
 
     @Override

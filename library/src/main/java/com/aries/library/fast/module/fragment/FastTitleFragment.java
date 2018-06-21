@@ -25,7 +25,7 @@ public abstract class FastTitleFragment extends BasisFragment implements IFastTi
     @Override
     public void beforeInitView() {
         super.beforeInitView();
-        mFastTitleDelegate = new FastTitleDelegate(mContentView, mContext, this,this.getClass());
+        mFastTitleDelegate = new FastTitleDelegate(mContentView, this,this.getClass());
         mTitleBar = mFastTitleDelegate.mTitleBar;
     }
 

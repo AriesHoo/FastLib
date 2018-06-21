@@ -33,6 +33,7 @@ import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastError;
+import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.NetworkUtil;
 import com.aries.library.fast.util.SizeUtil;
@@ -201,12 +202,15 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
                 mContext.getResources().getColor(R.color.colorTitleText));
         //是否支持状态栏白色
         boolean isSupport = StatusBarUtil.isSupportStatusBarFontChange();
+        boolean isActivity = Activity.class.isAssignableFrom(cls);
+        Activity activity = FastStackUtil.getInstance().getActivity(cls);
         //设置TitleBarView 所有TextView颜色
         titleBar.setStatusBarLightMode(isSupport)
                 //不支持黑字的设置白透明
                 .setStatusAlpha(isSupport ? 0 : 102)
-                .setLeftTextDrawable(cls.isAssignableFrom(Activity.class) ? mDrawable : null)
+                .setLeftTextDrawable(isActivity ? mDrawable : null)
                 .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0);
+        if (activity != null) titleBar.setTitleMainText(activity.getTitle());
         ViewCompat.setElevation(titleBar, mContext.getResources().getDimension(R.dimen.dp_elevation));
         return false;
     }
@@ -257,7 +261,11 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
      */
     @Override
     public void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
+        //以下为默认设置
+        //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
+        activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
+                .setShadowResId(R.drawable.bga_sbl_shadow)
                 .setIsNavigationBarOverlap(true);//底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
     }
 
@@ -275,7 +283,8 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
     }
 
     /**
-     * 设置屏幕方向
+     * 设置屏幕方向--注意targetSDK设置27以上不能设置windowIsTranslucent=true属性不然应用直接崩溃
+     * 错误为 Only fullscreen activities can request orientation
      * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
      * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
      * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
@@ -386,7 +395,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
     }
 
     @Override
-    public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+    public boolean httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
         int reason = R.string.fast_exception_other_error;
         int code = FastError.EXCEPTION_OTHER_ERROR;
         if (!NetworkUtil.isConnected(mContext)) {
@@ -426,7 +435,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         }
         if (httpRequestControl == null) {
             ToastUtil.show(reason);
-            return;
+            return true;
         } else {
             SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
             BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
@@ -436,6 +445,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
             smartRefreshLayout.finishRefresh(false);
             adapter.loadMoreComplete();
         }
+        return true;
     }
 
     /**
@@ -445,16 +455,16 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
      */
     @Override
     public long quipApp(boolean isFirst, Activity activity) {
-//        if (isFirst) {
-//            ToastUtil.show(com.aries.library.fast.R.string.fast_quit_app);
-//        } else {
-//            FastStackUtil.getInstance().exit();
-//        }
         if (isFirst) {
-            ToastUtil.show(com.aries.library.fast.R.string.fast_back_home);
+            ToastUtil.show(com.aries.library.fast.R.string.fast_quit_app);
         } else {
-            activity.moveTaskToBack(true);
+            FastStackUtil.getInstance().exit();
         }
+//        if (isFirst) {
+//            ToastUtil.show(com.aries.library.fast.R.string.fast_back_home);
+//        } else {
+//            activity.moveTaskToBack(true);
+//        }
         return 2000;
     }
 }

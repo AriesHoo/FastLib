@@ -4,14 +4,13 @@ package com.aries.library.fast.basis;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.FastManager;
-import com.aries.library.fast.i.IBasisView;
+import com.aries.library.fast.i.IBasisFragment;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.trello.rxlifecycle2.components.support.RxFragment;
@@ -28,7 +27,7 @@ import butterknife.Unbinder;
  * Description:
  * 1、新增控制是否为FragmentActivity的唯一Fragment 方法以优化懒加载方式
  */
-public abstract class BasisFragment extends RxFragment implements IBasisView {
+public abstract class BasisFragment extends RxFragment implements IBasisFragment {
 
     protected Activity mContext;
     protected View mContentView;
@@ -43,12 +42,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         return true;
     }
 
-    /**
-     * 控制是否为单个fragment--优化懒加载
-     *
-     * @return
-     */
-    protected boolean isSingle() {
+    @Override
+    public boolean isSingle() {
         return false;
     }
 
@@ -77,7 +72,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     }
 
     @Nullable
-    public <T extends View> T findViewById(@IdRes int viewId) {
+    @Override
+    public <T extends View> T findView(int viewId) {
         return (T) mContentView.findViewById(viewId);
     }
 

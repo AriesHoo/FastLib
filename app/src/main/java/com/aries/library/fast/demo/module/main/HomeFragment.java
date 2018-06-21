@@ -226,7 +226,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         if (position == 0) {
             SwipeBackActivity.start(mContext, entity.title);
         } else {
-            FastUtil.startActivity(mContext, entity.activity, null, true);
+            FastUtil.startActivity(mContext, entity.activity);
         }
     }
 }

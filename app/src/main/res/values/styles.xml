@@ -10,9 +10,8 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowNoDisplay">false</item>
+        <!--targetSdk设置成27及以上如果Activity有设置屏幕横竖屏操作会造成应用崩溃 Only fullscreen activities can request orientation -->
         <!--<item name="android:windowIsTranslucent">true</item>-->
-        <!--建议使用全透明-减少一层绘制避免过度绘制-->
-        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="SupperTextStyleItem">

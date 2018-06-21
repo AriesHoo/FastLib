@@ -1,12 +1,16 @@
 package com.aries.library.fast.i;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 /**
- * Created: AriesHoo on 2017/7/26 13:20
- * Function: Basis Activity/Fragment
- * Desc:
+ * Created: AriesHoo on 2018/6/21 13:33
+ * E-Mail: AriesHoo@126.com
+ * Function:Basis Activity及Fragment通用属性
+ * Description:
  */
 public interface IBasisView {
 
@@ -46,4 +50,7 @@ public interface IBasisView {
      * 需要加载数据时重写此方法
      */
     void loadData();
+
+    @Nullable
+    <T extends View> T findView(@IdRes int viewId);
 }

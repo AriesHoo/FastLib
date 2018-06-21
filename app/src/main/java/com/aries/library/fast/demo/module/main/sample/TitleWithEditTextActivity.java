@@ -32,6 +32,5 @@ public class TitleWithEditTextActivity extends FastTitleActivity {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setTitleMainText("Title+底部输入框测试");
     }
 }

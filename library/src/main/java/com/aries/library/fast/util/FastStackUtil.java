@@ -7,9 +7,11 @@ import com.aries.library.fast.manager.LoggerManager;
 import java.util.Stack;
 
 /**
- * Created: AriesHoo on 2017/7/19 15:45
- * Function: Activity堆栈管理工具类
- * Desc:
+ * Created: AriesHoo on 2018/6/21 9:48
+ * E-Mail: AriesHoo@126.com
+ * Function:Activity堆栈管理工具类
+ * Description:
+ * 1、2018-6-21 09:49:11 新增根据class获取Activity方法
  */
 public class FastStackUtil {
     private final String TAG = this.getClass().getSimpleName();
@@ -74,6 +76,24 @@ public class FastStackUtil {
     }
 
     /**
+     * 根据Class 获取Activity
+     *
+     * @param cls
+     * @return
+     */
+    public Activity getActivity(Class cls) {
+        if (mActivityStack == null || mActivityStack.size() == 0 || cls == null) {
+            return null;
+        }
+        for (Activity activity : mActivityStack) {
+            if (activity != null && activity.getClass() == cls) {
+                return activity;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 入栈
      *
      * @param activity
@@ -90,12 +110,11 @@ public class FastStackUtil {
      * 出栈
      *
      * @param activity Activity对象
-     * @param isFinish 是否调用finish(),onDestroy()生命周期只做移除数组操作不做finish()
      */
-    public void pop(Activity activity, boolean isFinish) {
+    public void pop(Activity activity) {
         if (activity != null) {
             LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
-            if (isFinish) {
+            if (!activity.isFinishing()) {//只需在activity不在正在关闭状态下进行finish即可
                 activity.finish();
             }
             if (mActivityStack != null && mActivityStack.contains(activity)) {
@@ -104,10 +123,6 @@ public class FastStackUtil {
             }
         }
 
-    }
-
-    public void pop(Activity activity) {
-        pop(activity, true);
     }
 
     /**

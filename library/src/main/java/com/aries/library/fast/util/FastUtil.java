@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 import java.util.Random;
@@ -49,6 +51,17 @@ public class FastUtil {
      */
     public static int getRandom(int length) {
         return getRandom(length, 1);
+    }
+
+    /**
+     * 获取Activity 根布局
+     *
+     * @param activity
+     * @return
+     */
+    public static View getRootView(Activity activity) {
+        if (activity == null) return null;
+        return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
     }
 
     /**

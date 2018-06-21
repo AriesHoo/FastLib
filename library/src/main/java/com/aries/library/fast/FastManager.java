@@ -3,6 +3,7 @@ package com.aries.library.fast;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -21,7 +22,6 @@ import com.aries.library.fast.i.OnHttpRequestListener;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
@@ -40,7 +40,6 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.util.List;
 
-import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -108,74 +107,21 @@ public class FastManager {
         return mApplication;
     }
 
+    /**
+     * 滑动返回基础配置查看{@link FastLifecycleCallbacks#onActivityCreated(Activity, Bundle)}
+     *
+     * @param application
+     */
     public static void init(Application application) {
         if (mApplication == null && application != null) {//保证只执行一次初始化属性
             mApplication = application;
             sInstance = new FastManager();
-            //注册activity生命周期
-            mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-                @Override
-                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                    LoggerManager.i(TAG, "onActivityCreated:" + activity.getClass().getSimpleName());
-                    FastStackUtil.getInstance().push(activity);
-                    sInstance.mActivityFragmentControl.setRequestedOrientation(activity);
-                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityCreated(activity, savedInstanceState);
-
-                }
-
-                @Override
-                public void onActivityStarted(Activity activity) {
-                    LoggerManager.i(TAG, "onActivityStarted:" + activity.getClass().getSimpleName());
-                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStarted(activity);
-                }
-
-                @Override
-                public void onActivityResumed(Activity activity) {
-                    LoggerManager.i(TAG, "onActivityResumed:" + activity.getClass().getSimpleName());
-                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityResumed(activity);
-                }
-
-                @Override
-                public void onActivityPaused(Activity activity) {
-                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityPaused(activity);
-                }
-
-                @Override
-                public void onActivityStopped(Activity activity) {
-                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityStopped(activity);
-                }
-
-                @Override
-                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivitySaveInstanceState(activity, outState);
-                }
-
-                @Override
-                public void onActivityDestroyed(Activity activity) {
-                    LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName());
-                    if (sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks() != null)
-                        sInstance.mActivityFragmentControl.getActivityLifecycleCallbacks().onActivityDestroyed(activity);
-                    FastStackUtil.getInstance().pop(activity, false);
-                    Activity current = FastStackUtil.getInstance().getCurrent();
-                    if (current != null)
-                        BGAKeyboardUtil.closeKeyboard(current);
-                }
-            });
             //配置默认滑动返回
             if (FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper")) {//滑动返回
                 BGASwipeBackHelper.init(mApplication, null);//初始化滑动返回关闭Activity功能
-
                 sInstance.setSwipeBackControl(new SwipeBackControl() {
                     @Override
                     public void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
-                        swipeBackHelper.setSwipeBackEnable(false)
-                                .setShadowResId(R.drawable.bga_sbl_shadow);
                     }
                 });
             }
@@ -231,7 +177,7 @@ public class FastManager {
             sInstance.setActivityFragmentControl(new ActivityFragmentControl() {
                 @Override
                 public void setContentViewBackground(View contentView, Class<?> cls) {
-
+                    contentView.setBackgroundColor(Color.LTGRAY);
                 }
 
                 @Override
@@ -256,8 +202,8 @@ public class FastManager {
                 }
 
                 @Override
-                public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
-
+                public boolean httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+                    return true;
                 }
             });
             //配置退出程序相关
@@ -272,6 +218,8 @@ public class FastManager {
                     return 2000;
                 }
             });
+            //注册activity生命周期
+            mApplication.registerActivityLifecycleCallbacks(new FastLifecycleCallbacks());
         }
     }
 

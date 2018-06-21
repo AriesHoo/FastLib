@@ -43,7 +43,7 @@ public class ALiPayMainActivity extends FastMainActivity {
     }
 
     @Override
-    protected void beforeControlNavigation(NavigationViewHelper navigationHelper) {
+    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
         super.beforeControlNavigation(navigationHelper);
         navigationHelper.setBottomView(mTabLayout);
     }

@@ -86,13 +86,13 @@ public class App extends Application {
                 .setTitleBarViewControl(impl)
                 //设置虚拟导航栏控制
                 .setNavigationBarControl(impl)
-                //设置Activity滑动返回控制
+                //设置Activity滑动返回控制-默认开启滑动返回功能不需要设置透明主题
                 .setSwipeBackControl(impl)
                 //设置Activity/Fragment相关配置(横竖屏+背景+生命周期)
                 .setActivityFragmentControl(impl)
                 //设置http请求结果全局控制
                 .setHttpRequestControl(impl)
-                //设置主页返回键控制
+                //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
                 .setQuitAppControl(impl);
     }
 

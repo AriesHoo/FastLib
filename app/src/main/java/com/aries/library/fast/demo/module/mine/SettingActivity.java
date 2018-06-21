@@ -45,7 +45,6 @@ public class SettingActivity extends FastTitleActivity {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setTitleMainText(R.string.setting);
     }
 
     @Override

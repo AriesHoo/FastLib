@@ -13,7 +13,7 @@ import com.aries.library.fast.demo.module.activity.MovieBaseFragment;
 public class SingleFragment extends MovieBaseFragment {
 
     @Override
-    protected boolean isSingle() {
+    public boolean isSingle() {
         return true;
     }
 

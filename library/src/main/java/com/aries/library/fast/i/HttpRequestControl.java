@@ -12,7 +12,18 @@ import io.reactivex.annotations.NonNull;
  */
 public interface HttpRequestControl {
 
-    void httpRequestSuccess(IHttpRequestControl httpRequestControl,List<? extends Object> list,OnHttpRequestListener listener);
+    /**
+     * @param httpRequestControl
+     * @param list
+     * @param listener
+     * @return
+     */
+    void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<? extends Object> list, OnHttpRequestListener listener);
 
-    void httpRequestError(IHttpRequestControl httpRequestControl,@NonNull Throwable e);
+    /**
+     * @param httpRequestControl
+     * @param e
+     * @return 将处理抛出全局前是否预处理 --true预处理;false不处理
+     */
+    boolean httpRequestError(IHttpRequestControl httpRequestControl, @NonNull Throwable e);
 }
