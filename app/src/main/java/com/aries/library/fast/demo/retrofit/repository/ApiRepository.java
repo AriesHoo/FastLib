@@ -38,12 +38,16 @@ public class ApiRepository extends BaseRepository {
     }
 
     private ApiService getApiService() {
-        return FastRetrofit.getInstance().createService(ApiService.class);
+        if (mApiService == null) {
+            mApiService = FastRetrofit.getInstance().createService(ApiService.class);
+        }
+        return mApiService;
     }
 
     /**
      * 获取电影列表
-     * @param url 拼接URL
+     *
+     * @param url   拼接URL
      * @param start
      * @param count
      * @return

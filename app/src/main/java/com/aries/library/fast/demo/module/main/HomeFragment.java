@@ -146,6 +146,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
 
     @Override
     public void loadData(int page) {
+        mStatusManager.showSuccessLayout();
         if (listActivity.size() > 0) {
             int random = FastUtil.getRandom(100);
             int position = (random % (listArraysBanner.size() - 1)) + 1;
@@ -175,7 +176,6 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                 .subscribe(new FastObserver<List<WidgetEntity>>() {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
-                        mEasyStatusView.content();
                         mAdapter.setNewData(entity);
                         mRefreshLayout.finishRefresh();
                     }
@@ -186,7 +186,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         List<String> images = Arrays.asList(getResources().getStringArray(listArraysBanner.get(position)));
         if (banner == null) {
             View v = View.inflate(mContext, R.layout.layout_banner, null);
-            banner = (BGABanner) v.findViewById(R.id.banner);
+            banner = v.findViewById(R.id.banner);
             banner.setAdapter(new BGABanner.Adapter() {
                 @Override
                 public void fillBannerItem(BGABanner banner, View itemView, Object model, int position) {

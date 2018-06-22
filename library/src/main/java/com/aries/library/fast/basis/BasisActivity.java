@@ -1,15 +1,13 @@
 package com.aries.library.fast.basis;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.aries.library.fast.FastManager;
-import com.aries.library.fast.i.IBasisActivity;
+import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.manager.RxJavaManager;
-import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
@@ -24,9 +22,10 @@ import butterknife.Unbinder;
  * Description:
  * 1、2018-6-15 09:31:42 调整滑动返回类控制
  * 2、2018-6-20 17:15:12 调整主页back键操作逻辑
- * 3、2018-6-21 14:05:57 实现接口{@link IBasisActivity}删除滑动返回控制改由全局控制
+ * 3、2018-6-21 14:05:57 删除滑动返回控制改由全局控制
+ * 4、2018-6-22 13:38:32 删除NavigationViewHelper控制方法改由全局控制
  */
-public abstract class BasisActivity extends RxAppCompatActivity implements IBasisActivity {
+public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
 
     protected Activity mContext;
     protected View mContentView;
@@ -37,7 +36,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean mIsFirstBack = true;
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
-    protected NavigationViewHelper mNavigationViewHelper;
 
     @Nullable
     @Override
@@ -48,11 +46,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     @Override
     public boolean isEventBusEnable() {
         return true;
-    }
-
-    @Override
-    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
-
     }
 
     @Override
@@ -67,7 +60,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         mUnBinder = ButterKnife.bind(this);
         mIsViewLoaded = true;
         beforeInitView();
-        setControlNavigation();
         initView(savedInstanceState);
     }
 
@@ -91,22 +83,10 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     public void beforeSetContentView() {
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void beforeInitView() {
         FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
     }
-
-    /**
-     * 设置NavigationView控制
-     */
-    private void setControlNavigation() {
-        mNavigationViewHelper = FastManager.getInstance().getNavigationBarControl()
-                .createNavigationBarControl(this, mContentView);
-        beforeControlNavigation(mNavigationViewHelper);
-        mNavigationViewHelper.init();
-    }
-
 
     @Override
     public void loadData() {

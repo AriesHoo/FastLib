@@ -1,7 +1,6 @@
 package com.aries.library.fast.i;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
@@ -15,8 +14,6 @@ public interface IHttpRequestControl {
     SmartRefreshLayout getRefreshLayout();
 
     BaseQuickAdapter getRecyclerAdapter();
-
-    EasyStatusView getStatusView();
 
     int getCurrentPage();
 

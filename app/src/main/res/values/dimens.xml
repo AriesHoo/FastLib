@@ -6,32 +6,6 @@
     <dimen name="dp_margin_item">10dp</dimen>
     <dimen name="dp_elevation">4dp</dimen>
     <dimen name="dp_radius">2dp</dimen>
-
-    <!--以下属性为lib设置默认属性，在app设置同名属性可覆盖lib效果-->
-
-    <!--TitleBarView 高度-->
-    <dimen name="dp_title_height">48dp</dimen>
-
-    <!--主页tab高度-->
-    <dimen name="dp_tab_height">48dp</dimen>
-    <!--主页tab icon宽高-->
-    <dimen name="dp_tab_icon">24dp</dimen>
-    <!--主页tab 文字与icon边距-->
-    <dimen name="dp_tab_margin">0dp</dimen>
-    <!--主页tab文字字号-->
-    <dimen name="dp_tab_text_size">11dp</dimen>
-    <!--主页tab 上划线宽度-->
-    <dimen name="dp_tab_underline">0.5dp</dimen>
-
-    <!--多状态布局文字字号-->
-    <dimen name="dp_multi_text_size">16dp</dimen>
-    <!--多状态布局icon与文字间距-->
-    <dimen name="dp_multi_margin">12dp</dimen>
-    <!--多状态布局icon宽高-->
-    <dimen name="dp_multi_image_size">72dp</dimen>
-
-    <!--glide加载圆角图片占位图圆角弧度-->
-    <dimen name="dp_placeholder_radius">2dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

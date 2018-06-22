@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--普通有灰色背景的用这个-->
+    <color name="colorBackground">#f8f8f8</color>
+    <color name="colorTextBlack">#333333</color>
+    <color name="colorTextBlackLight">#636363</color>
+    <color name="colorTextGray">#666666</color>
+    <color name="colorMessageTextGray">#aeaeae</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhitePressed">#DCDCDC</color>
+
+    <!--TitleBarView背景色-->
+    <color name="colorTitleBackground">#FFFFFF</color>
+    <!--TitleBarView 文字颜色-->
+    <color name="colorTitleText">#393939</color>
+    <!--TitleBarView 下划线颜色-->
+    <color name="colorTitleDivider">#DCDCDC</color>
+
+    <!--主页tab背景色-->
+    <color name="colorTabBackground">#FCFCFC</color>
+    <!--主页上划线颜色-->
+    <color name="colorTabUnderline">#d6d6d6</color>
+    <!--主页tab文字默认颜色-->
+    <color name="colorTabTextUnSelect">#909090</color>
+    <!--主页tab文字选中颜色-->
+    <color name="colorTabTextSelect">@color/colorTitleText</color>
+
+    <!--多状态 loading颜色-->
+    <color name="colorMultiProgress">@color/colorTitleText</color>
+    <!--多状态文字颜色-->
+    <color name="colorMultiText">@color/colorTitleText</color>
+    <!--多状态布局背景色-->
+    <color name="colorMultiBackground">#fafafa</color>
+    <!--多状态布局图片颜色-->
+    <color name="colorMultiImage">@color/colorTitleText</color>
+
+    <!--Glide加载图片默认占位图背景色-->
+    <color name="colorPlaceholder">#bdbdbd</color>
+
+    <!--LoadMoreView 文本颜色-->
+    <color name="colorLoadMoreText">@color/colorTitleText</color>
+    <!--LoadMoreView loading颜色-->
+    <color name="colorLoadMoreProgress">@color/colorTitleText</color>
+</resources>

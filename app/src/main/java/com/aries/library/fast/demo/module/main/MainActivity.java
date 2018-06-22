@@ -7,7 +7,6 @@ import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.module.activity.FastMainActivity;
-import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.flyco.tablayout.CommonTabLayout;
 
 import java.util.ArrayList;
@@ -31,11 +30,11 @@ public class MainActivity extends FastMainActivity {
     }
 
 
-    @Override
-    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
-        super.beforeControlNavigation(navigationHelper);
-        navigationHelper.setBottomView(mTabLayout);
-    }
+//    @Override
+//    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
+//        super.beforeControlNavigation(navigationHelper);
+//        navigationHelper.setBottomView(mTabLayout);
+//    }
 
     @Override
     public List<FastTabEntity> getTabList() {

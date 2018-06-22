@@ -105,26 +105,24 @@ public class ToastUtil {
                     .setRadius(builder.radius)
                     .setStrokeColor(builder.strokeColor)
                     .setBackgroundColor(builder.backgroundColor)
+                    .setLeftDrawableHeight(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawableHeight : 0)
+                    .setLeftDrawableWidth(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawableWidth : 0)
+                    .setLeftDrawable(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawable : null)
+                    .setTopDrawableHeight(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawableHeight : 0)
+                    .setTopDrawableWidth(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawableWidth : 0)
+                    .setTopDrawable(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawable : null)
+                    .setRightDrawableHeight(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawableHeight : 0)
+                    .setRightDrawableWidth(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawableWidth : 0)
+                    .setRightDrawable(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawable : null)
+                    .setBottomDrawableHeight(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawableHeight : 0)
+                    .setBottomDrawableWidth(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawableWidth : 0)
+                    .setBottomDrawable(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawable : null)
                     .setRippleEnable(false)
                     .init();
             sTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, builder.textSize);
             sTextView.setPadding(builder.paddingLeft, builder.paddingTop, builder.paddingRight, builder.paddingBottom);
             sTextView.setCompoundDrawablePadding(builder.textDrawablePadding);
             sTextView.setGravity(builder.textGravity);
-            if (builder.textDrawable != null) {
-                int gravity = builder.textDrawableGravity;
-                FastUtil.getTintDrawable(builder.textDrawable, builder.textColor);
-                builder.textDrawable.setBounds(0, 0,
-                        builder.textDrawableWidth != -1 ? builder.textDrawableWidth : builder.textDrawable.getIntrinsicWidth(),
-                        builder.textDrawableHeight != -1 ? builder.textDrawableHeight : builder.textDrawable.getIntrinsicHeight());
-                sTextView.setCompoundDrawables(
-                        gravity == Gravity.LEFT ? builder.textDrawable : null,
-                        gravity == Gravity.TOP ? builder.textDrawable : null,
-                        gravity == Gravity.RIGHT ? builder.textDrawable : null,
-                        gravity == Gravity.BOTTOM ? builder.textDrawable : null);
-            } else {
-                sTextView.setCompoundDrawables(null, null, null, null);
-            }
             if (builder.background != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     sTextView.setBackground(builder.background);
@@ -293,7 +291,7 @@ public class ToastUtil {
                     .setBackgroundColor(Color.argb(187, 0, 0, 0))
                     .setStrokeColor(Color.TRANSPARENT)
                     .setStrokeWidth(0)
-                    .setRadius(SizeUtil.dp2px(4f))
+                    .setRadius(SizeUtil.dp2px(6f))
                     .setMinWidth(0)
                     .setMinHeight(0);
         }

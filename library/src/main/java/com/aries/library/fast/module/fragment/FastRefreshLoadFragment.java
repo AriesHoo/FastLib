@@ -12,10 +12,11 @@ import com.aries.library.fast.i.IMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
+import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
  * Created: AriesHoo on 2017/7/24 17:12
@@ -26,7 +27,7 @@ public abstract class FastRefreshLoadFragment<T>
         extends BasisFragment implements IFastRefreshLoadView<T> {
     protected SmartRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
-    protected EasyStatusView mEasyStatusView;
+    protected StatusLayoutManager mStatusManager;
     protected int DEFAULT_PAGE = 0;
     protected int DEFAULT_PAGE_SIZE = 10;
     private BaseQuickAdapter mQuickAdapter;
@@ -39,7 +40,7 @@ public abstract class FastRefreshLoadFragment<T>
         mFastRefreshLoadDelegate = new FastRefreshLoadDelegate<>(mContentView, this);
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;
-        mEasyStatusView = mFastRefreshLoadDelegate.mStatusView;
+        mStatusManager = mFastRefreshLoadDelegate.mStatusManager;
         mQuickAdapter = mFastRefreshLoadDelegate.mAdapter;
     }
 
@@ -69,11 +70,6 @@ public abstract class FastRefreshLoadFragment<T>
             @Override
             public BaseQuickAdapter getRecyclerAdapter() {
                 return mQuickAdapter;
-            }
-
-            @Override
-            public EasyStatusView getStatusView() {
-                return mEasyStatusView;
             }
 
             @Override

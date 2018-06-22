@@ -12,8 +12,14 @@ android {
         versionName ext.versionName
     }
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -74,5 +80,5 @@ dependencies {
     //页面事件交互
     api 'org.simple:androideventbus:1.0.5.1'
     //多状态视图切换
-    api 'com.github.MarnonDev:EasyStatusView:v1.0.3'
+    api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
 }

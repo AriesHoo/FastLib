@@ -3,9 +3,9 @@ package com.aries.library.fast;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
@@ -165,19 +165,17 @@ public class FastManager {
             sInstance.setNavigationBarControl(new NavigationBarControl() {
                 @NonNull
                 @Override
-                public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
-                    return NavigationViewHelper.with(activity)
-                            .setControlEnable(true)
-                            .setTransEnable(false)
-                            .setPlusNavigationViewEnable(false)
-                            .setBottomView(bottomView);
+                public void setNavigationBar(Activity activity, NavigationViewHelper helper) {
                 }
             });
             //配置Activity/Fragment相关
             sInstance.setActivityFragmentControl(new ActivityFragmentControl() {
                 @Override
                 public void setContentViewBackground(View contentView, Class<?> cls) {
-                    contentView.setBackgroundColor(Color.LTGRAY);
+                    //避免背景色重复
+                    if (!Fragment.class.isAssignableFrom(cls) && !android.app.Fragment.class.isAssignableFrom(cls)) {
+                        contentView.setBackgroundResource(R.color.colorBackground);
+                    }
                 }
 
                 @Override
@@ -220,6 +218,8 @@ public class FastManager {
             });
             //注册activity生命周期
             mApplication.registerActivityLifecycleCallbacks(new FastLifecycleCallbacks());
+            //初始化Toast工具
+            ToastUtil.init(mApplication);
         }
     }
 

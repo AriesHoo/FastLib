@@ -11,10 +11,11 @@ import com.aries.library.fast.i.IMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
+import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
  * Created: AriesHoo on 2017/7/24 17:12
@@ -25,7 +26,7 @@ public abstract class FastRefreshLoadActivity<T>
         extends FastTitleActivity implements IFastRefreshLoadView<T> {
     protected SmartRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
-    protected EasyStatusView mEasyStatusView;
+    protected StatusLayoutManager mStatusManager;
     protected int DEFAULT_PAGE = 0;
     protected int DEFAULT_PAGE_SIZE = 10;
 
@@ -37,7 +38,7 @@ public abstract class FastRefreshLoadActivity<T>
         mFastRefreshLoadDelegate = new FastRefreshLoadDelegate<>(mContentView, this);
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;
-        mEasyStatusView = mFastRefreshLoadDelegate.mStatusView;
+        mStatusManager = mFastRefreshLoadDelegate.mStatusManager;
     }
 
     @Override
@@ -71,11 +72,6 @@ public abstract class FastRefreshLoadActivity<T>
             @Override
             public BaseQuickAdapter getRecyclerAdapter() {
                 return getAdapter();
-            }
-
-            @Override
-            public EasyStatusView getStatusView() {
-                return mEasyStatusView;
             }
 
             @Override

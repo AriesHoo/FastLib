@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--普通有灰色背景的用这个-->
+    <color name="colorBackground">#f8f8f8</color>
     <color name="colorTextBlack">#333333</color>
     <color name="colorTextBlackLight">#636363</color>
     <color name="colorTextGray">#666666</color>

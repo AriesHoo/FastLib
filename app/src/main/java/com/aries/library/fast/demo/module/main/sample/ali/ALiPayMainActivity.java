@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.module.activity.FastMainActivity;
-import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.flyco.tablayout.CommonTabLayout;
 
 import java.util.ArrayList;
@@ -42,11 +41,11 @@ public class ALiPayMainActivity extends FastMainActivity {
         tabLayout.setTextSelectColor(getResources().getColor(R.color.colorMainAli));
     }
 
-    @Override
-    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
-        super.beforeControlNavigation(navigationHelper);
-        navigationHelper.setBottomView(mTabLayout);
-    }
+//    @Override
+//    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
+//        super.beforeControlNavigation(navigationHelper);
+//        navigationHelper.setBottomView(mTabLayout);
+//    }
 
     @Override
     public void beforeInitView() {

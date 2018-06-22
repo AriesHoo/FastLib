@@ -12,7 +12,6 @@ import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.SubjectsEntity;
-import com.aries.library.fast.demo.helper.BackToTopHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
@@ -63,12 +62,12 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public int getContentLayout() {
-        return R.layout.fast_layout_multi_status_refresh_recycler;
+        return R.layout.fast_layout_refresh_recycler;
     }
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        new BackToTopHelper().init(mRecyclerView, mEasyStatusView);
+//        new BackToTopHelper().init(mRecyclerView);
     }
 
     @Override
@@ -79,6 +78,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                 .subscribe(new FastObserver<BaseMovieEntity>(getIHttpRequestControl()) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
+                        mStatusManager.showSuccessLayout();
 //                        mRefreshLayout.finishRefresh();
 //                        mAdapter.loadMoreComplete();
 //                        if (entity == null || entity.subjects == null || entity.subjects.size() == 0) {
@@ -90,6 +90,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 //                            return;
 //                        }
                         FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity == null || entity.subjects == null ? new ArrayList<>() : entity.subjects, null);
+//                        mStatusManager.showSuccessLayout();
 //                        mEasyStatusView.content();
 //                        if (mRefreshLayout.isRefreshing())
 //                            mAdapter.setNewData(null);

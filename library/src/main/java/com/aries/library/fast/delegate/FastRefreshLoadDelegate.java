@@ -7,24 +7,25 @@ import android.view.View;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshLoadView;
-import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
+
 /**
- * Created: AriesHoo on 2017/7/26 11:15
- * Function: 快速实现下拉刷新及上拉加载更多代理类
- * Desc:
+ * Created: AriesHoo on 2018/6/22 14:45
+ * E-Mail: AriesHoo@126.com
+ * Function:快速实现下拉刷新及上拉加载更多代理类
+ * Description:
  */
 public class FastRefreshLoadDelegate<T> {
 
     public SmartRefreshLayout mRefreshLayout;
     public RecyclerView mRecyclerView;
     public BaseQuickAdapter<T, BaseViewHolder> mAdapter;
-    public EasyStatusView mStatusView;
+    public StatusLayoutManager mStatusManager;
     private IFastRefreshLoadView<T> mIFastRefreshLoadView;
     private Context mContext;
     private FastManager mManager;
@@ -35,35 +36,8 @@ public class FastRefreshLoadDelegate<T> {
         this.mManager = FastManager.getInstance();
         getRefreshLayout(rootView);
         getRecyclerView(rootView);
-        getStatusView(rootView);
         initRefreshHeader();
         initRecyclerView();
-        initStatusView();
-    }
-
-    /**
-     * 初始化多状态布局相关配置
-     */
-    private void initStatusView() {
-        if (mStatusView != null) {
-            IMultiStatusView iMultiStatusView = mIFastRefreshLoadView.getMultiStatusView() != null ? mIFastRefreshLoadView.getMultiStatusView() :
-                    mManager.getMultiStatusView().createMultiStatusView();
-            mStatusView.setLoadingView(iMultiStatusView.getLoadingView());
-            mStatusView.setEmptyView(iMultiStatusView.getEmptyView());
-            mStatusView.setErrorView(iMultiStatusView.getErrorView());
-            mStatusView.setNoNetworkView(iMultiStatusView.getNoNetView());
-            mStatusView.loading();
-            mStatusView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int currentStatus = mStatusView.getCurrentStatus();
-                    if (currentStatus != 2 && currentStatus != 1) {//非loading且非content状态
-                        mStatusView.loading();
-                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
-                    }
-                }
-            });
-        }
     }
 
     /**
@@ -79,6 +53,8 @@ public class FastRefreshLoadDelegate<T> {
                         .createRefreshHeader(mContext, mRefreshLayout));
         mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
         mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
+        mStatusManager = new StatusLayoutManager.Builder(mRefreshLayout).build();
+        mStatusManager.showLoadingLayout();
     }
 
     /**
@@ -107,6 +83,11 @@ public class FastRefreshLoadDelegate<T> {
                 });
             }
         }
+        if (mRefreshLayout != null) {
+            return;
+        }
+        mStatusManager = new StatusLayoutManager.Builder(mRefreshLayout).build();
+//        mStatusManager.showLoadingLayout();
     }
 
     public void setLoadMore(boolean enable) {
@@ -135,18 +116,6 @@ public class FastRefreshLoadDelegate<T> {
         mRecyclerView = rootView.findViewById(R.id.rv_contentFastLib);
         if (mRecyclerView == null) {
             mRecyclerView = FindViewUtil.getTargetView(rootView, RecyclerView.class);
-        }
-    }
-
-    /**
-     * 获取布局EasyStatusView
-     *
-     * @param rootView
-     */
-    private void getStatusView(View rootView) {
-        mStatusView = rootView.findViewById(R.id.esv_layoutFastLib);
-        if (mStatusView == null) {
-            mStatusView = FindViewUtil.getTargetView(rootView, EasyStatusView.class);
         }
     }
 }

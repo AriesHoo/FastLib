@@ -52,7 +52,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
-import com.marno.easystatelibrary.EasyStatusView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -215,33 +214,19 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         return false;
     }
 
-    @NonNull
+    /**
+     * {@link com.aries.library.fast.FastLifecycleCallbacks#onActivityStarted(Activity)}
+     *
+     * @param activity
+     * @param helper
+     */
     @Override
-    public NavigationViewHelper createNavigationBarControl(Activity activity, View bottomView) {
-        NavigationViewHelper helper = NavigationViewHelper.with(activity)
-                .setLogEnable(BuildConfig.DEBUG)
-                //是否控制虚拟导航栏true 后续属性有效--第一优先级
-                .setControlEnable(true)
-                //是否全透明导航栏优先级第二--同步设置setNavigationViewColor故注意调用顺序
-                //华为的半透明和全透明类似
-                .setTransEnable(isTrans())
-                //是否增加假的NavigationView用于沉浸至虚拟导航栏遮住
-                .setPlusNavigationViewEnable(
-                        activity.getClass() == SplashActivity.class ? false :
-                                RomUtil.isEMUI() && isTrans())
-                //设置是否控制底部输入框--默认属性
-                .setControlBottomEditTextEnable(true)
-                //设置最下边View用于增加paddingBottom--建议activity 根布局
-                .setBottomView(bottomView)
-                //影响setPlusNavigationViewEnable(true)单个条件
-                //或者(setPlusNavigationViewEnable(false)&&setControlEnable(true))--两个前置条件
-                //半透明默认设置102
-                .setNavigationViewColor(Color.argb(isTrans() ? 0 : 102, 0, 0, 0))
-                //setPlusNavigationViewEnable(true)才有效注意与setNavigationViewColor调用顺序
-//                .setNavigationViewDrawable(mContext.getResources().getDrawable(R.drawable.img_bg_login))
-                //setPlusNavigationViewEnable(true)有效
-                .setNavigationLayoutColor(Color.WHITE);
-        return helper;
+    public void setNavigationBar(Activity activity, NavigationViewHelper helper) {
+        //其它默认属性请参考FastLifecycleCallbacks
+        helper.setLogEnable(BuildConfig.DEBUG)
+                .setTransEnable(isTrans(activity))
+                .setPlusNavigationViewEnable(isTrans(activity))
+                .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0));
     }
 
     /**
@@ -249,8 +234,8 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
      *
      * @return
      */
-    protected boolean isTrans() {
-        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0);
+    protected boolean isTrans(Activity activity) {
+        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
     }
 
     /**
@@ -277,7 +262,8 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
      */
     @Override
     public void setContentViewBackground(View contentView, Class<?> cls) {
-        if (!cls.isAssignableFrom(Fragment.class) && !cls.isAssignableFrom(android.app.Fragment.class)) {//避免背景色重复
+        //避免背景色重复
+        if (!Fragment.class.isAssignableFrom(cls) && !android.app.Fragment.class.isAssignableFrom(cls)) {
             contentView.setBackgroundResource(R.color.colorBackground);
         }
     }
@@ -356,17 +342,16 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         if (httpRequestControl == null) return;
         SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
         BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
-        EasyStatusView statusView = httpRequestControl.getStatusView();
         int page = httpRequestControl.getCurrentPage();
         int size = httpRequestControl.getPageSize();
 
-        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + statusView + ";page:" + page + ";data:" + new Gson().toJson(list));
+        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page + ";data:" + new Gson().toJson(list));
         smartRefreshLayout.finishRefresh();
         adapter.loadMoreComplete();
         if (list == null || list.size() == 0) {
             if (page == 0) {//第一页没有
                 adapter.setNewData(new ArrayList());
-                statusView.empty();
+//                statusView.empty();
                 if (listener != null) {
                     listener.onEmpty();
                 }
@@ -378,7 +363,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
             }
             return;
         }
-        statusView.content();
+//        statusView.content();
         if (smartRefreshLayout.isRefreshing() || page == 0) {
             adapter.setNewData(new ArrayList());
         }
@@ -439,9 +424,6 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         } else {
             SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
             BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
-            EasyStatusView statusView = httpRequestControl.getStatusView();
-
-            statusView.error();
             smartRefreshLayout.finishRefresh(false);
             adapter.loadMoreComplete();
         }

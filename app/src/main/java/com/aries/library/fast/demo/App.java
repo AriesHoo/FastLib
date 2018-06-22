@@ -3,14 +3,13 @@ package com.aries.library.fast.demo;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
-import android.view.Gravity;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.manager.LoggerManager;
-import com.aries.library.fast.retrofit.FastMultiUrl;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
-import com.aries.library.fast.util.ToastUtil;
+
+import okhttp3.logging.HttpLoggingInterceptor;
 
 
 /**
@@ -31,43 +30,8 @@ public class App extends Application {
         //初始化Logger日志打印
         LoggerManager.init(TAG, BuildConfig.DEBUG);
         start = System.currentTimeMillis();
-        LoggerManager.d(TAG, "start:" + start);
+        LoggerManager.i(TAG, "start:" + start);
         mContext = this;
-        //初始化toast工具
-        ToastUtil.init(mContext, true, ToastUtil.newBuilder()
-                        .setRadius(SizeUtil.dp2px(6))
-//                .setPaddingLeft(SizeUtil.dp2px(24))
-//                .setPaddingRight(SizeUtil.dp2px(24))
-//                .setTextSize(SizeUtil.dp2px(16))
-                        .setGravity(Gravity.BOTTOM)
-        );
-        //初始化Retrofit配置
-        FastRetrofit.getInstance()
-                //配置全局网络请求BaseUrl
-                .setBaseUrl(BuildConfig.BASE_URL)
-                //信任所有证书--也可设置setCertificates(单/双向验证)
-                .trustAllSSL()
-                //设置统一请求头
-                //.setHeaders(header)
-                //设置请求全局log-可设置tag及Level类型
-                .setLogEnable(BuildConfig.DEBUG)
-                //.setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BASIC)
-                //设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
-                //默认20 s
-                .setTimeout(20);
-
-        //以下为配置多BaseUrl
-        //step1
-        FastMultiUrl.getInstance()
-                .putBaseUrl("taobao", "http://www.taobao.com")
-                .putBaseUrl("baidu", "http://www.baidu.com");
-        //step2
-        // 需要step1中baseUrl的方法需要在对应service里增加
-        // @Headers({FastMultiUrl.BASE_URL_NAME_HEADER + "taobao"})
-        //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"taobao"作为标记
-        // 参考com.aries.library.fast.demo.retrofit.service.ApiService
-        // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
-        LoggerManager.d(TAG, "total:" + (System.currentTimeMillis() - start));
         //最简单模式-必须进行初始化
         FastManager.init(this);
         //以下为更丰富自定义方法
@@ -94,6 +58,34 @@ public class App extends Application {
                 .setHttpRequestControl(impl)
                 //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
                 .setQuitAppControl(impl);
+
+        //初始化Retrofit配置
+        FastRetrofit.getInstance()
+                //配置全局网络请求BaseUrl
+                .setBaseUrl(BuildConfig.BASE_URL)
+                //信任所有证书--也可设置setCertificates(单/双向验证)
+                .trustAllSSL()
+                //设置统一请求头
+                //.setHeaders(header)
+                //设置请求全局log-可设置tag及Level类型
+                .setLogEnable(BuildConfig.DEBUG)
+                .setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BASIC)
+                //设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
+                //默认20 s
+                .setTimeout(20);
+
+        //以下为配置多BaseUrl
+        //step1
+//        FastMultiUrl.getInstance()
+//                .putBaseUrl("taobao", "http://www.taobao.com")
+//                .putBaseUrl("baidu", "http://www.baidu.com");
+        //step2
+        // 需要step1中baseUrl的方法需要在对应service里增加
+        // @Headers({FastMultiUrl.BASE_URL_NAME_HEADER + "taobao"})
+        //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"taobao"作为标记
+        // 参考com.aries.library.fast.demo.retrofit.service.ApiService
+        // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
+        LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
     }
 
     /**

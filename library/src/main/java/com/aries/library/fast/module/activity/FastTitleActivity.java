@@ -1,7 +1,5 @@
 package com.aries.library.fast.module.activity;
 
-import android.view.View;
-
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.IFastTitleView;
@@ -21,16 +19,6 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
 
-    }
-
-    @Override
-    public View.OnClickListener getLeftClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        };
     }
 
     @Override

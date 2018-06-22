@@ -1,7 +1,5 @@
 package com.aries.library.fast.i;
 
-import android.view.View;
-
 import com.aries.ui.view.title.TitleBarView;
 
 /**
@@ -17,6 +15,7 @@ import com.aries.ui.view.title.TitleBarView;
  * Description:
  * 1、2018-4-20 10:15:01 去掉isLightStatusBarEnable通过{@link TitleBarView#setStatusBarLightMode(boolean)}
  * 去掉getLeftIcon控制通过{@link TitleBarView#setLeftTextDrawable(int)}设置
+ * 2、2018-6-22 14:05:50 去掉返回键设置属性
  */
 public interface IFastTitleView {
     /**
@@ -33,10 +32,4 @@ public interface IFastTitleView {
      */
     void setTitleBar(TitleBarView titleBar);
 
-    /**
-     * 设置左边TextView点击事件
-     *
-     * @return
-     */
-    View.OnClickListener getLeftClickListener();
 }

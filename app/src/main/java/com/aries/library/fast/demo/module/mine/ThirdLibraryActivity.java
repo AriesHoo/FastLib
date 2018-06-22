@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.mine;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.aries.library.fast.demo.R;
@@ -17,10 +18,13 @@ import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * Created: AriesHoo on 2017/8/7 16:45
@@ -29,6 +33,8 @@ import java.util.List;
  */
 public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> {
 
+    @BindView(R.id.rv_contentFastLib) RecyclerView mRvContent;
+    @BindView(R.id.smartLayout_rootFastLib) SmartRefreshLayout mSmartLayout;
     private BaseQuickAdapter mAdapter;
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
 
@@ -77,6 +83,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
                         mAdapter.openLoadAnimation(animationIndex);
+                        mStatusManager.showSuccessLayout();
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.finishLoadmore();
                         mAdapter.loadMoreComplete();
@@ -89,6 +96,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                 } : new FastLoadingObserver<List<WidgetEntity>>(mContext, "加载中...") {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
+                        mStatusManager.showSuccessLayout();
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.finishLoadmore();
                         mAdapter.loadMoreComplete();
