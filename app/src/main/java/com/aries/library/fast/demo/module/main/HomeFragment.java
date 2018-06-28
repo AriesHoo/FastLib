@@ -18,6 +18,7 @@ import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
 import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
 import com.aries.library.fast.demo.module.main.sample.TestFragmentActivity;
+import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
 import com.aries.library.fast.demo.module.main.sample.TitleWithEditTextActivity;
 import com.aries.library.fast.demo.module.main.sample.ToastActivity;
 import com.aries.library.fast.demo.module.main.sample.ali.ALiPayMainActivity;
@@ -30,6 +31,7 @@ import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -86,6 +88,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                 .setDividerVisible(false)
 //                .setTitleMainText(getClass().getSimpleName())
 //                .setTitleMainTextColor(Color.MAGENTA)
+                .setStatusAlpha(StatusBarUtil.isSupportStatusBarFontChange()?0:102)
                 .setOnRightTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -146,7 +149,6 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
 
     @Override
     public void loadData(int page) {
-        mStatusManager.showSuccessLayout();
         if (listActivity.size() > 0) {
             int random = FastUtil.getRandom(100);
             int position = (random % (listArraysBanner.size() - 1)) + 1;
@@ -159,6 +161,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         listActivity.add(QQTitleActivity.class);
         listActivity.add(ALiPayMainActivity.class);
         listActivity.add(NewsMainActivity.class);
+        listActivity.add(TestStatusActivity.class);
         listActivity.add(TestFragmentActivity.class);
         listActivity.add(ToastActivity.class);
         listActivity.add(TitleWithEditTextActivity.class);
@@ -176,6 +179,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                 .subscribe(new FastObserver<List<WidgetEntity>>() {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
+                        mStatusManager.showSuccessLayout();
                         mAdapter.setNewData(entity);
                         mRefreshLayout.finishRefresh();
                     }

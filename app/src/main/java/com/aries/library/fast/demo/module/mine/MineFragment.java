@@ -1,5 +1,6 @@
 package com.aries.library.fast.demo.module.mine;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import com.allen.library.SuperTextView;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.helper.ImagePickerHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
 import com.aries.library.fast.manager.GlideManager;
@@ -18,6 +20,8 @@ import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.title.TitleBarView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,9 +33,10 @@ import butterknife.OnClick;
  */
 public class MineFragment extends FastTitleFragment {
 
-    @BindView(R.id.stv_infoMine)
-    SuperTextView stvInfo;
+    @BindView(R.id.stv_infoMine) SuperTextView stvInfo;
     private ImageView ivHead;
+
+    private ImagePickerHelper mImagePickerHelper;
 
     public static MineFragment newInstance() {
         Bundle args = new Bundle();
@@ -52,6 +57,7 @@ public class MineFragment extends FastTitleFragment {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        mImagePickerHelper = new ImagePickerHelper(mContext);
         ivHead = stvInfo.getLeftIconIV();
         GlideManager.loadCircleImg("https://avatars3.githubusercontent.com/u/19605922?v=4&s=460", ivHead);
 //        ivHead.getLayoutParams().height = (int) (SizeUtil.getScreenWidth() * 0.2);
@@ -90,6 +96,21 @@ public class MineFragment extends FastTitleFragment {
                     .setShapeStrokeColor(getResources().getColor(R.color.colorLineGray))
                     .useShape();
         }
+
+        ivHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mImagePickerHelper.selectPicture(1000, new ImagePickerHelper.OnImageSelect() {
+                    @Override
+                    public void onImageSelect(int requestCode, List<String> list) {
+                        if (list == null || list.size() == 0) {
+                            return;
+                        }
+                        GlideManager.loadCircleImg(list.get(0), ivHead);
+                    }
+                });
+            }
+        });
     }
 
     @OnClick({R.id.stv_setting, R.id.stv_libraryMine, R.id.stv_thirdLibMine
@@ -111,4 +132,11 @@ public class MineFragment extends FastTitleFragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mImagePickerHelper != null && requestCode == 1000) {
+            mImagePickerHelper.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

@@ -79,30 +79,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
                         mStatusManager.showSuccessLayout();
-//                        mRefreshLayout.finishRefresh();
-//                        mAdapter.loadMoreComplete();
-//                        if (entity == null || entity.subjects == null || entity.subjects.size() == 0) {
-//                            if (page == 0) {
-//                                mEasyStatusView.empty();
-//                            } else {
-//                                mAdapter.loadMoreEnd();
-//                            }
-//                            return;
-//                        }
                         FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity == null || entity.subjects == null ? new ArrayList<>() : entity.subjects, null);
-//                        mStatusManager.showSuccessLayout();
-//                        mEasyStatusView.content();
-//                        if (mRefreshLayout.isRefreshing())
-//                            mAdapter.setNewData(null);
-//                        mAdapter.openLoadAnimation();
-//                        mAdapter.addData(entity.subjects);
-//                        if (entity.count < DEFAULT_PAGE_SIZE) {
-//                            mAdapter.loadMoreEnd();
-//                        }
-//                        LoggerManager.d("ApiRepository", "title:" + entity.title + ";start:" + entity.start + ";count:" + entity.count + ";total:" + entity.total);
-//                        if (!entity.hasMore()) {
-//                            mAdapter.loadMoreEnd(page == 0);
-//                        }
                     }
 
 //                    @Override

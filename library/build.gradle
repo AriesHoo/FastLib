@@ -54,7 +54,7 @@ dependencies {
     //webView库
     compileOnly 'com.just.agentweb:agentweb:4.0.2'
     //下拉刷新库
-    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //图片加载
     compileOnly 'com.github.bumptech.glide:glide:4.5.0'
     //常用UI控件(TitleBarView、RadiusView等)

@@ -12,7 +12,6 @@ import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
-import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -79,26 +78,13 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
         //当然可以自定义
         RxJavaManager.getInstance().getDelayObservable(list, 1)
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(mRefreshLayout.isRefreshing() ? new FastObserver<List<WidgetEntity>>() {
+                .subscribe(new FastObserver<List<WidgetEntity>>() {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
                         mAdapter.openLoadAnimation(animationIndex);
                         mStatusManager.showSuccessLayout();
                         mRefreshLayout.finishRefresh();
-                        mRefreshLayout.finishLoadmore();
-                        mAdapter.loadMoreComplete();
-                        if (mRefreshLayout.isRefreshing()) {
-                            mAdapter.setNewData(entity);
-                        } else {
-                            mAdapter.addData(entity);
-                        }
-                    }
-                } : new FastLoadingObserver<List<WidgetEntity>>(mContext, "加载中...") {
-                    @Override
-                    public void _onNext(List<WidgetEntity> entity) {
-                        mStatusManager.showSuccessLayout();
-                        mRefreshLayout.finishRefresh();
-                        mRefreshLayout.finishLoadmore();
+                        mRefreshLayout.finishLoadMore();
                         mAdapter.loadMoreComplete();
                         if (mRefreshLayout.isRefreshing()) {
                             mAdapter.setNewData(entity);

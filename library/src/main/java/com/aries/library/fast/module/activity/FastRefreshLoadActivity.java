@@ -63,7 +63,7 @@ public abstract class FastRefreshLoadActivity<T>
 
     @Override
     public IHttpRequestControl getIHttpRequestControl() {
-        return new IHttpRequestControl() {
+        IHttpRequestControl requestControl = new IHttpRequestControl() {
             @Override
             public SmartRefreshLayout getRefreshLayout() {
                 return mRefreshLayout;
@@ -72,6 +72,11 @@ public abstract class FastRefreshLoadActivity<T>
             @Override
             public BaseQuickAdapter getRecyclerAdapter() {
                 return getAdapter();
+            }
+
+            @Override
+            public StatusLayoutManager getStatusLayoutManager() {
+                return mStatusManager;
             }
 
             @Override
@@ -84,6 +89,7 @@ public abstract class FastRefreshLoadActivity<T>
                 return DEFAULT_PAGE_SIZE;
             }
         };
+        return requestControl;
     }
 
     @Override

@@ -2,41 +2,22 @@ package com.aries.library.fast;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.IHttpRequestControl;
-import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
-import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.i.OnHttpRequestListener;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
-import com.aries.library.fast.util.FastStackUtil;
-import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
-import com.aries.library.fast.widget.FastLoadMoreView;
-import com.aries.library.fast.widget.FastMultiStatusView;
-import com.aries.ui.helper.navigation.NavigationViewHelper;
-import com.aries.ui.view.title.TitleBarView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 
 import java.util.List;
 
@@ -47,6 +28,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * E-Mail: AriesHoo@126.com
  * Function:各种配置属性
  * Description:
+ * 1、删除默认回调
  */
 public class FastManager {
 
@@ -72,7 +54,7 @@ public class FastManager {
     /**
      * SmartRefreshLayout默认刷新头
      */
-    private DefaultRefreshHeaderCreater mDefaultRefreshHeader;
+    private DefaultRefreshHeaderCreator mDefaultRefreshHeader;
     /**
      * 多状态布局--加载中/空数据/错误/无网络
      */
@@ -85,10 +67,6 @@ public class FastManager {
      * 配置TitleBarView相关属性
      */
     private TitleBarViewControl mTitleBarViewControl;
-    /**
-     * 配置虚拟导航栏(NavigationViewHelper)
-     */
-    private NavigationBarControl mNavigationBarControl;
     /**
      * 配置Activity滑动返回相关属性
      */
@@ -113,86 +91,10 @@ public class FastManager {
      * @param application
      */
     public static void init(Application application) {
-        if (mApplication == null && application != null) {//保证只执行一次初始化属性
+        //保证只执行一次初始化属性
+        if (mApplication == null && application != null) {
             mApplication = application;
             sInstance = new FastManager();
-            //配置默认滑动返回
-            if (FastUtil.isClassExist("cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper")) {//滑动返回
-                BGASwipeBackHelper.init(mApplication, null);//初始化滑动返回关闭Activity功能
-                sInstance.setSwipeBackControl(new SwipeBackControl() {
-                    @Override
-                    public void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
-                    }
-                });
-            }
-            //配置默认智能下拉刷新
-            if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
-                sInstance.setDefaultRefreshHeader(new DefaultRefreshHeaderCreater() {
-                    @NonNull
-                    @Override
-                    public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                        return new ClassicsHeader(mApplication).setSpinnerStyle(SpinnerStyle.Translate);
-                    }
-                });
-            }
-            //配置BaseQuickAdapter
-            if (FastUtil.isClassExist("com.chad.library.adapter.base.BaseQuickAdapter")) {
-                sInstance.setLoadMoreFoot(new LoadMoreFoot() {
-                    @Override
-                    public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
-                        return new FastLoadMoreView(mApplication).getBuilder().build();
-                    }
-                });
-            }
-            //配置多状态属性
-            if (FastUtil.isClassExist("com.marno.easystatelibrary.EasyStatusView")) {
-                sInstance.setMultiStatusView(new MultiStatusView() {
-                    @NonNull
-                    @Override
-                    public IMultiStatusView createMultiStatusView() {
-                        return new FastMultiStatusView(mApplication).getBuilder().build();
-                    }
-                });
-            }
-            //配置TitleBarView
-            sInstance.setTitleBarViewControl(new TitleBarViewControl() {
-                @Override
-                public boolean createTitleBarViewControl(TitleBarView titleBar, Class<?> cls) {
-                    return false;
-                }
-            });
-            //配置虚拟导航栏
-            sInstance.setNavigationBarControl(new NavigationBarControl() {
-                @NonNull
-                @Override
-                public void setNavigationBar(Activity activity, NavigationViewHelper helper) {
-                }
-            });
-            //配置Activity/Fragment相关
-            sInstance.setActivityFragmentControl(new ActivityFragmentControl() {
-                @Override
-                public void setContentViewBackground(View contentView, Class<?> cls) {
-                    //避免背景色重复
-                    if (!Fragment.class.isAssignableFrom(cls) && !android.app.Fragment.class.isAssignableFrom(cls)) {
-                        contentView.setBackgroundResource(R.color.colorBackground);
-                    }
-                }
-
-                @Override
-                public void setRequestedOrientation(Activity activity) {
-
-                }
-
-                @Override
-                public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
-                    return null;
-                }
-
-                @Override
-                public FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
-                    return null;
-                }
-            });
             sInstance.setHttpRequestControl(new HttpRequestControl() {
                 @Override
                 public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener) {
@@ -204,18 +106,8 @@ public class FastManager {
                     return true;
                 }
             });
-            //配置退出程序相关
-            sInstance.setQuitAppControl(new QuitAppControl() {
-                @Override
-                public long quipApp(boolean isFirst, Activity activity) {
-                    if (isFirst) {
-                        ToastUtil.show(R.string.fast_quit_app);
-                    } else {
-                        FastStackUtil.getInstance().exit();
-                    }
-                    return 2000;
-                }
-            });
+            //设置滑动返回监听
+            BGASwipeBackHelper.init(mApplication, null);
             //注册activity生命周期
             mApplication.registerActivityLifecycleCallbacks(new FastLifecycleCallbacks());
             //初始化Toast工具
@@ -236,13 +128,11 @@ public class FastManager {
      * @return
      */
     public FastManager setLoadMoreFoot(LoadMoreFoot mLoadMoreFoot) {
-        if (mLoadMoreFoot != null) {
-            this.mLoadMoreFoot = mLoadMoreFoot;
-        }
+        this.mLoadMoreFoot = mLoadMoreFoot;
         return this;
     }
 
-    public DefaultRefreshHeaderCreater getDefaultRefreshHeader() {
+    public DefaultRefreshHeaderCreator getDefaultRefreshHeader() {
         return mDefaultRefreshHeader;
     }
 
@@ -253,10 +143,8 @@ public class FastManager {
      * @param control
      * @return
      */
-    public FastManager setDefaultRefreshHeader(DefaultRefreshHeaderCreater control) {
-        if (control != null) {
-            this.mDefaultRefreshHeader = control;
-        }
+    public FastManager setDefaultRefreshHeader(DefaultRefreshHeaderCreator control) {
+        this.mDefaultRefreshHeader = control;
         return sInstance;
     }
 
@@ -266,15 +154,13 @@ public class FastManager {
 
     /**
      * 设置多状态布局--加载中/空数据/错误/无网络
-     * 最终调用{@link FastRefreshLoadDelegate#initStatusView()}
+     * 最终调用{@link FastRefreshLoadDelegate#initRefreshHeader()}
      *
      * @param control
      * @return
      */
     public FastManager setMultiStatusView(MultiStatusView control) {
-        if (control != null) {
-            this.mMultiStatusView = control;
-        }
+        this.mMultiStatusView = control;
         return this;
     }
 
@@ -290,9 +176,7 @@ public class FastManager {
      * @return
      */
     public FastManager setLoadingDialog(LoadingDialog control) {
-        if (control != null) {
-            this.mLoadingDialog = control;
-        }
+        this.mLoadingDialog = control;
         return this;
     }
 
@@ -301,27 +185,7 @@ public class FastManager {
     }
 
     public FastManager setTitleBarViewControl(TitleBarViewControl control) {
-        if (control != null) {
-            mTitleBarViewControl = control;
-        }
-        return this;
-    }
-
-    public NavigationBarControl getNavigationBarControl() {
-        return mNavigationBarControl;
-    }
-
-    /**
-     * 配置虚拟导航栏(NavigationViewHelper)
-     * {@link NavigationViewHelper}
-     *
-     * @param control
-     * @return
-     */
-    public FastManager setNavigationBarControl(NavigationBarControl control) {
-        if (control != null) {
-            mNavigationBarControl = control;
-        }
+        mTitleBarViewControl = control;
         return this;
     }
 
@@ -336,9 +200,7 @@ public class FastManager {
      * @return
      */
     public FastManager setSwipeBackControl(SwipeBackControl control) {
-        if (control != null) {
-            mSwipeBackControl = control;
-        }
+        mSwipeBackControl = control;
         return this;
     }
 
@@ -353,9 +215,7 @@ public class FastManager {
      * @return
      */
     public FastManager setActivityFragmentControl(ActivityFragmentControl control) {
-        if (control != null) {
-            mActivityFragmentControl = control;
-        }
+        mActivityFragmentControl = control;
         return this;
     }
 
@@ -370,9 +230,7 @@ public class FastManager {
      * @return
      */
     public FastManager setHttpRequestControl(HttpRequestControl control) {
-        if (control != null) {
-            mHttpRequestControl = control;
-        }
+        mHttpRequestControl = control;
         return this;
     }
 
@@ -388,9 +246,7 @@ public class FastManager {
      * @return
      */
     public FastManager setQuitAppControl(QuitAppControl control) {
-        if (control != null) {
-            mQuitAppControl = control;
-        }
+        mQuitAppControl = control;
         return this;
     }
 }

@@ -7,10 +7,15 @@ import android.view.View;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.i.IMultiStatusView;
+import com.aries.library.fast.widget.FastLoadMoreView;
+import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
@@ -19,6 +24,7 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
  * E-Mail: AriesHoo@126.com
  * Function:快速实现下拉刷新及上拉加载更多代理类
  * Description:
+ * 1、使用StatusLayoutManager重构多状态布局功能
  */
 public class FastRefreshLoadDelegate<T> {
 
@@ -29,8 +35,10 @@ public class FastRefreshLoadDelegate<T> {
     private IFastRefreshLoadView<T> mIFastRefreshLoadView;
     private Context mContext;
     private FastManager mManager;
+    public View mRootView;
 
     public FastRefreshLoadDelegate(View rootView, IFastRefreshLoadView<T> iFastRefreshLoadView) {
+        this.mRootView = rootView;
         this.mIFastRefreshLoadView = iFastRefreshLoadView;
         this.mContext = rootView.getContext().getApplicationContext();
         this.mManager = FastManager.getInstance();
@@ -49,12 +57,12 @@ public class FastRefreshLoadDelegate<T> {
         }
         mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader() != null
                 ? mIFastRefreshLoadView.getRefreshHeader() :
-                mManager.getDefaultRefreshHeader()
-                        .createRefreshHeader(mContext, mRefreshLayout));
+                mManager.getDefaultRefreshHeader() != null ?
+                        mManager.getDefaultRefreshHeader().createRefreshHeader(mContext, mRefreshLayout) :
+                        new ClassicsHeader(mContext).setSpinnerStyle(SpinnerStyle.Translate));
         mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
         mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
-        mStatusManager = new StatusLayoutManager.Builder(mRefreshLayout).build();
-        mStatusManager.showLoadingLayout();
+        setStatusManager(mRefreshLayout);
     }
 
     /**
@@ -70,9 +78,12 @@ public class FastRefreshLoadDelegate<T> {
         mRecyclerView.setAdapter(mAdapter);
         if (mAdapter != null) {
             setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
+            //先判断是否Activity/Fragment设置过;再判断是否有全局设置;最后设置默认
             mAdapter.setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
                     ? mIFastRefreshLoadView.getLoadMoreView() :
-                    mManager.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter));
+                    mManager.getLoadMoreFoot() != null ?
+                            mManager.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter) :
+                            new FastLoadMoreView(mContext).getBuilder().build());
             if (mIFastRefreshLoadView.isItemClickEnable()) {
                 mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
@@ -86,12 +97,25 @@ public class FastRefreshLoadDelegate<T> {
         if (mRefreshLayout != null) {
             return;
         }
-        mStatusManager = new StatusLayoutManager.Builder(mRefreshLayout).build();
-//        mStatusManager.showLoadingLayout();
+        setStatusManager(mRecyclerView);
     }
 
     public void setLoadMore(boolean enable) {
         mAdapter.setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null, mRecyclerView);
+    }
+
+    private void setStatusManager(View contentView) {
+        if (contentView == null) return;
+        IMultiStatusView iMultiStatusView = mIFastRefreshLoadView != null ? mIFastRefreshLoadView.getMultiStatusView() : null;
+        iMultiStatusView = iMultiStatusView != null ? iMultiStatusView :
+                mManager.getMultiStatusView() != null ? mManager.getMultiStatusView().createMultiStatusView() :
+                        new FastMultiStatusView(mContext).getBuilder().build();
+        mStatusManager = new StatusLayoutManager.Builder(contentView)
+                .setLoadingLayout(iMultiStatusView.getLoadingView())
+                .setEmptyLayout(iMultiStatusView.getEmptyView())
+                .setErrorLayout(iMultiStatusView.getErrorView())
+                .build();
+        mStatusManager.showLoadingLayout();
     }
 
     /**

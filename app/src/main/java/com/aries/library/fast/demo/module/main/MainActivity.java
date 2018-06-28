@@ -1,6 +1,8 @@
 package com.aries.library.fast.demo.module.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
@@ -64,4 +66,15 @@ public class MainActivity extends FastMainActivity {
 //                .setBackgroundColor(Color.MAGENTA));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> list = getSupportFragmentManager().getFragments();
+        if (list == null && list.size() == 0) {
+            return;
+        }
+        for (Fragment f : list) {
+            f.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

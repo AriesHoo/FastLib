@@ -46,6 +46,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">80dp</item>
+        <item name="android:elevation" tools:targetApi="lollipop">@dimen/dp_elevation</item>
         <item name="android:layout_marginLeft">@dimen/dp_margin_item</item>
         <item name="android:layout_marginTop">@dimen/dp_margin_item</item>
         <item name="android:layout_marginRight">@dimen/dp_margin_item</item>
@@ -62,7 +63,7 @@
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:elevation" tools:targetApi="lollipop">2dp</item>
+        <item name="android:elevation" tools:targetApi="lollipop">@dimen/dp_elevation</item>
         <item name="android:gravity">center</item>
         <item name="android:minHeight">45dp</item>
         <item name="android:textSize">14dp</item>

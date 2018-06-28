@@ -8,11 +8,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IBasisFragment;
+import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import org.simple.eventbus.EventBus;
@@ -26,6 +29,7 @@ import butterknife.Unbinder;
  * Function:所有Fragment的基类实现懒加载
  * Description:
  * 1、新增控制是否为FragmentActivity的唯一Fragment 方法以优化懒加载方式
+ * 2、增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
  */
 public abstract class BasisFragment extends RxFragment implements IBasisFragment {
 
@@ -58,6 +62,15 @@ public abstract class BasisFragment extends RxFragment implements IBasisFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         beforeSetContentView();
         mContentView = inflater.inflate(getContentLayout(), container, false);
+        //解决StatusLayoutManager与SmartRefreshLayout冲突
+        if (this instanceof IFastRefreshLoadView && mContentView.getClass() == SmartRefreshLayout.class) {
+            FrameLayout frameLayout = new FrameLayout(container.getContext());
+            if (mContentView.getLayoutParams() != null) {
+                frameLayout.setLayoutParams(mContentView.getLayoutParams());
+            }
+            frameLayout.addView(mContentView);
+            mContentView = frameLayout;
+        }
         mUnBinder = ButterKnife.bind(this, mContentView);
         mIsViewLoaded = true;
         if (isEventBusEnable())
@@ -84,7 +97,8 @@ public abstract class BasisFragment extends RxFragment implements IBasisFragment
 
     @Override
     public void beforeInitView() {
-        FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
+        if (FastManager.getInstance().getActivityFragmentControl() != null)
+            FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
     }
 
     @Override

@@ -11,6 +11,7 @@
         <item>QQ默认主题TitleBar背景渐变效果</item>
         <item>支付宝主界面效果</item>
         <item>腾讯新闻主界面效果</item>
+        <item>@string/test_status</item>
         <item>Activity直接嵌套Fragment效果</item>
         <item>ToastUtil工具类示例</item>
         <item>Title+EditText示例</item>

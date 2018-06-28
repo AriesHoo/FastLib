@@ -8,6 +8,7 @@ import com.aries.library.fast.FastManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -39,25 +40,24 @@ public class App extends Application {
         AppImpl impl = new AppImpl(mContext);
         FastManager.getInstance()
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
-                .setLoadMoreFoot(impl)
-                //设置RecyclerView加载过程多布局属性
-                .setMultiStatusView(impl)
+//                .setLoadMoreFoot(impl)
+                //设置RecyclerView加载过程多布局属性-默认设置了FastMultiStatusView
+//                .setMultiStatusView(impl)
                 //设置全局网络请求等待Loading提示框如登录等待loading--观察者必须为FastLoadingObserver及其子类
                 .setLoadingDialog(impl)
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
-                .setDefaultRefreshHeader(impl)
+//                .setDefaultRefreshHeader(impl)
                 //设置全局TitleBarView相关配置
                 .setTitleBarViewControl(impl)
-                //设置虚拟导航栏控制
-                .setNavigationBarControl(impl)
                 //设置Activity滑动返回控制-默认开启滑动返回功能不需要设置透明主题
                 .setSwipeBackControl(impl)
-                //设置Activity/Fragment相关配置(横竖屏+背景+生命周期)
+                //设置Activity/Fragment相关配置(横竖屏+背景+虚拟导航栏+状态栏+生命周期)
                 .setActivityFragmentControl(impl)
                 //设置http请求结果全局控制
                 .setHttpRequestControl(impl)
-                //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
-                .setQuitAppControl(impl);
+        //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
+//                .setQuitAppControl(impl)
+        ;
 
         //初始化Retrofit配置
         FastRetrofit.getInstance()
@@ -85,6 +85,9 @@ public class App extends Application {
         //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"taobao"作为标记
         // 参考com.aries.library.fast.demo.retrofit.service.ApiService
         // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
+
+        //初始化友盟统计
+        MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(mContext, "5b349499b27b0a085f000052", "FastLib"));
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
     }
 

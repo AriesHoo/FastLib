@@ -19,9 +19,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
- * Created: AriesHoo on 2017/7/24 17:12
- * Function: 下拉刷新及上拉加载更多
- * Desc:
+ * Created: AriesHoo on 2018/6/25 9:48
+ * E-Mail: AriesHoo@126.com
+ * Function:下拉刷新及上拉加载更多+多状态切换
+ * Description:
  */
 public abstract class FastRefreshLoadFragment<T>
         extends BasisFragment implements IFastRefreshLoadView<T> {
@@ -70,6 +71,11 @@ public abstract class FastRefreshLoadFragment<T>
             @Override
             public BaseQuickAdapter getRecyclerAdapter() {
                 return mQuickAdapter;
+            }
+
+            @Override
+            public StatusLayoutManager getStatusLayoutManager() {
+                return mStatusManager;
             }
 
             @Override

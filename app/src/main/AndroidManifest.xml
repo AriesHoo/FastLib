@@ -71,6 +71,10 @@
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:label="腾讯新闻主界面效果"/>
         <activity
+            android:name=".module.main.sample.TestStatusActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="@string/test_status"/>
+        <activity
             android:name=".module.mine.SettingActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:label="@string/setting"/>

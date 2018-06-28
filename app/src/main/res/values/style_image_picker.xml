@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--默认样式 注意* 样式只可修改，不能删除任何一项 否则报错-->
+    <style name="PicturePickerStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!--标题栏背景色-->
+        <item name="colorPrimary">@color/colorTitleBackground</item>
+        <!--状态栏背景色-->
+        <item name="colorPrimaryDark">@color/colorTitleBackground</item>
+        <!--是否改变图片列表界面状态栏字体颜色为黑色-->
+        <item name="picture.statusFontColor">true</item>
+        <!--返回键图标-->
+        <item name="picture.leftBack.icon">@drawable/fast_ic_back</item>
+        <!--标题下拉箭头-->
+        <item name="picture.arrow_down.icon">@drawable/ic_arrow_bottom</item>
+        <!--标题上拉箭头-->
+        <item name="picture.arrow_up.icon">@drawable/ic_arrow_up</item>
+        <!--标题文字颜色-->
+        <item name="picture.title.textColor">@color/colorTitleText</item>
+        <!--标题栏右边文字-->
+        <item name="picture.right.textColor">@color/colorTextGray</item>
+        <!--图片列表勾选样式-->
+        <item name="picture.checked.style">@drawable/selector_picture_select</item>
+        <!--开启图片列表勾选数字模式-->
+        <item name="picture.style.checkNumMode">false</item>
+        <!--选择图片样式0/9-->
+        <item name="picture.style.numComplete">false</item>
+        <!--图片列表底部背景色-->
+        <item name="picture.bottom.bg">@color/colorBackground</item>
+        <!--图片列表预览文字颜色-->
+        <item name="picture.preview.textColor">@color/colorTextGray</item>
+        <!--图片列表已完成文字颜色-->
+        <item name="picture.complete.textColor">@color/colorTextGray</item>
+        <!--图片已选数量圆点背景色-->
+        <item name="picture.num.style">@drawable/shape_picture_choose</item>
+        <!--预览界面标题文字颜色-->
+        <item name="picture.ac_preview.title.textColor">@color/colorTitleText</item>
+        <!--预览界面已完成文字颜色-->
+        <item name="picture.ac_preview.complete.textColor">@color/colorTextGray</item>
+        <!--预览界面标题栏背景色-->
+        <item name="picture.ac_preview.title.bg">@color/colorTitleBackground</item>
+        <!--预览界面底部背景色-->
+        <item name="picture.ac_preview.bottom.bg">@color/colorTitleBackground</item>
+        <!--预览界面返回箭头-->
+        <item name="picture.preview.leftBack.icon">@drawable/fast_ic_back</item>
+        <!--是否改变预览界面状态栏字体颜色为黑色-->
+        <!--<item name="picture.preview.statusFontColor">true</item>-->
+        <!--裁剪页面标题背景色-->
+        <item name="picture.crop.toolbar.bg">@color/colorTitleBackground</item>
+        <!--裁剪页面状态栏颜色-->
+        <item name="picture.crop.status.color">@color/colorTitleBackground</item>
+        <!--裁剪页面标题文字颜色-->
+        <item name="picture.crop.title.color">@color/colorTitleText</item>
+        <!--相册文件夹列表选中图标-->
+        <item name="picture.folder_checked_dot">@drawable/shape_picture_choose</item>
+    </style>
+
+    <style name="PicturePickerStyle.White">
+        <item name="colorPrimaryDark">#66000000</item>
+    </style>
+</resources>

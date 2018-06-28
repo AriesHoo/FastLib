@@ -11,10 +11,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
+import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -24,9 +26,11 @@ import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebCreator;
 
 /**
- * Created: AriesHoo on 2017/8/5 19:42
- * Function: App内快速实现WebView功能
- * Desc:
+ * Created: AriesHoo on 2018/6/28 14:59
+ * E-Mail: AriesHoo@126.com
+ * Function:App内快速实现WebView功能
+ * Description:
+ * 1、调整WebView自适应屏幕代码属性{@link #initAgentWeb()}
  */
 public abstract class FastWebActivity extends FastTitleActivity {
 
@@ -37,6 +41,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected AgentWeb mAgentWeb;
     protected AgentWeb.CommonBuilder mAgentBuilder;
     protected UIActionSheetDialog mActionSheetView;
+    private TitleBarViewControl mTitleBarViewControl;
 
     protected static void start(Activity mActivity, Class<? extends FastWebActivity> activity, String url) {
         Bundle bundle = new Bundle();
@@ -76,6 +81,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetContentView() {
         super.beforeSetContentView();
+        mTitleBarViewControl = FastManager.getInstance().getTitleBarViewControl();
     }
 
     @Override
@@ -91,8 +97,9 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeSetTitleBar(TitleBarView titleBar) {
         super.beforeSetTitleBar(titleBar);
-        FastManager.getInstance().getTitleBarViewControl()
-                .createTitleBarViewControl(titleBar, this.getClass());
+        if (mTitleBarViewControl != null) {
+            mTitleBarViewControl.createTitleBarViewControl(titleBar, this.getClass());
+        }
         titleBar.setOnLeftTextClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +149,10 @@ public abstract class FastWebActivity extends FastTitleActivity {
                 .createAgentWeb()//
                 .ready()
                 .go(url);
+        WebSettings webSettings = mAgentWeb.getAgentWebSettings().getWebSettings();
+        //设置webView自适应屏幕
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
         setAgentWeb(mAgentWeb);
     }
 

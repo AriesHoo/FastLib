@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
@@ -26,7 +28,6 @@ import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
-import com.aries.library.fast.i.NavigationBarControl;
 import com.aries.library.fast.i.OnHttpRequestListener;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
@@ -42,6 +43,8 @@ import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
+import com.aries.ui.helper.status.StatusViewHelper;
+import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -52,10 +55,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import com.luck.picture.lib.PictureBaseActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.net.ConnectException;
 import java.net.SocketException;
@@ -66,6 +71,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
+import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 import retrofit2.HttpException;
 
 /**
@@ -73,9 +79,10 @@ import retrofit2.HttpException;
  * E-Mail: AriesHoo@126.com
  * Function: 应用全局配置管理实现
  * Description:
+ * 1、新增友盟统计功能对接
  */
-public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, MultiStatusView, LoadingDialog,
-        TitleBarViewControl, NavigationBarControl, SwipeBackControl, ActivityFragmentControl, HttpRequestControl, QuitAppControl {
+public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, MultiStatusView, LoadingDialog,
+        TitleBarViewControl, SwipeBackControl, ActivityFragmentControl, HttpRequestControl, QuitAppControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -94,7 +101,8 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
     @NonNull
     @Override
     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-        layout.setEnableHeaderTranslationContent(false);
+        layout.setEnableHeaderTranslationContent(false)
+                .setEnableOverScrollDrag(false);
         return RefreshHeaderHelper.getInstance().getRefreshHeader(mContext);
     }
 
@@ -215,30 +223,6 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
     }
 
     /**
-     * {@link com.aries.library.fast.FastLifecycleCallbacks#onActivityStarted(Activity)}
-     *
-     * @param activity
-     * @param helper
-     */
-    @Override
-    public void setNavigationBar(Activity activity, NavigationViewHelper helper) {
-        //其它默认属性请参考FastLifecycleCallbacks
-        helper.setLogEnable(BuildConfig.DEBUG)
-                .setTransEnable(isTrans(activity))
-                .setPlusNavigationViewEnable(isTrans(activity))
-                .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0));
-    }
-
-    /**
-     * 是否全透明-华为4.1以上可根据导航栏位置颜色设置导航图标颜色
-     *
-     * @return
-     */
-    protected boolean isTrans(Activity activity) {
-        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
-    }
-
-    /**
      * 设置Activity 全局滑动属性--包括三方库
      *
      * @param activity
@@ -250,8 +234,23 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
-                .setShadowResId(R.drawable.bga_sbl_shadow)
+//                .setShadowResId(R.color.colorMainNews)
                 .setIsNavigationBarOverlap(true);//底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
+    }
+
+    @Override
+    public void onSwipeBackLayoutSlide(Activity activity, float slideOffset) {
+
+    }
+
+    @Override
+    public void onSwipeBackLayoutCancel(Activity activity) {
+
+    }
+
+    @Override
+    public void onSwipeBackLayoutExecuted(Activity activity) {
+
     }
 
     /**
@@ -263,7 +262,9 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
     @Override
     public void setContentViewBackground(View contentView, Class<?> cls) {
         //避免背景色重复
-        if (!Fragment.class.isAssignableFrom(cls) && !android.app.Fragment.class.isAssignableFrom(cls)) {
+        if (!Fragment.class.isAssignableFrom(cls) &&
+                !android.app.Fragment.class.isAssignableFrom(cls)
+                && contentView.getBackground() == null) {
             contentView.setBackgroundResource(R.color.colorBackground);
         }
     }
@@ -288,6 +289,42 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
     }
 
     /**
+     * 设置非FastLib且未实现Activity 状态栏功能的三方Activity 状态栏沉浸
+     *
+     * @param activity
+     * @param helper
+     * @return
+     */
+    @Override
+    public boolean setStatusBar(Activity activity, StatusViewHelper helper, View topView) {
+        boolean isSupportStatusBarFont = StatusBarUtil.isSupportStatusBarFontChange();
+        StatusBarUtil.setStatusBarLightMode(activity);
+        helper.setTransEnable(true)
+                .setPlusStatusViewEnable(!isSupportStatusBarFont);
+        if (topView != null) {
+            helper.setStatusLayoutDrawable(DrawableUtil.getNewDrawable(topView.getBackground()));
+        }
+        setStatusBarActivity(activity, helper);
+        return true;
+    }
+
+    /**
+     * {@link com.aries.library.fast.FastLifecycleCallbacks#onActivityCreated(Activity, Bundle)}
+     *
+     * @param activity
+     * @param helper
+     */
+    @Override
+    public boolean setNavigationBar(Activity activity, NavigationViewHelper helper, View bottomView) {
+        //其它默认属性请参考FastLifecycleCallbacks
+        helper.setLogEnable(BuildConfig.DEBUG)
+                .setTransEnable(isTrans(activity))
+                .setPlusNavigationViewEnable(isTrans(activity))
+                .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0));
+        return true;
+    }
+
+    /**
      * Activity 生命周期监听--可用于三方统计页面数据
      *
      * @return
@@ -302,17 +339,34 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
 
             @Override
             public void onActivityStarted(Activity activity) {
-
+//                setStatusBar(activity);
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
-
+                if (activity instanceof FragmentActivity) {
+                    FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
+                    List<Fragment> list = manager.getFragments();
+                    if (list == null || list.size() == 0)//有Fragment的FragmentActivity不需调用以下方法避免统计不准
+                        MobclickAgent.onPageStart(activity.getClass().getSimpleName());
+                } else {
+                    MobclickAgent.onPageStart(activity.getClass().getSimpleName());
+                }
+                MobclickAgent.onResume(activity); //统计时长
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-
+                //普通Activity直接onPageEnd
+                if (activity instanceof FragmentActivity) {
+                    FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
+                    List<Fragment> list = manager.getFragments();
+                    if (list == null || list.size() == 0)//有Fragment的FragmentActivity不需调用以下方法避免统计不准
+                        MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
+                } else {
+                    MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
+                }
+                MobclickAgent.onPause(activity); //统计时长
             }
 
             @Override
@@ -334,14 +388,29 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
 
     @Override
     public FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
-        return null;
+        return new FragmentManager.FragmentLifecycleCallbacks() {
+            @Override
+            public void onFragmentResumed(FragmentManager fm, Fragment f) {
+                super.onFragmentResumed(fm, f);
+                LoggerManager.i(TAG, "onFragmentResumed:统计Fragment:"+f.getClass().getSimpleName());
+                MobclickAgent.onPageStart(f.getClass().getSimpleName());
+            }
+
+            @Override
+            public void onFragmentPaused(FragmentManager fm, Fragment f) {
+                super.onFragmentPaused(fm, f);
+                LoggerManager.i(TAG, "onFragmentPaused:统计Fragment:"+f.getClass().getSimpleName());
+                MobclickAgent.onPageEnd(f.getClass().getSimpleName());
+            }
+        };
     }
 
     @Override
-    public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener) {
+    public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<? extends Object> list, OnHttpRequestListener listener) {
         if (httpRequestControl == null) return;
         SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
         BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
+        StatusLayoutManager statusLayoutManager = httpRequestControl.getStatusLayoutManager();
         int page = httpRequestControl.getCurrentPage();
         int size = httpRequestControl.getPageSize();
 
@@ -351,7 +420,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
         if (list == null || list.size() == 0) {
             if (page == 0) {//第一页没有
                 adapter.setNewData(new ArrayList());
-//                statusView.empty();
+                statusLayoutManager.showEmptyLayout();
                 if (listener != null) {
                     listener.onEmpty();
                 }
@@ -363,7 +432,7 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
             }
             return;
         }
-//        statusView.content();
+        statusLayoutManager.showSuccessLayout();
         if (smartRefreshLayout.isRefreshing() || page == 0) {
             adapter.setNewData(new ArrayList());
         }
@@ -437,16 +506,47 @@ public class AppImpl implements DefaultRefreshHeaderCreater, LoadMoreFoot, Multi
      */
     @Override
     public long quipApp(boolean isFirst, Activity activity) {
+        //默认配置
         if (isFirst) {
             ToastUtil.show(com.aries.library.fast.R.string.fast_quit_app);
         } else {
             FastStackUtil.getInstance().exit();
         }
 //        if (isFirst) {
-//            ToastUtil.show(com.aries.library.fast.R.string.fast_back_home);
+//            ToastUtil.show(R.string.fast_back_home);
 //        } else {
 //            activity.moveTaskToBack(true);
 //        }
         return 2000;
+    }
+
+    /**
+     * 根据程序使用的三方库进行改造:本示例使用的三方库实现了自己的沉浸式状态栏及导航栏但和Demo的滑动返回不搭配故做相应调整
+     *
+     * @param activity
+     * @param helper
+     */
+    private void setStatusBarActivity(Activity activity, StatusViewHelper helper) {
+        if (PictureBaseActivity.class.isAssignableFrom(activity.getClass())) {
+            helper.setTopView(null)
+                    .setPlusStatusViewEnable(false);
+            View contentView = FastUtil.getRootView(activity);
+            ImageView imageView = contentView != null ? contentView.findViewById(R.id.picture_left_back) : null;
+            if (imageView != null) {
+                contentView.findViewById(R.id.rl_picture_title).setBackgroundColor(Color.MAGENTA);
+                //调整返回箭头大小
+                imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
+                imageView.setBackgroundColor(Color.GREEN);
+            }
+        }
+    }
+
+    /**
+     * 是否全透明-华为4.1以上可根据导航栏位置颜色设置导航图标颜色
+     *
+     * @return
+     */
+    protected boolean isTrans(Activity activity) {
+        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
     }
 }

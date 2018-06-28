@@ -4,10 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.aries.library.fast.FastManager;
+import com.aries.library.fast.R;
 import com.aries.library.fast.i.IBasisView;
+import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.ToastUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
@@ -24,6 +31,7 @@ import butterknife.Unbinder;
  * 2、2018-6-20 17:15:12 调整主页back键操作逻辑
  * 3、2018-6-21 14:05:57 删除滑动返回控制改由全局控制
  * 4、2018-6-22 13:38:32 删除NavigationViewHelper控制方法改由全局控制
+ * 5、2018-6-25 13:25:30 增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
  */
 public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
 
@@ -36,6 +44,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean mIsFirstBack = true;
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
+    private QuitAppControl mQuitAppControl;
 
     @Nullable
     @Override
@@ -56,6 +65,15 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         mContext = this;
         beforeSetContentView();
         mContentView = View.inflate(mContext, getContentLayout(), null);
+        //解决StatusLayoutManager与SmartRefreshLayout冲突
+        if (this instanceof IFastRefreshLoadView && mContentView.getClass() == SmartRefreshLayout.class) {
+            FrameLayout frameLayout = new FrameLayout(mContext);
+            if (mContentView.getLayoutParams() != null) {
+                frameLayout.setLayoutParams(mContentView.getLayoutParams());
+            }
+            frameLayout.addView(mContentView);
+            mContentView = frameLayout;
+        }
         setContentView(mContentView);
         mUnBinder = ButterKnife.bind(this);
         mIsViewLoaded = true;
@@ -85,7 +103,8 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public void beforeInitView() {
-        FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
+        if (FastManager.getInstance().getActivityFragmentControl() != null)
+            FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
     }
 
     @Override
@@ -118,11 +137,18 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
      * 退出程序
      */
     protected void quitApp() {
-        mDelayBack = FastManager.getInstance().getQuitAppControl().quipApp(mIsFirstBack, this);
-        if (mDelayBack <= 0) {
-            FastManager.getInstance().getQuitAppControl().quipApp(false, this);
+        mQuitAppControl = FastManager.getInstance().getQuitAppControl();
+        mDelayBack = mQuitAppControl != null ? mQuitAppControl.quipApp(mIsFirstBack, this) : mDelayBack;
+        //时延太小/已是第二次提示直接通知执行最终操作
+        if (mDelayBack <= 0 || !mIsFirstBack) {
+            if (mQuitAppControl != null) {
+                mQuitAppControl.quipApp(false, this);
+            } else {
+                FastStackUtil.getInstance().exit();
+            }
             return;
         }
+        ToastUtil.show(R.string.fast_quit_app);
         //编写逻辑
         if (mIsFirstBack) {
             mIsFirstBack = false;
@@ -132,9 +158,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
                     mIsFirstBack = true;
                 }
             });
-            return;
         }
-        //通知执行操作
-        FastManager.getInstance().getQuitAppControl().quipApp(mIsFirstBack, this);
     }
 }

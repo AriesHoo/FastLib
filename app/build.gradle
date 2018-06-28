@@ -71,15 +71,18 @@ dependencies {
     implementation 'com.just.agentweb:download:4.0.2'
 //    compile 'com.just.agentweb:filechooser:4.0.2'
     //下拉刷新库注意刷新头SmartRefreshHeader版本最好对应尤其头版本不要低于SmartRefreshLayout版本
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //图片加载 4.X
     implementation 'com.github.bumptech.glide:glide:4.5.0'
     //以上库library里使用provided只是编译使用时需根据项目选择相应版本
     implementation 'cn.bingoogolapple:bga-banner:2.1.7@aar'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
     implementation 'com.github.lygttpod:SuperTextView:2.1.5'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
     implementation 'com.just.agentweb:agentweb:+'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //文件选择器
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    implementation 'com.umeng.analytics:analytics:latest.integration'
 }
