@@ -339,7 +339,6 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 
             @Override
             public void onActivityStarted(Activity activity) {
-//                setStatusBar(activity);
             }
 
             @Override
@@ -533,10 +532,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
             View contentView = FastUtil.getRootView(activity);
             ImageView imageView = contentView != null ? contentView.findViewById(R.id.picture_left_back) : null;
             if (imageView != null) {
-                contentView.findViewById(R.id.rl_picture_title).setBackgroundColor(Color.MAGENTA);
+//                contentView.findViewById(R.id.rl_picture_title).setBackgroundColor(Color.MAGENTA);
                 //调整返回箭头大小
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
-                imageView.setBackgroundColor(Color.GREEN);
+//                imageView.setBackgroundColor(Color.GREEN);
             }
         }
     }
