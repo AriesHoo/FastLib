@@ -3,23 +3,22 @@ package com.aries.library.fast;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.HttpRequestControl;
-import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
-import com.aries.library.fast.i.OnHttpRequestListener;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.library.fast.widget.FastLoadDialog;
+import com.aries.ui.widget.progress.UIProgressDialog;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
-
-import java.util.List;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
@@ -90,20 +89,20 @@ public class FastManager {
      *
      * @param application
      */
-    public static void init(Application application) {
+    public static FastManager init(Application application) {
         //保证只执行一次初始化属性
         if (mApplication == null && application != null) {
             mApplication = application;
             sInstance = new FastManager();
-            sInstance.setHttpRequestControl(new HttpRequestControl() {
+            //预设置FastLoadDialog属性
+            sInstance.setLoadingDialog(new LoadingDialog() {
+                @Nullable
                 @Override
-                public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener) {
-
-                }
-
-                @Override
-                public boolean httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
-                    return true;
+                public FastLoadDialog createLoadingDialog(@Nullable Activity activity) {
+                    return new FastLoadDialog(activity,
+                            new UIProgressDialog.WeBoBuilder(activity)
+                                    .setMessage(R.string.fast_loading)
+                                    .create());
                 }
             });
             //设置滑动返回监听
@@ -113,6 +112,7 @@ public class FastManager {
             //初始化Toast工具
             ToastUtil.init(mApplication);
         }
+        return getInstance();
     }
 
 
@@ -176,7 +176,9 @@ public class FastManager {
      * @return
      */
     public FastManager setLoadingDialog(LoadingDialog control) {
-        this.mLoadingDialog = control;
+        if (control != null) {
+            this.mLoadingDialog = control;
+        }
         return this;
     }
 

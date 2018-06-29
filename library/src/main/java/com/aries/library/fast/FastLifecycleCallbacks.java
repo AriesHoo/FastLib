@@ -21,9 +21,7 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.DrawableUtil;
-import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.RomUtil;
-import com.flyco.tablayout.CommonTabLayout;
 
 import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
@@ -213,7 +211,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 }
                 BGAKeyboardUtil.closeKeyboard(activity);
                 activity.finish();
-                activity.overridePendingTransition(R.anim.bga_sbl_activity_swipeback_enter, R.anim.bga_sbl_activity_swipeback_exit);
+                activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
                 if (mSwipeBackControl != null) {
                     mSwipeBackControl.onSwipeBackLayoutExecuted(activity);
                 }
@@ -265,11 +263,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
             return;
         }
         LoggerManager.i(TAG, "setNavigationBars:设置虚拟导航栏");
-        View contentView = FastUtil.getRootView(activity);
-        CommonTabLayout tabLayout = FindViewUtil.getTargetView(contentView, CommonTabLayout.class);
+        View bottomView = FastUtil.getRootView(activity);
         Drawable drawableTop = activity.getResources().getDrawable(R.color.colorLineGray);
         DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
-        View bottomView = tabLayout == null ? contentView : tabLayout;
         //设置虚拟导航栏控制
         NavigationViewHelper navigationViewHelper = NavigationViewHelper.with(activity)
                 .setLogEnable(BuildConfig.DEBUG)

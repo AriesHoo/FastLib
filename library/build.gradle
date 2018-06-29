@@ -70,7 +70,7 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    api 'com.google.code.gson:gson:2.8.1'
+    api 'com.google.code.gson:gson:2.8.5'
     //处理rxjava内存泄漏-生命周期绑定
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
     //滑动返回Activity

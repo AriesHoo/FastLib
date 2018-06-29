@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
@@ -33,6 +34,7 @@ import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.module.activity.FastMainActivity;
 import com.aries.library.fast.retrofit.FastError;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
@@ -44,18 +46,20 @@ import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
-import com.aries.ui.util.DrawableUtil;
+import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.progress.UIProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.flyco.tablayout.CommonTabLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.luck.picture.lib.PictureBaseActivity;
+import com.luck.picture.lib.PicturePreviewActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -299,12 +303,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     public boolean setStatusBar(Activity activity, StatusViewHelper helper, View topView) {
         boolean isSupportStatusBarFont = StatusBarUtil.isSupportStatusBarFontChange();
         StatusBarUtil.setStatusBarLightMode(activity);
-        helper.setTransEnable(true)
-                .setPlusStatusViewEnable(!isSupportStatusBarFont);
-        if (topView != null) {
-            helper.setStatusLayoutDrawable(DrawableUtil.getNewDrawable(topView.getBackground()));
-        }
-        setStatusBarActivity(activity, helper);
+        helper.setTransEnable(isSupportStatusBarFont)
+                .setPlusStatusViewEnable(true)
+                .setStatusLayoutColor(Color.WHITE);
+        setStatusBarActivity(activity);
         return true;
     }
 
@@ -320,7 +322,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setTransEnable(isTrans(activity))
                 .setPlusNavigationViewEnable(isTrans(activity))
-                .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0));
+                .setBottomView(FastMainActivity.class.isAssignableFrom(activity.getClass()) ? FindViewUtil.getTargetView(bottomView, CommonTabLayout.class) :
+                        PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ? FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
+                .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
+                .setNavigationLayoutColor(Color.WHITE);
         return true;
     }
 
@@ -370,7 +375,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 
             @Override
             public void onActivityStopped(Activity activity) {
-
+                if (activity.isFinishing())
+                    activity.overridePendingTransition(com.aries.library.fast.R.anim.bga_sbl_activity_swipeback_enter, com.aries.library.fast.R.anim.bga_sbl_activity_swipeback_exit);
             }
 
             @Override
@@ -380,7 +386,6 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-
             }
         };
     }
@@ -391,14 +396,14 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
             @Override
             public void onFragmentResumed(FragmentManager fm, Fragment f) {
                 super.onFragmentResumed(fm, f);
-                LoggerManager.i(TAG, "onFragmentResumed:统计Fragment:"+f.getClass().getSimpleName());
+                LoggerManager.i(TAG, "onFragmentResumed:统计Fragment:" + f.getClass().getSimpleName());
                 MobclickAgent.onPageStart(f.getClass().getSimpleName());
             }
 
             @Override
             public void onFragmentPaused(FragmentManager fm, Fragment f) {
                 super.onFragmentPaused(fm, f);
-                LoggerManager.i(TAG, "onFragmentPaused:统计Fragment:"+f.getClass().getSimpleName());
+                LoggerManager.i(TAG, "onFragmentPaused:统计Fragment:" + f.getClass().getSimpleName());
                 MobclickAgent.onPageEnd(f.getClass().getSimpleName());
             }
         };
@@ -414,7 +419,9 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         int size = httpRequestControl.getPageSize();
 
         LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page + ";data:" + new Gson().toJson(list));
-        smartRefreshLayout.finishRefresh();
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.finishRefresh();
+        if (adapter == null) return;
         adapter.loadMoreComplete();
         if (list == null || list.size() == 0) {
             if (page == 0) {//第一页没有
@@ -448,54 +455,58 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     }
 
     @Override
-    public boolean httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+    public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
         int reason = R.string.fast_exception_other_error;
         int code = FastError.EXCEPTION_OTHER_ERROR;
         if (!NetworkUtil.isConnected(mContext)) {
             reason = R.string.fast_exception_network_not_connected;
-            code = FastError.EXCEPTION_NETWORK_NOT_CONNECTED;
         } else {
             if (e instanceof NetworkErrorException) {//网络异常--继承于AccountsException
                 reason = R.string.fast_exception_network_error;
-                code = FastError.EXCEPTION_NETWORK_ERROR;
             } else if (e instanceof AccountsException) {//账户异常
                 reason = R.string.fast_exception_accounts;
-                code = FastError.EXCEPTION_ACCOUNTS;
             } else if (e instanceof ConnectException) {//连接异常--继承于SocketException
                 reason = R.string.fast_exception_connect;
-                code = FastError.EXCEPTION_CONNECT;
             } else if (e instanceof SocketException) {//socket异常
                 reason = R.string.fast_exception_socket;
-                code = FastError.EXCEPTION_SOCKET;
             } else if (e instanceof HttpException) {// http异常
                 reason = R.string.fast_exception_http;
-                code = FastError.EXCEPTION_HTTP;
             } else if (e instanceof UnknownHostException) {//DNS错误
                 reason = R.string.fast_exception_unknown_host;
-                code = FastError.EXCEPTION_UNKNOWN_HOST;
             } else if (e instanceof JsonSyntaxException
                     || e instanceof JsonIOException
                     || e instanceof JsonParseException) {//数据格式化错误
                 reason = R.string.fast_exception_json_syntax;
-                code = FastError.EXCEPTION_JSON_SYNTAX;
             } else if (e instanceof SocketTimeoutException || e instanceof TimeoutException) {
                 reason = R.string.fast_exception_time_out;
-                code = FastError.EXCEPTION_TIME_OUT;
             } else if (e instanceof ClassCastException) {
                 reason = R.string.fast_exception_class_cast;
-                code = FastError.EXCEPTION_CLASS_CAST;
             }
         }
-        if (httpRequestControl == null) {
+        if (httpRequestControl == null || httpRequestControl.getStatusLayoutManager() == null) {
             ToastUtil.show(reason);
-            return true;
-        } else {
-            SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
-            BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
-            smartRefreshLayout.finishRefresh(false);
-            adapter.loadMoreComplete();
+            return;
         }
-        return true;
+        SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
+        BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
+        StatusLayoutManager statusLayoutManager = httpRequestControl.getStatusLayoutManager();
+        int page = httpRequestControl.getCurrentPage();
+        int size = httpRequestControl.getPageSize();
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.finishRefresh(false);
+        if (adapter != null)
+            adapter.loadMoreComplete();
+        if (statusLayoutManager == null) return;
+        if (page == 0) {//初始页
+            if (!NetworkUtil.isConnected(mContext)) {
+                statusLayoutManager.showCustomLayout(R.layout.fast_layout_multi_network);
+            } else {
+                statusLayoutManager.showErrorLayout();
+            }
+            return;
+        }
+        //可根据不同错误展示不同错误布局 statusLayoutManager.showCustomLayout(R.layout.xxx);
+        statusLayoutManager.showErrorLayout();
     }
 
     /**
@@ -523,16 +534,19 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
      * 根据程序使用的三方库进行改造:本示例使用的三方库实现了自己的沉浸式状态栏及导航栏但和Demo的滑动返回不搭配故做相应调整
      *
      * @param activity
-     * @param helper
      */
-    private void setStatusBarActivity(Activity activity, StatusViewHelper helper) {
+    private void setStatusBarActivity(Activity activity) {
         if (PictureBaseActivity.class.isAssignableFrom(activity.getClass())) {
-            helper.setTopView(null)
-                    .setPlusStatusViewEnable(false);
             View contentView = FastUtil.getRootView(activity);
+            //该属性会影响适配滑动返回效果
+            contentView.setFitsSystemWindows(false);
             ImageView imageView = contentView != null ? contentView.findViewById(R.id.picture_left_back) : null;
             if (imageView != null) {
-//                contentView.findViewById(R.id.rl_picture_title).setBackgroundColor(Color.MAGENTA);
+                RelativeLayout layout = contentView.findViewById(R.id.rl_picture_title);
+                if (layout != null) {
+                    ViewCompat.setElevation(layout, activity.getResources().getDimension(R.dimen.dp_elevation));
+                }
+//                layout.setBackgroundColor(Color.MAGENTA);
                 //调整返回箭头大小
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
 //                imageView.setBackgroundColor(Color.GREEN);
@@ -548,4 +562,5 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     protected boolean isTrans(Activity activity) {
         return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
     }
+
 }

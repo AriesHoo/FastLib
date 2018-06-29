@@ -26,7 +26,7 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
      * @param activity
      */
     public FastLoadingObserver(@Nullable Activity activity, IHttpRequestControl httpRequestControl, @StringRes int resId) {
-        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity).setMessage(resId), httpRequestControl);
+        this(FastManager.getInstance().getLoadingDialog().createLoadingDialog(activity), httpRequestControl);
     }
 
     public FastLoadingObserver(@Nullable Activity activity, IHttpRequestControl httpRequestControl, CharSequence msg) {
@@ -57,7 +57,6 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
         super(httpRequestControl);
         this.mDialog = dialog;
     }
-
 
     @Override
     public void onNext(T entity) {

@@ -15,9 +15,13 @@ android {
         targetSdkVersion ext.targetSdkVersion
         versionCode ext.versionCode
         versionName ext.versionName
-        multiDexEnabled true
+//        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
+    }
+
+    dexOptions {
+        javaMaxHeapSize "Xg"
     }
     signingConfigs {
         release {

@@ -40,13 +40,13 @@ public class App extends Application {
         AppImpl impl = new AppImpl(mContext);
         FastManager.getInstance()
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
-//                .setLoadMoreFoot(impl)
+                .setLoadMoreFoot(impl)
                 //设置RecyclerView加载过程多布局属性-默认设置了FastMultiStatusView
-//                .setMultiStatusView(impl)
+                .setMultiStatusView(impl)
                 //设置全局网络请求等待Loading提示框如登录等待loading--观察者必须为FastLoadingObserver及其子类
                 .setLoadingDialog(impl)
                 //设置SmartRefreshLayout刷新头-自定加载使用BaseRecyclerViewAdapterHelper
-//                .setDefaultRefreshHeader(impl)
+                .setDefaultRefreshHeader(impl)
                 //设置全局TitleBarView相关配置
                 .setTitleBarViewControl(impl)
                 //设置Activity滑动返回控制-默认开启滑动返回功能不需要设置透明主题
@@ -55,8 +55,8 @@ public class App extends Application {
                 .setActivityFragmentControl(impl)
                 //设置http请求结果全局控制
                 .setHttpRequestControl(impl)
-        //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
-//                .setQuitAppControl(impl)
+                //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
+                .setQuitAppControl(impl)
         ;
 
         //初始化Retrofit配置

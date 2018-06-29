@@ -24,7 +24,7 @@
         <!--开启图片列表勾选数字模式-->
         <item name="picture.style.checkNumMode">false</item>
         <!--选择图片样式0/9-->
-        <item name="picture.style.numComplete">false</item>
+        <item name="picture.style.numComplete">true</item>
         <!--图片列表底部背景色-->
         <item name="picture.bottom.bg">@color/colorBackground</item>
         <!--图片列表预览文字颜色-->
