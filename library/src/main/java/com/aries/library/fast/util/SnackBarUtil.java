@@ -19,9 +19,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
 /**
- * Created: AriesHoo on 2017/9/28 10:57
+ * Created: AriesHoo on 2018/6/30/030 18:21
+ * E-Mail: AriesHoo@126.com
  * Function:SnackBar工具类
- * Desc:
+ * Description:
  */
 public class SnackBarUtil {
 

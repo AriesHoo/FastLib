@@ -1,5 +1,6 @@
 package com.aries.library.fast.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -29,6 +30,7 @@ public class NetworkUtil {
      *
      * @return NetworkInfo
      */
+    @SuppressLint("MissingPermission")
     private static NetworkInfo getActiveNetworkInfo(Context content) {
         if (content == null) {
             return null;

@@ -56,6 +56,8 @@ public class ApiRepository extends BaseRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("count", count);
-        return FastTransformer.switchSchedulers(getApiService().getMovie(url, params));
+        Map<String, Object> map = new HashMap<>();
+        map.put("ticket", "ticker");
+        return FastTransformer.switchSchedulers(getApiService().getMovie(url, params,map));
     }
 }

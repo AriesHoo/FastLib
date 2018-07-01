@@ -6,6 +6,7 @@ import android.util.Log;
 import com.aries.library.fast.util.SSLUtil;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Description:
  * 1、2017-11-16 12:48:31 AriesHoo 修改读、写、链接超时时间均为readTimeout的BUG会造成超时设置无效BUG
  * 2、修改初始化FastMultiUrl类的位置到createService以免超时控制不到问题
+ * 3、2018-6-30 21:32:36 调整设置全局请求头方式并新增设置单个请求头方法
+ * 4、2018-6-30 21:32:47 修复设置全局请求头不生效BUG
  */
 public class FastRetrofit {
 
@@ -37,9 +40,28 @@ public class FastRetrofit {
     private static OkHttpClient sClient;
     private long mDelayTime = 20;
     private HttpLoggingInterceptor mLoggingInterceptor;
+    private Map<String, Object> mHeaderMap = new HashMap<>();
+    private Interceptor mHeaderInterceptor = new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) {
+            Request.Builder request = chain.request().newBuilder();
+            if (mHeaderMap != null && mHeaderMap.size() > 0) {
+                for (Map.Entry<String, Object> entry : mHeaderMap.entrySet()) {
+                    request.addHeader(entry.getKey(), String.valueOf(entry.getValue()));
+                }
+            }
+            try {
+                return chain.proceed(request.build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    };
 
     private FastRetrofit() {
         sClientBuilder = new OkHttpClient.Builder();
+        sClientBuilder.addInterceptor(mHeaderInterceptor);
         sRetrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
@@ -92,6 +114,26 @@ public class FastRetrofit {
         return getRetrofit().create(apiService);
     }
 
+    public FastRetrofit addHeader(String key, Object value) {
+        if (!TextUtils.isEmpty(key) && value != null) {
+            mHeaderMap.put(key, value);
+        }
+        return this;
+    }
+
+    /**
+     * 添加统一的请求头
+     *
+     * @param map
+     * @return
+     */
+    public FastRetrofit addHeader(final Map<String, Object> map) {
+        if (map != null && !map.isEmpty()) {
+            mHeaderMap.putAll(map);
+        }
+        return this;
+    }
+
     /**
      * 设置全局BaseUrl
      *
@@ -102,6 +144,17 @@ public class FastRetrofit {
         sRetrofitBuilder.baseUrl(baseUrl);
         FastMultiUrl.getInstance().setGlobalBaseUrl(baseUrl);
         return this;
+    }
+
+    /**
+     * 添加统一的请求头
+     *
+     * @param map
+     * @return
+     */
+    @Deprecated
+    public FastRetrofit setHeaders(final Map<String, Object> map) {
+        return addHeader(map);
     }
 
     /**
@@ -120,34 +173,8 @@ public class FastRetrofit {
             sClientBuilder = okClient.newBuilder();
             sClientBuilder.retryOnConnectionFailure(true);
             sRetrofitBuilder.client(okClient);
+            sClientBuilder.addInterceptor(mHeaderInterceptor);
         }
-        return this;
-    }
-
-    /**
-     * 添加统一的请求头
-     *
-     * @param headerMaps
-     * @return
-     */
-    public FastRetrofit setHeaders(final Map<String, Object> headerMaps) {
-        sClientBuilder.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) {
-                Request.Builder request = chain.request().newBuilder();
-                if (headerMaps != null && headerMaps.size() > 0) {
-                    for (Map.Entry<String, Object> entry : headerMaps.entrySet()) {
-                        request.addHeader(entry.getKey(), String.valueOf(entry.getValue()));
-                    }
-                }
-                try {
-                    return chain.proceed(request.build());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        });
         return this;
     }
 
@@ -249,16 +276,31 @@ public class FastRetrofit {
             }
             mLoggingInterceptor.setLevel(level);
             sClientBuilder.addInterceptor(mLoggingInterceptor);
+        } else {
+            if (mLoggingInterceptor != null) {
+                mLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+            }
         }
         return this;
     }
 
     /**
      * 信任所有证书,不安全有风险
+     * 使用 {@link FastRetrofit#setCertificates()}替换
      *
      * @return
      */
+    @Deprecated
     public FastRetrofit trustAllSSL() {
+        return setCertificates();
+    }
+
+    /**
+     * 默认信任所有证书-不安全
+     *
+     * @return
+     */
+    public FastRetrofit setCertificates() {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory();
         sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
         return this;

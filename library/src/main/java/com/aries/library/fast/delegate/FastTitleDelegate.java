@@ -9,6 +9,7 @@ import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.TitleBarViewControl;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.FindViewUtil;
@@ -34,6 +35,7 @@ public class FastTitleDelegate {
         if (mTitleBar == null) {
             return;
         }
+        LoggerManager.i("class:"+cls.getSimpleName());
         //默认的MD风格返回箭头icon如使用该风格可以不用设置
         Drawable mDrawable = FastUtil.getTintDrawable(context.getResources().getDrawable(R.drawable.fast_ic_back),
                 context.getResources().getColor(R.color.colorTitleText));

@@ -16,6 +16,7 @@ import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SPUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,6 +26,8 @@ import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created: AriesHoo on 2017/8/25 17:03
@@ -68,6 +71,11 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     @Override
     public void initView(Bundle savedInstanceState) {
 //        new BackToTopHelper().init(mRecyclerView);
+        Map<String, Object> map = new HashMap<>();
+        map.put("test", "test");
+        FastRetrofit.getInstance().setHeaders(map)
+                .addHeader(map)
+                .addHeader("ht", "ht");
     }
 
     @Override

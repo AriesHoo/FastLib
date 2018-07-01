@@ -35,7 +35,6 @@ import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
-import com.aries.library.fast.retrofit.FastError;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.NetworkUtil;
@@ -54,7 +53,6 @@ import com.aries.ui.widget.progress.UIProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.flyco.tablayout.CommonTabLayout;
-import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
@@ -238,7 +236,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
-//                .setShadowResId(R.color.colorMainNews)
+                .setShadowResId(R.color.colorBackground)
                 .setIsNavigationBarOverlap(true);//底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
     }
 
@@ -418,7 +416,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         int page = httpRequestControl.getCurrentPage();
         int size = httpRequestControl.getPageSize();
 
-        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page + ";data:" + new Gson().toJson(list));
+        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page +";class:"+httpRequestControl.getRequestClass());
         if (smartRefreshLayout != null)
             smartRefreshLayout.finishRefresh();
         if (adapter == null) return;
@@ -457,7 +455,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     @Override
     public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
         int reason = R.string.fast_exception_other_error;
-        int code = FastError.EXCEPTION_OTHER_ERROR;
+//        int code = FastError.EXCEPTION_OTHER_ERROR;
         if (!NetworkUtil.isConnected(mContext)) {
             reason = R.string.fast_exception_network_not_connected;
         } else {
@@ -491,7 +489,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
         StatusLayoutManager statusLayoutManager = httpRequestControl.getStatusLayoutManager();
         int page = httpRequestControl.getCurrentPage();
-        int size = httpRequestControl.getPageSize();
+//        int size = httpRequestControl.getPageSize();
         if (smartRefreshLayout != null)
             smartRefreshLayout.finishRefresh(false);
         if (adapter != null)

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -332,6 +333,10 @@ public class FastMultiUrl {
      * @return
      */
     private String getBaseUrlKeyFromHeaders(Request request) {
+        Headers heads = request.headers();
+        if (heads != null) {
+            LoggerManager.i("header:" + heads.toString());
+        }
         List<String> headers = request.headers(BASE_URL_NAME);
         if (headers == null || headers.size() == 0)
             return null;

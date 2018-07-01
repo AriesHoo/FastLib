@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
@@ -179,9 +180,10 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                 .subscribe(new FastObserver<List<WidgetEntity>>() {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
-                        mStatusManager.showSuccessLayout();
-                        mAdapter.setNewData(entity);
-                        mRefreshLayout.finishRefresh();
+//                        mStatusManager.showSuccessLayout();
+//                        mAdapter.setNewData(entity);
+//                        mRefreshLayout.finishRefresh();
+                        FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(),entity,null);
                     }
                 });
     }

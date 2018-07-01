@@ -5,9 +5,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created: AriesHoo on 2017/8/1 15:01
+ * Created: AriesHoo on 2018/6/30/030 18:21
+ * E-Mail: AriesHoo@126.com
  * Function:时间转换工具
- * Desc:
+ * Description:
  */
 public class TimeFormatUtil {
 

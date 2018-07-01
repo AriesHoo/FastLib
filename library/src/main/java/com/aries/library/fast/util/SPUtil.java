@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created: AriesHoo on 2017/8/1 9:39
- * Function: SharedPreferences工具类
- * Desc:
+ * Created: AriesHoo on 2018/6/30/030 18:21
+ * E-Mail: AriesHoo@126.com
+ * Function:SharedPreferences工具类
+ * Description:
  */
 public class SPUtil {
 
@@ -60,6 +61,7 @@ public class SPUtil {
 
     /**
      * 获取存放object
+     *
      * @param context
      * @param fileName
      * @param key

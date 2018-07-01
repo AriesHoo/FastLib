@@ -31,10 +31,12 @@ public abstract class FastRefreshLoadActivity<T>
     protected int DEFAULT_PAGE_SIZE = 10;
 
     protected FastRefreshLoadDelegate<T> mFastRefreshLoadDelegate;
+    private Class<?> mClass;
 
     @Override
     public void beforeInitView() {
         super.beforeInitView();
+        mClass = getClass();
         mFastRefreshLoadDelegate = new FastRefreshLoadDelegate<>(mContentView, this);
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;
@@ -87,6 +89,11 @@ public abstract class FastRefreshLoadActivity<T>
             @Override
             public int getPageSize() {
                 return DEFAULT_PAGE_SIZE;
+            }
+
+            @Override
+            public Class<?> getRequestClass() {
+                return mClass;
             }
         };
         return requestControl;
