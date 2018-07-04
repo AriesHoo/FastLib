@@ -16,7 +16,6 @@ import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
-import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SPUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -26,8 +25,6 @@ import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created: AriesHoo on 2017/8/25 17:03
@@ -76,14 +73,14 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void loadData(int page) {
-        if (ApiConstant.API_MOVIE_TOP.equals(mUrl)) {
-            FastRetrofit.getInstance().setBaseUrl("http://www.baidu.com/");
-            Map<String, Object> map = new HashMap<>();
-            map.put("test", "test");
-            FastRetrofit.getInstance()
-                    .addHeader(map)
-                    .addHeader("ht", "ht");
-        }
+//        if (ApiConstant.API_MOVIE_TOP.equals(mUrl)) {
+//            FastRetrofit.getInstance().setBaseUrl("http://www.baidu.com/");
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("test", "test");
+//            FastRetrofit.getInstance()
+//                    .addHeader(map)
+//                    .addHeader("ht", "ht");
+//        }
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getMovie(mUrl, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
