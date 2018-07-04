@@ -1,6 +1,6 @@
 {
-	"versionCode": 231,
-	"versionName": "2.2.10-beta2",
+	"versionCode": 230,
+	"versionName": "2.2.10-beta1",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
 	"size": "5.21M",
