@@ -71,15 +71,19 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     @Override
     public void initView(Bundle savedInstanceState) {
 //        new BackToTopHelper().init(mRecyclerView);
-        Map<String, Object> map = new HashMap<>();
-        map.put("test", "test");
-        FastRetrofit.getInstance().setHeaders(map)
-                .addHeader(map)
-                .addHeader("ht", "ht");
+
     }
 
     @Override
     public void loadData(int page) {
+        if (ApiConstant.API_MOVIE_TOP.equals(mUrl)) {
+            FastRetrofit.getInstance().setBaseUrl("http://www.baidu.com/");
+            Map<String, Object> map = new HashMap<>();
+            map.put("test", "test");
+            FastRetrofit.getInstance()
+                    .addHeader(map)
+                    .addHeader("ht", "ht");
+        }
         DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
         ApiRepository.getInstance().getMovie(mUrl, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
@@ -89,30 +93,6 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                         mStatusManager.showSuccessLayout();
                         FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity == null || entity.subjects == null ? new ArrayList<>() : entity.subjects, null);
                     }
-
-//                    @Override
-//                    public void _onError(int errorRes, int errorCode, Throwable e) {
-//                        super._onError(errorRes, errorCode, e);
-//                        mRefreshLayout.finishRefresh();
-//                        mAdapter.loadMoreComplete();
-//                        LoggerManager.e("error:" + getString(errorRes) + ";errorCode:" + errorCode + ";Throwable:" + e.getMessage());
-//                        if (page == 0) {
-//                            mEasyStatusView.error();
-//                            if (errorCode == FastError.EXCEPTION_ACCOUNTS) {
-//
-//                            } else if (errorCode == FastError.EXCEPTION_JSON_SYNTAX) {
-//
-//                            } else if (errorCode == FastError.EXCEPTION_OTHER_ERROR) {
-//
-//                            } else if (errorCode == FastError.EXCEPTION_TIME_OUT) {
-//
-//                            } else {
-//                                mEasyStatusView.noNet();
-//                            }
-//                        } else {
-//                            ToastUtil.show(errorRes);
-//                        }
-//                    }
                 });
     }
 

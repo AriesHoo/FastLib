@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.entity.FastTabEntity;
@@ -31,13 +32,6 @@ public class MainActivity extends FastMainActivity {
         return false;
     }
 
-
-//    @Override
-//    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
-//        super.beforeControlNavigation(navigationHelper);
-//        navigationHelper.setBottomView(mTabLayout);
-//    }
-
     @Override
     public List<FastTabEntity> getTabList() {
         ArrayList<FastTabEntity> tabEntities = new ArrayList<>();
@@ -53,17 +47,8 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-//        ToastUtil.show("测试", ToastUtil.newBuilder()
-//                .setTextSize(SizeUtil.dp2px(24))
-//                .setTextDrawableGravity(Gravity.TOP)
-//                .setTextGravity(Gravity.CENTER)
-//                .setPaddingLeft(60)
-//                .setPaddingRight(60)
-//                .setRadius(12)
-//                .setTextDrawable(getResources().getDrawable(R.drawable.ic_launcher))
-//                .setGravity(Gravity.CENTER)
-//                .setGravityYOffset(0)
-//                .setBackgroundColor(Color.MAGENTA));
+        CheckVersionHelper.with(this)
+                .checkVersion(false);
     }
 
     @Override

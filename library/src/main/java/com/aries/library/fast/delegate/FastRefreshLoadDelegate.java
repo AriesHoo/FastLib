@@ -7,9 +7,7 @@ import android.view.View;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshLoadView;
-import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.widget.FastLoadMoreView;
-import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -17,6 +15,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -105,16 +104,40 @@ public class FastRefreshLoadDelegate<T> {
     }
 
     private void setStatusManager(View contentView) {
-        if (contentView == null) return;
-        IMultiStatusView iMultiStatusView = mIFastRefreshLoadView != null ? mIFastRefreshLoadView.getMultiStatusView() : null;
-        iMultiStatusView = iMultiStatusView != null ? iMultiStatusView :
-                mManager.getMultiStatusView() != null ? mManager.getMultiStatusView().createMultiStatusView() :
-                        new FastMultiStatusView(mContext).getBuilder().build();
-        mStatusManager = new StatusLayoutManager.Builder(contentView)
-                .setLoadingLayout(iMultiStatusView.getLoadingView())
-                .setEmptyLayout(iMultiStatusView.getEmptyView())
-                .setErrorLayout(iMultiStatusView.getErrorView())
-                .build();
+        if (contentView == null) {
+            return;
+        }
+        StatusLayoutManager.Builder builder = new StatusLayoutManager.Builder(contentView)
+                .setDefaultLayoutsBackgroundColor(android.R.color.transparent)
+                .setDefaultEmptyText(R.string.fast_multi_empty)
+                .setDefaultEmptyClickViewTextColor(contentView.getResources().getColor(R.color.colorTitleText))
+                .setDefaultLoadingText(R.string.fast_multi_loading)
+                .setDefaultErrorText(R.string.fast_multi_error)
+                .setDefaultErrorClickViewTextColor(contentView.getResources().getColor(R.color.colorTitleText))
+                .setOnStatusChildClickListener(new OnStatusChildClickListener() {
+                    @Override
+                    public void onEmptyChildClick(View view) {
+                        mStatusManager.showLoadingLayout();
+                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                    }
+
+                    @Override
+                    public void onErrorChildClick(View view) {
+                        mStatusManager.showLoadingLayout();
+                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                    }
+
+                    @Override
+                    public void onCustomerChildClick(View view) {
+                        mStatusManager.showLoadingLayout();
+                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                    }
+                });
+        if (mManager != null && mManager.getMultiStatusView() != null) {
+            mManager.getMultiStatusView().setMultiStatusView(builder, mIFastRefreshLoadView);
+        }
+        mIFastRefreshLoadView.setMultiStatusView(builder);
+        mStatusManager = builder.build();
         mStatusManager.showLoadingLayout();
     }
 

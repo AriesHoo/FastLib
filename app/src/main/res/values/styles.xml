@@ -21,13 +21,13 @@
         <item name="com.aries.library.fast.demo:sLeftViewMarginLeft">6dp</item>
         <item name="com.aries.library.fast.demo:sLeftIconHeight">24dp</item>
         <item name="com.aries.library.fast.demo:sLeftIconWidth">24dp</item>
-        <item name="com.aries.library.fast.demo:sLeftTextSize">15dp</item>
+        <item name="com.aries.library.fast.demo:sLeftTextSize">16dp</item>
         <item name="com.aries.library.fast.demo:sDividerLineColor">@color/colorLineGray</item>
-        <item name="com.aries.library.fast.demo:sDividerLineType">both</item>
+        <item name="com.aries.library.fast.demo:sDividerLineType">bottom</item>
         <item name="com.aries.library.fast.demo:sLeftTextColor">@color/colorTextBlack</item>
         <item name="com.aries.library.fast.demo:sRightIconRes">@drawable/ic_arrow_right</item>
         <item name="com.aries.library.fast.demo:sRightTextColor">@color/colorTextGray</item>
-        <item name="com.aries.library.fast.demo:sRightTextSize">12dp</item>
+        <item name="com.aries.library.fast.demo:sRightTextSize">14dp</item>
     </style>
 
     <style name="TextStyleMovieItem">

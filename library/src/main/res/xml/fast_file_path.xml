@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <external-cache-path
+            name="fast_file"
+            path="fast_file_cache"/>
+    </paths>
+</resources>

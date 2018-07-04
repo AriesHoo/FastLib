@@ -18,6 +18,7 @@ android {
 //        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
+        buildConfigField "String", "BASE__UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/\""
     }
 
     dexOptions {
@@ -46,6 +47,8 @@ android {
         }
         release {
             debuggable false
+            zipAlignEnabled true //是否支持Zip Align
+//            shrinkResources true //是否清理无用资源
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release

@@ -12,9 +12,10 @@ import com.aries.ui.widget.progress.UIProgressDialog;
 import java.lang.ref.WeakReference;
 
 /**
- * Created: AriesHoo on 2017/8/24 16:03
+ * Created: AriesHoo on 2018/7/4 16:39
+ * E-Mail: AriesHoo@126.com
  * Function:快速创建网络请求loading
- * Desc:
+ * Description:
  */
 public class FastLoadDialog {
 

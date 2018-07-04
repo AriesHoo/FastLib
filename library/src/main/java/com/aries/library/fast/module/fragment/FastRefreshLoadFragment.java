@@ -8,7 +8,6 @@ import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IHttpRequestControl;
-import com.aries.library.fast.i.IMultiStatusView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
@@ -58,11 +57,6 @@ public abstract class FastRefreshLoadFragment<T>
     }
 
     @Override
-    public IMultiStatusView getMultiStatusView() {
-        return null;
-    }
-
-    @Override
     public IHttpRequestControl getIHttpRequestControl() {
         return new IHttpRequestControl() {
             @Override
@@ -100,6 +94,11 @@ public abstract class FastRefreshLoadFragment<T>
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
         return new LinearLayoutManager(mContext);
+    }
+
+    @Override
+    public void setMultiStatusView(StatusLayoutManager.Builder statusView) {
+
     }
 
     @Override

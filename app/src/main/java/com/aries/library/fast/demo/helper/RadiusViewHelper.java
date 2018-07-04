@@ -30,8 +30,9 @@ public class RadiusViewHelper {
 
     public void setRadiusViewAdapter(RadiusViewDelegate delegate) {
         if (!App.isSupportElevation()) {
-            delegate.setStrokeWidth(App.getContext().getResources().getDimensionPixelSize(R.dimen.dp_line_size));
-            delegate.setStrokeColor(App.getContext().getResources().getColor(R.color.colorLineGray));
+            delegate.setStrokeWidth(App.getContext().getResources().getDimensionPixelSize(R.dimen.dp_line_size))
+                    .setStrokeColor(App.getContext().getResources().getColor(R.color.colorLineGray))
+                    .init();
         }
     }
 }

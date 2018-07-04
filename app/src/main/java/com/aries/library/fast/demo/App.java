@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 
 import com.aries.library.fast.FastManager;
+import com.aries.library.fast.demo.constant.ApiConstant;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
@@ -12,11 +13,11 @@ import com.umeng.analytics.MobclickAgent;
 
 import okhttp3.logging.HttpLoggingInterceptor;
 
-
 /**
- * Created: AriesHoo on 2017/7/20 14:11
- * Function: 基础配置Application
- * Desc:
+ * Created: AriesHoo on 2018/7/2 9:31
+ * E-Mail: AriesHoo@126.com
+ * Function:基础配置Application
+ * Description:
  */
 public class App extends Application {
 
@@ -64,27 +65,32 @@ public class App extends Application {
                 //配置全局网络请求BaseUrl
                 .setBaseUrl(BuildConfig.BASE_URL)
                 //信任所有证书--也可设置setCertificates(单/双向验证)
-                .trustAllSSL()
+                .setCertificates()
                 //设置统一请求头
-                //.setHeaders(header)
+//                .addHeader(header)
+//                .addHeader(key,value)
                 //设置请求全局log-可设置tag及Level类型
                 .setLogEnable(BuildConfig.DEBUG)
-                .setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BASIC)
+                .setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BODY)
                 //设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
                 //默认20 s
                 .setTimeout(20);
 
-        //以下为配置多BaseUrl
+
+        //以下为配置多BaseUrl--默认方式一优先级高 可通过FastRetrofit.getInstance().setHeaderPriorityEnable(true);设置方式二优先级
+        //方式一 通过Service 里的method 设置 推荐 使用该方式不需设置如方式二的额外Header
+        FastRetrofit.getInstance()
+                .putBaseUrl(ApiConstant.API_UPDATE_APP, BuildConfig.BASE__UPDATE_URL);
+
+        //方式二 通过 Service 里添加特定header设置
         //step1
-//        FastMultiUrl.getInstance()
-//                .putBaseUrl("taobao", "http://www.taobao.com")
-//                .putBaseUrl("baidu", "http://www.baidu.com");
+//        FastRetrofit.getInstance()
+//                .putHeaderBaseUrl(ApiConstant.API_UPDATE_APP_KEY, BuildConfig.BASE__UPDATE_URL);
         //step2
         // 需要step1中baseUrl的方法需要在对应service里增加
-        // @Headers({FastMultiUrl.BASE_URL_NAME_HEADER + "taobao"})
-        //增加一个Header配置注意FastMultiUrl.BASE_URL_NAME_HEADER是必须后面"taobao"作为标记
-        // 参考com.aries.library.fast.demo.retrofit.service.ApiService
-        // FastMultiUrl里增加的拦截器才找得到对应的BaseUrl
+        // @Headers({FastRetrofit.BASE_URL_NAME_HEADER + ApiConstant.API_UPDATE_APP_KEY})
+        //增加一个Header配置注意FastRetrofit.BASE_URL_NAME_HEADER是必须为step调用putHeaderBaseUrl方法设置的key
+        // 参考com.aries.library.fast.demo.retrofit.service.ApiService#updateApp
 
         //初始化友盟统计
         MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(mContext, "5b349499b27b0a085f000052", "FastLib"));

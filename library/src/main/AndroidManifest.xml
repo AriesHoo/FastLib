@@ -1,2 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.aries.library.fast"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.aries.library.fast">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!--8.0开启安装应用权限-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
+    <application>
+        <provider
+            android:name=".FastFileProvider"
+            android:authorities="${applicationId}.FastFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fast_file_path"/>
+        </provider>
+    </application>
+</manifest>

@@ -26,15 +26,6 @@
     <!--主页tab文字选中颜色-->
     <color name="colorTabTextSelect">@color/colorTitleText</color>
 
-    <!--多状态 loading颜色-->
-    <color name="colorMultiProgress">@color/colorTitleText</color>
-    <!--多状态文字颜色-->
-    <color name="colorMultiText">@color/colorTitleText</color>
-    <!--多状态布局背景色-->
-    <color name="colorMultiBackground">#fafafa</color>
-    <!--多状态布局图片颜色-->
-    <color name="colorMultiImage">@color/colorTitleText</color>
-
     <!--Glide加载图片默认占位图背景色-->
     <color name="colorPlaceholder">#bdbdbd</color>
 

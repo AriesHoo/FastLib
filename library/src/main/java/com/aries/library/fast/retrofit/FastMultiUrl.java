@@ -6,7 +6,6 @@ import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.manager.LoggerManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +24,11 @@ import okhttp3.Response;
  * 还可以在 App 运行时动态切换任意 BaseUrl,在多 BaseUrl 场景下也不会影响到其他不需要切换的 BaseUrl
  * Description:设置支持多BaseUrl
  * 1、2017-11-24 14:40:06 AriesHoo 新增部分set put方法返回本对象以便链式调用
+ * 2、2018-7-2 15:15:46 修改设置BaseUrl逻辑解决随时切换问题
+ * 3、2018-7-2 16:58:01 删除BaseUrl变更监听相关代码
+ * 4、2018-7-3 12:24:24 新增单独method 方法设置请求BaseUrl方法
  */
-public class FastMultiUrl {
+class FastMultiUrl {
 
     private static final String TAG = "FastMultiUrl";
     private static final String BASE_URL_NAME = "BASE_URL_NAME";
@@ -39,35 +41,26 @@ public class FastMultiUrl {
     /**
      * 是否开启拦截开始运行,可以随时停止运行,比如你在 App 启动后已经不需要在动态切换 baseUrl 了
      */
-    private boolean mIsIntercept = true;
-    //    private boolean mParserUrlEnable = true;
+    private boolean mIsIntercept = false;
+    /**
+     * 是否Service Header设置多BaseUrl优先
+     */
+    private boolean mHeaderPriorityEnable;
+    /**
+     * header模式baseUrl
+     */
+    private final Map<String, HttpUrl> mHeaderBaseUrlMap = new HashMap<>();
+    /**
+     * 通过method控制不同BaseUrl集合
+     */
     private final Map<String, HttpUrl> mBaseUrlMap = new HashMap<>();
     private final Interceptor mInterceptor;
-    private final List<OnUrlChangedListener> mListeners = new ArrayList<>();
     private FastUrlParser mUrlParser;
     private static volatile FastMultiUrl sInstance;
-
-    public interface OnUrlChangedListener {
-        /**
-         * 当 Url 的 BaseUrl 被改变时回调
-         * 调用时间是在接口请求服务器之前
-         *
-         * @param newUrl
-         * @param oldUrl
-         */
-        void onUrlChanged(HttpUrl newUrl, HttpUrl oldUrl);
-    }
-
-    public interface FastUrlParser {
-        /**
-         * 将 {@link FastMultiUrl#mBaseUrlMap} 中映射的 Url 解析成完整的{@link HttpUrl}
-         * 用来替换 @{@link Request#url} 里的BaseUrl以达到动态切换 Url的目的
-         *
-         * @param domainUrl
-         * @return
-         */
-        HttpUrl parseUrl(HttpUrl domainUrl, HttpUrl url);
-    }
+    /**
+     * retrofit 设置的BaseUrl
+     */
+    private String mBaseUrl;
 
     public static FastMultiUrl getInstance() {
         if (sInstance == null) {
@@ -81,6 +74,7 @@ public class FastMultiUrl {
     }
 
     private FastMultiUrl() {
+        //初始化解析器
         setUrlParser(new FastUrlParser() {
             @Override
             public HttpUrl parseUrl(HttpUrl domainUrl, HttpUrl url) {
@@ -89,23 +83,25 @@ public class FastMultiUrl {
                     return url;
                 }
                 //解析得到service里的方法名(即@POST或@GET里的内容)
-                String method = "";
-                try {
-                    HttpUrl base = getGlobalBaseUrl();
-                    method = url.toString().replace(base.toString(), "");
-                } catch (Exception e) {
-                    LoggerManager.e(TAG, "parseUrl:" + e.getMessage());
-                }
+                String method = !TextUtils.isEmpty(mBaseUrl) ? url.toString().replace(mBaseUrl.toString(), "") : "";
                 LoggerManager.d(TAG, "Old Url is{" + url.newBuilder().toString() + "};Method is <<" + method + ">>");
-                return checkUrl(domainUrl.toString() + method);
+                return checkUrl((!mHeaderPriorityEnable && mBaseUrlMap.containsKey(method) ? getBaseUrl(method).toString() : domainUrl.toString()) + method);
             }
         });
         this.mInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                if (!isIntercept()) // 可以在 App 运行时,随时通过 setIntercept(false) 来结束本管理器的拦截
-                    return chain.proceed(chain.request());
-                return chain.proceed(processRequest(chain.request()));
+                Request request = chain.request();
+                // 可以在 App 运行时,随时通过 setIntercept(false) 来结束本管理器的拦截
+                if (!isIntercept()) {
+                    return chain.proceed(request);
+                }
+                //如果请求url不包含默认的BaseUrl也不进行拦截
+                if (request != null && request.url() != null && !request.url().toString().contains(mBaseUrl)) {
+                    LoggerManager.i(TAG, "无统一BaseUrl不拦截:" + request.url() + ";BaseUrl:" + mBaseUrl);
+                    return chain.proceed(request);
+                }
+                return chain.proceed(processRequest(request));
             }
         };
     }
@@ -129,26 +125,18 @@ public class FastMultiUrl {
      */
     public Request processRequest(Request request) {
         Request.Builder newBuilder = request.newBuilder();
-        String keyName = getBaseUrlKeyFromHeaders(request);
+        String keyName = getHeaderBaseUrlKey(request);
         HttpUrl httpUrl;
         // 如果有 header,获取 header 中配置的url,否则检查全局的 BaseUrl,未找到则为null
         if (!TextUtils.isEmpty(keyName)) {
-            httpUrl = getBaseUrl(keyName);
+            httpUrl = getHeaderBaseUrl(keyName);
             newBuilder.removeHeader(BASE_URL_NAME);
         } else {
-            httpUrl = getBaseUrl(GLOBAL_BASE_URL_NAME);
+            httpUrl = getHeaderBaseUrl(GLOBAL_BASE_URL_NAME);
         }
         if (null != httpUrl) {
             HttpUrl newUrl = mUrlParser.parseUrl(httpUrl, request.url());
-            LoggerManager.i(FastMultiUrl.TAG, "Target Base Url is{" + httpUrl + "}" +
-                    ";New Url is { " + newUrl + " }" +
-                    ";Old Url is { " + request.url() + " }");
-            Object[] listeners = listenersToArray();
-            if (listeners != null) {
-                for (int i = 0; i < listeners.length; i++) {
-                    ((OnUrlChangedListener) listeners[i]).onUrlChanged(newUrl, request.url()); // 通知监听器此 Url 的 BaseUrl 已被改变
-                }
-            }
+            LoggerManager.i(FastMultiUrl.TAG, "New Url is { " + newUrl + " }" + ";Old Url is { " + request.url() + " }");
             return newBuilder
                     .url(newUrl)
                     .build();
@@ -176,12 +164,14 @@ public class FastMultiUrl {
     }
 
     /**
-     * 获取存放BaseUrl的集合
+     * 是否Service Header设置多BaseUrl优先--默认method优先
      *
+     * @param enable
      * @return
      */
-    public Map<String, HttpUrl> getBaseUrlMap() {
-        return mBaseUrlMap;
+    public FastMultiUrl setHeaderPriorityEnable(boolean enable) {
+        this.mHeaderPriorityEnable = enable;
+        return sInstance;
     }
 
     /**
@@ -192,25 +182,23 @@ public class FastMultiUrl {
      * @param url
      */
     public FastMultiUrl setGlobalBaseUrl(String url) {
-        synchronized (mBaseUrlMap) {
-            mBaseUrlMap.put(GLOBAL_BASE_URL_NAME, checkUrl(url));
+        synchronized (mHeaderBaseUrlMap) {
+            mHeaderBaseUrlMap.put(GLOBAL_BASE_URL_NAME, checkUrl(url));
+        }
+        //保证唯一性为retrofit设置的baseUrl
+        if (TextUtils.isEmpty(mBaseUrl)) {
+            mBaseUrl = url;
+        } else {
+            setIntercept(true);
         }
         return sInstance;
     }
 
-    /**
-     * 获取全局 BaseUrl
-     */
-    public HttpUrl getGlobalBaseUrl() {
-        return mBaseUrlMap.get(GLOBAL_BASE_URL_NAME);
-    }
-
-    /**
-     * 移除全局 BaseUrl
-     */
-    public FastMultiUrl removeGlobalBaseUrl() {
-        synchronized (mBaseUrlMap) {
-            mBaseUrlMap.remove(GLOBAL_BASE_URL_NAME);
+    public FastMultiUrl putHeaderBaseUrl(Map<String, String> map) {
+        if (map != null && map.size() > 0) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                putHeaderBaseUrl(entry.getKey(), entry.getValue());
+            }
         }
         return sInstance;
     }
@@ -221,25 +209,13 @@ public class FastMultiUrl {
      * @param urlKey
      * @param urlValue
      */
-    public FastMultiUrl putBaseUrl(String urlKey, String urlValue) {
-        synchronized (mBaseUrlMap) {
-            mBaseUrlMap.put(urlKey, checkUrl(urlValue));
+    public FastMultiUrl putHeaderBaseUrl(String urlKey, String urlValue) {
+        synchronized (mHeaderBaseUrlMap) {
+            mHeaderBaseUrlMap.put(urlKey, checkUrl(urlValue));
+            setIntercept(true);
         }
         return sInstance;
     }
-//
-//    /**
-//     * 设置多BaseUrl是否进行二次解析 最终只变更 第一个(除了http://外)/之前部分
-//     * {@link FastUrlParser#parseUrl(HttpUrl, HttpUrl)}
-//     * {@link FastMultiUrl#FastMultiUrl()}
-//     *
-//     * @param enable
-//     * @return
-//     */
-//    public FastMultiUrl setParserUrlEnable(boolean enable) {
-//        this.mParserUrlEnable = enable;
-//        return sInstance;
-//    }
 
     /**
      * 取出对应 urlKey 的 Url
@@ -247,8 +223,8 @@ public class FastMultiUrl {
      * @param urlKey
      * @return
      */
-    public HttpUrl getBaseUrl(String urlKey) {
-        return mBaseUrlMap.get(urlKey);
+    public HttpUrl getHeaderBaseUrl(String urlKey) {
+        return mHeaderBaseUrlMap.get(urlKey);
     }
 
     /**
@@ -256,6 +232,64 @@ public class FastMultiUrl {
      *
      * @param urlKey
      */
+    public FastMultiUrl removeHeaderBaseUrl(String urlKey) {
+        synchronized (mHeaderBaseUrlMap) {
+            mHeaderBaseUrlMap.remove(urlKey);
+        }
+        return sInstance;
+    }
+
+    /**
+     * 清除所有BaseUrl
+     */
+    public FastMultiUrl clearAllHeaderBaseUrl() {
+        mHeaderBaseUrlMap.clear();
+        return sInstance;
+    }
+
+    /**
+     * 可自行实现 {@link FastUrlParser} 动态切换 Url 解析策略
+     *
+     * @param parser
+     */
+    public FastMultiUrl setUrlParser(FastUrlParser parser) {
+        this.mUrlParser = parser;
+        return sInstance;
+    }
+
+    public FastMultiUrl putBaseUrl(Map<String, String> map) {
+        if (map != null && map.size() > 0) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                putBaseUrl(entry.getKey(), entry.getValue());
+            }
+        }
+        return sInstance;
+    }
+
+    /**
+     * 存放 BaseUrl 的映射关系
+     *
+     * @param urlKey
+     * @param urlValue
+     * @return
+     */
+    public FastMultiUrl putBaseUrl(String urlKey, String urlValue) {
+        synchronized (mHeaderBaseUrlMap) {
+            mBaseUrlMap.put(urlKey, checkUrl(urlValue));
+            setIntercept(true);
+        }
+        return sInstance;
+    }
+
+    /**
+     * @param urlKey
+     * @return
+     */
+    public HttpUrl getBaseUrl(String urlKey) {
+        return mBaseUrlMap.get(urlKey);
+    }
+
+
     public FastMultiUrl removeBaseUrl(String urlKey) {
         synchronized (mBaseUrlMap) {
             mBaseUrlMap.remove(urlKey);
@@ -272,70 +306,15 @@ public class FastMultiUrl {
     }
 
     /**
-     * 检查是否包含某个url的key
-     *
-     * @param urlKey
-     * @return
-     */
-    public boolean containsBaseUrl(String urlKey) {
-        return mBaseUrlMap.containsKey(urlKey);
-    }
-
-    /**
-     * 可自行实现 {@link FastUrlParser} 动态切换 Url 解析策略
-     *
-     * @param parser
-     */
-    public FastMultiUrl setUrlParser(FastUrlParser parser) {
-        this.mUrlParser = parser;
-        return sInstance;
-    }
-
-    /**
-     * 注册当 Url 的 BaseUrl 被改变时会被回调的监听器
-     *
-     * @param listener
-     */
-    public FastMultiUrl registerUrlChangeListener(OnUrlChangedListener listener) {
-        synchronized (mListeners) {
-            mListeners.add(listener);
-        }
-        return sInstance;
-    }
-
-    /**
-     * 注销当 Url 的 BaseUrl 被改变时会被回调的监听器
-     *
-     * @param listener
-     */
-    public FastMultiUrl unregisterUrlChangedListener(OnUrlChangedListener listener) {
-        synchronized (mListeners) {
-            mListeners.remove(listener);
-        }
-        return sInstance;
-    }
-
-    private Object[] listenersToArray() {
-        Object[] listeners = null;
-        synchronized (mListeners) {
-            if (mListeners.size() > 0) {
-                listeners = mListeners.toArray();
-            }
-        }
-        return listeners;
-    }
-
-
-    /**
      * 从 {@link Request#header(String)} 中取出BASE_URL_NAME
      *
      * @param request
      * @return
      */
-    private String getBaseUrlKeyFromHeaders(Request request) {
+    private String getHeaderBaseUrlKey(Request request) {
         Headers heads = request.headers();
         if (heads != null) {
-            LoggerManager.i("header:" + heads.toString());
+            LoggerManager.i(TAG, "header:" + heads.toString());
         }
         List<String> headers = request.headers(BASE_URL_NAME);
         if (headers == null || headers.size() == 0)

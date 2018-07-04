@@ -9,7 +9,7 @@
     <!--<color name="accent_material_light">#b640ff</color>-->
 
     <!--滑动返回windowBackground-->
-    <color name="colorSwipeBackBackground">#0a000000</color>
+    <color name="colorSwipeBackBackground">#c8000000</color>
 
     <color name="colorMainAli">#1b81d1</color>
     <color name="colorMainNews">#2B61BF</color>

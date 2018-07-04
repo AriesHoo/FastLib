@@ -15,13 +15,16 @@ import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.module.activity.FastMainActivity;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.DrawableUtil;
+import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.RomUtil;
+import com.flyco.tablayout.CommonTabLayout;
 
 import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
@@ -31,6 +34,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * E-Mail: AriesHoo@126.com
  * Function: Activity/Fragment生命周期
  * Description:
+ * 1、2018-7-2 09:29:54 新增继承{@link FastMainActivity}的Activity虚拟导航栏功能
  */
 public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
 
@@ -150,11 +154,13 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
      * 实时获取回调
      */
     private void getControl() {
+        mSwipeBackControl = FastManager.getInstance().getSwipeBackControl();
         mActivityFragmentControl = FastManager.getInstance().getActivityFragmentControl();
-        if (mActivityFragmentControl == null) return;
+        if (mActivityFragmentControl == null) {
+            return;
+        }
         mActivityLifecycleCallbacks = mActivityFragmentControl.getActivityLifecycleCallbacks();
         mFragmentLifecycleCallbacks = mActivityFragmentControl.getFragmentLifecycleCallbacks();
-        mSwipeBackControl = FastManager.getInstance().getSwipeBackControl();
     }
 
     /**
@@ -264,6 +270,13 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         }
         LoggerManager.i(TAG, "setNavigationBars:设置虚拟导航栏");
         View bottomView = FastUtil.getRootView(activity);
+        //继承FastMainActivity底部View处理
+        if (FastMainActivity.class.isAssignableFrom(activity.getClass())) {
+            CommonTabLayout tabLayout = FindViewUtil.getTargetView(bottomView, CommonTabLayout.class);
+            if (tabLayout != null) {
+                bottomView = tabLayout;
+            }
+        }
         Drawable drawableTop = activity.getResources().getDrawable(R.color.colorLineGray);
         DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
         //设置虚拟导航栏控制

@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.retrofit.repository;
 
 import com.aries.library.fast.demo.base.BaseMovieEntity;
+import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.retrofit.service.ApiService;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.retrofit.FastTransformer;
@@ -38,9 +39,9 @@ public class ApiRepository extends BaseRepository {
     }
 
     private ApiService getApiService() {
-        if (mApiService == null) {
-            mApiService = FastRetrofit.getInstance().createService(ApiService.class);
-        }
+//        if (mApiService == null) {
+        mApiService = FastRetrofit.getInstance().createService(ApiService.class);
+//        }
         return mApiService;
     }
 
@@ -58,6 +59,10 @@ public class ApiRepository extends BaseRepository {
         params.put("count", count);
         Map<String, Object> map = new HashMap<>();
         map.put("ticket", "ticker");
-        return FastTransformer.switchSchedulers(getApiService().getMovie(url, params,map));
+        return FastTransformer.switchSchedulers(getApiService().getMovie(url, params, map));
+    }
+
+    public Observable<UpdateEntity> updateApp() {
+        return FastTransformer.switchSchedulers(getApiService().updateApp());
     }
 }

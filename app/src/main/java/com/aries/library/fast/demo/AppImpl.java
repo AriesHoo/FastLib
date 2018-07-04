@@ -16,16 +16,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.HttpRequestControl;
+import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IHttpRequestControl;
-import com.aries.library.fast.i.IMultiStatusView;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
@@ -34,7 +36,6 @@ import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.manager.LoggerManager;
-import com.aries.library.fast.module.activity.FastMainActivity;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.NetworkUtil;
@@ -42,7 +43,6 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
-import com.aries.library.fast.widget.FastMultiStatusView;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
@@ -52,7 +52,6 @@ import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.progress.UIProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.flyco.tablayout.CommonTabLayout;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
@@ -153,49 +152,33 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 //                        return MyLoadMoreView();
     }
 
-    /**
-     * 多状态布局配置
-     *
-     * @return
-     */
-    @NonNull
     @Override
-    public IMultiStatusView createMultiStatusView() {
-        //根据具体情况可设置更多属性具体请参考FastMultiStatusView.Builder里set方法
-        //默认设置请参考Builder(Context context)里初始化
-        return new FastMultiStatusView.Builder(mContext)
-                .setLoadingTextFakeBold(false)
-//                                .setTextColor(Color.MAGENTA)
-//                                .setTextColorResource(R.color.colorMultiText)
-//                                .setTextSizeResource(R.dimen.dp_multi_text_size)
-//                                .setTextSize(getResources().getDimensionPixelSize(R.dimen.dp_multi_text_size))
-//                                .setLoadingProgressColorResource(R.color.colorMultiProgress)
-//                                .setLoadingProgressColor(getResources().getColor(R.color.colorMultiProgress))
-//                                .setLoadingTextColor(getResources().getColor(R.color.colorMultiProgress))
-//                                .setLoadingText(R.string.fast_multi_loading)
-//                                .setEmptyText(R.string.fast_multi_empty)
-//                                .setErrorText(R.string.fast_multi_error)
-//                                .setNoNetText(R.string.fast_multi_network)
-//                                .setTextMarginResource(R.dimen.dp_multi_margin)
-//                                .setImageWidthHeightResource(R.dimen.dp_multi_image_size)
-//                                .setEmptyImageColorResource(R.color.colorTitleText)
-//                                .setEmptyImageDrawable(R.drawable.fast_img_multi_empty)
-//                                .setErrorImageColorResource(R.color.colorTitleText)
-//                                .setErrorImageDrawable(R.drawable.fast_img_multi_error)
-//                                .setNoNetImageColorResource(R.color.colorTitleText)
-//                                .setNoNetImageDrawable(R.drawable.fast_img_multi_network)
-                .build();
+    public void setMultiStatusView(StatusLayoutManager.Builder statusView, IFastRefreshLoadView iFastRefreshLoadView) {
     }
 
     @Nullable
     @Override
     public FastLoadDialog createLoadingDialog(@Nullable Activity activity) {
-        return new FastLoadDialog(activity,
-                new UIProgressDialog.WeBoBuilder(activity)
-                        .setMessage("加载中")
-                        .create())
-                .setCanceledOnTouchOutside(false)
-                .setMessage("请求数据中,请稍候...");
+//        return new FastLoadDialog(activity,
+//                new UIProgressDialog.WeBoBuilder(activity)
+//                        .setMessage("加载中")
+//                        .create())
+//                .setCanceledOnTouchOutside(false)
+//                .setMessage("请求数据中,请稍候...");
+        //注意使用UIProgressDialog时最好在Builder里设置提示文字setMessage不然后续再设置文字信息也不会显示
+        return new FastLoadDialog(activity, new UIProgressDialog.WeChatBuilder(activity)
+                .setBackgroundColor(Color.parseColor("#FCFCFC"))
+//                .setMinHeight(SizeUtil.dp2px(140))
+//                .setMinWidth(SizeUtil.dp2px(270))
+                .setTextSizeUnit(TypedValue.COMPLEX_UNIT_PX)
+                .setMessage(R.string.fast_loading)
+                .setLoadingSize(SizeUtil.dp2px(30))
+                .setTextSize(SizeUtil.dp2px(16f))
+                .setTextPadding(SizeUtil.dp2px(10))
+                .setTextColorResource(R.color.colorTextGray)
+                .setIndeterminateDrawable(FastUtil.getTintDrawable(activity.getResources().getDrawable(R.drawable.dialog_loading), activity.getResources().getColor(R.color.colorTitleText)))
+                .setBackgroundRadius(SizeUtil.dp2px(6f))
+                .create());
     }
 
     /**
@@ -236,7 +219,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
-                .setShadowResId(R.color.colorBackground)
+//                .setShadowResId(R.color.colorSwipeBackBackground)
                 .setIsNavigationBarOverlap(true);//底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
     }
 
@@ -309,7 +292,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     }
 
     /**
-     * {@link com.aries.library.fast.FastLifecycleCallbacks#onActivityCreated(Activity, Bundle)}
+     * {@link FastLifecycleCallbacks#onActivityStarted(Activity)}
      *
      * @param activity
      * @param helper
@@ -320,8 +303,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setTransEnable(isTrans(activity))
                 .setPlusNavigationViewEnable(isTrans(activity))
-                .setBottomView(FastMainActivity.class.isAssignableFrom(activity.getClass()) ? FindViewUtil.getTargetView(bottomView, CommonTabLayout.class) :
-                        PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ? FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
+                .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
+                        FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
                 .setNavigationLayoutColor(Color.WHITE);
         return true;
@@ -329,6 +312,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 
     /**
      * Activity 生命周期监听--可用于三方统计页面数据
+     * 示例仅为参考如无需添加自己代码可回调null
      *
      * @return
      */
@@ -349,7 +333,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                 if (activity instanceof FragmentActivity) {
                     FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
                     List<Fragment> list = manager.getFragments();
-                    if (list == null || list.size() == 0)//有Fragment的FragmentActivity不需调用以下方法避免统计不准
+                    //有Fragment的FragmentActivity不需调用以下方法避免统计不准
+                    if (list == null || list.size() == 0)
                         MobclickAgent.onPageStart(activity.getClass().getSimpleName());
                 } else {
                     MobclickAgent.onPageStart(activity.getClass().getSimpleName());
@@ -363,7 +348,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                 if (activity instanceof FragmentActivity) {
                     FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
                     List<Fragment> list = manager.getFragments();
-                    if (list == null || list.size() == 0)//有Fragment的FragmentActivity不需调用以下方法避免统计不准
+                    //有Fragment的FragmentActivity不需调用以下方法避免统计不准
+                    if (list == null || list.size() == 0)
                         MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
                 } else {
                     MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
@@ -374,7 +360,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
             @Override
             public void onActivityStopped(Activity activity) {
                 if (activity.isFinishing())
-                    activity.overridePendingTransition(com.aries.library.fast.R.anim.bga_sbl_activity_swipeback_enter, com.aries.library.fast.R.anim.bga_sbl_activity_swipeback_exit);
+                    activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
             }
 
             @Override
@@ -388,6 +374,11 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         };
     }
 
+    /**
+     * Fragment 生命周期回调
+     *
+     * @return
+     */
     @Override
     public FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
         return new FragmentManager.FragmentLifecycleCallbacks() {
@@ -416,7 +407,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         int page = httpRequestControl.getCurrentPage();
         int size = httpRequestControl.getPageSize();
 
-        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page +";class:"+httpRequestControl.getRequestClass());
+        LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page + ";class:" + httpRequestControl.getRequestClass());
         if (smartRefreshLayout != null)
             smartRefreshLayout.finishRefresh();
         if (adapter == null) return;
@@ -497,7 +488,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         if (statusLayoutManager == null) return;
         if (page == 0) {//初始页
             if (!NetworkUtil.isConnected(mContext)) {
-                statusLayoutManager.showCustomLayout(R.layout.fast_layout_multi_network);
+                //可自定义网络错误页面展示
+                statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
             } else {
                 statusLayoutManager.showErrorLayout();
             }

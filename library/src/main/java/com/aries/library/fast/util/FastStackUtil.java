@@ -170,24 +170,6 @@ public class FastStackUtil {
     }
 
     /**
-     * 将栈里除某个Activity全部清空
-     *
-     * @param cls
-     */
-    @Deprecated
-    public void popAllExcept(Class cls) {
-        if (mActivityStack == null || mActivityStack.size() == 0) {
-            return;
-        }
-        for (Activity activity : mActivityStack) {
-            if (activity != null && !activity.getClass().equals(cls)) {
-                pop(activity);
-            }
-        }
-    }
-
-
-    /**
      * 应用程序退出
      */
     public void exit() {

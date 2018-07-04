@@ -14,15 +14,6 @@
     <!--主页tab 上划线宽度-->
     <dimen name="dp_tab_underline">0.5dp</dimen>
 
-    <!--多状态布局文字字号-->
-    <dimen name="dp_multi_text_size">16dp</dimen>
-    <!--多状态布局icon与文字间距-->
-    <dimen name="dp_multi_margin">12dp</dimen>
-    <!--多状态布局icon宽高-->
-    <dimen name="dp_multi_image_size">72dp</dimen>
-    <!--多状态布局icon宽高-->
-    <dimen name="dp_multi_loading_size">48dp</dimen>
-
     <!--glide加载圆角图片占位图圆角弧度-->
     <dimen name="dp_placeholder_radius">6dp</dimen>
 

@@ -19,4 +19,8 @@
     <string name="activity_tab_segment">活动页分段Tab</string>
     <string name="library_address">项目地址</string>
     <string name="test_status">模拟非FastLib三方库且未实现状态栏沉浸效果</string>
+    <string name="update">检查新版本</string>
+    <string name="checking">检查新版本中...</string>
+    <string name="update_now">立即更新</string>
+    <string name="uploading">上传中...</string>
 </resources>

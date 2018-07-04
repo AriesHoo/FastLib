@@ -61,7 +61,7 @@
         <com.allen.library.SuperTextView
             android:id="@+id/stv_libraryMine"
             style="@style/SupperTextStyleItem"
-            app:sDividerLineType="top"
+            app:sDividerLineType="both"
             app:sLeftIconRes="@drawable/ic_github"
             app:sLeftTextString="@string/library_address"/>
 
@@ -75,10 +75,20 @@
             android:id="@+id/stv_shareMine"
             style="@style/SupperTextStyleItem"
             android:layout_marginTop="@dimen/dp_margin_item"
+            app:sDividerLineType="both"
             app:sLeftIconHeight="22dp"
             app:sLeftIconMarginLeft="13dp"
             app:sLeftIconRes="@drawable/ic_share"
             app:sLeftIconWidth="22dp"
             app:sLeftTextString="@string/share"/>
+
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_updateMine"
+            style="@style/SupperTextStyleItem"
+            app:sLeftIconHeight="22dp"
+            app:sLeftIconMarginLeft="13dp"
+            app:sLeftIconRes="@drawable/ic_update"
+            app:sLeftIconWidth="22dp"
+            app:sLeftTextString="@string/update"/>
     </LinearLayout>
 </ScrollView>
