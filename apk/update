@@ -1,6 +1,6 @@
 {
 	"versionCode": 230,
-	"versionName": "2.2.10-beta1",
+	"versionName": "2.2.10-beta2",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
 	"message": "优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加\n优化:多状态管理StatusLayoutManager调整完成\n优化:滑动返回控制swipeBack功能新增各种回调功能\n优化:将原默认配置方法调整到最终实现类功能\n优化:其它细节优化"
