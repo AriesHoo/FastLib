@@ -1,8 +1,8 @@
 {
 	"versionCode": 230,
-	"versionName": "2.2.10-beta1",
+	"versionName": "2.2.10-beta2",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
-	"size": "5.21M",
+	"size": "4.94M",
 	"message": "优化:调整ActivityFragmentControl\n优化:其它细节优化"
 }
