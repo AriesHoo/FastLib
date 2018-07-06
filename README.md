@@ -50,7 +50,7 @@ dependencies {
 **Maven集成**
 
 ```
-   <repositories>
+   	<repositories>
 		<repository>
 		    <id>jitpack.io</id>
 		    <url>https://jitpack.io</url>
@@ -59,7 +59,7 @@ dependencies {
 ```
 
 ```
-<dependency>
+	<dependency>
 	    <groupId>com.github.AriesHoo</groupId>
 	    <artifactId>FastLib</artifactId>
 	    <version>2.2.1</version>
@@ -145,7 +145,7 @@ dependencies {
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
-* 2.2.10-beta1
+* 2.2.10-beta3
    
     * 重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异     
 	* 优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
