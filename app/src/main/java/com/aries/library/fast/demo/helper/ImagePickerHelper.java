@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created: AriesHoo on 2018/5/10/010 12:17
  * E-Mail: AriesHoo@126.com
- * Function:图片选择帮助类
+ * Function:图片选择帮助类-演示控制三方库状态栏及导航栏效果
  * Description:
  */
 public class ImagePickerHelper extends BaseHelper {

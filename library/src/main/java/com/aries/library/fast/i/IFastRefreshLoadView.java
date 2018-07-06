@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -89,6 +90,13 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      * @param statusView
      */
     void setMultiStatusView(StatusLayoutManager.Builder statusView);
+
+    /**
+     * 设置StatusLayoutManager 子View点击事件
+     *
+     * @return
+     */
+    OnStatusChildClickListener getMultiStatusViewChildClickListener();
 
     IHttpRequestControl getIHttpRequestControl();
 }

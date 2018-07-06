@@ -150,7 +150,7 @@ public class FastRetrofit {
     public <T> T createService(Class<T> apiService, boolean useCacheEnable) {
         if (useCacheEnable && apiService != null) {
             if (mServiceMap.containsKey(apiService.getName())) {
-                LoggerManager.i("className:" + apiService.getName() + ";containsKey:" + mServiceMap.containsKey(apiService.getName()));
+                LoggerManager.i("className:" + apiService.getName() + ";service取自缓存");
                 return (T) mServiceMap.get(apiService.getName());
             }
             T tClass = getRetrofit().create(apiService);

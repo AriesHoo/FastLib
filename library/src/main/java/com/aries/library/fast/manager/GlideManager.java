@@ -42,7 +42,7 @@ public class GlideManager {
     private static Drawable sCirclePlaceholderDrawable;
     private static Drawable sRoundPlaceholderDrawable;
     @ColorInt
-    private static int mPlaceholderColor = Color.GRAY;
+    private static int mPlaceholderColor = Color.LTGRAY;
     private static float mPlaceholderRoundRadius = 4f;
 
     private static void setDrawable(GradientDrawable gd, float radius) {

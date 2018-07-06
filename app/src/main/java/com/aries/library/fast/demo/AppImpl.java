@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.aries.library.fast.FastLifecycleCallbacks;
-import com.aries.library.fast.demo.helper.RefreshHeaderHelper;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.HttpRequestControl;
@@ -57,6 +56,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -104,7 +104,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
         layout.setEnableHeaderTranslationContent(false)
                 .setEnableOverScrollDrag(false);
-        return RefreshHeaderHelper.getInstance().getRefreshHeader(mContext);
+        MaterialHeader materialHeader = new MaterialHeader(mContext);
+        materialHeader.setColorSchemeColors(mContext.getResources().getColor(R.color.colorTextBlack),
+                mContext.getResources().getColor(R.color.colorTextBlackLight));
+        return materialHeader;
     }
 
     /**

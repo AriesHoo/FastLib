@@ -35,7 +35,8 @@ public class FastFileUtil {
     }
 
     /**
-     * 安装App
+     * 安装App 使用lib FileProvider
+     * 使用{@link #createCacheFile()}创建文件包
      *
      * @param apkPath
      */

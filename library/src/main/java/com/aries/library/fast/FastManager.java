@@ -14,6 +14,7 @@ import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
+import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
@@ -111,6 +112,9 @@ public class FastManager {
             mApplication.registerActivityLifecycleCallbacks(new FastLifecycleCallbacks());
             //初始化Toast工具
             ToastUtil.init(mApplication);
+            //初始化Glide
+            GlideManager.setPlaceholderColor(mApplication.getResources().getColor(R.color.colorPlaceholder));
+            GlideManager.setPlaceholderRoundRadius(mApplication.getResources().getDimension(R.dimen.dp_placeholder_radius));
         }
         return getInstance();
     }

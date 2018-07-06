@@ -7,14 +7,13 @@ import android.text.TextUtils;
 
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastFileUtil;
-import com.aries.library.fast.util.FastStackUtil;
-import com.aries.library.fast.widget.FastLoadDialog;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import io.reactivex.observers.DefaultObserver;
 import okhttp3.ResponseBody;
 
 /**
@@ -23,7 +22,7 @@ import okhttp3.ResponseBody;
  * Function:快速下载观察者
  * Description:
  */
-public abstract class FastDownloadObserver extends FastLoadingObserver<ResponseBody> {
+public abstract class FastDownloadObserver extends DefaultObserver<ResponseBody> {
 
     private Dialog mDialog;
     private Handler mHandler;
@@ -35,23 +34,36 @@ public abstract class FastDownloadObserver extends FastLoadingObserver<ResponseB
      * 目标文件存储的文件名
      */
     private String mDestFileName;
+    /**
+     * 下载回调步长-不能小于128
+     */
+    private int mStepBuffer = 2048;
 
     public FastDownloadObserver(String destFileName) {
-        this(FastFileUtil.createCacheFile(), destFileName, null);
+        this(FastFileUtil.createCacheFile(), destFileName);
+    }
+
+    public FastDownloadObserver(String destFileName, int stepBuffer) {
+        this(FastFileUtil.createCacheFile(), destFileName, stepBuffer, null);
     }
 
     public FastDownloadObserver(String destFileDir, String destFileName) {
-        this(destFileDir, destFileName, null);
+        this(destFileDir, destFileName, 2048, null);
     }
 
     public FastDownloadObserver(String destFileName, Dialog dialog) {
-        this(FastFileUtil.createCacheFile(), destFileName, dialog);
+        this(FastFileUtil.createCacheFile(), destFileName, 2048, dialog);
     }
 
-    public FastDownloadObserver(String destFileDir, String destFileName, Dialog dialog) {
-        super(new FastLoadDialog(FastStackUtil.getInstance().getCurrent(), dialog));
+    public FastDownloadObserver(String destFileName, int stepBuffer, Dialog dialog) {
+        this(FastFileUtil.createCacheFile(), destFileName, stepBuffer, dialog);
+    }
+
+    public FastDownloadObserver(String destFileDir, String destFileName, int stepBuffer, Dialog dialog) {
+        super();
         this.mDestFileDir = TextUtils.isEmpty(destFileDir) ? FastFileUtil.createCacheFile() : destFileDir;
         this.mDestFileName = destFileName;
+        this.mStepBuffer = stepBuffer < 128 ? 128 : stepBuffer;
         this.mDialog = dialog;
         LoggerManager.i("FastDownloadObserver", "destFileDir:" + destFileDir);
     }
@@ -70,11 +82,6 @@ public abstract class FastDownloadObserver extends FastLoadingObserver<ResponseB
                 onFail(e);
             }
         });
-    }
-
-    @Override
-    public void _onNext(ResponseBody entity) {
-
     }
 
     @Override
@@ -121,7 +128,7 @@ public abstract class FastDownloadObserver extends FastLoadingObserver<ResponseB
      */
     public File saveFile(ResponseBody response) throws IOException {
         InputStream is = null;
-        byte[] buf = new byte[2048];
+        byte[] buf = new byte[mStepBuffer];
         int len;
         FileOutputStream fos = null;
         try {

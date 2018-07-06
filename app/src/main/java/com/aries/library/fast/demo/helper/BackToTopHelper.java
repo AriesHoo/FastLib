@@ -16,7 +16,7 @@ import com.aries.library.fast.util.SizeUtil;
 /**
  * Created: AriesHoo on 2017/11/20 14:37
  * E-Mail: AriesHoo@126.com
- * Function: 回到顶部帮助类
+ * Function: 回到顶部帮助类--还没想好替换方案(因修改多状态方案)
  * Description:
  */
 public class BackToTopHelper {

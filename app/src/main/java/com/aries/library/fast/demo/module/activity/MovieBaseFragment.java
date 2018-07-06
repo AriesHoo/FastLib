@@ -26,10 +26,13 @@ import org.simple.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
+
 /**
- * Created: AriesHoo on 2017/8/25 17:03
- * Function: 电影列表
- * Desc:
+ * Created: AriesHoo on 2018/7/6 10:07
+ * E-Mail: AriesHoo@126.com
+ * Function:电影列表示例
+ * Description:
  */
 public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
@@ -98,6 +101,32 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
         super.onItemClicked(adapter, view, position);
         WebViewActivity.start(mContext, adapter.getItem(position).alt);
     }
+
+    //单独设置状态
+    @Override
+    public void setMultiStatusView(StatusLayoutManager.Builder statusView) {
+        super.setMultiStatusView(statusView);
+    }
+
+    //演示单独控制多状态布局点击事件
+//    @Override
+//    public OnStatusChildClickListener getMultiStatusViewChildClickListener() {
+//        return new OnStatusChildClickListener() {
+//            @Override
+//            public void onEmptyChildClick(View view) {
+//                ToastUtil.show("空啦");
+//            }
+//
+//            @Override
+//            public void onErrorChildClick(View view) {
+//                ToastUtil.show("错啦");
+//            }
+//
+//            @Override
+//            public void onCustomerChildClick(View view) {
+//            }
+//        };
+//    }
 
     @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION)
     public void changeAdapterAnimation(int index) {

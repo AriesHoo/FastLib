@@ -29,9 +29,10 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * Created: AriesHoo on 2017/7/20 11:45
- * Function: 活动页--Retrofit演示
- * Desc:
+ * Created: AriesHoo on 2018/7/6 10:07
+ * E-Mail: AriesHoo@126.com
+ * Function:活动页--Retrofit演示
+ * Description:
  */
 public class ActivityFragment extends FastTitleFragment {
 

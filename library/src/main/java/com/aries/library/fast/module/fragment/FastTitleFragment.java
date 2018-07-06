@@ -6,11 +6,11 @@ import com.aries.library.fast.i.IFastTitleView;
 import com.aries.ui.view.title.TitleBarView;
 
 /**
- * Created: AriesHoo on 2017/7/21 10:10
- * Function: 设置有TitleBar的Fragment
- * Desc:
+ * Created: AriesHoo on 2018/7/6 9:13
+ * E-Mail: AriesHoo@126.com
+ * Function:设置有TitleBar的Fragment
+ * Description:
  */
-
 public abstract class FastTitleFragment extends BasisFragment implements IFastTitleView {
 
     protected FastTitleDelegate mFastTitleDelegate;

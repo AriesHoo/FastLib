@@ -41,6 +41,9 @@ public class FastRefreshLoadDelegate<T> {
         this.mIFastRefreshLoadView = iFastRefreshLoadView;
         this.mContext = rootView.getContext().getApplicationContext();
         this.mManager = FastManager.getInstance();
+        if (mIFastRefreshLoadView == null) {
+            return;
+        }
         getRefreshLayout(rootView);
         getRecyclerView(rootView);
         initRefreshHeader();
@@ -51,7 +54,7 @@ public class FastRefreshLoadDelegate<T> {
      * 初始化刷新头配置
      */
     protected void initRefreshHeader() {
-        if (mRefreshLayout == null || mIFastRefreshLoadView == null) {
+        if (mRefreshLayout == null) {
             return;
         }
         mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader() != null
@@ -68,7 +71,7 @@ public class FastRefreshLoadDelegate<T> {
      * 初始化RecyclerView配置
      */
     protected void initRecyclerView() {
-        if (mRecyclerView == null || mIFastRefreshLoadView == null) {
+        if (mRecyclerView == null) {
             return;
         }
         mAdapter = mIFastRefreshLoadView.getAdapter();
@@ -114,25 +117,27 @@ public class FastRefreshLoadDelegate<T> {
                 .setDefaultLoadingText(R.string.fast_multi_loading)
                 .setDefaultErrorText(R.string.fast_multi_error)
                 .setDefaultErrorClickViewTextColor(contentView.getResources().getColor(R.color.colorTitleText))
-                .setOnStatusChildClickListener(new OnStatusChildClickListener() {
-                    @Override
-                    public void onEmptyChildClick(View view) {
-                        mStatusManager.showLoadingLayout();
-                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
-                    }
+                .setOnStatusChildClickListener(mIFastRefreshLoadView.getMultiStatusViewChildClickListener() != null ?
+                        mIFastRefreshLoadView.getMultiStatusViewChildClickListener() :
+                        new OnStatusChildClickListener() {
+                            @Override
+                            public void onEmptyChildClick(View view) {
+                                mStatusManager.showLoadingLayout();
+                                mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                            }
 
-                    @Override
-                    public void onErrorChildClick(View view) {
-                        mStatusManager.showLoadingLayout();
-                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
-                    }
+                            @Override
+                            public void onErrorChildClick(View view) {
+                                mStatusManager.showLoadingLayout();
+                                mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                            }
 
-                    @Override
-                    public void onCustomerChildClick(View view) {
-                        mStatusManager.showLoadingLayout();
-                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
-                    }
-                });
+                            @Override
+                            public void onCustomerChildClick(View view) {
+                                mStatusManager.showLoadingLayout();
+                                mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                            }
+                        });
         if (mManager != null && mManager.getMultiStatusView() != null) {
             mManager.getMultiStatusView().setMultiStatusView(builder, mIFastRefreshLoadView);
         }

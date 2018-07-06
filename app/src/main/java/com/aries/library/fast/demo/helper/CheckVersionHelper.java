@@ -60,7 +60,7 @@ public class CheckVersionHelper {
         ApiRepository.getInstance().updateApp()
                 .compose(activity.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(loading ?
-                        new FastLoadingObserver<UpdateEntity>(activity, R.string.checking) {
+                        new FastLoadingObserver<UpdateEntity>(R.string.checking) {
                             @Override
                             public void _onNext(@NonNull UpdateEntity entity) {
                                 if (entity == null) {
@@ -164,10 +164,10 @@ public class CheckVersionHelper {
         mProgressDialog.setCancelable(!entity.force);
         mProgressDialog.setCanceledOnTouchOutside(!entity.force);
         FastRetrofit.getInstance().downloadFile(entity.url)
-                .subscribe(new FastDownloadObserver("FastLib.apk", mProgressDialog) {
+                .subscribe(new FastDownloadObserver("FastLib.apk",128, mProgressDialog) {
                     @Override
                     public void onSuccess(File file) {
-                        ToastUtil.show("下载成功:" + file.getAbsolutePath());
+//                        ToastUtil.show("下载成功:" + file.getAbsolutePath());
                         FastFileUtil.installApk(file);
                     }
 

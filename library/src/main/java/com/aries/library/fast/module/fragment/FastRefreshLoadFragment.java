@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -99,6 +100,11 @@ public abstract class FastRefreshLoadFragment<T>
     @Override
     public void setMultiStatusView(StatusLayoutManager.Builder statusView) {
 
+    }
+
+    @Override
+    public OnStatusChildClickListener getMultiStatusViewChildClickListener() {
+        return null;
     }
 
     @Override

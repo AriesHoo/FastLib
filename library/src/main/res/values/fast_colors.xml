@@ -26,8 +26,12 @@
     <!--主页tab文字选中颜色-->
     <color name="colorTabTextSelect">@color/colorTitleText</color>
 
+    <!--多状态文本颜色控制-->
+    <color name="status_layout_click_view_text_color">#0084FF</color>
+    <color name="status_layout_tip_text_color">@color/colorTitleText</color>
+
     <!--Glide加载图片默认占位图背景色-->
-    <color name="colorPlaceholder">#bdbdbd</color>
+    <color name="colorPlaceholder">#CCCCCC</color>
 
     <!--LoadMoreView 文本颜色-->
     <color name="colorLoadMoreText">@color/colorTitleText</color>

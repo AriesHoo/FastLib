@@ -28,7 +28,9 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![](/apk/qr.png)
 
-**Gradle集成**
+[![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
+
+**Gradle集成-尽量使用正式版本**
 
 ```
 allprojects {
@@ -41,7 +43,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.AriesHoo:FastLib:2.2.1'
+     implementation 'com.github.AriesHoo:FastLib:2.2.1'
 }
 ```
 
@@ -67,62 +69,70 @@ dependencies {
 **Compile集成**
 
 ```
-compile project(':fastLib')
+implementation project(':fastLib')
 ```
 
 **包含第三方库**
 
 ```
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.2"
+    minSdkVersion = 15
+    targetSdkVersion = 27
+    supportVersion = "27.0.2"
+```
+
+```
 dependencies {
-    def supportVersion = "25.3.1"
-        provided 'com.android.support:design:'.concat(supportVersion)
-        provided 'com.android.support:appcompat-v7:'.concat(supportVersion)
-        provided 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+        compileOnly 'com.android.support:design:'.concat(supportVersion)
+        compileOnly 'com.android.support:appcompat-v7:'.concat(supportVersion)
+        compileOnly 'com.android.support:recyclerview-v7:'.concat(supportVersion)
         //万能适配器
-        provided 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+        compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
         //webView库
-        provided 'com.just.agentweb:agentweb:2.0.1'
-        //常用UI控件(TitleBarView、RadiusView等)
-        provided 'com.github.AriesHoo:UIWidget:2.0.7'
+        compileOnly 'com.just.agentweb:agentweb:4.0.2'
         //下拉刷新库
-        provided 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+        compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
         //图片加载
-        provided 'com.github.bumptech.glide:glide:4.0.0'
+        compileOnly 'com.github.bumptech.glide:glide:4.5.0'
+        //常用UI控件(TitleBarView、RadiusView等)
+        api 'com.github.AriesHoo.UIWidget:widget-core:3.2.6'
         //日志打印
-        compile 'com.orhanobut:logger:2.1.1'
+        api 'com.orhanobut:logger:2.1.1'
         //注解
-        compile 'com.jakewharton:butterknife:8.8.1'
+        api 'com.jakewharton:butterknife:8.8.1'
         //retrofit+rxjava 网络请求及数据解析相关
-        compile "io.reactivex.rxjava2:rxjava:2.1.7"
-        compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-        compile 'com.squareup.retrofit2:retrofit:2.3.0'
-        compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-        compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-        compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-        compile 'com.google.code.gson:gson:2.8.1'
+        api "io.reactivex.rxjava2:rxjava:2.1.14"
+        api 'io.reactivex.rxjava2:rxandroid:2.0.1'
+        api 'com.squareup.retrofit2:retrofit:2.3.0'
+        api 'com.squareup.retrofit2:converter-gson:2.3.0'
+        api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+        api 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+        api 'com.google.code.gson:gson:2.8.5'
         //处理rxjava内存泄漏-生命周期绑定
-        compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+        api 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
         //滑动返回Activity
-        compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.1@aar'
+        api 'cn.bingoogolapple:bga-swipebacklayout:1.1.8@aar'
         //快速Tab库
-        compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+        api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
         //页面事件交互
-        compile 'org.simple:androideventbus:1.0.5.1'
+        api 'org.simple:androideventbus:1.0.5.1'
         //多状态视图切换
-        compile 'com.github.MarnonDev:EasyStatusView:v1.0.3'
+        api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
 }
 ```
 
-## 实现功能
+## 实现功能-多看注释及版本修改说明
 
+* 支持全局多种参数配置(加载更多+多状态页面+网络加载Loading+下拉刷新头+TitleBarView属性设置+Activity滑动关闭-类微信+http网络返回及错误处理+Activity与Fragment生命周期监听+主页返回键控制) 参看[FastManager](/library/src/main/java/com/aries/library/fast/FastManager.java) 实现及 [App](/app/src/main/java/com/aries/library/fast/demo/App.java)配置
+* 支持修改三方库 TitleBar 及虚拟导航栏沉浸式 及 Activity滑动关闭功能
 * 网络请求与Activity/Fragment生命周期绑定--通过RxLifeCycle2.x
-* Retrofit2.x+RxJava2.x 网络请求简要封装
+* Retrofit2.x+RxJava2.x 网络请求简要封装支持多BaseUrl、支持快速下载、快速上传文件功能 参看[FastRetrofit](/library/src/main/java/com/aries/library/fast/retrofit/FastRetrofit.java)
 * Basis开头是通用基类:[BasisActivity](/library/src/main/java/com/aries/library/fast/basis/BasisActivity.java)和[BasisFragment](/library/src/main/java/com/aries/library/fast/basis/BasisFragment.java)
 * Fast开头的是快速创建常见功能页面:[FastMainActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastMainActivity.java)-快速创建包含tab主Activity;[FastTitleActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastTitleActivity.java)-快速创建包含TitleBarView的Activity;[FastRefreshLoadActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastRefreshLoadActivity.java)-快速创建包含TitleBarView及下拉刷新、多状态切换的Activity;[FastWebActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastWebActivity.java)快速创建应用内webView的Activity;[FastTitleFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastTitleFragment.java)-快速创建包含TitleBarView的Fragment;[FastRefreshLoadFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastRefreshLoadFragment.java)-快速实现下拉刷新的Fragment;[FastTitleRefreshLoadFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastTitleRefreshLoadFragment.java)-快速实现包含TitleBarView及下拉刷新与多状态切换Fragment
 * Manager类是三方库二次封装:目前有[GlideManager](/library/src/main/java/com/aries/library/fast/manager/GlideManager.java)-图片加载库Glide库封装;[LoggerManager](/library/src/main/java/com/aries/library/fast/manager/LoggerManager.java)-日志打印logger库封装;[RxJavaManager](/library/src/main/java/com/aries/library/fast/manager/RxJavaManager.java)-RxJava实现timer;[TabLayoutManager](/library/src/main/java/com/aries/library/fast/manager/TabLayoutManager.java)-FlycoTabLayout+ViewPager使用:包括CommonTabLayout、SlidingTabLayout、SegmentTabLayout在FragmentActivity与Fragment中使用的封装
 * Util类为常用工具:[FastStackUtil](/library/src/main/java/com/aries/library/fast/util/FastStackUtil.java)-应用Activity栈管理类;[FastUtil](/library/src/main/java/com/aries/library/fast/util/FastUtil.java)-部分应用常用功能类;[SizeUtil](/src/main/java/com/aries/library/fast/util/SizeUtil.java)-尺寸转换类;[SPUtil](/library/src/main/java/com/aries/library/fast/util/SPUtil.java) -SharedPreferences使用类;[TimeFormatUtil](/library/src/main/java/com/aries/library/fast/util/TimeFormatUtil.java)-时间转换类;[ToastUtil](/library/src/main/java/com/aries/library/fast/util/ToastUtil.java)-单例模式toast工具类:可配置是否后台显示
 * Delegate为代理类:[FastTitleDelegate](/library/src/main/java/com/aries/library/fast/delegate/FastTitleDelegate.java)-快速实现包含TitleBarView的Fragment/Activity;[FastRefreshLoadDelegate](/library/src/main/java/com/aries/library/fast/delegate/FastRefreshLoadDelegate.java)-快速实现下拉刷新、上拉加载更多、多状态切换的Fragment/Activity
-* 创建支持手势返回的Activity:继承BasisActivity一行代码实现-参考[SwipeBackActivity](/app/src/main/java/com/aries/library/fast/demo/module/sample/SwipeBackActivity.java)
 * 沉浸式状态栏:继承FastTitleActivity/FastRefreshLoadActivity/FastWebActivity/FastTitleFragment/FastTitleRefreshLoadFragment 无需额外代码即可实现
 * 状态栏白底黑字模式:同沉浸式状态栏功能继承,只需重写父类实现接口isLightStatusBarEnable即可实现;MIUI V6、Flyme 4.0、Android 6.0以上:参考[UIWidget-StatusBarUtil](/library/src/main/java/com/aries/ui/util/StatusBarUtil.java)
 * 快速创建圆角、全圆、按下、不可点击状态的TextView、EditText、FrameLayout、LinearLayout、RelativeLayout、RadioButton、CheckBox减少shape文件创建设置:参考库[UIWidget](https://github.com/AriesHoo/UIWidget)
@@ -133,8 +143,24 @@ dependencies {
 
 ## 注意事项
 
-## 重大更新日志
+## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
+* 2.2.10-beta1
+   
+    * 重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异     
+	* 优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
+    * 优化:多状态管理StatusLayoutManager调整完成
+    * 优化:滑动返回控制swipeBack功能新增各种回调功能
+    * 优化:将原默认配置方法调整到最终实现类功能
+    * 新增:增加友盟统计功能演示
+    * 新增:新增首页演示其它三方库状态栏及导航栏功能控制
+    * 新增:个人MineFragment中选择头像功能三方库状态栏及导航栏控制示例
+    * 优化:UI全局控制相关回调并调整三方库Activity控制
+    * 优化:新增FastRetrofit 下载/上传功能
+    * 优化:新增FastRetrofit 控制多BaseUrl方式
+    * 新增:新增Demo检查版本功能试验下载文件功能
+    * 删除:删除原多状态布局相关配置
+	
 * 2.2.9-beta6
         
 	* 重构设置全局TitleBarView设置方式(通过TitleBarViewControl实现可参看AppImpl实现类)

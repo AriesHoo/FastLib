@@ -34,15 +34,16 @@ public class App extends Application {
         start = System.currentTimeMillis();
         LoggerManager.i(TAG, "start:" + start);
         mContext = this;
-        //最简单模式-必须进行初始化
+
+        //最简单UI配置模式-必须进行初始化
         FastManager.init(this);
         //以下为更丰富自定义方法
-        //全局配置参数
+        //全局UI配置参数-按需求设置
         AppImpl impl = new AppImpl(mContext);
         FastManager.getInstance()
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
                 .setLoadMoreFoot(impl)
-                //设置RecyclerView加载过程多布局属性-默认设置了FastMultiStatusView
+                //设置RecyclerView加载过程多布局属性
                 .setMultiStatusView(impl)
                 //设置全局网络请求等待Loading提示框如登录等待loading--观察者必须为FastLoadingObserver及其子类
                 .setLoadingDialog(impl)
@@ -57,8 +58,7 @@ public class App extends Application {
                 //设置http请求结果全局控制
                 .setHttpRequestControl(impl)
                 //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
-                .setQuitAppControl(impl)
-        ;
+                .setQuitAppControl(impl);
 
         //初始化Retrofit配置
         FastRetrofit.getInstance()
@@ -78,7 +78,7 @@ public class App extends Application {
 
 
         //以下为配置多BaseUrl--默认方式一优先级高 可通过FastRetrofit.getInstance().setHeaderPriorityEnable(true);设置方式二优先级
-        //方式一 通过Service 里的method 设置 推荐 使用该方式不需设置如方式二的额外Header
+        //方式一 通过Service 里的method-(如:) 设置 推荐 使用该方式不需设置如方式二的额外Header
         FastRetrofit.getInstance()
                 .putBaseUrl(ApiConstant.API_UPDATE_APP, BuildConfig.BASE__UPDATE_URL);
 
@@ -94,6 +94,7 @@ public class App extends Application {
 
         //初始化友盟统计
         MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(mContext, "5b349499b27b0a085f000052", "FastLib"));
+
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
     }
 
