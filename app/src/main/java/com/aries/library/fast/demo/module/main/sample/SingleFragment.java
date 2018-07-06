@@ -12,11 +12,6 @@ import com.aries.library.fast.demo.module.activity.MovieBaseFragment;
  */
 public class SingleFragment extends MovieBaseFragment {
 
-    @Override
-    public boolean isSingle() {
-        return true;
-    }
-
     public static SingleFragment newInstance(String url) {
         Bundle args = new Bundle();
         SingleFragment fragment = new SingleFragment();

@@ -98,13 +98,13 @@ public class ActivityFragment extends FastTitleFragment {
      */
     @Override
     public void initView(Bundle savedInstanceState) {
-//        setTab();
+        setTab();
     }
 
     @Override
     public void loadData() {
         super.loadData();
-        setTab();
+//        setTab();
     }
 
 //    @Override

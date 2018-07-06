@@ -5,13 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.aries.library.fast.FastManager;
-import com.aries.library.fast.i.IBasisFragment;
+import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -30,8 +31,9 @@ import butterknife.Unbinder;
  * Description:
  * 1、新增控制是否为FragmentActivity的唯一Fragment 方法以优化懒加载方式
  * 2、增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
+ * 3、2018-7-6 17:12:16 删除IBasisFragment 控制是否单Fragment 通过另一种方式实现
  */
-public abstract class BasisFragment extends RxFragment implements IBasisFragment {
+public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     protected Activity mContext;
     protected View mContentView;
@@ -46,9 +48,19 @@ public abstract class BasisFragment extends RxFragment implements IBasisFragment
         return true;
     }
 
-    @Override
-    public boolean isSingle() {
-        return false;
+    /**
+     * 检查Fragment或FragmentActivity承载的Fragment是否只有一个
+     *
+     * @return
+     */
+    protected boolean isSingleFragment() {
+        int size = 0;
+        FragmentManager manager = getFragmentManager();
+        if (manager != null && manager.getFragments() != null) {
+            size = manager.getFragments().size();
+        }
+        LoggerManager.i(TAG, TAG + ";FragmentManager承载Fragment数量:" + size);
+        return size <= 1;
     }
 
     @Override
@@ -77,10 +89,13 @@ public abstract class BasisFragment extends RxFragment implements IBasisFragment
             EventBus.getDefault().register(this);
         beforeInitView();
         initView(savedInstanceState);
-        if (isSingle() && !mIsVisibleChanged && (getUserVisibleHint() || isVisible() || !isHidden())) {
+
+        if (isSingleFragment() && !mIsVisibleChanged && (getUserVisibleHint() || isVisible() || !isHidden())) {
             onVisibleChanged(true);
         }
-        LoggerManager.i(TAG, "mIsVisibleChanged:" + mIsVisibleChanged + ";getUserVisibleHint:" + getUserVisibleHint() + ";isHidden:" + isHidden() + ";isVisible:" + isVisible());
+        LoggerManager.i(TAG, TAG + ";mIsVisibleChanged:" + mIsVisibleChanged
+                + ";getUserVisibleHint:" + getUserVisibleHint()
+                + ";isHidden:" + isHidden() + ";isVisible:" + isVisible());
         return mContentView;
     }
 

@@ -42,8 +42,6 @@ public class TestFragmentActivity extends FastTitleActivity {
         //此处设置先隐藏再显示方能进入Fragment类的显示隐藏回调--懒加载
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fLayout_containerTestFragment, mFragment)
-//                .hide(mFragment)
-//                .show(mFragment)
                 .commit();
     }
 }

@@ -64,6 +64,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library')
+//    implementation 'com.github.AriesHoo:FastLib:2.2.10-beta4'
 
     //设置界面Item库
     //以下库library里使用provided只是编译使用时需根据项目选择相应版本
@@ -92,4 +93,5 @@ dependencies {
     //文件选择器
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     implementation 'com.umeng.analytics:analytics:latest.integration'
+
 }
