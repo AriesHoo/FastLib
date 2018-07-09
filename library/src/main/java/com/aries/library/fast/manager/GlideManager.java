@@ -230,7 +230,7 @@ public class GlideManager {
         int radius = 0;
 
         public GlideRoundTransform(Context context, int dp) {
-            super(context);
+            super();
             this.radius = dp;
         }
 

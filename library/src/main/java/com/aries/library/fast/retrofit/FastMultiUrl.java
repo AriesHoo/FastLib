@@ -84,7 +84,7 @@ class FastMultiUrl {
                 }
                 //解析得到service里的方法名(即@POST或@GET里的内容)
                 String method = !TextUtils.isEmpty(mBaseUrl) ? url.toString().replace(mBaseUrl.toString(), "") : "";
-                LoggerManager.d(TAG, "Old Url is{" + url.newBuilder().toString() + "};Method is <<" + method + ">>");
+                LoggerManager.d(TAG, "Base Url is { " + mBaseUrl + " }" + ";Old Url is{" + url.newBuilder().toString() + "};Method is <<" + method + ">>");
                 return checkUrl((!mHeaderPriorityEnable && mBaseUrlMap.containsKey(method) ? getBaseUrl(method).toString() : domainUrl.toString()) + method);
             }
         });
@@ -136,7 +136,7 @@ class FastMultiUrl {
         }
         if (null != httpUrl) {
             HttpUrl newUrl = mUrlParser.parseUrl(httpUrl, request.url());
-            LoggerManager.i(FastMultiUrl.TAG, "New Url is { " + newUrl + " }" + ";Old Url is { " + request.url() + " }");
+            LoggerManager.i(FastMultiUrl.TAG, "Base Url is { " + mBaseUrl + " }" + ";New Url is { " + newUrl + " }" + ";Old Url is { " + request.url() + " }");
             return newBuilder
                     .url(newUrl)
                     .build();

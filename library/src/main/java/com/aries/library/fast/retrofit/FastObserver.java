@@ -13,6 +13,7 @@ import io.reactivex.observers.DefaultObserver;
  * Description:
  * 1、2017-11-16 11:35:12 AriesHoo增加返回错误码全局控制
  * 2、2018-6-20 15:15:45 重构
+ * 3、2018-7-9 14:27:03 删除IHttpRequestControl判断避免http错误时无法全局控制BUG
  */
 public abstract class FastObserver<T> extends DefaultObserver<T> {
 
@@ -33,7 +34,7 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
     public void onError(Throwable e) {
-        if (FastManager.getInstance().getHttpRequestControl() != null && mHttpRequestControl != null) {
+        if (FastManager.getInstance().getHttpRequestControl() != null) {
             FastManager.getInstance().getHttpRequestControl().httpRequestError(mHttpRequestControl, e);
         }
         _onError(e);

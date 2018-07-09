@@ -76,7 +76,7 @@ public class App extends Application {
                 //默认20 s
                 .setTimeout(20);
 
-
+        //注意设置baseUrl要以/ 结尾 service 里的方法不要以/打头不然拦截到的url会有问题
         //以下为配置多BaseUrl--默认方式一优先级高 可通过FastRetrofit.getInstance().setHeaderPriorityEnable(true);设置方式二优先级
         //方式一 通过Service 里的method-(如:) 设置 推荐 使用该方式不需设置如方式二的额外Header
         FastRetrofit.getInstance()
