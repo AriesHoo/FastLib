@@ -27,6 +27,7 @@ import okhttp3.Response;
  * 2、2018-7-2 15:15:46 修改设置BaseUrl逻辑解决随时切换问题
  * 3、2018-7-2 16:58:01 删除BaseUrl变更监听相关代码
  * 4、2018-7-3 12:24:24 新增单独method 方法设置请求BaseUrl方法
+ * 5、2018-7-9 15:13:45 修改解析method方法增加对get方法兼容
  */
 class FastMultiUrl {
 
@@ -84,8 +85,18 @@ class FastMultiUrl {
                 }
                 //解析得到service里的方法名(即@POST或@GET里的内容)
                 String method = !TextUtils.isEmpty(mBaseUrl) ? url.toString().replace(mBaseUrl.toString(), "") : "";
-                LoggerManager.d(TAG, "Base Url is { " + mBaseUrl + " }" + ";Old Url is{" + url.newBuilder().toString() + "};Method is <<" + method + ">>");
-                return checkUrl((!mHeaderPriorityEnable && mBaseUrlMap.containsKey(method) ? getBaseUrl(method).toString() : domainUrl.toString()) + method);
+
+                String methodKey = method;
+                //包含? 很大可能是get请求增加了参数需过滤掉
+                if (methodKey.contains("?")) {
+                    methodKey = methodKey.substring(0, methodKey.indexOf("?"));
+                }
+                LoggerManager.d(TAG, "Base Url is { " + mBaseUrl + " }" + ";Old Url is{" + url.newBuilder().toString() + "};Method is <<" + methodKey + ">>");
+                //如果
+                if (!mHeaderPriorityEnable && mBaseUrlMap.containsKey(methodKey)) {
+                    return checkUrl(getBaseUrl(methodKey).toString() + method);
+                }
+                return checkUrl(domainUrl.toString() + method);
             }
         });
         this.mInterceptor = new Interceptor() {

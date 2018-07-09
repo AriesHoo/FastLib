@@ -14,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 /**
  * Created: AriesHoo on 2017/8/23 13:53
@@ -28,5 +29,5 @@ public interface ApiService {
 
     @GET(ApiConstant.API_UPDATE_APP)
 //    @Headers({FastRetrofit.BASE_URL_NAME_HEADER + ApiConstant.API_UPDATE_APP_KEY})
-    Observable<UpdateEntity> updateApp();
+    Observable<UpdateEntity> updateApp(@QueryMap Map<String, Object> map);
 }
