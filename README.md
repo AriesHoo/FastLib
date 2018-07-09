@@ -145,11 +145,11 @@ dependencies {
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
-* 2.2.10-beta5
+* 2.2.10-beta6
    
     * 重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异
     * 优化:BasisFragment 控制是否为单Fragment 方法     
-	* 优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
+    * 优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
     * 优化:多状态管理StatusLayoutManager调整完成
     * 优化:滑动返回控制swipeBack功能新增各种回调功能
     * 优化:将原默认配置方法调整到最终实现类功能
@@ -161,6 +161,7 @@ dependencies {
     * 优化:新增FastRetrofit 控制多BaseUrl方式
     * 新增:新增Demo检查版本功能试验下载文件功能
     * 删除:删除原多状态布局相关配置
+    * 修复:修改FastRefreshActivity 设置Adapter错误BUG
 	
 * 2.2.9-beta6
         
