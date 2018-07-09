@@ -18,15 +18,18 @@ import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
- * Created: AriesHoo on 2017/7/24 17:12
- * Function: 下拉刷新及上拉加载更多
- * Desc:
+ * Created: AriesHoo on 2018/7/9 9:50
+ * E-Mail: AriesHoo@126.com
+ * Function:下拉刷新及上拉加载更多
+ * Description:
+ * 1、2018-7-9 09:50:59 修正Adapter 错误造成无法展示列表数据BUG
  */
 public abstract class FastRefreshLoadActivity<T>
         extends FastTitleActivity implements IFastRefreshLoadView<T> {
     protected SmartRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
     protected StatusLayoutManager mStatusManager;
+    private BaseQuickAdapter mQuickAdapter;
     protected int DEFAULT_PAGE = 0;
     protected int DEFAULT_PAGE_SIZE = 10;
 
@@ -41,6 +44,7 @@ public abstract class FastRefreshLoadActivity<T>
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;
         mStatusManager = mFastRefreshLoadDelegate.mStatusManager;
+        mQuickAdapter = mFastRefreshLoadDelegate.mAdapter;
     }
 
     @Override
@@ -78,7 +82,7 @@ public abstract class FastRefreshLoadActivity<T>
 
             @Override
             public BaseQuickAdapter getRecyclerAdapter() {
-                return getAdapter();
+                return mQuickAdapter;
             }
 
             @Override
