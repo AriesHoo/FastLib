@@ -4,9 +4,10 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 /**
- * Created: AriesHoo on 2017/7/28 9:23
+ * Created: AriesHoo on 2018/7/11 15:27
+ * E-Mail: AriesHoo@126.com
  * Function:屏幕尺寸相关方法
- * Desc:
+ * Description:
  */
 public class SizeUtil {
 

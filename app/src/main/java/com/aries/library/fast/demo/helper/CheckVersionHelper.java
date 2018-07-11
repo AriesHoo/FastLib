@@ -15,13 +15,14 @@ import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFileUtil;
+import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.io.File;
 import java.lang.ref.SoftReference;
-import java.math.BigDecimal;
 
 import io.reactivex.annotations.NonNull;
 
@@ -148,7 +149,7 @@ public class CheckVersionHelper {
      *
      * @param entity
      */
-    private void downloadApk(UpdateEntity entity) {
+    public void downloadApk(UpdateEntity entity) {
         Activity activity = mActivity.get();
         if (activity == null || activity.isFinishing()) {
             activity = FastStackUtil.getInstance().getCurrent();
@@ -157,17 +158,18 @@ public class CheckVersionHelper {
             return;
         }
         final ProgressDialog mProgressDialog = new ProgressDialog(activity);
-        mProgressDialog.setTitle(entity.getSize());
+        mProgressDialog.setTitle(entity.getTitle());
         mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setMax(100);
+        mProgressDialog.setMessage(entity.getMessage());
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(!entity.force);
+        mProgressDialog.setProgressNumberFormat("0.00MB/未知");
         mProgressDialog.setCanceledOnTouchOutside(!entity.force);
         FastRetrofit.getInstance().downloadFile(entity.url)
-                .subscribe(new FastDownloadObserver("FastLib.apk",128, mProgressDialog) {
+                .compose(((RxAppCompatActivity) activity).bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new FastDownloadObserver("FastLib.apk", mProgressDialog) {
                     @Override
                     public void onSuccess(File file) {
-//                        ToastUtil.show("下载成功:" + file.getAbsolutePath());
                         FastFileUtil.installApk(file);
                     }
 
@@ -178,41 +180,11 @@ public class CheckVersionHelper {
 
                     @Override
                     public void onProgress(float progress, long current, long total) {
-//                        mProgressDialog.setMax((int) total);
-//                        mProgressDialog.setProgress((int) current);
-                        mProgressDialog.setProgress((int) (100 * progress));
+                        mProgressDialog.setProgressNumberFormat(FastFormatUtil.formatDataSize(current) + "/" + FastFormatUtil.formatDataSize(total));
+                        mProgressDialog.setMax((int) total);
+                        mProgressDialog.setProgress((int) current);
                     }
                 });
     }
 
-    private String getFormatSize(double size) {
-        double kilobyte = size / 1024;
-        if (kilobyte < 1) {
-            return "0M";
-        }
-
-        double megabyte = kilobyte / 1024;
-        if (megabyte < 1) {
-            BigDecimal result1 = new BigDecimal(Double.toString(megabyte));
-            return result1.setScale(2, BigDecimal.ROUND_HALF_UP)
-                    .toPlainString() + "M";
-        }
-
-        double gigabyte = megabyte / 1024;
-        if (gigabyte < 1) {
-            BigDecimal result2 = new BigDecimal(Double.toString(megabyte));
-            return result2.setScale(2, BigDecimal.ROUND_HALF_UP)
-                    .toPlainString() + "M";
-        }
-
-        double teraBytes = gigabyte / 1024;
-        if (teraBytes < 1) {
-            BigDecimal result3 = new BigDecimal(Double.toString(gigabyte));
-            return result3.setScale(2, BigDecimal.ROUND_HALF_UP)
-                    .toPlainString() + "G";
-        }
-        BigDecimal result4 = new BigDecimal(teraBytes);
-        return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
-                + "T";
-    }
 }

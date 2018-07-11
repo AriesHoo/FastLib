@@ -7,6 +7,7 @@ import android.util.Log;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.SSLUtil;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,6 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 7、2018-7-3 13:20:58 新增多BaseUrl设置方式header模式{@link #putHeaderBaseUrl(String, String) {@link #putHeaderBaseUrl(Map)}}
  * 及method模式{@link #putBaseUrl(String, String) {@link #putHeaderBaseUrl(Map)}}
  * 8、2018-7-3 16:06:56 新增下载文件功能{@link #downloadFile(String)}
+ * 9、2018-7-11 08:59:00 修改{@link #removeHeader(String)}key判断错误问题
  */
 public class FastRetrofit {
 
@@ -65,19 +66,14 @@ public class FastRetrofit {
      */
     private Interceptor mHeaderInterceptor = new Interceptor() {
         @Override
-        public Response intercept(Chain chain) {
+        public Response intercept(Chain chain) throws IOException {
             Request.Builder request = chain.request().newBuilder();
             if (mHeaderMap != null && mHeaderMap.size() > 0) {
                 for (Map.Entry<String, Object> entry : mHeaderMap.entrySet()) {
                     request.addHeader(entry.getKey(), String.valueOf(entry.getValue()));
                 }
             }
-            try {
-                return chain.proceed(request.build());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
+            return chain.proceed(request.build());
         }
     };
 
@@ -175,11 +171,7 @@ public class FastRetrofit {
      * @return
      */
     public Observable<ResponseBody> downloadFile(String fileUrl, Map<String, Object> header) {
-        return getInstance()
-                .getRetrofit()
-                .create(FastRetrofitService.class)
-                .downloadFile(fileUrl, header == null ? new HashMap<String, Object>() : header)
-                .subscribeOn(Schedulers.io());
+        return FastDownloadRetrofit.getInstance().downloadFile(fileUrl, header);
     }
 
     /**
@@ -243,7 +235,7 @@ public class FastRetrofit {
      * @return
      */
     public FastRetrofit removeHeader(String key) {
-        if (!TextUtils.isEmpty(key) && mHeaderMap.containsValue(key)) {
+        if (!TextUtils.isEmpty(key) && mHeaderMap.containsKey(key)) {
             mHeaderMap.remove(key);
         }
         return this;
@@ -268,6 +260,11 @@ public class FastRetrofit {
     public FastRetrofit setBaseUrl(String baseUrl) {
         sRetrofitBuilder.baseUrl(baseUrl);
         FastMultiUrl.getInstance().setGlobalBaseUrl(baseUrl);
+        return this;
+    }
+
+    public FastRetrofit setRetryOnConnectionFailure(boolean enable) {
+        sClientBuilder.retryOnConnectionFailure(enable);
         return this;
     }
 

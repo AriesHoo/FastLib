@@ -1,7 +1,5 @@
 package com.aries.library.fast.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -9,7 +7,9 @@ import java.util.Date;
  * E-Mail: AriesHoo@126.com
  * Function:时间转换工具
  * Description:
+ * 1、2018-7-11 15:18:08 标记废弃使用{@link FastFormatUtil}代替
  */
+@Deprecated
 public class TimeFormatUtil {
 
     /**
@@ -19,10 +19,7 @@ public class TimeFormatUtil {
      * @return 1-星期日...7-星期六
      */
     public static int formatWeek(long millis) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        int index = calendar.get(Calendar.DAY_OF_WEEK) + 1;
-        return index;
+        return FastFormatUtil.formatWeek(millis);
     }
 
     /**
@@ -37,7 +34,6 @@ public class TimeFormatUtil {
     }
 
     public static String formatTime(Date time, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(time);
+        return FastFormatUtil.formatTime(time, format);
     }
 }

@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastFileUtil;
 
 import java.io.File;
@@ -21,6 +20,7 @@ import okhttp3.ResponseBody;
  * E-Mail: AriesHoo@126.com
  * Function:快速下载观察者
  * Description:
+ * 1、2018-7-11 16:38:18 去掉部分参数
  */
 public abstract class FastDownloadObserver extends DefaultObserver<ResponseBody> {
 
@@ -34,38 +34,24 @@ public abstract class FastDownloadObserver extends DefaultObserver<ResponseBody>
      * 目标文件存储的文件名
      */
     private String mDestFileName;
-    /**
-     * 下载回调步长-不能小于128
-     */
-    private int mStepBuffer = 2048;
 
     public FastDownloadObserver(String destFileName) {
         this(FastFileUtil.createCacheFile(), destFileName);
     }
 
-    public FastDownloadObserver(String destFileName, int stepBuffer) {
-        this(FastFileUtil.createCacheFile(), destFileName, stepBuffer, null);
-    }
-
     public FastDownloadObserver(String destFileDir, String destFileName) {
-        this(destFileDir, destFileName, 2048, null);
+        this(destFileDir, destFileName, null);
     }
 
     public FastDownloadObserver(String destFileName, Dialog dialog) {
-        this(FastFileUtil.createCacheFile(), destFileName, 2048, dialog);
+        this(FastFileUtil.createCacheFile(), destFileName, dialog);
     }
 
-    public FastDownloadObserver(String destFileName, int stepBuffer, Dialog dialog) {
-        this(FastFileUtil.createCacheFile(), destFileName, stepBuffer, dialog);
-    }
-
-    public FastDownloadObserver(String destFileDir, String destFileName, int stepBuffer, Dialog dialog) {
+    public FastDownloadObserver(String destFileDir, String destFileName, Dialog dialog) {
         super();
         this.mDestFileDir = TextUtils.isEmpty(destFileDir) ? FastFileUtil.createCacheFile() : destFileDir;
         this.mDestFileName = destFileName;
-        this.mStepBuffer = stepBuffer < 128 ? 128 : stepBuffer;
         this.mDialog = dialog;
-        LoggerManager.i("FastDownloadObserver", "destFileDir:" + destFileDir);
     }
 
     @Override
@@ -128,7 +114,7 @@ public abstract class FastDownloadObserver extends DefaultObserver<ResponseBody>
      */
     public File saveFile(ResponseBody response) throws IOException {
         InputStream is = null;
-        byte[] buf = new byte[mStepBuffer];
+        byte[] buf = new byte[2048];
         int len;
         FileOutputStream fos = null;
         try {
@@ -152,7 +138,6 @@ public abstract class FastDownloadObserver extends DefaultObserver<ResponseBody>
                 sum += len;
                 fos.write(buf, 0, len);
                 final long finalSum = sum;
-                LoggerManager.i("FastDownloadObserver", "finalSum:" + finalSum + ";total:" + total);
                 getMainLooperHandler().post(new Runnable() {
                     @Override
                     public void run() {

@@ -47,4 +47,8 @@ public class UpdateEntity {
     public CharSequence getSize() {
         return TextUtils.isEmpty(size) ? "下载新版本" : "安装包大小:" + size;
     }
+
+    public CharSequence getTitle() {
+        return "下载新版:V" + versionName;
+    }
 }

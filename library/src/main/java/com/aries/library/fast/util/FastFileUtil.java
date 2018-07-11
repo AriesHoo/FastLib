@@ -40,7 +40,7 @@ public class FastFileUtil {
      *
      * @param apkPath
      */
-    public static void installApk(File apkPath) {
+    public static void  installApk(File apkPath) {
         Context context = FastManager.getInstance().getApplication().getApplicationContext();
         if (context == null || apkPath == null) {
             return;

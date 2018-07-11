@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Looper;
 import android.support.annotation.ColorInt;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,11 +14,17 @@ import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.R;
 import com.aries.ui.view.radius.RadiusTextView;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DefaultObserver;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created: AriesHoo on 2018/5/25 13:57
  * E-Mail: AriesHoo@126.com
  * Function:Toast 工具
  * Description:
+ * 1、2018-7-11 15:40:26 去掉Toast返回值并新增子线程弹出Toast功能
  */
 public class ToastUtil {
 
@@ -51,35 +58,35 @@ public class ToastUtil {
         sBuilder = builder;
     }
 
-    public static Toast show(int content) {
-        return show(content, sIsShowRunningForeground);
+    public static void show(int content) {
+        show(content, sIsShowRunningForeground);
     }
 
-    public static Toast show(int content, boolean isShowRunningForeground) {
-        return show(content, isShowRunningForeground, getBuilder());
+    public static void show(int content, boolean isShowRunningForeground) {
+        show(content, isShowRunningForeground, getBuilder());
     }
 
-    public static Toast show(int content, Builder builder) {
-        return show(content, sIsShowRunningForeground, builder);
+    public static void show(int content, Builder builder) {
+        show(content, sIsShowRunningForeground, builder);
     }
 
-    public static Toast show(int content, boolean isShowRunningForeground, Builder builder) {
+    public static void show(int content, boolean isShowRunningForeground, Builder builder) {
         if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         }
-        return show(sContext.getText(content), isShowRunningForeground, builder);
+        show(sContext.getText(content), isShowRunningForeground, builder);
     }
 
-    public static Toast show(CharSequence content) {
-        return show(content, sIsShowRunningForeground);
+    public static void show(CharSequence content) {
+        show(content, sIsShowRunningForeground);
     }
 
-    public static Toast show(CharSequence content, boolean isShowRunningForeground) {
-        return show(content, isShowRunningForeground, getBuilder());
+    public static void show(CharSequence content, boolean isShowRunningForeground) {
+        show(content, isShowRunningForeground, getBuilder());
     }
 
-    public static Toast show(CharSequence content, Builder builder) {
-        return show(content, sIsShowRunningForeground, builder);
+    public static void show(CharSequence content, Builder builder) {
+        show(content, sIsShowRunningForeground, builder);
     }
 
     /**
@@ -88,89 +95,114 @@ public class ToastUtil {
      * @param builder
      * @return
      */
-    public static Toast show(CharSequence content, boolean isShowRunningForeground, Builder builder) {
+    public static void show(final CharSequence content, final boolean isShowRunningForeground, final Builder builder) {
         if (null == sContext) {
             throw new NullPointerException(FastConstant.EXCEPTION_NOT_INIT);
         } else {
-            //修复快速点击无法显示的问题,修复超过50之后无法显示的问题
-            Toast sSystemToast = SingleToast.getInstance();
-            sTextView = new RadiusTextView(sContext);
-            if (builder == null) {
-                builder = getBuilder();
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                showToast(content, isShowRunningForeground, builder);
+                return;
             }
-            int duration = builder.duration == Toast.LENGTH_LONG || builder.duration == Toast.LENGTH_SHORT ? builder.duration :
-                    content.length() > 10 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
-            sTextView.getDelegate()
-                    .setTextColor(builder.textColor)
-                    .setRadius(builder.radius)
-                    .setStrokeColor(builder.strokeColor)
-                    .setBackgroundColor(builder.backgroundColor)
-                    .setLeftDrawableHeight(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawableHeight : 0)
-                    .setLeftDrawableWidth(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawableWidth : 0)
-                    .setLeftDrawable(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawable : null)
-                    .setTopDrawableHeight(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawableHeight : 0)
-                    .setTopDrawableWidth(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawableWidth : 0)
-                    .setTopDrawable(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawable : null)
-                    .setRightDrawableHeight(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawableHeight : 0)
-                    .setRightDrawableWidth(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawableWidth : 0)
-                    .setRightDrawable(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawable : null)
-                    .setBottomDrawableHeight(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawableHeight : 0)
-                    .setBottomDrawableWidth(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawableWidth : 0)
-                    .setBottomDrawable(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawable : null)
-                    .setRippleEnable(false)
-                    .init();
-            sTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, builder.textSize);
-            sTextView.setPadding(builder.paddingLeft, builder.paddingTop, builder.paddingRight, builder.paddingBottom);
-            sTextView.setCompoundDrawablePadding(builder.textDrawablePadding);
-            sTextView.setGravity(builder.textGravity);
-            if (builder.background != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    sTextView.setBackground(builder.background);
-                } else {
-                    sTextView.setBackgroundDrawable(builder.background);
-                }
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                sTextView.setElevation(builder.elevation);
-            }
-            sTextView.setMinimumHeight(builder.minHeight);
-            sTextView.setMinimumWidth(builder.minWidth);
-            sTextView.setText(content);
-            sSystemToast.setView(sTextView);
-            sSystemToast.setDuration(duration);
-            sSystemToast.setGravity(builder.gravity,
-                    builder.gravityXOffset > -1 ? builder.gravityXOffset : 0,
-                    builder.gravityYOffset > -1 ? builder.gravityYOffset :
-                            builder.gravity == Gravity.BOTTOM ? SizeUtil.dp2px(64) : 0);
-            if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(sContext))) {
-                sSystemToast.show();
+            Observable.just("")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new DefaultObserver<String>() {
+                        @Override
+                        public void onNext(String s) {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            showToast(content, isShowRunningForeground, builder);
+                        }
+                    });
+        }
+    }
+
+    private static void showToast(CharSequence content, boolean isShowRunningForeground, Builder builder) {
+        //修复快速点击无法显示的问题,修复超过50之后无法显示的问题
+        sSystemToast = SingleToast.getInstance();
+        sTextView = new RadiusTextView(sContext);
+        if (builder == null) {
+            builder = getBuilder();
+        }
+        int duration = builder.duration == Toast.LENGTH_LONG || builder.duration == Toast.LENGTH_SHORT ? builder.duration :
+                content.length() > 10 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
+        sTextView.getDelegate()
+                .setTextColor(builder.textColor)
+                .setRadius(builder.radius)
+                .setStrokeColor(builder.strokeColor)
+                .setBackgroundColor(builder.backgroundColor)
+                .setLeftDrawableHeight(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawableHeight : 0)
+                .setLeftDrawableWidth(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawableWidth : 0)
+                .setLeftDrawable(builder.textDrawableGravity == Gravity.LEFT ? builder.textDrawable : null)
+                .setTopDrawableHeight(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawableHeight : 0)
+                .setTopDrawableWidth(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawableWidth : 0)
+                .setTopDrawable(builder.textDrawableGravity == Gravity.TOP ? builder.textDrawable : null)
+                .setRightDrawableHeight(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawableHeight : 0)
+                .setRightDrawableWidth(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawableWidth : 0)
+                .setRightDrawable(builder.textDrawableGravity == Gravity.RIGHT ? builder.textDrawable : null)
+                .setBottomDrawableHeight(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawableHeight : 0)
+                .setBottomDrawableWidth(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawableWidth : 0)
+                .setBottomDrawable(builder.textDrawableGravity == Gravity.BOTTOM ? builder.textDrawable : null)
+                .setRippleEnable(false)
+                .init();
+        sTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, builder.textSize);
+        sTextView.setPadding(builder.paddingLeft, builder.paddingTop, builder.paddingRight, builder.paddingBottom);
+        sTextView.setCompoundDrawablePadding(builder.textDrawablePadding);
+        sTextView.setGravity(builder.textGravity);
+        if (builder.background != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                sTextView.setBackground(builder.background);
+            } else {
+                sTextView.setBackgroundDrawable(builder.background);
             }
         }
-        return sSystemToast;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sTextView.setElevation(builder.elevation);
+        }
+        sTextView.setMinimumHeight(builder.minHeight);
+        sTextView.setMinimumWidth(builder.minWidth);
+        sTextView.setText(content);
+        sSystemToast.setView(sTextView);
+        sSystemToast.setDuration(duration);
+        sSystemToast.setGravity(builder.gravity,
+                builder.gravityXOffset > -1 ? builder.gravityXOffset : 0,
+                builder.gravityYOffset > -1 ? builder.gravityYOffset :
+                        builder.gravity == Gravity.BOTTOM ? SizeUtil.dp2px(64) : 0);
+        if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(sContext))) {
+            sSystemToast.show();
+        }
     }
 
-    public static Toast showSuccess(CharSequence msg) {
-        return show(msg, sIsShowRunningForeground, getSuccessBuilder());
+    public static void showSuccess(CharSequence msg) {
+        show(msg, sIsShowRunningForeground, getSuccessBuilder());
     }
 
-    public static Toast showSuccess(int msg) {
-        return show(msg, sIsShowRunningForeground, getSuccessBuilder());
+    public static void showSuccess(int msg) {
+        show(msg, sIsShowRunningForeground, getSuccessBuilder());
     }
 
-    public static Toast showFailed(CharSequence msg) {
-        return show(msg, sIsShowRunningForeground, getFailedBuilder());
+    public static void showFailed(CharSequence msg) {
+        show(msg, sIsShowRunningForeground, getFailedBuilder());
     }
 
-    public static Toast showFailed(int msg) {
-        return show(msg, sIsShowRunningForeground, getFailedBuilder());
+    public static void showFailed(int msg) {
+        show(msg, sIsShowRunningForeground, getFailedBuilder());
     }
 
-    public static Toast showWarning(CharSequence msg) {
-        return show(msg, sIsShowRunningForeground, getWarningBuilder());
+    public static void showWarning(CharSequence msg) {
+        show(msg, sIsShowRunningForeground, getWarningBuilder());
     }
 
-    public static Toast showWarning(int msg) {
-        return show(msg, sIsShowRunningForeground, getWarningBuilder());
+    public static void showWarning(int msg) {
+        show(msg, sIsShowRunningForeground, getWarningBuilder());
     }
 
     /**

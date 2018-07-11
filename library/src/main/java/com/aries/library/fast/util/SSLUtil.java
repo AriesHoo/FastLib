@@ -23,9 +23,10 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Created: AriesHoo on 2017/8/23 9:31
+ * Created: AriesHoo on 2018/7/11 15:27
+ * E-Mail: AriesHoo@126.com
  * Function:证书工具类
- * Desc:
+ * Description:
  */
 public class SSLUtil {
 
