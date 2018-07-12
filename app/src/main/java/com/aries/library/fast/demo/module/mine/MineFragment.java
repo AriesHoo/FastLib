@@ -1,9 +1,11 @@
 package com.aries.library.fast.demo.module.mine;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,12 +24,17 @@ import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.retrofit.FastTransformer;
+import com.aries.library.fast.retrofit.FastUploadRequestBody;
+import com.aries.library.fast.retrofit.FastUploadRequestListener;
+import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
-import com.aries.library.fast.util.ToastUtil;
+import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.view.title.TitleBarView;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -99,41 +106,84 @@ public class MineFragment extends FastTitleFragment {
         }
 
         mIvHead.setOnClickListener(v -> mImagePickerHelper.selectPicture(1000, (requestCode, list) -> {
-            if (list == null || list.size() == 0) {
+            if (list == null || list.size() == 0 || requestCode != 1000) {
                 return;
             }
             GlideManager.loadCircleImg(list.get(0), mIvHead);
-//            uploadFile(new File(list.get(0)));
         }));
 
         mStvUpdate.setRightString("当前版本:V" + FastUtil.getVersionName(mContext));
     }
 
     /**
-     * 演示文件上传
+     * 演示文件上传--需设置自己的上传路径
      *
-     * @param file
+     * @param listFile
      */
-    private void uploadFile(File file) {
-        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+    private void uploadFile(List<String> listFile) {
+        if (listFile == null) return;
+        final ProgressDialog mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog.setTitle("上传文件");
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setMessage("上传中...");
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setProgressNumberFormat("0.00MB/未知");
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 //额外参数
-                .addFormDataPart("basicId", "basicId")
-                //key为与后台协商制定
-                .addFormDataPart("uploadfiles", file.getName(), RequestBody.create(MultipartBody.FORM, file))
-                .addFormDataPart("uploadfiles", file.getName(), RequestBody.create(MultipartBody.FORM, file))
-                .build();
-        FastRetrofit.getInstance().uploadFile("http://XXXX:8088/v1/ftp/upload-files", requestBody)
+                .addFormDataPart("basicId", "basicId");
+        //添加上传实体
+        for (int i = 0; i < listFile.size(); i++) {
+            File file = new File(listFile.get(i));
+            int finalI = i;
+            builder.addFormDataPart("uploadfiles", file.getName(), getUploadRequestBody(file, new FastUploadRequestListener() {
+                @Override
+                public void onProgress(float progress, long current, long total) {
+                    mProgressDialog.setMessage("上传中(" + (finalI + 1) + "/" + listFile.size() + ")");
+                    mProgressDialog.setProgressNumberFormat(FastFormatUtil.formatDataSize(current) + "/" + FastFormatUtil.formatDataSize(total));
+                    mProgressDialog.setMax((int) total);
+                    mProgressDialog.setProgress((int) current);
+                    LoggerManager.i("uploadFile", ":i=" + finalI + ";progress:" + progress + ";current:" + current + ";total:" + total);
+                }
+
+                @Override
+                public void onFail(Throwable e) {
+                    LoggerManager.i("uploadFile", "error:" + e.getMessage());
+                }
+            }));
+        }
+        RequestBody requestBody = builder.build();
+        //上传地址需自行设置
+        FastRetrofit.getInstance().uploadFile("http://XXXX/v1/ftp/upload-files", requestBody)
                 .compose(FastTransformer.switchSchedulers())
-                .subscribe(new FastLoadingObserver<ResponseBody>(mContext, R.string.uploading) {
+                .subscribe(new FastLoadingObserver<ResponseBody>(new FastLoadDialog(mContext, mProgressDialog)) {
                     @Override
                     public void _onNext(ResponseBody entity) {
-                        ToastUtil.show("entity:" + entity.contentLength());
+                        String message = "上传返回:";
+                        try {
+                            message += entity.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        new AlertDialog.Builder(mContext)
+                                .setTitle("上传文件返回结果")
+                                .setMessage(message)
+                                .setPositiveButton(R.string.ensure, null)
+                                .create()
+                                .show();
                     }
                 });
     }
 
+
+    private RequestBody getUploadRequestBody(File file, FastUploadRequestListener listener) {
+        if (listener == null) {
+            return RequestBody.create(MultipartBody.FORM, file);
+        }
+        return new FastUploadRequestBody(RequestBody.create(MultipartBody.FORM, file), listener);
+    }
+
     @OnClick({R.id.stv_setting, R.id.stv_libraryMine, R.id.stv_thirdLibMine
-            , R.id.stv_shareMine, R.id.stv_updateMine})
+            , R.id.stv_shareMine, R.id.stv_updateMine, R.id.stv_uploadMine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_setting:
@@ -152,13 +202,21 @@ public class MineFragment extends FastTitleFragment {
                 CheckVersionHelper.with((BasisActivity) mContext)
                         .checkVersion(true);
                 break;
+            case R.id.stv_uploadMine:
+                mImagePickerHelper.selectFile(1001, 5, (requestCode, list) -> {
+                    if (list == null || list.size() == 0 || requestCode != 1001) {
+                        return;
+                    }
+                    uploadFile(list);
+                });
+                break;
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mImagePickerHelper != null && requestCode == 1000) {
+        if (mImagePickerHelper != null) {
             mImagePickerHelper.onActivityResult(requestCode, resultCode, data);
         }
     }

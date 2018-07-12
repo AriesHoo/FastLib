@@ -41,4 +41,5 @@ interface FastRetrofitService {
      */
     @POST
     Observable<ResponseBody> uploadFile(@Url String uploadUrl, @Body RequestBody body, @HeaderMap Map<String, Object> header);
+
 }

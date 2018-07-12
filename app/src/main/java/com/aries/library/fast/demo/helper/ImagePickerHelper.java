@@ -57,6 +57,16 @@ public class ImagePickerHelper extends BaseHelper {
                 .forResult(mRequestCode);
     }
 
+    public void selectFile(int requestCode, int count, OnImageSelect onImageSelect) {
+        this.mOnImageSelect = onImageSelect;
+        this.mRequestCode = requestCode;
+        PictureSelector.create(mContext)
+                .openGallery(PictureMimeType.ofImage())
+                .theme(StatusBarUtil.isSupportStatusBarFontChange() ? R.style.PicturePickerStyle : R.style.PicturePickerStyle_White)
+                .maxSelectNum(count)
+                .selectionMode(PictureConfig.TYPE_ALL)
+                .forResult(mRequestCode);
+    }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         LoggerManager.i("onActivityResult", "path:");
         if (resultCode == Activity.RESULT_OK) {

@@ -90,5 +90,17 @@
             app:sLeftIconRes="@drawable/ic_update"
             app:sLeftIconWidth="22dp"
             app:sLeftTextString="@string/update"/>
+
+
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_uploadMine"
+            style="@style/SupperTextStyleItem"
+            android:layout_marginTop="@dimen/dp_margin_item"
+            app:sDividerLineType="both"
+            app:sLeftIconHeight="22dp"
+            app:sLeftIconMarginLeft="13dp"
+            app:sLeftIconRes="@drawable/ic_update"
+            app:sLeftIconWidth="22dp"
+            app:sLeftTextString="@string/upload_file"/>
     </LinearLayout>
 </ScrollView>

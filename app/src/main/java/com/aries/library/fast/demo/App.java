@@ -11,8 +11,6 @@ import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
 import com.umeng.analytics.MobclickAgent;
 
-import okhttp3.logging.HttpLoggingInterceptor;
-
 /**
  * Created: AriesHoo on 2018/7/2 9:31
  * E-Mail: AriesHoo@126.com
@@ -70,8 +68,8 @@ public class App extends Application {
 //                .addHeader(header)
 //                .addHeader(key,value)
                 //设置请求全局log-可设置tag及Level类型
-                .setLogEnable(BuildConfig.DEBUG)
-                .setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BODY)
+                .setLogEnable(false)
+//                .setLogEnable(BuildConfig.DEBUG, TAG, HttpLoggingInterceptor.Level.BODY)
                 //设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
                 //默认20 s
                 .setTimeout(30);

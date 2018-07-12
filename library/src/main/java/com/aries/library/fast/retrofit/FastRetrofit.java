@@ -175,7 +175,7 @@ public class FastRetrofit {
     }
 
     /**
-     * 上传文件/参数
+     * 上传文件/参数 配合{@link FastUploadRequestBody}及{@link FastUploadRequestListener}实现上传进度监听
      *
      * @param uploadUrl
      * @param body
@@ -186,23 +186,22 @@ public class FastRetrofit {
     }
 
     /**
-     * 上传文件/参数
+     * 上传文件/参数 配合{@link FastUploadRequestBody}及{@link FastUploadRequestListener}实现上传进度监听
      *
      * @param uploadUrl 请求全路径
      * @param body      请求body 可将文件及其他参数放进body
-     * @param header
+     * @param header    可设置额外请求头信息
      * @return
      */
     public Observable<ResponseBody> uploadFile(String uploadUrl, @Nullable final RequestBody body, Map<String, Object> header) {
-        return getInstance()
-                .getRetrofit()
+        return getInstance().getRetrofit()
                 .create(FastRetrofitService.class)
                 .uploadFile(uploadUrl, body, header == null ? new HashMap<String, Object>() : header)
                 .compose(FastTransformer.<ResponseBody>switchSchedulers());
     }
 
     /**
-     * 设置请求头
+     * 设置请求头{@link #mHeaderInterceptor}
      *
      * @param key
      * @param value

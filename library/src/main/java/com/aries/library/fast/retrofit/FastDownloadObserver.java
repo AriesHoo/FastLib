@@ -12,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import io.reactivex.observers.DefaultObserver;
 import okhttp3.ResponseBody;
 
 /**
@@ -21,8 +20,9 @@ import okhttp3.ResponseBody;
  * Function:快速下载观察者
  * Description:
  * 1、2018-7-11 16:38:18 去掉部分参数
+ * 2、2018-7-12 11:28:04 修改继承关系方便全局错误控制
  */
-public abstract class FastDownloadObserver extends DefaultObserver<ResponseBody> {
+public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
 
     private Dialog mDialog;
     private Handler mHandler;
@@ -68,6 +68,11 @@ public abstract class FastDownloadObserver extends DefaultObserver<ResponseBody>
                 onFail(e);
             }
         });
+    }
+
+    @Override
+    public void _onNext(ResponseBody entity) {
+
     }
 
     @Override
