@@ -11,8 +11,8 @@ import com.aries.library.fast.FastManager;
 import java.io.File;
 
 /**
- * Created: AriesHoo on 2018/7/4 14:14
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/20 15:41
+ * @E-Mail: AriesHoo@126.com
  * Function: FileProvider文件路径处理帮助类
  * Description:
  */
@@ -40,7 +40,7 @@ public class FastFileUtil {
      *
      * @param apkPath
      */
-    public static void  installApk(File apkPath) {
+    public static void installApk(File apkPath) {
         Context context = FastManager.getInstance().getApplication().getApplicationContext();
         if (context == null || apkPath == null) {
             return;
@@ -68,6 +68,9 @@ public class FastFileUtil {
         } else {
             intent.setDataAndType(Uri.fromFile(apkPath), "application/vnd.android.package-archive");
         }
+        // context 使用startActivity需增加 FLAG_ACTIVITY_NEW_TASK TAG 否则低版本上(目前发现在7.0以下版本)会提示以下错误
+        //android.util.AndroidRuntimeException: Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 }

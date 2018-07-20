@@ -18,11 +18,12 @@ import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
- * Created: AriesHoo on 2018/7/9 9:50
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/20 16:54
+ * @E-Mail: AriesHoo@126.com
  * Function:下拉刷新及上拉加载更多
  * Description:
  * 1、2018-7-9 09:50:59 修正Adapter 错误造成无法展示列表数据BUG
+ * 2、2018-7-20 16:54:47 设置StatusLayoutManager 目标View
  */
 public abstract class FastRefreshLoadActivity<T>
         extends FastTitleActivity implements IFastRefreshLoadView<T> {
@@ -54,6 +55,11 @@ public abstract class FastRefreshLoadActivity<T>
 
     @Override
     public LoadMoreView getLoadMoreView() {
+        return null;
+    }
+
+    @Override
+    public View getMultiStatusContentView() {
         return null;
     }
 

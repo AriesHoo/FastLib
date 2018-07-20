@@ -19,9 +19,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
 /**
- * Created: AriesHoo on 2018/6/30/030 18:21
- * E-Mail: AriesHoo@126.com
- * Function:SnackBar工具类
+ * @Author: AriesHoo on 2018/7/16 16:45
+ * @E-Mail: AriesHoo@126.com
+ * Function: SnackBar工具类
  * Description:
  */
 public class SnackBarUtil {
@@ -43,42 +43,42 @@ public class SnackBarUtil {
 
     private static WeakReference<Snackbar> mWeakReference;
 
-    private WeakReference<View> parent;
+    private WeakReference<View> mParent;
 
-    private CharSequence message;
-    private int messageColor;
-    private int bgColor;
-    private int bgResource;
-    private int duration;
-    private CharSequence actionText;
-    private int actionTextColor;
-    private View.OnClickListener actionListener;
-    private int bottomMargin;
+    private CharSequence mMessage;
+    private int mMessageColor;
+    private int mBgColor;
+    private int mBgResource;
+    private int mDuration;
+    private CharSequence mActionText;
+    private int mActionTextColor;
+    private View.OnClickListener mActionListener;
+    private int mBottomMargin;
 
     private SnackBarUtil(final View parent) {
         setDefault();
-        this.parent = new WeakReference<>(parent);
+        this.mParent = new WeakReference<>(parent);
     }
 
     private void setDefault() {
-        message = "";
-        messageColor = DEFAULT_COLOR;
-        bgColor = DEFAULT_COLOR;
-        bgResource = -1;
-        duration = LENGTH_SHORT;
-        actionText = "";
-        actionTextColor = DEFAULT_COLOR;
-        bottomMargin = 0;
+        mMessage = "";
+        mMessageColor = DEFAULT_COLOR;
+        mBgColor = DEFAULT_COLOR;
+        mBgResource = -1;
+        mDuration = LENGTH_SHORT;
+        mActionText = "";
+        mActionTextColor = DEFAULT_COLOR;
+        mBottomMargin = 0;
     }
 
     /**
      * 设置SnackBar依赖view
      *
-     * @param parent 依赖view
+     * @param mParent 依赖view
      * @return {@link SnackBarUtil}
      */
-    public static SnackBarUtil with(@NonNull final View parent) {
-        return new SnackBarUtil(parent);
+    public static SnackBarUtil with(@NonNull final View mParent) {
+        return new SnackBarUtil(mParent);
     }
 
     /**
@@ -88,7 +88,15 @@ public class SnackBarUtil {
      * @return {@link SnackBarUtil}
      */
     public SnackBarUtil setMessage(@NonNull final CharSequence msg) {
-        this.message = msg;
+        this.mMessage = msg;
+        return this;
+    }
+
+    public SnackBarUtil setMessage(@NonNull final int res) {
+        View view = mParent.get();
+        if (view != null) {
+            setMessage(view.getContext().getText(res));
+        }
         return this;
     }
 
@@ -99,7 +107,7 @@ public class SnackBarUtil {
      * @return {@link SnackBarUtil}
      */
     public SnackBarUtil setMessageColor(@ColorInt final int color) {
-        this.messageColor = color;
+        this.mMessageColor = color;
         return this;
     }
 
@@ -110,7 +118,7 @@ public class SnackBarUtil {
      * @return {@link SnackBarUtil}
      */
     public SnackBarUtil setBgColor(@ColorInt final int color) {
-        this.bgColor = color;
+        this.mBgColor = color;
         return this;
     }
 
@@ -121,7 +129,7 @@ public class SnackBarUtil {
      * @return {@link SnackBarUtil}
      */
     public SnackBarUtil setBgResource(@DrawableRes final int bgResource) {
-        this.bgResource = bgResource;
+        this.mBgResource = bgResource;
         return this;
     }
 
@@ -137,7 +145,7 @@ public class SnackBarUtil {
      * @return {@link SnackBarUtil}
      */
     public SnackBarUtil setDuration(@Duration final int duration) {
-        this.duration = duration;
+        this.mDuration = duration;
         return this;
     }
 
@@ -162,9 +170,9 @@ public class SnackBarUtil {
      */
 
     public SnackBarUtil setAction(@NonNull final CharSequence text, @ColorInt final int color, @NonNull final View.OnClickListener listener) {
-        this.actionText = text;
-        this.actionTextColor = color;
-        this.actionListener = listener;
+        this.mActionText = text;
+        this.mActionTextColor = color;
+        this.mActionListener = listener;
         return this;
     }
 
@@ -174,7 +182,7 @@ public class SnackBarUtil {
      * @param bottomMargin 底边距
      */
     public SnackBarUtil setBottomMargin(@IntRange(from = 1) final int bottomMargin) {
-        this.bottomMargin = bottomMargin;
+        this.mBottomMargin = bottomMargin;
         return this;
     }
 
@@ -182,32 +190,34 @@ public class SnackBarUtil {
      * 显示SnackBar
      */
     public void show() {
-        final View view = parent.get();
-        if (view == null) return;
-        if (messageColor != DEFAULT_COLOR) {
-            SpannableString spannableString = new SpannableString(message);
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(messageColor);
+        final View view = mParent.get();
+        if (view == null) {
+            return;
+        }
+        if (mMessageColor != DEFAULT_COLOR) {
+            SpannableString spannableString = new SpannableString(mMessage);
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(mMessageColor);
             spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mWeakReference = new WeakReference<>(Snackbar.make(view, spannableString, duration));
+            mWeakReference = new WeakReference<>(Snackbar.make(view, spannableString, mDuration));
         } else {
-            mWeakReference = new WeakReference<>(Snackbar.make(view, message, duration));
+            mWeakReference = new WeakReference<>(Snackbar.make(view, mMessage, mDuration));
         }
         final Snackbar snackbar = mWeakReference.get();
         final View snackView = snackbar.getView();
-        if (bgResource != -1) {
-            snackView.setBackgroundResource(bgResource);
-        } else if (bgColor != DEFAULT_COLOR) {
-            snackView.setBackgroundColor(bgColor);
+        if (mBgResource != -1) {
+            snackView.setBackgroundResource(mBgResource);
+        } else if (mBgColor != DEFAULT_COLOR) {
+            snackView.setBackgroundColor(mBgColor);
         }
-        if (bottomMargin != 0) {
+        if (mBottomMargin != 0) {
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) snackView.getLayoutParams();
-            params.bottomMargin = bottomMargin;
+            params.bottomMargin = mBottomMargin;
         }
-        if (actionText.length() > 0 && actionListener != null) {
-            if (actionTextColor != DEFAULT_COLOR) {
-                snackbar.setActionTextColor(actionTextColor);
+        if (mActionText.length() > 0 && mActionListener != null) {
+            if (mActionTextColor != DEFAULT_COLOR) {
+                snackbar.setActionTextColor(mActionTextColor);
             }
-            snackbar.setAction(actionText, actionListener);
+            snackbar.setAction(mActionText, mActionListener);
         }
         snackbar.show();
     }
@@ -216,9 +226,9 @@ public class SnackBarUtil {
      * 显示预设成功的SnackBar
      */
     public void showSuccess() {
-        bgColor = SUCCESS;
-        messageColor = MESSAGE;
-        actionTextColor = MESSAGE;
+        mBgColor = SUCCESS;
+        mMessageColor = MESSAGE;
+        mActionTextColor = MESSAGE;
         show();
     }
 
@@ -226,9 +236,9 @@ public class SnackBarUtil {
      * 显示预设警告的SnackBar
      */
     public void showWarning() {
-        bgColor = WARNING;
-        messageColor = MESSAGE;
-        actionTextColor = MESSAGE;
+        mBgColor = WARNING;
+        mMessageColor = MESSAGE;
+        mActionTextColor = MESSAGE;
         show();
     }
 
@@ -236,9 +246,9 @@ public class SnackBarUtil {
      * 显示预设错误的SnackBar
      */
     public void showError() {
-        bgColor = ERROR;
-        messageColor = MESSAGE;
-        actionTextColor = MESSAGE;
+        mBgColor = ERROR;
+        mMessageColor = MESSAGE;
+        mActionTextColor = MESSAGE;
         show();
     }
 
@@ -259,7 +269,9 @@ public class SnackBarUtil {
      */
     public static View getView() {
         Snackbar snackbar = mWeakReference.get();
-        if (snackbar == null) return null;
+        if (snackbar == null) {
+            return null;
+        }
         return snackbar.getView();
     }
 

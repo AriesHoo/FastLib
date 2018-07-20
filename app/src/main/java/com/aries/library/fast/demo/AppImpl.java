@@ -205,7 +205,9 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                 .setStatusAlpha(isSupport ? 0 : 102)
                 .setLeftTextDrawable(isActivity ? mDrawable : null)
                 .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0);
-        if (activity != null) titleBar.setTitleMainText(activity.getTitle());
+        if (activity != null) {
+            titleBar.setTitleMainText(activity.getTitle());
+        }
         ViewCompat.setElevation(titleBar, mContext.getResources().getDimension(R.dimen.dp_elevation));
         return false;
     }
@@ -223,7 +225,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
 //                .setShadowResId(R.color.colorSwipeBackBackground)
-                .setIsNavigationBarOverlap(true);//底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
+                //底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
+                .setIsNavigationBarOverlap(true);
     }
 
     @Override
@@ -337,12 +340,14 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                     FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
                     List<Fragment> list = manager.getFragments();
                     //有Fragment的FragmentActivity不需调用以下方法避免统计不准
-                    if (list == null || list.size() == 0)
+                    if (list == null || list.size() == 0) {
                         MobclickAgent.onPageStart(activity.getClass().getSimpleName());
+                    }
                 } else {
                     MobclickAgent.onPageStart(activity.getClass().getSimpleName());
                 }
-                MobclickAgent.onResume(activity); //统计时长
+                //统计时长
+                MobclickAgent.onResume(activity);
             }
 
             @Override
@@ -352,18 +357,21 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                     FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
                     List<Fragment> list = manager.getFragments();
                     //有Fragment的FragmentActivity不需调用以下方法避免统计不准
-                    if (list == null || list.size() == 0)
+                    if (list == null || list.size() == 0) {
                         MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
+                    }
                 } else {
                     MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
                 }
-                MobclickAgent.onPause(activity); //统计时长
+                //统计时长
+                MobclickAgent.onPause(activity);
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
-                if (activity.isFinishing())
+                if (activity.isFinishing()) {
                     activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
+                }
             }
 
             @Override
@@ -411,12 +419,16 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         int size = httpRequestControl.getPageSize();
 
         LoggerManager.i(TAG, "smartRefreshLayout:" + smartRefreshLayout + ";adapter:" + adapter + ";status:" + ";page:" + page + ";class:" + httpRequestControl.getRequestClass());
-        if (smartRefreshLayout != null)
+        if (smartRefreshLayout != null) {
             smartRefreshLayout.finishRefresh();
-        if (adapter == null) return;
+        }
+        if (adapter == null) {
+            return;
+        }
         adapter.loadMoreComplete();
         if (list == null || list.size() == 0) {
-            if (page == 0) {//第一页没有
+            //第一页没有
+            if (page == 0) {
                 adapter.setNewData(new ArrayList());
                 statusLayoutManager.showEmptyLayout();
                 if (listener != null) {
@@ -453,21 +465,28 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         if (!NetworkUtil.isConnected(mContext)) {
             reason = R.string.fast_exception_network_not_connected;
         } else {
-            if (e instanceof NetworkErrorException) {//网络异常--继承于AccountsException
+            //网络异常--继承于AccountsException
+            if (e instanceof NetworkErrorException) {
                 reason = R.string.fast_exception_network_error;
-            } else if (e instanceof AccountsException) {//账户异常
+                //账户异常
+            } else if (e instanceof AccountsException) {
                 reason = R.string.fast_exception_accounts;
-            } else if (e instanceof ConnectException) {//连接异常--继承于SocketException
+                //连接异常--继承于SocketException
+            } else if (e instanceof ConnectException) {
                 reason = R.string.fast_exception_connect;
-            } else if (e instanceof SocketException) {//socket异常
+                //socket异常
+            } else if (e instanceof SocketException) {
                 reason = R.string.fast_exception_socket;
-            } else if (e instanceof HttpException) {// http异常
+                // http异常
+            } else if (e instanceof HttpException) {
                 reason = R.string.fast_exception_http;
-            } else if (e instanceof UnknownHostException) {//DNS错误
+                //DNS错误
+            } else if (e instanceof UnknownHostException) {
                 reason = R.string.fast_exception_unknown_host;
             } else if (e instanceof JsonSyntaxException
                     || e instanceof JsonIOException
-                    || e instanceof JsonParseException) {//数据格式化错误
+                    || e instanceof JsonParseException) {
+                //数据格式化错误
                 reason = R.string.fast_exception_json_syntax;
             } else if (e instanceof SocketTimeoutException || e instanceof TimeoutException) {
                 reason = R.string.fast_exception_time_out;
@@ -483,23 +502,27 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
         StatusLayoutManager statusLayoutManager = httpRequestControl.getStatusLayoutManager();
         int page = httpRequestControl.getCurrentPage();
-//        int size = httpRequestControl.getPageSize();
-        if (smartRefreshLayout != null)
+        if (smartRefreshLayout != null) {
             smartRefreshLayout.finishRefresh(false);
-        if (adapter != null)
-            adapter.loadMoreComplete();
-        if (statusLayoutManager == null) return;
-        if (page == 0) {//初始页
-            if (!NetworkUtil.isConnected(mContext)) {
-                //可自定义网络错误页面展示
-                statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
-            } else {
-                statusLayoutManager.showErrorLayout();
-            }
-            return;
         }
-        //可根据不同错误展示不同错误布局 statusLayoutManager.showCustomLayout(R.layout.xxx);
-        statusLayoutManager.showErrorLayout();
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+            if (statusLayoutManager == null) {
+                return;
+            }
+            //初始页
+            if (page == 0) {
+                if (!NetworkUtil.isConnected(mContext)) {
+                    //可自定义网络错误页面展示
+                    statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
+                } else {
+                    statusLayoutManager.showErrorLayout();
+                }
+                return;
+            }
+            //可根据不同错误展示不同错误布局  showCustomLayout(R.layout.xxx);
+            statusLayoutManager.showErrorLayout();
+        }
     }
 
     /**
@@ -515,11 +538,6 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         } else {
             FastStackUtil.getInstance().exit();
         }
-//        if (isFirst) {
-//            ToastUtil.show(R.string.fast_back_home);
-//        } else {
-//            activity.moveTaskToBack(true);
-//        }
         return 2000;
     }
 

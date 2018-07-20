@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created: AriesHoo on 2018/5/28/028 21:30
- * E-Mail: AriesHoo@126.com
- * Function:所有Fragment的基类实现懒加载
+ * @Author: AriesHoo on 2018/7/13 17:49
+ * @E-Mail: AriesHoo@126.com
+ * Function: 所有Fragment的基类实现懒加载
  * Description:
  * 1、新增控制是否为FragmentActivity的唯一Fragment 方法以优化懒加载方式
  * 2、增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
@@ -85,13 +85,16 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         }
         mUnBinder = ButterKnife.bind(this, mContentView);
         mIsViewLoaded = true;
-        if (isEventBusEnable())
+        if (isEventBusEnable()) {
             EventBus.getDefault().register(this);
+        }
         beforeInitView();
         initView(savedInstanceState);
 
-        if (isSingleFragment() && !mIsVisibleChanged && (getUserVisibleHint() || isVisible() || !isHidden())) {
-            onVisibleChanged(true);
+        if (isSingleFragment() && !mIsVisibleChanged) {
+            if (getUserVisibleHint() || isVisible() || !isHidden()) {
+                onVisibleChanged(true);
+            }
         }
         LoggerManager.i(TAG, TAG + ";mIsVisibleChanged:" + mIsVisibleChanged
                 + ";getUserVisibleHint:" + getUserVisibleHint()
@@ -112,8 +115,9 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     @Override
     public void beforeInitView() {
-        if (FastManager.getInstance().getActivityFragmentControl() != null)
+        if (FastManager.getInstance().getActivityFragmentControl() != null) {
             FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
+        }
     }
 
     @Override
@@ -131,8 +135,9 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     @Override
     public void onDestroy() {
-        if (isEventBusEnable())
+        if (isEventBusEnable()) {
             EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
     }
 

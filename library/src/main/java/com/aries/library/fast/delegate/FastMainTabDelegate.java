@@ -13,6 +13,7 @@ import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.i.IFastMainView;
 import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.library.fast.util.SizeUtil;
+import com.aries.ui.util.FindViewUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 
@@ -20,10 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created: AriesHoo on 2017/11/8 10:57
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/13 17:52
+ * @E-Mail: AriesHoo@126.com
  * Function: 主页tab代理类
  * Description:
+ * 1、2018-7-20 17:15:08 修正获取子控件方法
  */
 public class FastMainTabDelegate {
 
@@ -121,15 +123,9 @@ public class FastMainTabDelegate {
      * @return
      */
     private void getTabLayout(View rootView) {
-        if (rootView instanceof CommonTabLayout && mTabLayout == null) {
-            mTabLayout = (CommonTabLayout) rootView;
-        } else if (rootView instanceof ViewGroup) {
-            ViewGroup contentView = (ViewGroup) rootView;
-            int childCount = contentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = contentView.getChildAt(i);
-                getTabLayout(childView);
-            }
+        mTabLayout = rootView.findViewById(R.id.tabLayout_commonFastLib);
+        if (mTabLayout == null) {
+            mTabLayout = FindViewUtil.getTargetView(rootView, CommonTabLayout.class);
         }
     }
 
@@ -139,15 +135,9 @@ public class FastMainTabDelegate {
      * @param rootView
      */
     private void getViewPager(View rootView) {
-        if (rootView instanceof ViewPager && mViewPager == null) {
-            mViewPager = (ViewPager) rootView;
-        } else if (rootView instanceof ViewGroup) {
-            ViewGroup contentView = (ViewGroup) rootView;
-            int childCount = contentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = contentView.getChildAt(i);
-                getViewPager(childView);
-            }
+        mViewPager = rootView.findViewById(R.id.vp_contentFastLib);
+        if (mViewPager == null) {
+            mViewPager = FindViewUtil.getTargetView(rootView, ViewPager.class);
         }
     }
 }

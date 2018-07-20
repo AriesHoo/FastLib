@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 /**
- * Created: AriesHoo on 2018/6/21 13:33
- * E-Mail: AriesHoo@126.com
- * Function:Basis Activity及Fragment通用属性
+ * @Author: AriesHoo on 2018/7/16 16:31
+ * @E-Mail: AriesHoo@126.com
+ * Function: Basis Activity及Fragment通用属性
  * Description:
  */
 public interface IBasisView {

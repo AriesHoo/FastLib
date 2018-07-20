@@ -43,10 +43,10 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 /**
- * Created: AriesHoo on 2018/7/3 13:42
- * E-Mail: AriesHoo@126.com
- * Function:我的
- * Description:
+ * @Author: AriesHoo on 2018/7/13 17:09
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 我的
+ * @Description:
  */
 public class MineFragment extends FastTitleFragment {
 
@@ -78,8 +78,6 @@ public class MineFragment extends FastTitleFragment {
         mImagePickerHelper = new ImagePickerHelper(mContext);
         mIvHead = mStvInfo.getLeftIconIV();
         GlideManager.loadCircleImg("https://avatars3.githubusercontent.com/u/19605922?v=4&s=460", mIvHead);
-//        mIvHead.getLayoutParams().height = (int) (SizeUtil.getScreenWidth() * 0.2);
-//        mIvHead.getLayoutParams().width = (int) (SizeUtil.getScreenWidth() * 0.2);
         LoggerManager.d("imageHeight:" + mIvHead.getLayoutParams().height + ";screenWidth:" + SizeUtil.getScreenWidth());
         SpanTool.getBuilder(mStvInfo.getLeftString())
                 .append("https://github.com/AriesHoo")
@@ -121,7 +119,9 @@ public class MineFragment extends FastTitleFragment {
      * @param listFile
      */
     private void uploadFile(List<String> listFile) {
-        if (listFile == null) return;
+        if (listFile == null) {
+            return;
+        }
         final ProgressDialog mProgressDialog = new ProgressDialog(mContext);
         mProgressDialog.setTitle("上传文件");
         mProgressDialog.setIndeterminate(false);

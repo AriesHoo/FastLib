@@ -19,11 +19,13 @@ import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
- * Created: AriesHoo on 2018/6/22 14:45
- * E-Mail: AriesHoo@126.com
- * Function:快速实现下拉刷新及上拉加载更多代理类
+ * @Author: AriesHoo on 2018/7/13 17:52
+ * @E-Mail: AriesHoo@126.com
+ * Function: 快速实现下拉刷新及上拉加载更多代理类
  * Description:
  * 1、使用StatusLayoutManager重构多状态布局功能
+ * 2、2018-7-20 17:00:16 新增StatusLayoutManager 设置目标View优先级
+ * 3、2018-7-20 17:44:30 新增StatusLayoutManager 点击事件处理
  */
 public class FastRefreshLoadDelegate<T> {
 
@@ -48,6 +50,7 @@ public class FastRefreshLoadDelegate<T> {
         getRecyclerView(rootView);
         initRefreshHeader();
         initRecyclerView();
+        setStatusManager();
     }
 
     /**
@@ -64,7 +67,6 @@ public class FastRefreshLoadDelegate<T> {
                         new ClassicsHeader(mContext).setSpinnerStyle(SpinnerStyle.Translate));
         mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
         mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
-        setStatusManager(mRefreshLayout);
     }
 
     /**
@@ -96,17 +98,21 @@ public class FastRefreshLoadDelegate<T> {
                 });
             }
         }
-        if (mRefreshLayout != null) {
-            return;
-        }
-        setStatusManager(mRecyclerView);
     }
 
     public void setLoadMore(boolean enable) {
         mAdapter.setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null, mRecyclerView);
     }
 
-    private void setStatusManager(View contentView) {
+    private void setStatusManager() {
+        //优先使用当前配置
+        View contentView = mIFastRefreshLoadView.getMultiStatusContentView();
+        if (contentView == null) {
+            contentView = mRefreshLayout;
+        }
+        if (contentView == null) {
+            contentView = mRecyclerView;
+        }
         if (contentView == null) {
             return;
         }
@@ -117,27 +123,37 @@ public class FastRefreshLoadDelegate<T> {
                 .setDefaultLoadingText(R.string.fast_multi_loading)
                 .setDefaultErrorText(R.string.fast_multi_error)
                 .setDefaultErrorClickViewTextColor(contentView.getResources().getColor(R.color.colorTitleText))
-                .setOnStatusChildClickListener(mIFastRefreshLoadView.getMultiStatusViewChildClickListener() != null ?
-                        mIFastRefreshLoadView.getMultiStatusViewChildClickListener() :
-                        new OnStatusChildClickListener() {
-                            @Override
-                            public void onEmptyChildClick(View view) {
-                                mStatusManager.showLoadingLayout();
-                                mIFastRefreshLoadView.onRefresh(mRefreshLayout);
-                            }
+                .setOnStatusChildClickListener(new OnStatusChildClickListener() {
+                    @Override
+                    public void onEmptyChildClick(View view) {
+                        if (mIFastRefreshLoadView.getEmptyClickListener() != null) {
+                            mIFastRefreshLoadView.getEmptyClickListener().onClick(view);
+                            return;
+                        }
+                        mStatusManager.showLoadingLayout();
+                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                    }
 
-                            @Override
-                            public void onErrorChildClick(View view) {
-                                mStatusManager.showLoadingLayout();
-                                mIFastRefreshLoadView.onRefresh(mRefreshLayout);
-                            }
+                    @Override
+                    public void onErrorChildClick(View view) {
+                        if (mIFastRefreshLoadView.getErrorClickListener() != null) {
+                            mIFastRefreshLoadView.getErrorClickListener().onClick(view);
+                            return;
+                        }
+                        mStatusManager.showLoadingLayout();
+                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                    }
 
-                            @Override
-                            public void onCustomerChildClick(View view) {
-                                mStatusManager.showLoadingLayout();
-                                mIFastRefreshLoadView.onRefresh(mRefreshLayout);
-                            }
-                        });
+                    @Override
+                    public void onCustomerChildClick(View view) {
+                        if (mIFastRefreshLoadView.getCustomerClickListener() != null) {
+                            mIFastRefreshLoadView.getCustomerClickListener().onClick(view);
+                            return;
+                        }
+                        mStatusManager.showLoadingLayout();
+                        mIFastRefreshLoadView.onRefresh(mRefreshLayout);
+                    }
+                });
         if (mManager != null && mManager.getMultiStatusView() != null) {
             mManager.getMultiStatusView().setMultiStatusView(builder, mIFastRefreshLoadView);
         }

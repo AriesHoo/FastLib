@@ -26,9 +26,9 @@ import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebCreator;
 
 /**
- * Created: AriesHoo on 2018/6/28 14:59
- * E-Mail: AriesHoo@126.com
- * Function:App内快速实现WebView功能
+ * @Author: AriesHoo on 2018/6/28 14:59
+ * @E-Mail: AriesHoo@126.com
+ * Function: App内快速实现WebView功能
  * Description:
  * 1、调整WebView自适应屏幕代码属性{@link #initAgentWeb()}
  */
@@ -131,8 +131,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
     }
 
     protected void initAgentWeb() {
-        mAgentBuilder = AgentWeb.with(this)//
-                .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))//
+        mAgentBuilder = AgentWeb.with(this)
+                .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))
                 .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : getResources().getColor(R.color.colorTitleText),
                         getProgressHeight())
                 .setWebChromeClient(new WebChromeClient() {
@@ -157,26 +157,28 @@ public abstract class FastWebActivity extends FastTitleActivity {
     }
 
     protected void showDialog() {
-        if (mAlertDialog == null)
+        if (mAlertDialog == null) {
             mAlertDialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.fast_web_alert_title)
                     .setMessage(R.string.fast_web_alert_msg)
                     .setNegativeButton(R.string.fast_web_alert_left, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (mAlertDialog != null)
+                            if (mAlertDialog != null) {
                                 mAlertDialog.dismiss();
+                            }
                         }
                     })
                     .setPositiveButton(R.string.fast_web_alert_right, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
-                            if (mAlertDialog != null)
+                            if (mAlertDialog != null) {
                                 mAlertDialog.dismiss();
+                            }
                             mContext.finish();
                         }
                     }).create();
+        }
         mAlertDialog.show();
         //show之后可获取对应Button对象设置文本颜色--show之前获取对象为null
         mAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.RED);

@@ -9,15 +9,17 @@ import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
- * Created: AriesHoo on 2017/7/25 10:57
+ * @Author: AriesHoo on 2018/7/20 16:52
+ * @E-Mail: AriesHoo@126.com
  * Function: 下拉及上拉刷新
- * Desc:
+ * Description:
+ * 1、2018-7-20 17:11:22 多状态集成关系
+ * 2、2018-7-20 17:39:55 去掉点击事件getMultiStatusViewChildClickListener
  */
-public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, IMultiStatusView {
     /**
      * 使用BaseRecyclerViewAdapterHelper作为上拉加载的实现方式
      * 如果使用ListView或GridView等需要自己去实现上拉加载更多的逻辑
@@ -92,11 +94,9 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
     void setMultiStatusView(StatusLayoutManager.Builder statusView);
 
     /**
-     * 设置StatusLayoutManager 子View点击事件
+     * 设置全局监听接口
      *
      * @return
      */
-    OnStatusChildClickListener getMultiStatusViewChildClickListener();
-
     IHttpRequestControl getIHttpRequestControl();
 }

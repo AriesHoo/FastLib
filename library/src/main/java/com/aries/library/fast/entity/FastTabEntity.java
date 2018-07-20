@@ -6,9 +6,10 @@ import android.text.TextUtils;
 import com.flyco.tablayout.listener.CustomTabEntity;
 
 /**
- * Created: AriesHoo on 2017/7/28 14:23
+ * @Author: AriesHoo on 2018/7/16 9:16
+ * @E-Mail: AriesHoo@126.com
  * Function: 主页Tab实体类
- * Desc:
+ * Description:
  */
 public class FastTabEntity implements CustomTabEntity {
     public String mTitle;

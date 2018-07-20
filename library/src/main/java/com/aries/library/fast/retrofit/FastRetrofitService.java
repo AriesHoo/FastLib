@@ -15,7 +15,7 @@ import retrofit2.http.Url;
 /**
  * Created: AriesHoo on 2018/7/3 15:59
  * E-Mail: AriesHoo@126.com
- * Function:快速实现小文件下载/上传
+ * Function:快速实现文件下载/上传
  * Description:
  */
 interface FastRetrofitService {

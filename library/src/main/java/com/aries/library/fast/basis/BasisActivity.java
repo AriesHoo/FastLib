@@ -7,13 +7,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.aries.library.fast.FastManager;
-import com.aries.library.fast.R;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.util.FastStackUtil;
-import com.aries.library.fast.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -23,8 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created: AriesHoo on 2017/7/19 15:37
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/13 17:38
+ * @E-Mail: AriesHoo@126.com
  * Function: 所有Activity的基类
  * Description:
  * 1、2018-6-15 09:31:42 调整滑动返回类控制
@@ -59,8 +57,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (isEventBusEnable())
+        if (isEventBusEnable()) {
             EventBus.getDefault().register(this);
+        }
         super.onCreate(savedInstanceState);
         mContext = this;
         beforeSetContentView();
@@ -89,8 +88,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     protected void onDestroy() {
-        if (isEventBusEnable())
+        if (isEventBusEnable()) {
             EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
         if (mUnBinder != null) {
             mUnBinder.unbind();
@@ -103,8 +103,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     public void beforeInitView() {
-        if (FastManager.getInstance().getActivityFragmentControl() != null)
+        if (FastManager.getInstance().getActivityFragmentControl() != null) {
             FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
+        }
     }
 
     @Override
@@ -113,7 +114,8 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     }
 
     private void beforeLazyLoad() {
-        if (!mIsViewLoaded) {//确保视图加载及视图绑定完成避免刷新UI抛出异常
+        //确保视图加载及视图绑定完成避免刷新UI抛出异常
+        if (!mIsViewLoaded) {
             RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {
                 @Override
                 public void timeEnd() {
@@ -139,7 +141,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected void quitApp() {
         mQuitAppControl = FastManager.getInstance().getQuitAppControl();
         mDelayBack = mQuitAppControl != null ? mQuitAppControl.quipApp(mIsFirstBack, this) : mDelayBack;
-        //时延太小/已是第二次提示直接通知执行最终操作
+        //时延太小或已是第二次提示直接通知执行最终操作
         if (mDelayBack <= 0 || !mIsFirstBack) {
             if (mQuitAppControl != null) {
                 mQuitAppControl.quipApp(false, this);
@@ -148,7 +150,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             }
             return;
         }
-        ToastUtil.show(R.string.fast_quit_app);
         //编写逻辑
         if (mIsFirstBack) {
             mIsFirstBack = false;

@@ -10,9 +10,10 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import java.util.List;
 
 /**
- * Created: AriesHoo on 2017/7/19 16:40
+ * @Author: AriesHoo on 2018/7/20 17:07
+ * @E-Mail: AriesHoo@126.com
  * Function: 包含CommonTabLayout的主页面Activity/Fragment
- * Desc:
+ * Description:
  */
 public interface IFastMainView extends OnTabSelectListener {
 
@@ -25,6 +26,8 @@ public interface IFastMainView extends OnTabSelectListener {
 
     /**
      * 用于添加Tab属性(文字-图标)
+     *
+     * @return
      */
     @Nullable
     List<FastTabEntity> getTabList();
@@ -36,5 +39,10 @@ public interface IFastMainView extends OnTabSelectListener {
      */
     void setTabLayout(CommonTabLayout tabLayout);
 
+    /**
+     * 设置ViewPager属性
+     *
+     * @param mViewPager
+     */
     void setViewPager(ViewPager mViewPager);
 }
