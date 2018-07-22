@@ -44,5 +44,5 @@ public interface IFastMainView extends OnTabSelectListener {
      *
      * @param mViewPager
      */
-    void setViewPager(ViewPager mViewPager);
+    void setTabViewPager(ViewPager mViewPager);
 }

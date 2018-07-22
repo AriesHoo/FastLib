@@ -52,6 +52,8 @@ public interface IBasisView {
     void loadData();
 
     /**
+     * 根据ID查询View对象
+     *
      * @param viewId
      * @param <T>
      * @return
