@@ -7,8 +7,8 @@ import com.aries.library.fast.manager.LoggerManager;
 import java.util.Stack;
 
 /**
- * Created: AriesHoo on 2018/6/21 9:48
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 14:32
+ * @E-Mail: AriesHoo@126.com
  * Function:Activity堆栈管理工具类
  * Description:
  * 1、2018-6-21 09:49:11 新增根据class获取Activity方法
@@ -114,7 +114,8 @@ public class FastStackUtil {
     public void pop(Activity activity) {
         if (activity != null) {
             LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
-            if (!activity.isFinishing()) {//只需在activity不在正在关闭状态下进行finish即可
+            //只需在activity不在正在关闭状态下进行finish即可
+            if (!activity.isFinishing()) {
                 activity.finish();
             }
             if (mActivityStack != null && mActivityStack.contains(activity)) {

@@ -3,8 +3,8 @@ package com.aries.library.fast.util;
 import java.util.Date;
 
 /**
- * Created: AriesHoo on 2018/6/30/030 18:21
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 14:37
+ * @E-Mail: AriesHoo@126.com
  * Function:时间转换工具
  * Description:
  * 1、2018-7-11 15:18:08 标记废弃使用{@link FastFormatUtil}代替

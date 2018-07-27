@@ -9,8 +9,8 @@ import com.aries.library.fast.i.IFastMainView;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
 /**
- * Created: AriesHoo on 2017/10/19 13:43
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 11:27
+ * @E-Mail: AriesHoo@126.com
  * Function: 快速创建主页布局
  * Description:
  */
@@ -18,6 +18,7 @@ public abstract class FastMainFragment extends BasisFragment implements IFastMai
 
     protected FastMainTabDelegate mFastMainTabDelegate;
 
+    @Override
     public void setViewPager(ViewPager mViewPager) {
     }
 

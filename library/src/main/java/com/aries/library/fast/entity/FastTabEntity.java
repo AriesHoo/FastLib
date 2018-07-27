@@ -10,6 +10,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
  * @E-Mail: AriesHoo@126.com
  * Function: 主页Tab实体类
  * Description:
+ * 1、2018-7-27 17:45:45 修改重载方式
  */
 public class FastTabEntity implements CustomTabEntity {
     public String mTitle;
@@ -24,10 +25,12 @@ public class FastTabEntity implements CustomTabEntity {
         this.mFragment = fragment;
     }
 
+    public FastTabEntity(int title, int unSelectedIcon, int selectedIcon, Fragment fragment) {
+        this(fragment == null ? "" : fragment.getString(title), unSelectedIcon, selectedIcon, fragment);
+    }
+
     public FastTabEntity(int unSelectedIcon, int selectedIcon, Fragment fragment) {
-        mSelectedIcon = selectedIcon;
-        mUnSelectedIcon = unSelectedIcon;
-        mFragment = fragment;
+        this("", unSelectedIcon, selectedIcon, fragment);
     }
 
     @Override

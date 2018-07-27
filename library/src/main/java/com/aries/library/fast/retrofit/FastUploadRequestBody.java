@@ -11,13 +11,19 @@ import okio.Okio;
 import okio.Sink;
 
 /**
- * Created: AriesHoo on 2018/7/11 17:32
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 14:24
+ * @E-Mail: AriesHoo@126.com
  * Function: 封装上传进度监听
  * Description:
  */
 public class FastUploadRequestBody extends RequestBody {
+    /**
+     * 上传数据流对象
+     */
     private RequestBody mRequestBody;
+    /**
+     * 上传进度监听
+     */
     private FastUploadRequestListener mListener;
 
     public FastUploadRequestBody(RequestBody requestBody, FastUploadRequestListener uploadListener) {

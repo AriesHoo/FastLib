@@ -15,7 +15,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -30,8 +29,8 @@ public abstract class FastRefreshLoadFragment<T>
     protected SmartRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
     protected StatusLayoutManager mStatusManager;
-    protected int DEFAULT_PAGE = 0;
-    protected int DEFAULT_PAGE_SIZE = 10;
+    protected int mDefaultPage = 0;
+    protected int mDefaultPageSize = 10;
     private BaseQuickAdapter mQuickAdapter;
     private Class<?> mClass;
 
@@ -78,12 +77,12 @@ public abstract class FastRefreshLoadFragment<T>
 
             @Override
             public int getCurrentPage() {
-                return DEFAULT_PAGE;
+                return mDefaultPage;
             }
 
             @Override
             public int getPageSize() {
-                return DEFAULT_PAGE_SIZE;
+                return mDefaultPageSize;
             }
 
             @Override
@@ -99,12 +98,27 @@ public abstract class FastRefreshLoadFragment<T>
     }
 
     @Override
+    public View getMultiStatusContentView() {
+        return null;
+    }
+
+    @Override
     public void setMultiStatusView(StatusLayoutManager.Builder statusView) {
 
     }
 
     @Override
-    public OnStatusChildClickListener getMultiStatusViewChildClickListener() {
+    public View.OnClickListener getEmptyClickListener() {
+        return null;
+    }
+
+    @Override
+    public View.OnClickListener getErrorClickListener() {
+        return null;
+    }
+
+    @Override
+    public View.OnClickListener getCustomerClickListener() {
         return null;
     }
 
@@ -130,18 +144,18 @@ public abstract class FastRefreshLoadFragment<T>
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        DEFAULT_PAGE = 0;
+        mDefaultPage = 0;
         mFastRefreshLoadDelegate.setLoadMore(isLoadMoreEnable());
-        loadData(DEFAULT_PAGE);
+        loadData(mDefaultPage);
     }
 
     @Override
     public void onLoadMoreRequested() {
-        loadData(++DEFAULT_PAGE);
+        loadData(++mDefaultPage);
     }
 
     @Override
     public void loadData() {
-        loadData(DEFAULT_PAGE);
+        loadData(mDefaultPage);
     }
 }

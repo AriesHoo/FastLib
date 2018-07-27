@@ -18,17 +18,39 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aries.library.fast.manager.LoggerManager;
+
 import java.util.List;
 import java.util.Random;
 
 /**
- * Created: AriesHoo on AriesHoo on 2017-03-14 08:54
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 9:29
+ * @E-Mail: AriesHoo@126.com
  * Function:app使用工具类
  * Description:
  * 1、将startActivity 参数Activity 改为Context
+ * 2、2018-7-23 09:29:55 新增获取App 应用名称方法
  */
 public class FastUtil {
+
+    /**
+     * 获取应用名称
+     *
+     * @param context
+     * @return
+     */
+    public static CharSequence getAppName(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    context.getPackageName(), 0);
+            int labelRes = packageInfo.applicationInfo.labelRes;
+            return context.getResources().getText(labelRes);
+        } catch (PackageManager.NameNotFoundException e) {
+            LoggerManager.e("FastUtil", "getAppName:" + e.getMessage());
+        }
+        return null;
+    }
 
     /**
      * 获取 一定范围随机数
@@ -38,7 +60,8 @@ public class FastUtil {
      * @return
      */
     public static int getRandom(int max, int min) {
-        Random random = new Random();// 定义随机类
+        // 定义随机类
+        Random random = new Random();
         int result = random.nextInt(max) % (max - min + 1) + min;
         return result;
     }
@@ -60,7 +83,9 @@ public class FastUtil {
      * @return
      */
     public static View getRootView(Activity activity) {
-        if (activity == null) return null;
+        if (activity == null) {
+            return null;
+        }
         return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
     }
 

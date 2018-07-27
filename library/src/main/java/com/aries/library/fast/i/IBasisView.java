@@ -1,16 +1,14 @@
 package com.aries.library.fast.i;
 
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.view.View;
 
 /**
  * @Author: AriesHoo on 2018/7/16 16:31
  * @E-Mail: AriesHoo@126.com
  * Function: Basis Activity及Fragment通用属性
  * Description:
+ * 1、2018-7-23 10:37:39 删除findView 因高版本系统jar已实现相应功能
  */
 public interface IBasisView {
 
@@ -50,14 +48,4 @@ public interface IBasisView {
      * 需要加载数据时重写此方法
      */
     void loadData();
-
-    /**
-     * 根据ID查询View对象
-     *
-     * @param viewId
-     * @param <T>
-     * @return
-     */
-    @Nullable
-    <T extends View> T findView(@IdRes int viewId);
 }

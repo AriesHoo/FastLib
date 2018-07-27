@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastFileUtil;
 
 import java.io.File;
@@ -15,8 +16,8 @@ import java.io.InputStream;
 import okhttp3.ResponseBody;
 
 /**
- * Created: AriesHoo on 2018/7/3 16:32
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 13:41
+ * @E-Mail: AriesHoo@126.com
  * Function:快速下载观察者
  * Description:
  * 1、2018-7-11 16:38:18 去掉部分参数
@@ -24,7 +25,13 @@ import okhttp3.ResponseBody;
  */
 public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
 
+    /**
+     * 提示Dialog
+     */
     private Dialog mDialog;
+    /**
+     * 主线程Handler用于通知进度更新
+     */
     private Handler mHandler;
     /**
      * 目标文件存储的文件夹路径
@@ -36,7 +43,7 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
     private String mDestFileName;
 
     public FastDownloadObserver(String destFileName) {
-        this(FastFileUtil.createCacheFile(), destFileName);
+        this(FastFileUtil.getCacheDir(), destFileName);
     }
 
     public FastDownloadObserver(String destFileDir, String destFileName) {
@@ -44,14 +51,15 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
     }
 
     public FastDownloadObserver(String destFileName, Dialog dialog) {
-        this(FastFileUtil.createCacheFile(), destFileName, dialog);
+        this(FastFileUtil.getCacheDir(), destFileName, dialog);
     }
 
     public FastDownloadObserver(String destFileDir, String destFileName, Dialog dialog) {
         super();
-        this.mDestFileDir = TextUtils.isEmpty(destFileDir) ? FastFileUtil.createCacheFile() : destFileDir;
+        this.mDestFileDir = TextUtils.isEmpty(destFileDir) ? FastFileUtil.getCacheDir() : destFileDir;
         this.mDestFileName = destFileName;
         this.mDialog = dialog;
+        LoggerManager.i("FastDownloadObserver", "mDestFileDir:" + mDestFileDir);
     }
 
     @Override
@@ -114,8 +122,8 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
      * 保存文件
      *
      * @param response
-     * @return
-     * @throws IOException
+     * @return 返回保存文件
+     * @throws IOException 写入文件IO异常
      */
     public File saveFile(ResponseBody response) throws IOException {
         InputStream is = null;
@@ -155,12 +163,16 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
         } finally {
             try {
                 response.close();
-                if (is != null) is.close();
+                if (is != null) {
+                    is.close();
+                }
             } catch (IOException e) {
                 onError(e);
             }
             try {
-                if (fos != null) fos.close();
+                if (fos != null) {
+                    fos.close();
+                }
             } catch (IOException e) {
                 onError(e);
             }
@@ -175,9 +187,26 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
     }
 
 
+    /**
+     * 下载完成-返回文件
+     *
+     * @param file 文件对象
+     */
     public abstract void onSuccess(File file);
 
+    /**
+     * 下载失败返回错误对象
+     *
+     * @param e 错误对象
+     */
     public abstract void onFail(Throwable e);
 
+    /**
+     * 下载进度
+     *
+     * @param progress 进度如 0.01
+     * @param current  当前已下载字节数
+     * @param total    总文件字节数
+     */
     public abstract void onProgress(float progress, long current, long total);
 }

@@ -6,11 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created: AriesHoo on 2018/7/11 15:17
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 14:30
+ * @E-Mail: AriesHoo@126.com
  * Function: 快速格式化工具
  * Description:
- * 1、2018-7-11 15:23:40 将日期格式化迁移至此,新增格式化文件大小
+ * 1、2018-7-11 15:23:40 将日期格式化TimeFormatUtil迁移至此,新增格式化文件大小
  */
 public class FastFormatUtil {
 
@@ -38,6 +38,11 @@ public class FastFormatUtil {
         return formatTime(new Date(time), format);
     }
 
+    /**
+     * @param time
+     * @param format
+     * @return
+     */
     public static String formatTime(Date time, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(time);
@@ -46,7 +51,7 @@ public class FastFormatUtil {
     /**
      * 格式化数据
      *
-     * @param dataSize
+     * @param dataSize 数据字节数
      * @return
      */
     public static String formatDataSize(long dataSize) {

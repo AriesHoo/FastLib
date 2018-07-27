@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
- * Created: AriesHoo on 2017/7/20 11:13
+ * @Author: AriesHoo on 2018/7/23 11:13
+ * @E-Mail: AriesHoo@126.com
  * Function: FlycoTabLay+ViewPager 使用管理类
- * Desc:
+ * Description:
  */
 public class TabLayoutManager {
 
@@ -42,11 +42,29 @@ public class TabLayoutManager {
         return instance;
     }
 
+    /**
+     * 设置滑动 Tab SlidingTabLayout
+     *
+     * @param fragment
+     * @param tabLayout
+     * @param viewPager
+     * @param tittles
+     * @param fragments
+     */
     public void setSlidingTabData(Fragment fragment, SlidingTabLayout tabLayout, ViewPager viewPager,
                                   List<String> tittles, List<Fragment> fragments) {
         setSlidingTabData(fragment, tabLayout, viewPager, tittles, fragments, null);
     }
 
+    /**
+     * 设置滑动 Tab SlidingTabLayout
+     *
+     * @param activity
+     * @param tabLayout
+     * @param viewPager
+     * @param tittles
+     * @param fragments
+     */
     public void setSlidingTabData(FragmentActivity activity, SlidingTabLayout tabLayout,
                                   ViewPager viewPager, List<String> tittles, List<Fragment> fragments) {
         setSlidingTabData(activity, tabLayout, viewPager, tittles, fragments, null);
@@ -158,9 +176,9 @@ public class TabLayoutManager {
      * @param activity
      * @param tabLayout
      * @param viewPager
-     * @param titles
-     * @param fragments
-     * @param listener
+     * @param titles 标签数组
+     * @param fragments fragment 数组
+     * @param listener  tab切换监听回调
      */
     public void setSegmentTabData(FragmentActivity activity, final SegmentTabLayout tabLayout, final ViewPager viewPager,
                                   String[] titles, List<Fragment> fragments, final OnTabSelectListener listener) {
@@ -172,10 +190,10 @@ public class TabLayoutManager {
      * viewPager配合使用
      *
      * @param activity  FragmentActivity或Fragment
-     * @param viewPager
-     * @param tittles
-     * @param fragments
-     * @param listener
+     * @param viewPager 装载 Fragment的容器
+     * @param tittles   标签数组
+     * @param fragments 加载Fragment数组
+     * @param listener  tab切换回调
      */
     private void setViewPager(Object activity, final Object tabLayout, final ViewPager viewPager,
                               List<String> tittles, List<Fragment> fragments, final OnTabSelectListener listener) {
@@ -204,8 +222,9 @@ public class TabLayoutManager {
                 } else if ((tabLayout instanceof SegmentTabLayout)) {
                     ((SegmentTabLayout) tabLayout).setCurrentTab(position);
                 }
-                if (listener != null)
+                if (listener != null) {
                     listener.onTabSelect(position);
+                }
             }
         });
         if ((tabLayout instanceof CommonTabLayout)) {
@@ -217,8 +236,9 @@ public class TabLayoutManager {
 
                 @Override
                 public void onTabReselect(int position) {
-                    if (listener != null)
+                    if (listener != null) {
                         listener.onTabReselect(position);
+                    }
                 }
             });
         } else if ((tabLayout instanceof SegmentTabLayout)) {
@@ -230,13 +250,22 @@ public class TabLayoutManager {
 
                 @Override
                 public void onTabReselect(int position) {
-                    if (listener != null)
+                    if (listener != null) {
                         listener.onTabReselect(position);
+                    }
                 }
             });
         }
     }
 
+    /**
+     * 快速设置适配器
+     *
+     * @param activity  Fragment或FragmentActivity
+     * @param tittles   标签列表
+     * @param fragments Fragment列表
+     * @return FragmentStatePagerAdapter适配器
+     */
     private FragmentStatePagerAdapter getFragmentAdapter(Object activity, final List<String> tittles,
                                                          @NonNull final List<Fragment> fragments) {
         FragmentManager manager = null;

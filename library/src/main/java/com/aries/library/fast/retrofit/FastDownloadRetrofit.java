@@ -1,5 +1,7 @@
 package com.aries.library.fast.retrofit;
 
+import com.aries.library.fast.util.SSLUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -12,8 +14,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 
 /**
- * Created: AriesHoo on 2018/7/11 10:24
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 13:46
+ * @E-Mail: AriesHoo@126.com
  * Function: 快速下载功能-单独retrofit使用
  * Description:
  */
@@ -29,8 +31,15 @@ class FastDownloadRetrofit {
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
         for (Interceptor in : okHttpClient.interceptors()) {
             //貌似日志打印的拦截器会影响下载进度监控
-            if (!in.toString().contains("HttpLoggingInterceptor"))
+            if (!in.toString().contains("HttpLoggingInterceptor")) {
                 okHttpBuilder.addInterceptor(in);
+            }
+        }
+        SSLUtil.SSLParams params = FastRetrofit.getInstance().getCertificates();
+        if (params != null) {
+            okHttpBuilder.sslSocketFactory(params.sslSocketFactory, params.trustManager);
+        } else {
+            okHttpBuilder.sslSocketFactory(okHttpClient.sslSocketFactory());
         }
         //将原属性配置至新OkHttpClient
         OkHttpClient client = okHttpBuilder
@@ -38,7 +47,6 @@ class FastDownloadRetrofit {
                 .connectTimeout(okHttpClient.connectTimeoutMillis(), TimeUnit.MILLISECONDS)
                 .readTimeout(okHttpClient.readTimeoutMillis(), TimeUnit.MILLISECONDS)
                 .writeTimeout(okHttpClient.writeTimeoutMillis(), TimeUnit.MILLISECONDS)
-                .sslSocketFactory(okHttpClient.sslSocketFactory())
                 .build();
         mRetrofit = FastRetrofit.getRetrofit().newBuilder()
                 .client(client)
@@ -59,14 +67,14 @@ class FastDownloadRetrofit {
     /**
      * 注意线程转换
      *
-     * @param fileUrl
-     * @param header
-     * @return
+     * @param fileUrl 下载路径(可以为全路径)
+     * @param header  额外头信息
+     * @return 返回数据流
      */
     public Observable<ResponseBody> downloadFile(String fileUrl, Map<String, Object> header) {
         return mRetrofit
                 .create(FastRetrofitService.class)
-                .downloadFile(fileUrl, header == null ? new HashMap<String, Object>() : header)
+                .downloadFile(fileUrl, header == null ? new HashMap<String, Object>(0) : header)
                 .observeOn(Schedulers.computation())
                 .subscribeOn(Schedulers.io());
     }

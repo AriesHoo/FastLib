@@ -7,9 +7,9 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DefaultObserver;
 
 /**
- * Created: AriesHoo on 2017/8/24 9:56
- * E-Mail: AriesHoo@126.com
- * Function: Retrofit快速观察者
+ * @Author: AriesHoo on 2018/7/23 14:21
+ * @E-Mail: AriesHoo@126.com
+ * Function: Retrofit快速观察者-观察者基类用于错误全局设置
  * Description:
  * 1、2017-11-16 11:35:12 AriesHoo增加返回错误码全局控制
  * 2、2018-6-20 15:15:45 重构
@@ -45,6 +45,11 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
         _onNext(entity);
     }
 
+    /**
+     * 获取成功后数据展示
+     *
+     * @param entity
+     */
     public abstract void _onNext(@NonNull T entity);
 
     public void _onError(@NonNull Throwable e) {

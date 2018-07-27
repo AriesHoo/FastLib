@@ -10,9 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created: AriesHoo on 2018/6/30/030 18:19
- * E-Mail: AriesHoo@126.com
- * Function:控制操作线程的辅助类
+ * @Author: AriesHoo on 2018/7/23 14:24
+ * @E-Mail: AriesHoo@126.com
+ * Function: 控制操作线程的辅助类
  * Description:
  */
 public class FastTransformer {

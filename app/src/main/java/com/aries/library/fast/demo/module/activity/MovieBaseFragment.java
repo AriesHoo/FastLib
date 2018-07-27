@@ -84,8 +84,8 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 //                    .addHeader(map)
 //                    .addHeader("ht", "ht");
 //        }
-        DEFAULT_PAGE_SIZE = 15;//接口最大支持单页100
-        ApiRepository.getInstance().getMovie(mUrl, page * DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE)
+        mDefaultPageSize = 15;//接口最大支持单页100
+        ApiRepository.getInstance().getMovie(mUrl, page * mDefaultPage, mDefaultPageSize)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(new FastObserver<BaseMovieEntity>(getIHttpRequestControl()) {
                     @Override

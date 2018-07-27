@@ -18,8 +18,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created: AriesHoo on 2017/9/22 11:07
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 14:08
+ * @E-Mail: AriesHoo@126.com
  * Function:FastMultiUrl 以简洁的 Api,让 Retrofit 不仅支持多 BaseUrl
  * 还可以在 App 运行时动态切换任意 BaseUrl,在多 BaseUrl 场景下也不会影响到其他不需要切换的 BaseUrl
  * Description:设置支持多BaseUrl
@@ -38,7 +38,6 @@ class FastMultiUrl {
      * 用于单独设置其它BaseUrl的Service设置Header标记
      */
     public static final String BASE_URL_NAME_HEADER = BASE_URL_NAME + ": ";
-
     /**
      * 是否开启拦截开始运行,可以随时停止运行,比如你在 App 启动后已经不需要在动态切换 baseUrl 了
      */

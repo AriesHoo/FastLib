@@ -8,20 +8,22 @@ import android.net.NetworkInfo;
 import android.provider.Settings;
 
 /**
- * Created: AriesHoo on 2017/8/24 13:14
+ * @Author: AriesHoo on 2018/7/23 14:33
+ * @E-Mail: AriesHoo@126.com
  * Function: 网络相关工具类
- * Desc:
+ * Description:
  */
-
 public class NetworkUtil {
 
 
     /**
      * 打开网络设置界面
+     * @param context
      */
     public static void openWirelessSettings(Context context) {
-        if (context != null)
+        if (context != null) {
             context.startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
     }
 
     /**

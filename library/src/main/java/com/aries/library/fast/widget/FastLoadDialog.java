@@ -12,9 +12,9 @@ import com.aries.ui.widget.progress.UIProgressDialog;
 import java.lang.ref.WeakReference;
 
 /**
- * Created: AriesHoo on 2018/7/4 16:39
- * E-Mail: AriesHoo@126.com
- * Function:快速创建网络请求loading
+ * @Author: AriesHoo on 2018/7/23 14:38
+ * @E-Mail: AriesHoo@126.com
+ * Function: 快速创建网络请求loading
  * Description:
  */
 public class FastLoadDialog {
@@ -97,7 +97,8 @@ public class FastLoadDialog {
     public FastLoadDialog setFullTrans(boolean enable) {
         if (mDialog != null) {
             WindowManager.LayoutParams lp = mDialog.getWindow().getAttributes();
-            lp.dimAmount = enable ? 0f : 0.5f;// 黑暗度
+            // 黑暗度
+            lp.dimAmount = enable ? 0f : 0.5f;
             mDialog.getWindow().setAttributes(lp);
         }
         return this;

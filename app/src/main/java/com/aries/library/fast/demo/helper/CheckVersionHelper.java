@@ -27,9 +27,9 @@ import java.lang.ref.SoftReference;
 import io.reactivex.annotations.NonNull;
 
 /**
- * Created: AriesHoo on 2018/5/28 11:05
- * E-Mail: AriesHoo@126.com
- * Function:检查版本升级的工具类
+ * @Author: AriesHoo on 2018/7/23 16:06
+ * @E-Mail: AriesHoo@126.com
+ * Function: 检查版本升级的工具类
  * Description:
  */
 public class CheckVersionHelper {
@@ -73,8 +73,9 @@ public class CheckVersionHelper {
 
                             @Override
                             public void onError(Throwable e) {
-                                if (mIsLoading)
+                                if (mIsLoading) {
                                     super.onError(e);
+                                }
                             }
                         } :
                         new FastObserver<UpdateEntity>() {
@@ -89,8 +90,9 @@ public class CheckVersionHelper {
 
                             @Override
                             public void onError(Throwable e) {
-                                if (mIsLoading)
+                                if (mIsLoading) {
                                     super.onError(e);
+                                }
                             }
                         });
     }

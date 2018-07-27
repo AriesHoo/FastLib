@@ -14,7 +14,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -59,13 +58,13 @@ public abstract class FastRefreshLoadActivity<T>
     }
 
     @Override
-    public View getMultiStatusContentView() {
-        return null;
+    public RecyclerView.LayoutManager getLayoutManager() {
+        return new LinearLayoutManager(mContext);
     }
 
     @Override
-    public RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(mContext);
+    public View getMultiStatusContentView() {
+        return null;
     }
 
     @Override
@@ -74,7 +73,17 @@ public abstract class FastRefreshLoadActivity<T>
     }
 
     @Override
-    public OnStatusChildClickListener getMultiStatusViewChildClickListener() {
+    public View.OnClickListener getEmptyClickListener() {
+        return null;
+    }
+
+    @Override
+    public View.OnClickListener getErrorClickListener() {
+        return null;
+    }
+
+    @Override
+    public View.OnClickListener getCustomerClickListener() {
         return null;
     }
 

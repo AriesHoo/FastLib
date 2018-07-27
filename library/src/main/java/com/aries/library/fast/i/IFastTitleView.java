@@ -3,15 +3,9 @@ package com.aries.library.fast.i;
 import com.aries.ui.view.title.TitleBarView;
 
 /**
- * Created: AriesHoo on 2017/7/25 11:27
- * Function:
- * Desc:
- */
-
-/**
- * Created: AriesHoo on 2018/4/20/020 10:14
- * E-Mail: AriesHoo@126.com
- * Function:包含TitleBarView
+ * @Author: AriesHoo on 2018/7/23 9:53
+ * @E-Mail: AriesHoo@126.com
+ * Function:包含TitleBarView接口
  * Description:
  * 1、2018-4-20 10:15:01 去掉isLightStatusBarEnable通过{@link TitleBarView#setStatusBarLightMode(boolean)}
  * 去掉getLeftIcon控制通过{@link TitleBarView#setLeftTextDrawable(int)}设置
@@ -26,7 +20,7 @@ public interface IFastTitleView {
     void beforeSetTitleBar(TitleBarView titleBar);
 
     /**
-     * 用于子类设置TitleBarView 其它属性
+     * 一般用于最终实现子类设置TitleBarView 其它属性
      *
      * @param titleBar
      */

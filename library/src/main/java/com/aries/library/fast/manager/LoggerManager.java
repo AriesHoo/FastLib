@@ -8,9 +8,10 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
 /**
- * Created: AriesHoo on 2017/7/26 21:11
+ * @Author: AriesHoo on 2018/7/23 10:53
+ * @E-Mail: AriesHoo@126.com
  * Function: logger日志管理类
- * Desc:
+ * Description:
  */
 public abstract class LoggerManager {
 
@@ -26,7 +27,8 @@ public abstract class LoggerManager {
         setDebug(isDebug);
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .methodCount(3)
-                .tag(TAG) // 全局tag
+                // 全局tag
+                .tag(TAG)
                 .build();
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {

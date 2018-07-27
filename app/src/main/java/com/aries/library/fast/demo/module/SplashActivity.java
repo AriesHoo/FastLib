@@ -11,6 +11,7 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastTitleActivity;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -60,7 +61,8 @@ public class SplashActivity extends FastTitleActivity {
             return;
         }
         if (!StatusBarUtil.isSupportStatusBarFontChange()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
+            //隐藏状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher);
         FastUtil.getTintDrawable(drawable, Color.WHITE);
@@ -69,12 +71,19 @@ public class SplashActivity extends FastTitleActivity {
         tvVersion.setText("V" + FastUtil.getVersionName(mContext));
         tvVersion.setTextColor(Color.WHITE);
         tvCopyRight.setTextColor(Color.WHITE);
-        RxJavaManager.getInstance().setTimer(2000, new RxJavaManager.TimerListener() {
-            @Override
-            public void timeEnd() {
-                FastUtil.startActivity(mContext, MainActivity.class);
-                finish();
-            }
-        }).compose(bindUntilEvent(ActivityEvent.DESTROY));
+        RxJavaManager.getInstance().setTimer(2000)
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new FastObserver<String>() {
+                    @Override
+                    public void _onNext(String entity) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        FastUtil.startActivity(mContext, MainActivity.class);
+                        finish();
+                    }
+                });
     }
 }

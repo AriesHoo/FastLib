@@ -20,29 +20,29 @@ public interface IFastMainView extends OnTabSelectListener {
     /**
      * 控制主界面Fragment是否可滑动切换
      *
-     * @return
+     * @return true 可滑动切换(配合ViewPager)
      */
     boolean isSwipeEnable();
 
     /**
      * 用于添加Tab属性(文字-图标)
      *
-     * @return
+     * @return 主页tab数组
      */
     @Nullable
     List<FastTabEntity> getTabList();
 
     /**
-     * 返回CommonTabLayout 对象用于自定义设置
+     * 返回 CommonTabLayout  对象用于自定义设置
      *
-     * @param tabLayout
+     * @param tabLayout CommonTabLayout 对象用于单独属性调节
      */
     void setTabLayout(CommonTabLayout tabLayout);
 
     /**
      * 设置ViewPager属性
      *
-     * @param mViewPager
+     * @param mViewPager ViewPager属性控制
      */
-    void setTabViewPager(ViewPager mViewPager);
+    void setViewPager(ViewPager mViewPager);
 }

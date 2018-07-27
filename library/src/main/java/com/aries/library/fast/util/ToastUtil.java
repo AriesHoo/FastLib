@@ -20,9 +20,9 @@ import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created: AriesHoo on 2018/5/25 13:57
- * E-Mail: AriesHoo@126.com
- * Function:Toast 工具
+ * @Author: AriesHoo on 2018/7/23 14:37
+ * @E-Mail: AriesHoo@126.com
+ * Function: Toast 工具
  * Description:
  * 1、2018-7-11 15:40:26 去掉Toast返回值并新增子线程弹出Toast功能
  */
@@ -31,7 +31,8 @@ public class ToastUtil {
     public static Context sContext;
     private static Toast sSystemToast;
     private static RadiusTextView sTextView;
-    private static boolean sIsShowRunningForeground;//是否前台运行才显示toast
+    //是否前台运行才显示toast
+    private static boolean sIsShowRunningForeground;
     private static Builder sBuilder;
     private static Builder sBuilderSuccess;
     private static Builder sBuilderFailed;

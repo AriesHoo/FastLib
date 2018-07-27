@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
@@ -28,9 +29,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created: AriesHoo on 2017/8/18 16:56
- * E-Mail: AriesHoo@126.com
- * Function:retrofit封装
+ * @Author: AriesHoo on 2018/7/24 13:10
+ * @E-Mail: AriesHoo@126.com
+ * Function: Retrofit封装
  * Description:
  * 1、2017-11-16 12:48:31 AriesHoo 修改读、写、链接超时时间均为readTimeout的BUG会造成超时设置无效BUG
  * 2、修改初始化FastMultiUrl类的位置到createService以免超时控制不到问题
@@ -42,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 及method模式{@link #putBaseUrl(String, String) {@link #putHeaderBaseUrl(Map)}}
  * 8、2018-7-3 16:06:56 新增下载文件功能{@link #downloadFile(String)}
  * 9、2018-7-11 08:59:00 修改{@link #removeHeader(String)}key判断错误问题
+ * 10、2018-7-24 13:10:49 新增默认header User-Agent -避免某些服务器配置攻击,请求返回403 forbidden 问题
  */
 public class FastRetrofit {
 
@@ -53,6 +55,11 @@ public class FastRetrofit {
     private static OkHttpClient sClient;
     private long mDelayTime = 20;
     private Map<String, Object> mServiceMap = new HashMap<>();
+
+    /**
+     * 正式配置
+     */
+    private SSLUtil.SSLParams mSslParams = new SSLUtil.SSLParams();
     /**
      * 日志拦截器
      */
@@ -68,7 +75,9 @@ public class FastRetrofit {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request.Builder request = chain.request().newBuilder();
-            if (mHeaderMap != null && mHeaderMap.size() > 0) {
+            //避免某些服务器配置攻击,请求返回403 forbidden 问题
+            addHeader("User-Agent", "Mozilla/5.0 (Android)");
+            if (mHeaderMap.size() > 0) {
                 for (Map.Entry<String, Object> entry : mHeaderMap.entrySet()) {
                     request.addHeader(entry.getKey(), String.valueOf(entry.getValue()));
                 }
@@ -104,7 +113,7 @@ public class FastRetrofit {
      * @return
      */
     public static OkHttpClient.Builder getOkHttpClientBuilder() {
-        return getInstance().sClientBuilder;
+        return sClientBuilder;
     }
 
     public static OkHttpClient getOkHttpClient() {
@@ -121,7 +130,7 @@ public class FastRetrofit {
      */
     public static Retrofit.Builder getRetrofitBuilder() {
         sRetrofitBuilder.client(getOkHttpClient());
-        return getInstance().sRetrofitBuilder;
+        return sRetrofitBuilder;
     }
 
     public static Retrofit getRetrofit() {
@@ -194,7 +203,7 @@ public class FastRetrofit {
      * @return
      */
     public Observable<ResponseBody> uploadFile(String uploadUrl, @Nullable final RequestBody body, Map<String, Object> header) {
-        return getInstance().getRetrofit()
+        return getRetrofit()
                 .create(FastRetrofitService.class)
                 .uploadFile(uploadUrl, body, header == null ? new HashMap<String, Object>() : header)
                 .compose(FastTransformer.<ResponseBody>switchSchedulers());
@@ -374,14 +383,37 @@ public class FastRetrofit {
     }
 
     /**
+     * 获取证书配置
+     *
+     * @return
+     */
+    public SSLUtil.SSLParams getCertificates() {
+        return mSslParams;
+    }
+
+
+    /**
+     * 设置服务器证书 {@link OkHttpClient.Builder#sslSocketFactory(SSLSocketFactory, X509TrustManager)}
+     *
+     * @param sslSocketFactory
+     * @param trustManager
+     * @return
+     */
+    public FastRetrofit setCertificates(SSLSocketFactory sslSocketFactory, X509TrustManager trustManager) {
+        mSslParams.sslSocketFactory = sslSocketFactory;
+        mSslParams.trustManager = trustManager;
+        sClientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
+        return this;
+    }
+
+    /**
      * 默认信任所有证书-不安全
      *
      * @return
      */
     public FastRetrofit setCertificates() {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory();
-        sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        return this;
+        return setCertificates(sslParams.sslSocketFactory, sslParams.trustManager);
     }
 
     /**
@@ -390,8 +422,7 @@ public class FastRetrofit {
      */
     public FastRetrofit setCertificates(X509TrustManager trustManager) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(trustManager);
-        sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        return this;
+        return setCertificates(sslParams.sslSocketFactory, sslParams.trustManager);
     }
 
     /**
@@ -402,8 +433,7 @@ public class FastRetrofit {
      */
     public FastRetrofit setCertificates(InputStream... certificates) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(certificates);
-        sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        return this;
+        return setCertificates(sslParams.sslSocketFactory, sslParams.trustManager);
     }
 
     /**
@@ -417,8 +447,7 @@ public class FastRetrofit {
      */
     public FastRetrofit setCertificates(InputStream bksFile, String password, InputStream... certificates) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(bksFile, password, certificates);
-        sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        return this;
+        return setCertificates(sslParams.sslSocketFactory, sslParams.trustManager);
     }
 
     /**
@@ -431,8 +460,7 @@ public class FastRetrofit {
      */
     public FastRetrofit setCertificates(InputStream bksFile, String password, X509TrustManager trustManager) {
         SSLUtil.SSLParams sslParams = SSLUtil.getSslSocketFactory(bksFile, password, trustManager);
-        sClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        return this;
+        return setCertificates(sslParams.sslSocketFactory, sslParams.trustManager);
     }
 
     /**

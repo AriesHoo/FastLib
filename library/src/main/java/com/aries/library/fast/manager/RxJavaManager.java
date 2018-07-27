@@ -7,16 +7,19 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 
-
 /**
- * Created: AriesHoo on 2017/7/24 9:10
+ * @Author: AriesHoo on 2018/7/23 11:02
+ * @E-Mail: AriesHoo@126.com
  * Function: RxJava使用管理类
- * Desc:
+ * Description:
+ * 1、2018-7-23 11:10:35 去掉设置定时器返回值并标记为废弃使用另一个{@link #setTimer(long)}
  */
-
 public class RxJavaManager {
 
     public interface TimerListener {
+        /**
+         * 倒计时结束回调
+         */
         void timeEnd();
     }
 
@@ -36,38 +39,66 @@ public class RxJavaManager {
         return instance;
     }
 
+    /**
+     * 创建Observable
+     *
+     * @param value
+     * @param delay
+     * @param unit
+     * @param <T>
+     * @return
+     */
     public <T> Observable<T> getDelayObservable(T value, long delay, TimeUnit unit) {
         return Observable.just(value)
                 .delay(delay, unit)
                 .compose(FastTransformer.<T>switchSchedulers());
     }
 
+    /**
+     * 创建 时延单位秒的Observable
+     *
+     * @param value
+     * @param delay
+     * @param <T>
+     * @return
+     */
     public <T> Observable<T> getDelayObservable(T value, long delay) {
         return getDelayObservable(value, delay, TimeUnit.SECONDS);
     }
 
-    public Observable<String> setTimer(long delayTime, final TimerListener listener) {
-        Observable<String> observable = getDelayObservable("", delayTime, TimeUnit.MILLISECONDS);
-        observable.subscribe(new FastObserver<String>() {
-            @Override
-            public void _onNext(String entity) {
+    /**
+     * 设置毫秒定时器去掉返回值
+     *
+     * @param delayTime
+     * @param listener
+     */
+    @Deprecated
+    public void setTimer(long delayTime, final TimerListener listener) {
+        setTimer(delayTime)
+                .subscribe(new FastObserver<String>() {
+                    @Override
+                    public void _onNext(String entity) {
 
-            }
+                    }
 
-            @Override
-            public void _onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-                if (listener != null) {
-                    listener.timeEnd();
-                }
-            }
-        });
-        return observable;
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        if (listener != null) {
+                            listener.timeEnd();
+                        }
+                    }
+                });
     }
 
+    /**
+     * 设置时延为毫秒的定时器
+     *
+     * @param delayTime
+     * @return
+     */
+    public Observable<String> setTimer(long delayTime) {
+        return getDelayObservable("", delayTime, TimeUnit.MILLISECONDS);
+    }
 
 }

@@ -13,9 +13,9 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
- * Created: AriesHoo on 2018/7/3 15:59
- * E-Mail: AriesHoo@126.com
- * Function:快速实现文件下载/上传
+ * @Author: AriesHoo on 2018/7/23 14:23
+ * @E-Mail: AriesHoo@126.com
+ * Function: 快速实现文件下载/上传
  * Description:
  */
 interface FastRetrofitService {
@@ -27,6 +27,7 @@ interface FastRetrofitService {
      * @param header  可增加header信息
      * @return ResponseBody
      */
+//    @Headers({"User-Agent: Mozilla/5.0 (Android/4.0.3; HUAWEI U9200; IMEI/111111111111111; IMSI/111111111111)"})
     @Streaming
     @GET
     Observable<ResponseBody> downloadFile(@Url String fileUrl, @HeaderMap Map<String, Object> header);

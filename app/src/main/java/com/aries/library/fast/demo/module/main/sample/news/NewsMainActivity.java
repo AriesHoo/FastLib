@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created: AriesHoo on 2017/8/6 23:27
+ * @Author: AriesHoo on 2018/7/23 10:01
+ * @E-Mail: AriesHoo@126.com
  * Function: 腾讯新闻
- * Desc:
+ * Description:
  */
-
 public class NewsMainActivity extends FastMainActivity {
     String[] titles;
 

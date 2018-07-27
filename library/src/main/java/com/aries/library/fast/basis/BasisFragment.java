@@ -4,7 +4,6 @@ package com.aries.library.fast.basis;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,12 +99,6 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
                 + ";getUserVisibleHint:" + getUserVisibleHint()
                 + ";isHidden:" + isHidden() + ";isVisible:" + isVisible());
         return mContentView;
-    }
-
-    @Nullable
-    @Override
-    public <T extends View> T findView(int viewId) {
-        return (T) mContentView.findViewById(viewId);
     }
 
     @Override

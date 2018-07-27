@@ -1,10 +1,10 @@
 package com.aries.library.fast;
 
-
 /**
- * Created: AriesHoo on 2017/8/5 14:38
+ * @Author: AriesHoo on 2018/7/23 14:39
+ * @E-Mail: AriesHoo@126.com
  * Function: 全局常量
- * Desc:
+ * Description:
  */
 public class FastConstant {
 

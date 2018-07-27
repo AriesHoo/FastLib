@@ -77,7 +77,7 @@ public class MineFragment extends FastTitleFragment {
     public void initView(Bundle savedInstanceState) {
         mImagePickerHelper = new ImagePickerHelper(mContext);
         mIvHead = mStvInfo.getLeftIconIV();
-        GlideManager.loadCircleImg("https://avatars3.githubusercontent.com/u/19605922?v=4&s=460", mIvHead);
+        GlideManager.loadCircleImg("https://t11.baidu.com/it/u=4171704310,3895276209&fm=173&app=25&f=JPG?w=550&h=393&s=8B64F517E6825EE1685CECDC0300E022", mIvHead);
         LoggerManager.d("imageHeight:" + mIvHead.getLayoutParams().height + ";screenWidth:" + SizeUtil.getScreenWidth());
         SpanTool.getBuilder(mStvInfo.getLeftString())
                 .append("https://github.com/AriesHoo")

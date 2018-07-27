@@ -103,7 +103,7 @@ public class FastMainTabDelegate {
 
         }
         mIFastMainView.setTabLayout(mTabLayout);
-        mIFastMainView.setTabViewPager(mViewPager);
+        mIFastMainView.setViewPager(mViewPager);
     }
 
     private void initViewPager(final List<Fragment> fragments) {

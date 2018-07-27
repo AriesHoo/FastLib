@@ -8,16 +8,18 @@ import com.aries.library.fast.delegate.FastMainTabDelegate;
 import com.aries.library.fast.i.IFastMainView;
 
 /**
- * Created: AriesHoo on 2017/10/19 13:45
- * E-Mail: AriesHoo@126.com
- * Function: 快速创建主页布局
+ * @Author: AriesHoo on 2018/7/23 10:00
+ * @E-Mail: AriesHoo@126.com
+ * Function: 快速创建主页Activity布局
  * Description:
  */
 public abstract class FastMainActivity extends BasisActivity implements IFastMainView {
 
     protected FastMainTabDelegate mFastMainTabDelegate;
 
+    @Override
     public void setViewPager(ViewPager mViewPager) {
+
     }
 
     @Override
@@ -35,7 +37,6 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
         super.beforeInitView();
         mFastMainTabDelegate = new FastMainTabDelegate(mContentView, this, this);
     }
-
 
 
     @Override

@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created: AriesHoo on 2018/6/30/030 18:21
- * E-Mail: AriesHoo@126.com
- * Function:SharedPreferences工具类
+ * @Author: AriesHoo on 2018/7/23 14:35
+ * @E-Mail: AriesHoo@126.com
+ * Function: SharedPreferences工具类
  * Description:
  */
 public class SPUtil {

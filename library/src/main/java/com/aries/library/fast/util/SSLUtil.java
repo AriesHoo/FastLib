@@ -8,30 +8,30 @@ import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Created: AriesHoo on 2018/7/11 15:27
- * E-Mail: AriesHoo@126.com
- * Function:证书工具类
+ * @Author: AriesHoo on 2018/7/23 14:13
+ * @E-Mail: AriesHoo@126.com
+ * Function: 证书工具类
  * Description:
  */
 public class SSLUtil {
 
+    /**
+     * 证书对象
+     */
     public static class SSLParams {
-        public SSLSocketFactory sSLSocketFactory;
+        public SSLSocketFactory sslSocketFactory;
         public X509TrustManager trustManager;
     }
 
@@ -95,7 +95,7 @@ public class SSLUtil {
             // 第一个参数是授权的密钥管理器，用来授权验证，比如授权自签名的证书验证。第二个是被授权的证书管理器，用来验证服务器端的证书
             sslContext.init(keyManagers, new TrustManager[]{manager}, null);
             // 通过sslContext获取SSLSocketFactory对象
-            sslParams.sSLSocketFactory = sslContext.getSocketFactory();
+            sslParams.sslSocketFactory = sslContext.getSocketFactory();
             sslParams.trustManager = manager;
             return sslParams;
         } catch (NoSuchAlgorithmException e) {
@@ -107,7 +107,9 @@ public class SSLUtil {
 
     private static KeyManager[] prepareKeyManager(InputStream bksFile, String password) {
         try {
-            if (bksFile == null || password == null) return null;
+            if (bksFile == null || password == null) {
+                return null;
+            }
             KeyStore clientKeyStore = KeyStore.getInstance("BKS");
             clientKeyStore.load(bksFile, password.toCharArray());
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
@@ -120,7 +122,9 @@ public class SSLUtil {
     }
 
     private static TrustManager[] prepareTrustManager(InputStream... certificates) {
-        if (certificates == null || certificates.length <= 0) return null;
+        if (certificates == null || certificates.length <= 0) {
+            return null;
+        }
         try {
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
             // 创建一个默认类型的KeyStore，存储我们信任的证书
@@ -134,7 +138,9 @@ public class SSLUtil {
                 // 将 cert 作为可信证书放入到keyStore中
                 keyStore.setCertificateEntry(certificateAlias, cert);
                 try {
-                    if (certStream != null) certStream.close();
+                    if (certStream != null) {
+                        certStream.close();
+                    }
                 } catch (IOException e) {
                     Log.e("ssl", e.getMessage());
                 }
@@ -166,29 +172,17 @@ public class SSLUtil {
      */
     public static X509TrustManager unSafeTrustManager = new X509TrustManager() {
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        public void checkClientTrusted(X509Certificate[] chain, String authType) {
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        public void checkServerTrusted(X509Certificate[] chain, String authType) {
         }
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {
 
             return new X509Certificate[]{};
-        }
-    };
-
-    /**
-     * 此类是用于主机名验证的基接口。 在握手期间，如果 URL 的主机名和服务器的标识主机名不匹配，
-     * 则验证机制可以回调此接口的实现程序来确定是否应该允许此连接。策略可以是基于证书的或依赖于其他验证方案。
-     * 当验证 URL 主机名使用的默认规则失败时使用这些回调。如果主机名是可接受的，则返回 true
-     */
-    public static HostnameVerifier UnSafeHostnameVerifier = new HostnameVerifier() {
-        @Override
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
         }
     };
 }

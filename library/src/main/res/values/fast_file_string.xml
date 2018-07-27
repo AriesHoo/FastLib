@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_external_cache_dir">fast_external_cache_dir</string>
+    <string name="fast_external_storage_directory">fast_external_storage_directory</string>
+    <string name="fast_external_files_dir">fast_external_files_dir</string>
+    <string name="fast_files_dir">fast_files_dir</string>
+    <string name="fast_cache_dir">fast_cache_dir</string>
+</resources>

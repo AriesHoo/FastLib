@@ -22,8 +22,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 
 /**
- * Created: AriesHoo on 2017/11/1 11:40
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 14:38
+ * @E-Mail: AriesHoo@126.com
  * Function: 用于快速设置 BaseRecyclerViewAdapterHelper LoadMoreView相关布局属性
  * Description:
  */

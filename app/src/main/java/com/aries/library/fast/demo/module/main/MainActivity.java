@@ -17,11 +17,11 @@ import java.util.List;
 
 import butterknife.BindView;
 
-
 /**
- * Created: AriesHoo on 2017/9/7 10:59
+ * @Author: AriesHoo on 2018/7/23 10:00
+ * @E-Mail: AriesHoo@126.com
  * Function: 示例主页面
- * Desc:
+ * Description:
  */
 public class MainActivity extends FastMainActivity {
 

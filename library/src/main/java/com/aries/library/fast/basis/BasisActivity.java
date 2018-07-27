@@ -2,7 +2,6 @@ package com.aries.library.fast.basis;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -43,12 +42,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected long mDelayBack = 2000;
     protected final String TAG = getClass().getSimpleName();
     private QuitAppControl mQuitAppControl;
-
-    @Nullable
-    @Override
-    public <T extends View> T findView(int viewId) {
-        return (T) findViewById(viewId);
-    }
 
     @Override
     public boolean isEventBusEnable() {

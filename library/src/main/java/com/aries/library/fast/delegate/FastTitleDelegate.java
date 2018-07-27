@@ -20,8 +20,10 @@ import com.aries.ui.view.title.TitleBarView;
  * @E-Mail: AriesHoo@126.com
  * Function: 带TitleBarView 的Activity及Fragment代理类
  * Description:
- * 1、2018-4-20 13:53:57 简化config设置通过接口暴露实现
+ * 1、2018-4-20 13:53:57 简化全局属性设置通过接口暴露实现
  * 2、2018-6-22 14:06:50 设置通用基础数据
+ * 3、2018-7-23 09:47:16 修改TitleBarView设置主标题逻辑
+ * ({@link Activity#getTitle()}获取不和应用名称一致才进行设置-因Manifest未设置Activity的label属性获取的是应用名称)
  */
 public class FastTitleDelegate {
     public TitleBarView mTitleBar;
@@ -49,12 +51,29 @@ public class FastTitleDelegate {
                     }
                 })
                 .setTextColor(context.getResources().getColor(R.color.colorTitleText))
-                .setTitleMainText(activity != null ? activity.getTitle() : "");
+                .setTitleMainText(getTitle(activity));
         TitleBarViewControl titleBarViewControl = FastManager.getInstance().getTitleBarViewControl();
         if (titleBarViewControl != null) {
             titleBarViewControl.createTitleBarViewControl(mTitleBar, cls);
         }
         iTitleBarView.beforeSetTitleBar(mTitleBar);
         iTitleBarView.setTitleBar(mTitleBar);
+    }
+
+    /**
+     * 获取Activity 标题({@link Activity#getTitle()}获取不和应用名称一致才进行设置-因Manifest未设置Activity的label属性获取的是应用名称)
+     *
+     * @param activity
+     * @return
+     */
+    private CharSequence getTitle(Activity activity) {
+        if (activity != null) {
+            CharSequence appName = FastUtil.getAppName(activity);
+            CharSequence label = activity.getTitle();
+            if (label != null && !label.equals(appName)) {
+                return label;
+            }
+        }
+        return "";
     }
 }

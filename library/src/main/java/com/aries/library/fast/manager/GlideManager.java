@@ -27,10 +27,10 @@ import java.security.MessageDigest;
 
 
 /**
- * Created: AriesHoo on 2017-03-13 18:33
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/23 10:53
+ * @E-Mail: AriesHoo@126.com
  * Function: Glide 工具类支持加载常规、圆角、圆形图片
- * Desc:
+ * Description:
  */
 public class GlideManager {
 

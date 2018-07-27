@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <paths>
-        <external-cache-path
-            name="fast_file"
-            path="fast_file_cache"/>
+        <!--context.getExternalCacheDir()即:/storage/emulated/0/Android/data/<package-name>/cache/xxx/-->
+        <external-cache-path name="fast_external_cache_dir" path="@string/fast_external_cache_dir"/>
+        <!--context.getCacheDir()即:/data/data/<package-name>/cache/xxx/-->
+        <cache-path name = "fast_cache_dir" path="@string/fast_cache_dir"/>
+        <!--Environment.getExternalStorageDirectory()即:/storage/emulated/0/xxx/-->
+        <external-path name="fast_external_storage_directory" path="@string/fast_external_storage_directory"/>
+        <!--context.getExternalFilesDir()即:/data/data/<package-name>/files/xxx/-->
+        <external-files-path name = "fast_external_files_dir" path="@string/fast_external_files_dir"/>
+        <!--context.getFilesDir()即:/data/data/<package-name>/files/xxx/-->
+        <files-path name = "fast_files_dir" path="@string/fast_files_dir"/>
     </paths>
 </resources>
