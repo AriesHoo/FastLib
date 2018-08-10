@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,7 +12,6 @@ import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
-import com.aries.library.fast.demo.base.BaseItemTouchQuickAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
@@ -26,8 +24,6 @@ import com.aries.library.fast.demo.module.main.sample.TitleWithEditTextActivity;
 import com.aries.library.fast.demo.module.main.sample.ToastActivity;
 import com.aries.library.fast.demo.module.main.sample.ali.ALiPayMainActivity;
 import com.aries.library.fast.demo.module.main.sample.news.NewsMainActivity;
-import com.aries.library.fast.demo.touch.ItemTouchHelperCallback;
-import com.aries.library.fast.demo.touch.OnItemTouchHelperListener;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -36,7 +32,6 @@ import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
-import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -52,14 +47,15 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.bingoogolapple.bgabanner.transformer.TransitionEffect;
 
 /**
- * Created: AriesHoo on 2017/7/20 11:45
- * Function:
- * Desc:
+ * @Author: AriesHoo on 2018/8/10 12:22
+ * @E-Mail: AriesHoo@126.com
+ * Function: 主页演示
+ * Description:
  */
 public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
 
     protected BGABanner banner;
-    private BaseItemTouchQuickAdapter mAdapter;
+    private BaseQuickAdapter mAdapter;
     private List<Class> listActivity = new ArrayList<>();
     private List<Integer> listArraysBanner = Arrays.asList(R.array.arrays_banner_all
             , R.array.arrays_banner_an, R.array.arrays_banner_si
@@ -152,34 +148,6 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         transitionIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, transitionIndex);
         chooseIndex = transitionIndex;
         setBanner(0);
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-                new ItemTouchHelperCallback(mAdapter)
-                        .setOnItemTouchHelperListener(new OnItemTouchHelperListener() {
-                            @Override
-                            public void onStart(int start) {
-                                mRefreshLayout.setEnableRefresh(false);
-                                LoggerManager.i(TAG, "onStart-start:" + start);
-                            }
-
-                            @Override
-                            public void onMove(int from, int to) {
-                                LoggerManager.i(TAG, "onMove-from:" + from + ";to:" + to);
-                            }
-
-                            @Override
-                            public void onMoved(int from, int to) {
-                                LoggerManager.i(TAG, "onMoved-from:" + from + ";to:" + to);
-                            }
-
-                            @Override
-                            public void onEnd(int star, int end) {
-                                mRefreshLayout.setEnableRefresh(true);
-                                LoggerManager.i(TAG, "onEnd-star:" + star + ";end:" + end);
-                                ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
-                            }
-                        }));
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override

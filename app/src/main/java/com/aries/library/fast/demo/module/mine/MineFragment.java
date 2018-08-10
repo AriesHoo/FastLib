@@ -14,7 +14,6 @@ import com.allen.library.SuperTextView;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.helper.ImagePickerHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
@@ -201,12 +200,12 @@ public class MineFragment extends FastTitleFragment {
                 break;
             case R.id.stv_updateMine:
                 //演示大文件下载--王者荣耀
-                UpdateEntity updateEntity = new UpdateEntity();
-                updateEntity.url = "http://gdown.baidu.com/data/wisegame/008c0de8d4355b41/wangzherongyao_35011414.apk";
-                CheckVersionHelper.with((BasisActivity) mContext)
-                        .downloadApk(updateEntity, "king_glory.apk", true);
+//                UpdateEntity updateEntity = new UpdateEntity();
+//                updateEntity.url = "http://gdown.baidu.com/data/wisegame/008c0de8d4355b41/wangzherongyao_35011414.apk";
 //                CheckVersionHelper.with((BasisActivity) mContext)
-//                        .checkVersion(true);
+//                        .downloadApk(updateEntity, "king_glory.apk", true);
+                CheckVersionHelper.with((BasisActivity) mContext)
+                        .checkVersion(true);
                 break;
             case R.id.stv_uploadMine:
                 mImagePickerHelper.selectFile(1001, 5, (requestCode, list) -> {
