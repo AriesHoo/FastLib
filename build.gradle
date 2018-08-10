@@ -32,7 +32,7 @@ ext{
     buildToolsVersion = "27.0.2"
     minSdkVersion = 15
     targetSdkVersion = 27
-    supportVersion = "27.1.1"
+    supportVersion = "27.0.2"
     versionCode = 230
     versionName = "2.2.10-beta5"
 }
