@@ -15,8 +15,9 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+         jcenter()
         google()
+        mavenLocal()
         mavenCentral()
         maven { url "https://jitpack.io" }
     }
@@ -31,7 +32,7 @@ ext{
     buildToolsVersion = "27.0.2"
     minSdkVersion = 15
     targetSdkVersion = 27
-    supportVersion = "27.0.2"
+    supportVersion = "27.1.1"
     versionCode = 230
     versionName = "2.2.10-beta5"
 }
