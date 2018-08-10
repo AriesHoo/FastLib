@@ -24,7 +24,7 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      *
      * @return BaseRecyclerViewAdapterHelper的实现类
      */
-    BaseQuickAdapter<T, ? extends BaseViewHolder> getAdapter();
+    BaseQuickAdapter<T, BaseViewHolder> getAdapter();
 
     /**
      * 获取RecyclerView的布局管理器对象，根据自己业务实际情况返回
@@ -82,7 +82,7 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      * @param view
      * @param position
      */
-    void onItemClicked(BaseQuickAdapter<T, ? extends BaseViewHolder> adapter, View view, int position);
+    void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
 
     /**
      * 设置全局监听接口

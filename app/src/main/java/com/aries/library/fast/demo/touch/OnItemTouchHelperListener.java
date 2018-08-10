@@ -3,7 +3,7 @@ package com.aries.library.fast.demo.touch;
 /**
  * @Author: AriesHoo on 2018/8/10 10:42
  * @E-Mail: AriesHoo@126.com
- * Function:
+ * Function: ItemTouchHelper Item移动监听
  * Description:
  */
 public interface OnItemTouchHelperListener {

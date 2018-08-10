@@ -129,7 +129,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     }
 
     @Override
-    public void onItemClicked(BaseQuickAdapter<SubjectsEntity, ? extends BaseViewHolder> adapter, View view, int position) {
+    public void onItemClicked(BaseQuickAdapter<SubjectsEntity, BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WebViewActivity.start(mContext, adapter.getItem(position).alt);
     }

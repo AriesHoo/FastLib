@@ -224,7 +224,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     }
 
     @Override
-    public void onItemClicked(BaseQuickAdapter<WidgetEntity, ? extends BaseViewHolder> adapter, View view, int position) {
+    public void onItemClicked(BaseQuickAdapter<WidgetEntity,BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WidgetEntity entity = adapter.getItem(position);
         if (position == 0) {
