@@ -147,21 +147,38 @@ dependencies {
 
 * 2.2.10-beta6
    
-    * 重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异
-    * 优化:BasisFragment 控制是否为单Fragment 方法     
-    * 优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
-    * 优化:多状态管理StatusLayoutManager调整完成
-    * 优化:滑动返回控制swipeBack功能新增各种回调功能
-    * 优化:将原默认配置方法调整到最终实现类功能
-    * 新增:增加友盟统计功能演示
-    * 新增:新增首页演示其它三方库状态栏及导航栏功能控制
-    * 新增:个人MineFragment中选择头像功能三方库状态栏及导航栏控制示例
-    * 优化:UI全局控制相关回调并调整三方库Activity控制
-    * 优化:新增FastRetrofit 下载/上传功能
-    * 优化:新增FastRetrofit 控制多BaseUrl方式
-    * 新增:新增Demo检查版本功能试验下载文件功能
-    * 删除:删除原多状态布局相关配置
-    * 修复:修改FastRefreshActivity 设置Adapter错误BUG
+    *  重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异
+    *  优化:BasisFragment 控制是否为单Fragment 方法
+    *  优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
+    *  优化:多状态管理StatusLayoutManager调整完成
+    *  优化:滑动返回控制swipeBack功能新增各种回调功能
+    *  优化:将原默认配置方法调整到最终实现类功能
+    *  新增:增加友盟统计功能演示
+    *  新增:新增首页演示其它三方库状态栏及导航栏功能控制
+    *  新增:个人MineFragment中选择头像功能三方库状态栏及导航栏控制示例
+    *  优化:UI全局控制相关回调并调整三方库Activity控制
+    *  优化:新增FastRetrofit 下载/上传功能
+    *  优化:新增FastRetrofit 控制多BaseUrl方式
+    *  新增:新增Demo检查版本功能试验下载文件功能
+    *  删除:删除原多状态布局相关配置
+    *  修复:修改FastRefreshActivity 设置Adapter错误BUG
+    *  升级:升级部分三方库版本
+    *  修复:删除IHttpRequestControl判断避免http错误时无法全局控制BUG
+    *  优化:修改解析method方法增加对get方法兼容
+    *  优化:修改ToastUtil 增加子线程调用自动切换主线程操作
+    *  优化:优化下载功能新增FastDownloadRetrofit并新增格式化文件方法FastFormatUtil#formatDataSize
+    *  修复:修复FastRetrofit无法删除单个header问题
+    *  优化:优化上传文件并通过新增的FastUploadRequestBody及FastUploadRequestListener实现单个/多个文件 上传进度监听 可参看 MineFragment 示例
+    *  优化:FastFileUtil 安装App在Android 7.0以下版本兼容性
+    *  新增:新增IMultiStatusView 用于设置StatusLayoutManager 属性
+    *  优化:调整setMultiStatusView位置并抽离设置StatusLayoutManager相关属性
+    *  优化:注释及代码规范调整
+    *  优化:调整列表刷新控制多状态配置及itemClick事件
+    *  优化:优化下载功能统一使用全局设置Retrofit
+    *  优化:优化LoggerManager可设置自定义属性
+    *  优化:优化FastRetrofit日志打印控制--json格式打印
+    *  新增:demo新增拖拽调整列表顺序功能
+    *  新增:FastFileUtil及fast_file_path以适配更多文件系统及开发者自定义
 	
 * 2.2.9-beta6
         
