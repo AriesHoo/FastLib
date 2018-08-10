@@ -22,9 +22,13 @@ import okhttp3.ResponseBody;
  * Description:
  * 1、2018-7-11 16:38:18 去掉部分参数
  * 2、2018-7-12 11:28:04 修改继承关系方便全局错误控制
+ * 3、2018-7-31 13:44:39 新增断点续传支持及对应的中断文件传输功能
  */
 public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
-
+    /**
+     * 下载暂停标识字符-以异常形式抛出
+     */
+    public final static String DOWNLOAD_PAUSE = "FAST_DOWNLOAD_PAUSE";
     /**
      * 提示Dialog
      */
@@ -41,25 +45,58 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
      * 目标文件存储的文件名
      */
     private String mDestFileName;
+    /**
+     * 是否断点续传
+     */
+    private boolean mIsRangeEnable = false;
 
     public FastDownloadObserver(String destFileName) {
-        this(FastFileUtil.getCacheDir(), destFileName);
+        this(destFileName, false);
+    }
+
+    public FastDownloadObserver(String destFileName, boolean isRangeEnable) {
+        this(FastFileUtil.getCacheDir(), destFileName, isRangeEnable);
     }
 
     public FastDownloadObserver(String destFileDir, String destFileName) {
-        this(destFileDir, destFileName, null);
+        this(destFileDir, destFileName, false);
+    }
+
+    public FastDownloadObserver(String destFileDir, String destFileName, boolean isRangeEnable) {
+        this(destFileDir, destFileName, null, isRangeEnable);
     }
 
     public FastDownloadObserver(String destFileName, Dialog dialog) {
-        this(FastFileUtil.getCacheDir(), destFileName, dialog);
+        this(destFileName, dialog, false);
+    }
+
+    public FastDownloadObserver(String destFileName, Dialog dialog, boolean isRangeEnable) {
+        this(FastFileUtil.getCacheDir(), destFileName, dialog, isRangeEnable);
     }
 
     public FastDownloadObserver(String destFileDir, String destFileName, Dialog dialog) {
+        this(destFileDir, destFileName, dialog, false);
+    }
+
+    public FastDownloadObserver(String destFileDir, String destFileName, Dialog dialog, boolean isRangeEnable) {
         super();
         this.mDestFileDir = TextUtils.isEmpty(destFileDir) ? FastFileUtil.getCacheDir() : destFileDir;
         this.mDestFileName = destFileName;
         this.mDialog = dialog;
+        this.mIsRangeEnable = isRangeEnable;
         LoggerManager.i("FastDownloadObserver", "mDestFileDir:" + mDestFileDir);
+    }
+
+    /**
+     * 主线程
+     *
+     * @return
+     */
+    private Handler getMainLooperHandler() {
+        if (mHandler == null) {
+            mHandler = new Handler(Looper.getMainLooper());
+        }
+        return mHandler;
     }
 
     @Override
@@ -95,7 +132,7 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
                     onSuccess(file);
                 }
             });
-        } catch (IOException e) {
+        } catch (Exception e) {
             onError(e);
         }
     }
@@ -118,6 +155,18 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
         showProgressDialog();
     }
 
+    private boolean mPause;
+
+    public void pause() {
+        getMainLooperHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                dismissProgressDialog();
+                mPause = true;
+            }
+        });
+    }
+
     /**
      * 保存文件
      *
@@ -125,19 +174,20 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
      * @return 返回保存文件
      * @throws IOException 写入文件IO异常
      */
-    public File saveFile(ResponseBody response) throws IOException {
+    public File saveFile(ResponseBody response) throws Exception {
         InputStream is = null;
         byte[] buf = new byte[2048];
         int len;
         FileOutputStream fos = null;
+        File dir = new File(mDestFileDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(dir, mDestFileName);
         try {
             is = response.byteStream();
-            final long total = response.contentLength();
-            long sum = 0;
-            File dir = new File(mDestFileDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
+            long sum = mIsRangeEnable ? file.length() : 0;
+            final long total = response.contentLength() + sum;
             final long finalSum1 = sum;
             getMainLooperHandler().post(new Runnable() {
                 @Override
@@ -145,18 +195,22 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
                     onProgress(finalSum1 * 1.0f / total, finalSum1, total);
                 }
             });
-            File file = new File(dir, mDestFileName);
-            fos = new FileOutputStream(file);
+            fos = new FileOutputStream(file, mIsRangeEnable);
             while ((len = is.read(buf)) != -1) {
-                sum += len;
-                fos.write(buf, 0, len);
-                final long finalSum = sum;
-                getMainLooperHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onProgress(finalSum * 1.0f / total, finalSum, total);
-                    }
-                });
+                if (mPause) {
+                    fos.close();
+                    throw new Exception(DOWNLOAD_PAUSE);
+                } else {
+                    sum += len;
+                    fos.write(buf, 0, len);
+                    final long finalSum = sum;
+                    getMainLooperHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onProgress(finalSum * 1.0f / total, finalSum, total);
+                        }
+                    });
+                }
             }
             fos.flush();
             return file;
@@ -178,14 +232,6 @@ public abstract class FastDownloadObserver extends FastObserver<ResponseBody> {
             }
         }
     }
-
-    private Handler getMainLooperHandler() {
-        if (mHandler == null) {
-            mHandler = new Handler(Looper.getMainLooper());
-        }
-        return mHandler;
-    }
-
 
     /**
      * 下载完成-返回文件

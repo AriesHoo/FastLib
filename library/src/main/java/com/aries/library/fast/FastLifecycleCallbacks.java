@@ -30,8 +30,8 @@ import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
- * Created: AriesHoo on 2018/6/21 12:22
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/30 13:48
+ * @E-Mail: AriesHoo@126.com
  * Function: Activity/Fragment生命周期
  * Description:
  * 1、2018-7-2 09:29:54 新增继承{@link FastMainActivity}的Activity虚拟导航栏功能
@@ -58,8 +58,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         if (activity instanceof FragmentActivity) {
             FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
             fragmentManager.registerFragmentLifecycleCallbacks(this, true);
-            if (mFragmentLifecycleCallbacks != null)
+            if (mFragmentLifecycleCallbacks != null) {
                 fragmentManager.registerFragmentLifecycleCallbacks(mFragmentLifecycleCallbacks, true);
+            }
         }
         //设置滑动返回
         if (!(activity instanceof BGASwipeBackHelper.Delegate)) {
@@ -136,8 +137,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         if (activity instanceof FragmentActivity) {
             FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
             fragmentManager.unregisterFragmentLifecycleCallbacks(this);
-            if (mFragmentLifecycleCallbacks != null)
+            if (mFragmentLifecycleCallbacks != null) {
                 fragmentManager.unregisterFragmentLifecycleCallbacks(mFragmentLifecycleCallbacks);
+            }
         }
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityDestroyed(activity);
@@ -172,7 +174,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     private void setContentViewBackground(View v, Class<?> cls) {
         if (mActivityFragmentControl != null && v != null) {
             Object key = v.getTag(R.id.set_content_view_background);
-            if (key != null) return;
+            if (key != null) {
+                return;
+            }
             mActivityFragmentControl.setContentViewBackground(v, cls);
             v.setTag(R.id.set_content_view_background, true);
         }

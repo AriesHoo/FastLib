@@ -1,10 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.neenbedankt.android-apt'
-//apply plugin: 'me.tatarka.retrolambda'
-
-def releaseTime() {
-    return new Date().format("yyyy-MM-dd_HH-mm", TimeZone.getTimeZone("GMT+8"))
-}
 
 def ext = rootProject.ext
 android {
@@ -15,7 +9,7 @@ android {
         targetSdkVersion ext.targetSdkVersion
         versionCode ext.versionCode
         versionName ext.versionName
-//        multiDexEnabled true
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
         buildConfigField "String", "BASE__UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/\""

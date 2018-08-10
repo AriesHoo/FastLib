@@ -24,11 +24,10 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
- * Created: AriesHoo on 2018/6/6 10:40
- * E-Mail: AriesHoo@126.com
- * Function:各种配置属性
+ * @Author: AriesHoo on 2018/7/30 13:49
+ * @E-Mail: AriesHoo@126.com
+ * Function: 各种UI相关配置属性
  * Description:
- * 1、删除默认回调
  */
 public class FastManager {
 
@@ -46,7 +45,6 @@ public class FastManager {
     }
 
     private static Application mApplication;
-
     /**
      * Adapter加载更多View
      */
@@ -79,6 +77,9 @@ public class FastManager {
      * 配置网络请求
      */
     private HttpRequestControl mHttpRequestControl;
+    /**
+     * Activity 主页点击返回键控制
+     */
     private QuitAppControl mQuitAppControl;
 
     public Application getApplication() {

@@ -1,11 +1,13 @@
 package com.aries.library.fast.demo.module.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
+import com.aries.library.fast.demo.base.BaseItemTouchQuickAdapter;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.constant.ApiConstant;
 import com.aries.library.fast.demo.constant.EventConstant;
@@ -14,9 +16,13 @@ import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
+import com.aries.library.fast.demo.touch.ItemTouchHelperCallback;
+import com.aries.library.fast.demo.touch.OnItemTouchHelperListener;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SPUtil;
+import com.aries.library.fast.util.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -29,14 +35,14 @@ import java.util.ArrayList;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
- * Created: AriesHoo on 2018/7/6 10:07
- * E-Mail: AriesHoo@126.com
- * Function:电影列表示例
+ * @Author: AriesHoo on 2018/8/10 10:14
+ * @E-Mail: AriesHoo@126.com
+ * Function: 电影列表示例
  * Description:
  */
 public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
-    private BaseQuickAdapter mAdapter;
+    private BaseItemTouchQuickAdapter mAdapter;
     private String mUrl;
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
     private boolean animationAlways = true;
@@ -70,8 +76,34 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-//        new BackToTopHelper().init(mRecyclerView);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+                new ItemTouchHelperCallback()
+                        .setAdapter(mAdapter)
+                        .setOnItemTouchHelperListener(new OnItemTouchHelperListener() {
+                            @Override
+                            public void onStart(int start) {
+                                mRefreshLayout.setEnableRefresh(false);
+                                LoggerManager.i(TAG, "onStart-start:" + start);
+                            }
 
+                            @Override
+                            public void onMove(int from, int to) {
+                                LoggerManager.i(TAG, "onMove-from:" + from + ";to:" + to);
+                            }
+
+                            @Override
+                            public void onMoved(int from, int to) {
+                                LoggerManager.i(TAG, "onMoved-from:" + from + ";to:" + to);
+                            }
+
+                            @Override
+                            public void onEnd(int star, int end) {
+                                mRefreshLayout.setEnableRefresh(true);
+                                LoggerManager.i(TAG, "onEnd-star:" + star + ";end:" + end);
+                                ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
+                            }
+                        }));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -97,12 +129,16 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     }
 
     @Override
-    public void onItemClicked(BaseQuickAdapter<SubjectsEntity, BaseViewHolder> adapter, View view, int position) {
+    public void onItemClicked(BaseQuickAdapter<SubjectsEntity, ? extends BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WebViewActivity.start(mContext, adapter.getItem(position).alt);
     }
 
-    //单独设置状态
+    /**
+     * 单独设置状态
+     *
+     * @param statusView
+     */
     @Override
     public void setMultiStatusView(StatusLayoutManager.Builder statusView) {
         super.setMultiStatusView(statusView);

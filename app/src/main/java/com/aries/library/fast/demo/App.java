@@ -12,8 +12,8 @@ import com.aries.library.fast.util.SizeUtil;
 import com.umeng.analytics.MobclickAgent;
 
 /**
- * Created: AriesHoo on 2018/7/2 9:31
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/31 10:43
+ * @E-Mail: AriesHoo@126.com
  * Function:基础配置Application
  * Description:
  */
@@ -73,6 +73,7 @@ public class App extends Application {
                 //设置统一超时--也可单独调用read/write/connect超时(可以设置时间单位TimeUnit)
                 //默认20 s
                 .setTimeout(30);
+
         //注意设置baseUrl要以/ 结尾 service 里的方法不要以/打头不然拦截到的url会有问题
         //以下为配置多BaseUrl--默认方式一优先级高 可通过FastRetrofit.getInstance().setHeaderPriorityEnable(true);设置方式二优先级
         //方式一 通过Service 里的method-(如:) 设置 推荐 使用该方式不需设置如方式二的额外Header
@@ -81,12 +82,14 @@ public class App extends Application {
 
         //方式二 通过 Service 里添加特定header设置
         //step1
-//        FastRetrofit.getInstance()
-//                .putHeaderBaseUrl(ApiConstant.API_UPDATE_APP_KEY, BuildConfig.BASE__UPDATE_URL);
+        FastRetrofit.getInstance()
+                //设置Header模式优先-默认Method方式优先
+                .setHeaderPriorityEnable(true)
+                .putHeaderBaseUrl(ApiConstant.API_UPDATE_APP_KEY, BuildConfig.BASE__UPDATE_URL);
         //step2
         // 需要step1中baseUrl的方法需要在对应service里增加
         // @Headers({FastRetrofit.BASE_URL_NAME_HEADER + ApiConstant.API_UPDATE_APP_KEY})
-        //增加一个Header配置注意FastRetrofit.BASE_URL_NAME_HEADER是必须为step调用putHeaderBaseUrl方法设置的key
+        //增加一个Header配置注意FastRetrofit.BASE_URL_NAME_HEADER是必须为step1调用putHeaderBaseUrl方法设置的key
         // 参考com.aries.library.fast.demo.retrofit.service.ApiService#updateApp
 
         //初始化友盟统计

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fast_quit_app">再按一次退出程序</string>
-    <string name="fast_back_home">再按一次回到桌面</string>
     <string name="fast_multi_loading">加载中...</string>
     <string name="fast_multi_empty">暂无数据</string>
     <string name="fast_multi_error">加载错误</string>
-    <string name="fast_multi_network">网络错误</string>
     <string name="fast_web_alert_title">温馨提示</string>
     <string name="fast_web_alert_msg">您确定要关闭该页面吗?</string>
     <string name="fast_web_alert_left">再逛逛</string>

@@ -44,7 +44,7 @@ public class FastFileUtil {
     }
 
     /**
-     * 获取Environment.getExternalStorageDirectory()目录--注意权限
+     * 获取Environment.getExternalStorageDirectory()目录--注意读写SD卡权限{android.permission.WRITE_EXTERNAL_STORAGE}
      * 即:/storage/emulated/0/xxx/
      *
      * @return
@@ -120,21 +120,17 @@ public class FastFileUtil {
         // context 使用startActivity需增加 FLAG_ACTIVITY_NEW_TASK TAG 否则低版本上(目前发现在7.0以下版本)会提示以下错误
         //android.util.AndroidRuntimeException: Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri apkUri;
         //判断版本是否在7.0以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             //加入provider
-            Uri apkUri = null;
-            try {
-                apkUri = FileProvider.getUriForFile(context, authority, apkPath);
-            } catch (Exception e) {
-
-            }
+            apkUri = FileProvider.getUriForFile(context, authority, apkPath);
             //授予一个URI的临时权限
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
         } else {
-            intent.setDataAndType(Uri.fromFile(apkPath), "application/vnd.android.package-archive");
+            apkUri = Uri.fromFile(apkPath);
         }
+        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 }

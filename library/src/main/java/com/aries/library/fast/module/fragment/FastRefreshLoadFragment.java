@@ -123,7 +123,7 @@ public abstract class FastRefreshLoadFragment<T>
     }
 
     @Override
-    public void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position) {
+    public void onItemClicked(BaseQuickAdapter<T, ? extends BaseViewHolder> adapter, View view, int position) {
 
     }
 

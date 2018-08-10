@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.aries.library.fast.R;
-import com.aries.ui.widget.progress.UIProgressDialog;
+import com.aries.library.fast.util.FastStackUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -16,6 +15,7 @@ import java.lang.ref.WeakReference;
  * @E-Mail: AriesHoo@126.com
  * Function: 快速创建网络请求loading
  * Description:
+ * 1、2018-7-30 10:08:30 将默认Dialog变更为ProgressDialog及新增构造方式
  */
 public class FastLoadDialog {
 
@@ -24,8 +24,12 @@ public class FastLoadDialog {
     private Activity mActivity;
     private final WeakReference<Activity> mReference;
 
+    public FastLoadDialog() {
+        this(FastStackUtil.getInstance().getCurrent());
+    }
+
     public FastLoadDialog(Activity activity) {
-        this(activity, new UIProgressDialog.NormalBuilder(activity)
+        this(activity, new ProgressDialog.Builder(activity)
                 .setMessage(R.string.fast_loading)
                 .create());
     }
@@ -66,13 +70,7 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setMessage(CharSequence msg) {
-        if (mDialog instanceof UIProgressDialog) {
-            UIProgressDialog dialog = (UIProgressDialog) mDialog;
-            TextView textView = dialog.getMessage();
-            if (textView != null) {
-                textView.setText(msg);
-            }
-        } else if (mDialog instanceof ProgressDialog) {
+        if (mDialog instanceof ProgressDialog) {
             ((ProgressDialog) mDialog).setMessage(msg);
         }
         return this;

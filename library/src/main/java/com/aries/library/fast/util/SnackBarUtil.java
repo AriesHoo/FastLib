@@ -112,6 +112,16 @@ public class SnackBarUtil {
     }
 
     /**
+     * 设置消息颜色资源
+     *
+     * @param res
+     * @return
+     */
+    public SnackBarUtil setMessageColorResource(final int res) {
+        return setMessageColor(mParent.get().getResources().getColor(res));
+    }
+
+    /**
      * 设置背景色
      *
      * @param color 背景色

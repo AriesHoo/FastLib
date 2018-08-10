@@ -10,8 +10,10 @@ import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
@@ -109,12 +111,14 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     private void beforeLazyLoad() {
         //确保视图加载及视图绑定完成避免刷新UI抛出异常
         if (!mIsViewLoaded) {
-            RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {
-                @Override
-                public void timeEnd() {
-                    beforeLazyLoad();
-                }
-            });
+            RxJavaManager.getInstance().setTimer(10)
+                    .compose(this.<Long>bindUntilEvent(ActivityEvent.DESTROY))
+                    .subscribe(new FastObserver<Long>() {
+                        @Override
+                        public void _onNext(Long entity) {
+                            beforeLazyLoad();
+                        }
+                    });
         } else {
             lazyLoad();
         }
@@ -126,7 +130,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             loadData();
         }
     }
-
 
     /**
      * 退出程序
@@ -146,12 +149,14 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         //编写逻辑
         if (mIsFirstBack) {
             mIsFirstBack = false;
-            RxJavaManager.getInstance().setTimer(mDelayBack, new RxJavaManager.TimerListener() {
-                @Override
-                public void timeEnd() {
-                    mIsFirstBack = true;
-                }
-            });
+            RxJavaManager.getInstance().setTimer(mDelayBack)
+                    .compose(this.<Long>bindUntilEvent(ActivityEvent.DESTROY))
+                    .subscribe(new FastObserver<Long>() {
+                        @Override
+                        public void _onNext(Long entity) {
+                            mIsFirstBack = true;
+                        }
+                    });
         }
     }
 }

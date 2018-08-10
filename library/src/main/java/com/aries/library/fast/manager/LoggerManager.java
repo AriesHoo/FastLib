@@ -3,7 +3,6 @@ package com.aries.library.fast.manager;
 import android.text.TextUtils;
 
 import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
@@ -12,6 +11,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
  * @E-Mail: AriesHoo@126.com
  * Function: logger日志管理类
  * Description:
+ * 1、2018-7-30 16:28:19 新增日志配置Builder
  */
 public abstract class LoggerManager {
 
@@ -23,15 +23,25 @@ public abstract class LoggerManager {
     }
 
     public static void init(String tag, final boolean isDebug) {
+        init(tag, isDebug, null);
+    }
+
+    /**
+     * 初始化
+     *
+     * @param tag
+     * @param isDebug
+     * @param builder
+     */
+    public static void init(String tag, final boolean isDebug, PrettyFormatStrategy.Builder builder) {
         LoggerManager.TAG = tag;
         setDebug(isDebug);
-        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .methodCount(3)
-                // 全局tag
-                .tag(TAG)
-                .build();
-
-        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+        if (builder == null) {
+            builder = PrettyFormatStrategy.newBuilder()
+                    .methodCount(3);
+        }
+        builder.tag(TAG);
+        Logger.addLogAdapter(new AndroidLogAdapter(builder.build()) {
             @Override
             public boolean isLoggable(int priority, String tag) {
                 return isDebug;

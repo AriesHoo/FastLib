@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
+import com.aries.library.fast.demo.base.BaseItemTouchQuickAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
@@ -24,6 +26,8 @@ import com.aries.library.fast.demo.module.main.sample.TitleWithEditTextActivity;
 import com.aries.library.fast.demo.module.main.sample.ToastActivity;
 import com.aries.library.fast.demo.module.main.sample.ali.ALiPayMainActivity;
 import com.aries.library.fast.demo.module.main.sample.news.NewsMainActivity;
+import com.aries.library.fast.demo.touch.ItemTouchHelperCallback;
+import com.aries.library.fast.demo.touch.OnItemTouchHelperListener;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -32,6 +36,7 @@ import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -54,7 +59,7 @@ import cn.bingoogolapple.bgabanner.transformer.TransitionEffect;
 public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
 
     protected BGABanner banner;
-    private BaseQuickAdapter mAdapter;
+    private BaseItemTouchQuickAdapter mAdapter;
     private List<Class> listActivity = new ArrayList<>();
     private List<Integer> listArraysBanner = Arrays.asList(R.array.arrays_banner_all
             , R.array.arrays_banner_an, R.array.arrays_banner_si
@@ -89,7 +94,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                 .setDividerVisible(false)
 //                .setTitleMainText(getClass().getSimpleName())
 //                .setTitleMainTextColor(Color.MAGENTA)
-                .setStatusAlpha(StatusBarUtil.isSupportStatusBarFontChange()?0:102)
+                .setStatusAlpha(StatusBarUtil.isSupportStatusBarFontChange() ? 0 : 102)
                 .setOnRightTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -107,8 +112,9 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                                         public void onClick(DialogInterface dialog, int which) {
                                             SPUtil.put(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, chooseIndex);
                                             transitionIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, transitionIndex);
-                                            if (banner != null)
+                                            if (banner != null) {
                                                 banner.setTransitionEffect(listTransitionEffect.get(transitionIndex));
+                                            }
                                         }
                                     })
                                     .create();
@@ -146,6 +152,34 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         transitionIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, transitionIndex);
         chooseIndex = transitionIndex;
         setBanner(0);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+                new ItemTouchHelperCallback(mAdapter)
+                        .setOnItemTouchHelperListener(new OnItemTouchHelperListener() {
+                            @Override
+                            public void onStart(int start) {
+                                mRefreshLayout.setEnableRefresh(false);
+                                LoggerManager.i(TAG, "onStart-start:" + start);
+                            }
+
+                            @Override
+                            public void onMove(int from, int to) {
+                                LoggerManager.i(TAG, "onMove-from:" + from + ";to:" + to);
+                            }
+
+                            @Override
+                            public void onMoved(int from, int to) {
+                                LoggerManager.i(TAG, "onMoved-from:" + from + ";to:" + to);
+                            }
+
+                            @Override
+                            public void onEnd(int star, int end) {
+                                mRefreshLayout.setEnableRefresh(true);
+                                LoggerManager.i(TAG, "onEnd-star:" + star + ";end:" + end);
+                                ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
+                            }
+                        }));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -180,10 +214,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                 .subscribe(new FastObserver<List<WidgetEntity>>() {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
-//                        mStatusManager.showSuccessLayout();
-//                        mAdapter.setNewData(entity);
-//                        mRefreshLayout.finishRefresh();
-                        FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(),entity,null);
+                        FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity, null);
                     }
                 });
     }
@@ -225,8 +256,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     }
 
     @Override
-    public void onItemClicked(BaseQuickAdapter<WidgetEntity, BaseViewHolder> adapter, View
-            view, int position) {
+    public void onItemClicked(BaseQuickAdapter<WidgetEntity, ? extends BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WidgetEntity entity = adapter.getItem(position);
         if (position == 0) {

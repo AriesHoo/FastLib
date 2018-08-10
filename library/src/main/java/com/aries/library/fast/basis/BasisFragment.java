@@ -15,7 +15,9 @@ import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import org.simple.eventbus.EventBus;
@@ -161,13 +163,16 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         LoggerManager.i(TAG, "isVisibleToUser:" + isVisibleToUser);
         mIsVisibleChanged = true;
         if (isVisibleToUser) {
-            if (!mIsViewLoaded) {//避免因视图未加载子类刷新UI抛出异常
-                RxJavaManager.getInstance().setTimer(10, new RxJavaManager.TimerListener() {
-                    @Override
-                    public void timeEnd() {
-                        onVisibleChanged(isVisibleToUser);
-                    }
-                });
+            //避免因视图未加载子类刷新UI抛出异常
+            if (!mIsViewLoaded) {
+                RxJavaManager.getInstance().setTimer(10)
+                        .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                        .subscribe(new FastObserver<Long>() {
+                            @Override
+                            public void _onNext(Long entity) {
+                                onVisibleChanged(isVisibleToUser);
+                            }
+                        });
             } else {
                 lazyLoad();
             }

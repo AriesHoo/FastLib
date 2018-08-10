@@ -17,6 +17,8 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -44,20 +46,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 8、2018-7-3 16:06:56 新增下载文件功能{@link #downloadFile(String)}
  * 9、2018-7-11 08:59:00 修改{@link #removeHeader(String)}key判断错误问题
  * 10、2018-7-24 13:10:49 新增默认header User-Agent -避免某些服务器配置攻击,请求返回403 forbidden 问题
+ * 11、2018-7-30 16:13:40 修改日志打印规则
+ * 12、2018-7-31 09:54:30 删除原有单独retrofit模式使用全局retrofit 通过设置Log禁用最后还原模式解决日志拦截器造成获取文件流卡住问题
  */
 public class FastRetrofit {
 
-    public static final String BASE_URL_NAME_HEADER = FastMultiUrl.BASE_URL_NAME_HEADER;
+
     private static volatile FastRetrofit sManager;
     private static volatile Retrofit sRetrofit;
     private static volatile Retrofit.Builder sRetrofitBuilder;
     private static OkHttpClient.Builder sClientBuilder;
     private static OkHttpClient sClient;
-    private long mDelayTime = 20;
-    private Map<String, Object> mServiceMap = new HashMap<>();
-
     /**
-     * 正式配置
+     * 重定向访问Url--通过设置header模式
+     */
+    public static final String BASE_URL_NAME_HEADER = FastMultiUrl.BASE_URL_NAME_HEADER;
+    /**
+     * 默认读、写、连接超时
+     */
+    private long mDelayTime = 20;
+    /**
+     * Service 缓存-避免重复创建同一个Service
+     */
+    private Map<String, Object> mServiceMap = new HashMap<>();
+    /**
+     * 证书配置
      */
     private SSLUtil.SSLParams mSslParams = new SSLUtil.SSLParams();
     /**
@@ -140,6 +153,13 @@ public class FastRetrofit {
         return sRetrofit;
     }
 
+    /**
+     * 获取请求service 默认缓存处理
+     *
+     * @param apiService 目标Service
+     * @param <T>
+     * @return
+     */
     public <T> T createService(Class<T> apiService) {
         return createService(apiService, true);
     }
@@ -180,7 +200,21 @@ public class FastRetrofit {
      * @return
      */
     public Observable<ResponseBody> downloadFile(String fileUrl, Map<String, Object> header) {
-        return FastDownloadRetrofit.getInstance().downloadFile(fileUrl, header);
+        //下载前获取当前日志是否开启
+        final boolean logEnable = FastRetrofit.getInstance().isLogEnable();
+        //下载前关闭日志功能--日志拦截器会不停拦截文件流造成无法进入onNext回调本地进行保存文件操作给人感觉就是卡住
+        FastRetrofit.getInstance().setLogEnable(false);
+        return FastRetrofit.getRetrofit()
+                .create(FastRetrofitService.class)
+                .downloadFile(fileUrl, header == null ? new HashMap<String, Object>(0) : header)
+                .doOnNext(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody responseBody) {
+                        //onNext回调前还原log状态
+                        FastRetrofit.getInstance().setLogEnable(logEnable);
+                    }
+                })
+                .subscribeOn(Schedulers.io());
     }
 
     /**
@@ -344,6 +378,21 @@ public class FastRetrofit {
         return this;
     }
 
+    /**
+     * 获取当前是否设置日志打印
+     *
+     * @return
+     */
+    public boolean isLogEnable() {
+        return mLoggingInterceptor != null && mLoggingInterceptor.getLevel() != HttpLoggingInterceptor.Level.NONE;
+    }
+
+    /**
+     * 设置日志打印
+     *
+     * @param enable
+     * @return
+     */
     public FastRetrofit setLogEnable(boolean enable) {
         return setLogEnable(enable, this.getClass().getSimpleName(), HttpLoggingInterceptor.Level.BODY);
     }
@@ -359,15 +408,22 @@ public class FastRetrofit {
         if (TextUtils.isEmpty(tag)) {
             tag = getClass().getSimpleName();
         }
-        if (sClientBuilder.interceptors().contains(mLoggingInterceptor)) {
-            sClientBuilder.interceptors().remove(mLoggingInterceptor);
-        }
         if (enable) {
             if (mLoggingInterceptor == null) {
                 final String finalTag = tag;
                 mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                     @Override
                     public void log(String message) {
+                        if (TextUtils.isEmpty(message)) {
+                            return;
+                        }
+                        //json格式使用Logger.json打印
+                        boolean isJson = message.startsWith("[") && message.endsWith("]");
+                        isJson = isJson && (message.startsWith("{") || message.endsWith("}"));
+                        if (isJson) {
+                            LoggerManager.json(finalTag, message);
+                            return;
+                        }
                         Log.d(finalTag, message);
                     }
                 });

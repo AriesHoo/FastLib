@@ -41,7 +41,7 @@ public class UpdateEntity {
     }
 
     public String getMessage() {
-        return isSuccess() ? force ? "由于系统升级,您的版本已停止服务,请及时更新到最新版本!" + message : "为了更好的为您服务,建议您更新到最新版本!" + message : "当前已是最新版本";
+        return TextUtils.isEmpty(versionName)?"": isSuccess() ? force ? "由于系统升级,您的版本已停止服务,请及时更新到最新版本!" + message : "为了更好的为您服务,建议您更新到最新版本!" + message : "当前已是最新版本";
     }
 
     public CharSequence getSize() {
@@ -49,6 +49,6 @@ public class UpdateEntity {
     }
 
     public CharSequence getTitle() {
-        return "下载新版:V" + versionName;
+        return TextUtils.isEmpty(versionName) ? "下载文件" : "下载新版:V" + versionName;
     }
 }

@@ -119,7 +119,7 @@ public class FastUtil {
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            LoggerManager.e("FastUtil", "getVersionName:" + e.getMessage());
         }
         return "";
     }
@@ -138,7 +138,7 @@ public class FastUtil {
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            LoggerManager.e("FastUtil", "getVersionCode:" + e.getMessage());
         }
         return -1;
     }
@@ -155,7 +155,7 @@ public class FastUtil {
             Class.forName(className);
             isExit = true;
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LoggerManager.e("FastUtil", "isClassExist:" + e.getMessage());
         }
         return isExit;
     }
@@ -225,7 +225,7 @@ public class FastUtil {
             marketIntent.setData(Uri.parse(mAddress));
             mContext.startActivity(marketIntent);
         } catch (Exception e) {
-            e.printStackTrace();
+            LoggerManager.e("FastUtil", "jumpMarket:" + e.getMessage());
         }
     }
 
@@ -277,19 +277,22 @@ public class FastUtil {
         context.startActivity(Intent.createChooser(shareIntent, title));
     }
 
-    public static void startShareText(Context mActivity, String url) {
-        startShareText(mActivity, url, null);
+    /**
+     * @param context 上下文
+     * @param url     分享文字
+     */
+    public static void startShareText(Context context, String url) {
+        startShareText(context, url, null);
     }
 
     /**
      * 拷贝到粘贴板
      *
-     * @param context
-     * @param str
+     * @param context 上下文
+     * @param str     需要拷贝的文字
      */
     public static void copyToClipboard(Context context, String str) {
         ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        // 将文本内容放到系统剪贴板里。
         cm.setPrimaryClip(ClipData.newPlainText("粘贴板", str));
     }
 }

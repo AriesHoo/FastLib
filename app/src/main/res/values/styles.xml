@@ -78,7 +78,4 @@
         <item name="com.aries.library.fast.demo:rv_strokeWidth">@dimen/dp_line_size</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

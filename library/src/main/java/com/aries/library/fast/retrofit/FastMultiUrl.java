@@ -28,6 +28,7 @@ import okhttp3.Response;
  * 3、2018-7-2 16:58:01 删除BaseUrl变更监听相关代码
  * 4、2018-7-3 12:24:24 新增单独method 方法设置请求BaseUrl方法
  * 5、2018-7-9 15:13:45 修改解析method方法增加对get方法兼容
+ * 6、2018-7-31 09:10:45 调整通过header及method重定向请求Url方法
  */
 class FastMultiUrl {
 
@@ -82,19 +83,8 @@ class FastMultiUrl {
                 if (null == domainUrl) {
                     return url;
                 }
-                //解析得到service里的方法名(即@POST或@GET里的内容)
+                //解析得到service里的方法名(即@POST或@GET里的内容)--如果@GET 并添加参数 则为方法名+参数拼接
                 String method = !TextUtils.isEmpty(mBaseUrl) ? url.toString().replace(mBaseUrl.toString(), "") : "";
-
-                String methodKey = method;
-                //包含? 很大可能是get请求增加了参数需过滤掉
-                if (methodKey.contains("?")) {
-                    methodKey = methodKey.substring(0, methodKey.indexOf("?"));
-                }
-                LoggerManager.d(TAG, "Base Url is { " + mBaseUrl + " }" + ";Old Url is{" + url.newBuilder().toString() + "};Method is <<" + methodKey + ">>");
-                //如果
-                if (!mHeaderPriorityEnable && mBaseUrlMap.containsKey(methodKey)) {
-                    return checkUrl(getBaseUrl(methodKey).toString() + method);
-                }
                 return checkUrl(domainUrl.toString() + method);
             }
         });
@@ -135,23 +125,77 @@ class FastMultiUrl {
      */
     public Request processRequest(Request request) {
         Request.Builder newBuilder = request.newBuilder();
-        String keyName = getHeaderBaseUrlKey(request);
-        HttpUrl httpUrl;
-        // 如果有 header,获取 header 中配置的url,否则检查全局的 BaseUrl,未找到则为null
-        if (!TextUtils.isEmpty(keyName)) {
-            httpUrl = getHeaderBaseUrl(keyName);
-            newBuilder.removeHeader(BASE_URL_NAME);
-        } else {
-            httpUrl = getHeaderBaseUrl(GLOBAL_BASE_URL_NAME);
-        }
+        HttpUrl httpUrl = getHeaderHttpUrl(request, newBuilder);
         if (null != httpUrl) {
             HttpUrl newUrl = mUrlParser.parseUrl(httpUrl, request.url());
-            LoggerManager.i(FastMultiUrl.TAG, "Base Url is { " + mBaseUrl + " }" + ";New Url is { " + newUrl + " }" + ";Old Url is { " + request.url() + " }");
+            LoggerManager.i(FastMultiUrl.TAG, "Header 模式重定向Url:Base Url is { " + mBaseUrl + " }" + ";New Url is { " + newUrl + " }" + ";Old Url is { " + request.url() + " }");
             return newBuilder
                     .url(newUrl)
                     .build();
         }
+        httpUrl = getMethodHttpUrl(request);
+        if (null != httpUrl) {
+            LoggerManager.i(FastMultiUrl.TAG, "Method 模式重定向Url:Base Url is { " + mBaseUrl + " }" + ";New Url is { " + httpUrl + " }" + ";Old Url is { " + request.url() + " }");
+            return newBuilder
+                    .url(httpUrl)
+                    .build();
+        }
         return newBuilder.build();
+    }
+
+    /**
+     * 获取以Header 优先的HttpUrl
+     *
+     * @param request
+     * @param newBuilder
+     * @return
+     */
+    private HttpUrl getHeaderHttpUrl(Request request, Request.Builder newBuilder) {
+        if (request == null) {
+            return null;
+        }
+        HttpUrl httpUrl = null;
+        //header 标记优先
+        if (mHeaderPriorityEnable) {
+            String keyName = getHeaderBaseUrlKey(request);
+            // 如果有 header,获取 header 中配置的url,否则检查全局的 BaseUrl,未找到则为null
+            if (!TextUtils.isEmpty(keyName)) {
+                httpUrl = getHeaderBaseUrl(keyName);
+                newBuilder.removeHeader(BASE_URL_NAME);
+            } else {
+                httpUrl = getHeaderBaseUrl(GLOBAL_BASE_URL_NAME);
+            }
+        }
+        return httpUrl;
+    }
+
+    /**
+     * 获取以method 优先的HttpUrl
+     *
+     * @param request
+     * @return
+     */
+    private HttpUrl getMethodHttpUrl(Request request) {
+        if (request == null) {
+            return null;
+        }
+        HttpUrl httpUrl = null;
+        HttpUrl url = request.url();
+        //解析得到service里的方法名(即@POST或@GET里的内容)
+        String method = !TextUtils.isEmpty(mBaseUrl) ? url.toString().replace(mBaseUrl.toString(), "") : "";
+
+        String methodKey = method;
+        //包含? 很大可能是get请求增加了参数需过滤掉
+        boolean isContainKey = methodKey.contains("?");
+        if (isContainKey) {
+            methodKey = methodKey.substring(0, methodKey.indexOf("?"));
+        }
+        LoggerManager.d(TAG, "Base Url is { " + mBaseUrl + " }" + ";Old Url is{" + url.newBuilder().toString() + "};Method is <<" + methodKey + ">>");
+        //如果
+        if (!mHeaderPriorityEnable && mBaseUrlMap.containsKey(methodKey)) {
+            return checkUrl(getBaseUrl(methodKey).toString() + method);
+        }
+        return httpUrl;
     }
 
     /**
@@ -327,10 +371,12 @@ class FastMultiUrl {
             LoggerManager.i(TAG, "header:" + heads.toString());
         }
         List<String> headers = request.headers(BASE_URL_NAME);
-        if (headers == null || headers.size() == 0)
+        if (headers == null || headers.size() == 0) {
             return null;
-        if (headers.size() > 1)
+        }
+        if (headers.size() > 1) {
             throw new IllegalArgumentException("Only one " + BASE_URL_NAME + " in the headers");
+        }
         return request.header(BASE_URL_NAME);
     }
 

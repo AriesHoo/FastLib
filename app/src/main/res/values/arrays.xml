@@ -5,7 +5,11 @@
         <item>即将上映</item>
         <item>Top250</item>
     </string-array>
-
+    <array name="fast_arrays_web_more">
+        <item>刷新</item>
+        <item>复制链接</item>
+        <item>分享</item>
+    </array>
     <array name="arrays_home_list_title">
         <item>微信滑动返回样式效果</item>
         <item>QQ默认主题TitleBar背景渐变效果</item>

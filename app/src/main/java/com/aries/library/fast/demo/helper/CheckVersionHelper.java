@@ -23,17 +23,20 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.io.File;
 import java.lang.ref.SoftReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.annotations.NonNull;
 
 /**
  * @Author: AriesHoo on 2018/7/23 16:06
  * @E-Mail: AriesHoo@126.com
- * Function: 检查版本升级的工具类
+ * Function: 检查版本升级的工具类--该处只做下载演示开发者可根据自己项目情况进行调整
  * Description:
  */
 public class CheckVersionHelper {
 
+    private FastDownloadObserver mDownloadObserver;
     private SoftReference<BasisActivity> mActivity;
     private boolean mIsLoading = false;
 
@@ -136,9 +139,8 @@ public class CheckVersionHelper {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setTitle("发现新版本:V" + entity.versionName)
                 .setMessage(entity.getMessage())
-                .setPositiveButton(R.string.update_now, (dialog, which) -> {
-                    downloadApk(entity);
-                });
+                .setPositiveButton(R.string.update_now, (dialog, which) ->
+                        downloadApk(entity, "FastLib_" + entity.versionName + ".apk", true));
         if (!entity.force) {
             builder.setNegativeButton("暂不更新", null);
         }
@@ -147,11 +149,13 @@ public class CheckVersionHelper {
     }
 
     /**
-     * 下载apk
+     * 下载apk--实际情况需自己调整逻辑避免因range不准造成下载解析不了问题--建议普通应用包下载(20M以内的不使用断点续传)
      *
      * @param entity
+     * @param fileName      文件名
+     * @param isRangeEnable 是否断点续传
      */
-    public void downloadApk(UpdateEntity entity) {
+    public void downloadApk(UpdateEntity entity, String fileName, boolean isRangeEnable) {
         Activity activity = mActivity.get();
         if (activity == null || activity.isFinishing()) {
             activity = FastStackUtil.getInstance().getCurrent();
@@ -159,7 +163,8 @@ public class CheckVersionHelper {
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        final ProgressDialog mProgressDialog = new ProgressDialog(activity);
+
+        ProgressDialog mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setTitle(entity.getTitle());
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setMessage(entity.getMessage());
@@ -167,26 +172,65 @@ public class CheckVersionHelper {
         mProgressDialog.setCancelable(!entity.force);
         mProgressDialog.setProgressNumberFormat("0.00MB/未知");
         mProgressDialog.setCanceledOnTouchOutside(!entity.force);
-        FastRetrofit.getInstance().downloadFile(entity.url)
+
+        //暂停下载-慎用;建议使用 Disposable.dispose();
+//        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "暂停", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (mDownloadObserver != null) {
+//                    mDownloadObserver.pause();
+//                }
+//            }
+//        });
+
+        File mLocal = new File(FastFileUtil.getCacheDir(), fileName);
+        Map<String, Object> header = null;
+        long length = mLocal.length();
+        if (isRangeEnable) {
+            header = new HashMap<>(1);
+            header.put("range", "bytes=" + length + "-");
+            LoggerManager.i("downloadApk", "length:" + length);
+        }
+        //不同url不能使用相同的本地绝对路径不然很可能将B的后半部分下载追加到A的后面--最终也是错误的
+        ProgressDialog finalMProgressDialog = mProgressDialog;
+        mDownloadObserver = new FastDownloadObserver(fileName, finalMProgressDialog, isRangeEnable) {
+            @Override
+            public void onSuccess(File file) {
+                FastFileUtil.installApk(file);
+            }
+
+            @Override
+            public void onFail(Throwable e) {
+                LoggerManager.e("downloadApk", e.getMessage());
+                //HTTP 416 Range Not Satisfiable 出现该错误--很大可能性是文件已下载完成传递的
+                boolean satisfiable = e != null && e.getMessage().contains("416") && e.getMessage().toLowerCase().contains("range");
+                if (satisfiable) {
+                    onSuccess(mLocal);
+                    return;
+                }
+                boolean isPause = e != null && e.getMessage().equals(FastDownloadObserver.DOWNLOAD_PAUSE);
+                if (isPause) {
+                    ToastUtil.show("暂停下载");
+                    return;
+                }
+                ToastUtil.show("下载失败:" + e.getMessage());
+            }
+
+            @Override
+            public void onProgress(float progress, long current, long total) {
+                LoggerManager.i("downloadApk", "current:" + current + ";total:" + total);
+                if (!finalMProgressDialog.isShowing()) {
+                    return;
+                }
+                finalMProgressDialog.setProgressNumberFormat(FastFormatUtil.formatDataSize(current) + "/" + FastFormatUtil.formatDataSize(total));
+                finalMProgressDialog.setMax((int) total);
+                finalMProgressDialog.setProgress((int) current);
+            }
+        };
+        FastRetrofit.getInstance().downloadFile(entity.url, header)
                 .compose(((RxAppCompatActivity) activity).bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new FastDownloadObserver("FastLib.apk", mProgressDialog) {
-                    @Override
-                    public void onSuccess(File file) {
-                        FastFileUtil.installApk(file);
-                    }
-
-                    @Override
-                    public void onFail(Throwable e) {
-                        ToastUtil.show("下载失败:" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onProgress(float progress, long current, long total) {
-                        mProgressDialog.setProgressNumberFormat(FastFormatUtil.formatDataSize(current) + "/" + FastFormatUtil.formatDataSize(total));
-                        mProgressDialog.setMax((int) total);
-                        mProgressDialog.setProgress((int) current);
-                    }
-                });
+                //可自定义保存路径默认//storage/emulated/0/Android/data/<package-name>/cache/xxx/
+                .subscribe(mDownloadObserver);
     }
 
 }

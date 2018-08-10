@@ -7,14 +7,12 @@
 
     <ImageView
         android:id="@+id/iv_coverMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="100dp"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
-        android:minHeight="100dp"
-        android:minWidth="72dp"
-        android:src="@color/colorPlaceholder"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@color/colorPlaceholder"/>
 
     <TextView
         android:id="@+id/tv_titleMovie"

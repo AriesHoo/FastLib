@@ -73,9 +73,9 @@ public class SplashActivity extends FastTitleActivity {
         tvCopyRight.setTextColor(Color.WHITE);
         RxJavaManager.getInstance().setTimer(2000)
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new FastObserver<String>() {
+                .subscribe(new FastObserver<Long>() {
                     @Override
-                    public void _onNext(String entity) {
+                    public void _onNext(Long entity) {
                     }
 
                     @Override

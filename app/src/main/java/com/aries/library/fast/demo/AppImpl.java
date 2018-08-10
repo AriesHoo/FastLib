@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -34,6 +33,7 @@ import com.aries.library.fast.i.OnHttpRequestListener;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
+import com.aries.library.fast.impl.FastActivityLifecycleCallbacks;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
@@ -76,8 +76,8 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 import retrofit2.HttpException;
 
 /**
- * Created: AriesHoo on 2017/11/30 11:43
- * E-Mail: AriesHoo@126.com
+ * @Author: AriesHoo on 2018/7/30 11:34
+ * @E-Mail: AriesHoo@126.com
  * Function: 应用全局配置管理实现
  * Description:
  * 1、新增友盟统计功能对接
@@ -275,7 +275,12 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         //全局控制屏幕横竖屏
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
         if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            try {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
+            }
         }
     }
 
@@ -324,16 +329,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
      */
     @Override
     public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
-        return new Application.ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-            }
-
+        return new FastActivityLifecycleCallbacks() {
             @Override
             public void onActivityResumed(Activity activity) {
                 if (activity instanceof FragmentActivity) {
@@ -369,18 +365,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 
             @Override
             public void onActivityStopped(Activity activity) {
+                //统一于滑动返回动画
                 if (activity.isFinishing()) {
                     activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
                 }
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
             }
         };
     }
@@ -410,8 +398,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     }
 
     @Override
-    public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<? extends Object> list, OnHttpRequestListener listener) {
-        if (httpRequestControl == null) return;
+    public void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener) {
+        if (httpRequestControl == null) {
+            return;
+        }
         SmartRefreshLayout smartRefreshLayout = httpRequestControl.getRefreshLayout();
         BaseQuickAdapter adapter = httpRequestControl.getRecyclerAdapter();
         StatusLayoutManager statusLayoutManager = httpRequestControl.getStatusLayoutManager();
@@ -534,7 +524,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     public long quipApp(boolean isFirst, Activity activity) {
         //默认配置
         if (isFirst) {
-            ToastUtil.show(com.aries.library.fast.R.string.fast_quit_app);
+            ToastUtil.show(R.string.fast_quit_app);
         } else {
             FastStackUtil.getInstance().exit();
         }
@@ -557,10 +547,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                 if (layout != null) {
                     ViewCompat.setElevation(layout, activity.getResources().getDimension(R.dimen.dp_elevation));
                 }
-//                layout.setBackgroundColor(Color.MAGENTA);
                 //调整返回箭头大小
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
-//                imageView.setBackgroundColor(Color.GREEN);
             }
         }
     }

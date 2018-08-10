@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fast_quit_app">The app will be exit if you press again</string>
-    <string name="fast_back_home">The app will be back to desktop if you press again</string>
     <string name="fast_multi_loading">Loading...</string>
     <string name="fast_multi_empty">No Data</string>
     <string name="fast_multi_error">Load Error</string>
-    <string name="fast_multi_network">Network Error</string>
     <string name="fast_web_alert_title">Kindly Reminder</string>
     <string name="fast_web_alert_msg">Are you sure to close this page?</string>
     <string name="fast_web_alert_left">Back</string>

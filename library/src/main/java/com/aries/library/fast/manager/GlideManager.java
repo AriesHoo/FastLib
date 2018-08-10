@@ -179,7 +179,7 @@ public class GlideManager {
                 .placeholder(placeholder)
                 .fallback(placeholder)
                 .dontAnimate()
-                .transform(isOfficial ? new RoundedCorners(dp2px(dp)) : new GlideRoundTransform(iv.getContext(), dp2px(dp)))).into(iv);
+                .transform(isOfficial ? new RoundedCorners(dp2px(dp)) : new GlideRoundTransform(dp2px(dp)))).into(iv);
     }
 
     public static void loadRoundImg(Object obj, ImageView iv, float dp, int placeholderResource, boolean isOfficial) {
@@ -205,9 +205,12 @@ public class GlideManager {
 
     private static RequestOptions getRequestOptions() {
         RequestOptions requestOptions = new RequestOptions()
-                .centerCrop() // 填充方式
-                .priority(Priority.HIGH) //优先级
-                .diskCacheStrategy(DiskCacheStrategy.ALL); //缓存策略
+                // 填充方式
+                .centerCrop()
+                //优先级
+                .priority(Priority.HIGH)
+                //缓存策略
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         return requestOptions;
     }
 
@@ -227,9 +230,9 @@ public class GlideManager {
     }
 
     private static class GlideRoundTransform extends BitmapTransformation {
-        int radius = 0;
+        int radius;
 
-        public GlideRoundTransform(Context context, int dp) {
+        public GlideRoundTransform(int dp) {
             super();
             this.radius = dp;
         }

@@ -3,6 +3,7 @@ package com.aries.library.fast.entity;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
+import com.aries.library.fast.FastManager;
 import com.flyco.tablayout.listener.CustomTabEntity;
 
 /**
@@ -26,7 +27,7 @@ public class FastTabEntity implements CustomTabEntity {
     }
 
     public FastTabEntity(int title, int unSelectedIcon, int selectedIcon, Fragment fragment) {
-        this(fragment == null ? "" : fragment.getString(title), unSelectedIcon, selectedIcon, fragment);
+        this(FastManager.getInstance().getApplication().getString(title), unSelectedIcon, selectedIcon, fragment);
     }
 
     public FastTabEntity(int unSelectedIcon, int selectedIcon, Fragment fragment) {

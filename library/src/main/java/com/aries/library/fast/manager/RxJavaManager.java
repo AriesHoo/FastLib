@@ -1,6 +1,5 @@
 package com.aries.library.fast.manager;
 
-import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.retrofit.FastTransformer;
 
 import java.util.concurrent.TimeUnit;
@@ -67,38 +66,13 @@ public class RxJavaManager {
     }
 
     /**
-     * 设置毫秒定时器去掉返回值
-     *
-     * @param delayTime
-     * @param listener
-     */
-    @Deprecated
-    public void setTimer(long delayTime, final TimerListener listener) {
-        setTimer(delayTime)
-                .subscribe(new FastObserver<String>() {
-                    @Override
-                    public void _onNext(String entity) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
-                        if (listener != null) {
-                            listener.timeEnd();
-                        }
-                    }
-                });
-    }
-
-    /**
      * 设置时延为毫秒的定时器
      *
      * @param delayTime
      * @return
      */
-    public Observable<String> setTimer(long delayTime) {
-        return getDelayObservable("", delayTime, TimeUnit.MILLISECONDS);
+    public Observable<Long> setTimer(long delayTime) {
+        return getDelayObservable(delayTime, delayTime, TimeUnit.MILLISECONDS);
     }
 
 }

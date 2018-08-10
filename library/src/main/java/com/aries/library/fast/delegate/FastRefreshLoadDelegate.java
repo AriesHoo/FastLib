@@ -31,7 +31,7 @@ public class FastRefreshLoadDelegate<T> {
 
     public SmartRefreshLayout mRefreshLayout;
     public RecyclerView mRecyclerView;
-    public BaseQuickAdapter<T, BaseViewHolder> mAdapter;
+    public BaseQuickAdapter<T, ? extends BaseViewHolder> mAdapter;
     public StatusLayoutManager mStatusManager;
     private IFastRefreshLoadView<T> mIFastRefreshLoadView;
     private Context mContext;

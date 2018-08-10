@@ -12,6 +12,7 @@ import java.util.Stack;
  * Function:Activity堆栈管理工具类
  * Description:
  * 1、2018-6-21 09:49:11 新增根据class获取Activity方法
+ * 2、2018-7-30 10:00:45 修改方法返回值
  */
 public class FastStackUtil {
     private final String TAG = this.getClass().getSimpleName();
@@ -98,12 +99,13 @@ public class FastStackUtil {
      *
      * @param activity
      */
-    public void push(Activity activity) {
+    public FastStackUtil push(Activity activity) {
         if (mActivityStack == null) {
             mActivityStack = new Stack();
         }
         mActivityStack.add(activity);
         LoggerManager.i(TAG, "push stack activity:" + activity.getClass().getSimpleName());
+        return sInstance;
     }
 
     /**
@@ -111,7 +113,7 @@ public class FastStackUtil {
      *
      * @param activity Activity对象
      */
-    public void pop(Activity activity) {
+    public FastStackUtil pop(Activity activity) {
         if (activity != null) {
             LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
             //只需在activity不在正在关闭状态下进行finish即可
@@ -123,13 +125,13 @@ public class FastStackUtil {
                 LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";size:" + mActivityStack.size());
             }
         }
-
+        return sInstance;
     }
 
     /**
      * 将栈里的Activity全部清空
      */
-    public void popAll() {
+    public FastStackUtil popAll() {
         if (mActivityStack != null) {
             while (mActivityStack.size() > 0) {
                 Activity activity = this.getCurrent();
@@ -139,7 +141,7 @@ public class FastStackUtil {
                 pop(activity);
             }
         }
-
+        return sInstance;
     }
 
     /**
@@ -147,11 +149,11 @@ public class FastStackUtil {
      *
      * @param cls
      */
-    public void popAllExceptCurrent(Class cls) {
+    public FastStackUtil popAllExceptCurrent(Class cls) {
         while (true) {
             Activity activity = this.getCurrent();
             if (activity == null || activity.getClass().equals(cls)) {
-                return;
+                return sInstance;
             }
             pop(activity);
         }
@@ -160,11 +162,11 @@ public class FastStackUtil {
     /**
      * 只留下栈顶一个Activity
      */
-    public void popAllExceptCurrent() {
+    public FastStackUtil popAllExceptCurrent() {
         while (true) {
             Activity activity = this.getPrevious();
             if (activity == null) {
-                return;
+                return sInstance;
             }
             pop(activity);
         }
@@ -173,7 +175,7 @@ public class FastStackUtil {
     /**
      * 应用程序退出
      */
-    public void exit() {
+    public FastStackUtil exit() {
         try {
             popAll();
             //退出JVM(java虚拟机),释放所占内存资源,0表示正常退出(非0的都为异常退出)
@@ -181,8 +183,9 @@ public class FastStackUtil {
             //从操作系统中结束掉当前程序的进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } catch (Exception e) {
-            e.printStackTrace();
             System.exit(-1);
+            LoggerManager.e(TAG, "exit():" + e.getMessage());
         }
+        return sInstance;
     }
 }
