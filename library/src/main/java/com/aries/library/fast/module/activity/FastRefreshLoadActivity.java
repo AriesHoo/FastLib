@@ -147,7 +147,7 @@ public abstract class FastRefreshLoadActivity<T>
     public void onRefresh(RefreshLayout refreshlayout) {
         mDefaultPage = 0;
         mFastRefreshLoadDelegate.setLoadMore(isLoadMoreEnable());
-        loadData(mDefaultPageSize);
+        loadData(mDefaultPage);
     }
 
     @Override
