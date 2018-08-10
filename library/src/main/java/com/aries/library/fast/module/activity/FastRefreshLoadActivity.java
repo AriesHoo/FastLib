@@ -30,8 +30,8 @@ public abstract class FastRefreshLoadActivity<T>
     protected RecyclerView mRecyclerView;
     protected StatusLayoutManager mStatusManager;
     private BaseQuickAdapter mQuickAdapter;
-    protected int DEFAULT_PAGE = 0;
-    protected int DEFAULT_PAGE_SIZE = 10;
+    protected int mDefaultPage = 0;
+    protected int mDefaultPageSize = 10;
 
     protected FastRefreshLoadDelegate<T> mFastRefreshLoadDelegate;
     private Class<?> mClass;
@@ -107,12 +107,12 @@ public abstract class FastRefreshLoadActivity<T>
 
             @Override
             public int getCurrentPage() {
-                return DEFAULT_PAGE;
+                return mDefaultPage;
             }
 
             @Override
             public int getPageSize() {
-                return DEFAULT_PAGE_SIZE;
+                return mDefaultPageSize;
             }
 
             @Override
@@ -145,18 +145,18 @@ public abstract class FastRefreshLoadActivity<T>
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        DEFAULT_PAGE = 0;
+        mDefaultPage = 0;
         mFastRefreshLoadDelegate.setLoadMore(isLoadMoreEnable());
-        loadData(DEFAULT_PAGE);
+        loadData(mDefaultPageSize);
     }
 
     @Override
     public void onLoadMoreRequested() {
-        loadData(++DEFAULT_PAGE);
+        loadData(++mDefaultPage);
     }
 
     @Override
     public void loadData() {
-        loadData(DEFAULT_PAGE);
+        loadData(mDefaultPage);
     }
 }
