@@ -48,6 +48,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 10、2018-7-24 13:10:49 新增默认header User-Agent -避免某些服务器配置攻击,请求返回403 forbidden 问题
  * 11、2018-7-30 16:13:40 修改日志打印规则
  * 12、2018-7-31 09:54:30 删除原有单独retrofit模式使用全局retrofit 通过设置Log禁用最后还原模式解决日志拦截器造成获取文件流卡住问题
+ * 13、2018-8-23 12:31:34 新增设置是否打印json格式日志方法{@link #setLogJsonEnable(boolean)}
  */
 public class FastRetrofit {
 
@@ -65,6 +66,10 @@ public class FastRetrofit {
      * 默认读、写、连接超时
      */
     private long mDelayTime = 20;
+    /**
+     * 是否打印json格式 通过Logger.json
+     */
+    private boolean mLogJsonEnable = true;
     /**
      * Service 缓存-避免重复创建同一个Service
      */
@@ -379,6 +384,17 @@ public class FastRetrofit {
     }
 
     /**
+     * 是否通过Logger.json打印json格式的返回日志
+     *
+     * @param enable
+     * @return
+     */
+    public FastRetrofit setLogJsonEnable(boolean enable) {
+        this.mLogJsonEnable = enable;
+        return this;
+    }
+
+    /**
      * 获取当前是否设置日志打印
      *
      * @return
@@ -418,8 +434,8 @@ public class FastRetrofit {
                             return;
                         }
                         //json格式使用Logger.json打印
-                        boolean isJson = message.startsWith("[") && message.endsWith("]");
-                        isJson = isJson && (message.startsWith("{") || message.endsWith("}"));
+                        boolean isJson = message.startsWith("[") || message.startsWith("{");
+                        isJson = isJson && mLogJsonEnable;
                         if (isJson) {
                             LoggerManager.json(finalTag, message);
                             return;

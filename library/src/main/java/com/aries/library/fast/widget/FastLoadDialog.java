@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.aries.library.fast.R;
 import com.aries.library.fast.util.FastStackUtil;
+import com.aries.ui.util.FindViewUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -16,6 +18,7 @@ import java.lang.ref.WeakReference;
  * Function: 快速创建网络请求loading
  * Description:
  * 1、2018-7-30 10:08:30 将默认Dialog变更为ProgressDialog及新增构造方式
+ * 2、2018-8-23 11:19:29 修改{@link #setMessage(CharSequence)}实现方式
  */
 public class FastLoadDialog {
 
@@ -70,8 +73,16 @@ public class FastLoadDialog {
      * @return
      */
     public FastLoadDialog setMessage(CharSequence msg) {
+        if (mDialog == null) {
+            return this;
+        }
         if (mDialog instanceof ProgressDialog) {
             ((ProgressDialog) mDialog).setMessage(msg);
+        } else {
+            TextView textView = FindViewUtil.getTargetView(mDialog.getWindow().getDecorView(), TextView.class);
+            if (textView != null) {
+                textView.setText(msg);
+            }
         }
         return this;
     }

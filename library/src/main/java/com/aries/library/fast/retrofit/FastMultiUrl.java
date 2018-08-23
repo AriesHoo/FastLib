@@ -29,6 +29,7 @@ import okhttp3.Response;
  * 4、2018-7-3 12:24:24 新增单独method 方法设置请求BaseUrl方法
  * 5、2018-7-9 15:13:45 修改解析method方法增加对get方法兼容
  * 6、2018-7-31 09:10:45 调整通过header及method重定向请求Url方法
+ * 7、2018-8-23 11:18:40 修改设置BaseUrl重定向问题{@link #processRequest(Request)}
  */
 class FastMultiUrl {
 
@@ -140,6 +141,15 @@ class FastMultiUrl {
                     .url(httpUrl)
                     .build();
         }
+        //重定向BaseUrl mBaseUrl是okhttp里设置的base url--程序运行过程中只有一个值--用于拆分method
+        HttpUrl httpUrlBase = getGlobalBaseUrl();
+        if (httpUrlBase != null && !httpUrlBase.toString().equals(mBaseUrl)) {
+            HttpUrl httpNew = checkUrl(request.url().toString().replace(mBaseUrl, httpUrlBase.toString()));
+            LoggerManager.i(FastMultiUrl.TAG, "重定向Url:Base Url is { " + httpUrlBase.toString() + " }" + ";New Url is { " + httpNew + " }" + ";Old Url is { " + request.url() + " }");
+            return newBuilder
+                    .url(httpNew)
+                    .build();
+        }
         return newBuilder.build();
     }
 
@@ -236,8 +246,8 @@ class FastMultiUrl {
      * @param url
      */
     public FastMultiUrl setGlobalBaseUrl(String url) {
-        synchronized (mHeaderBaseUrlMap) {
-            mHeaderBaseUrlMap.put(GLOBAL_BASE_URL_NAME, checkUrl(url));
+        synchronized (mBaseUrlMap) {
+            mBaseUrlMap.put(GLOBAL_BASE_URL_NAME, checkUrl(url));
         }
         //保证唯一性为retrofit设置的baseUrl
         if (TextUtils.isEmpty(mBaseUrl)) {
@@ -246,6 +256,15 @@ class FastMultiUrl {
             setIntercept(true);
         }
         return sInstance;
+    }
+
+    /**
+     * 获取全局BaseUrl
+     *
+     * @return
+     */
+    public HttpUrl getGlobalBaseUrl() {
+        return mBaseUrlMap.get(GLOBAL_BASE_URL_NAME);
     }
 
     public FastMultiUrl putHeaderBaseUrl(Map<String, String> map) {
@@ -328,7 +347,7 @@ class FastMultiUrl {
      * @return
      */
     public FastMultiUrl putBaseUrl(String urlKey, String urlValue) {
-        synchronized (mHeaderBaseUrlMap) {
+        synchronized (mBaseUrlMap) {
             mBaseUrlMap.put(urlKey, checkUrl(urlValue));
             setIntercept(true);
         }

@@ -1,8 +1,8 @@
 {
 	"versionCode": 230,
-	"versionName": "2.2.10-beta5",
+	"versionName": "2.2.10-beta14",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
 	"size": "3.82M",
-	"message": "\n优化:重大重构版本与之前版本差异很大\n优化:其它细节优化"
+	"message": "\n优化:重大重构版本与之前版本差异很大\n优化:新增部分retrofit解析相关方法"
 }

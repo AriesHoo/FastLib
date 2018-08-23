@@ -15,7 +15,7 @@ import com.aries.library.fast.demo.touch.OnItemTouchHelperListener;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
-import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -111,7 +111,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
         //当然可以自定义
         RxJavaManager.getInstance().getDelayObservable(list, 1)
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new FastObserver<List<WidgetEntity>>() {
+                .subscribe(new FastLoadingObserver<List<WidgetEntity>>("我就试一试不好用") {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
                         mAdapter.openLoadAnimation(animationIndex);
