@@ -25,7 +25,8 @@ import butterknife.BindView;
  */
 public class MainActivity extends FastMainActivity {
 
-    @BindView(R.id.tabLayout_commonFastLib) CommonTabLayout mTabLayout;
+    @BindView(R.id.tabLayout_commonFastLib)
+    CommonTabLayout mTabLayout;
 
     @Override
     public boolean isSwipeEnable() {
@@ -55,7 +56,7 @@ public class MainActivity extends FastMainActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         List<Fragment> list = getSupportFragmentManager().getFragments();
-        if (list == null && list.size() == 0) {
+        if (list == null || list.size() == 0) {
             return;
         }
         for (Fragment f : list) {
