@@ -16,4 +16,6 @@
     <color name="colorQQBackgroundStart">#4e8cfc</color>
     <color name="colorQQBackgroundEnd">#33bafc</color>
     <color name="colorQQBackgroundCenter">#34b0fc</color>
+    <!--Activity滑动返回背景-->
+    <color name="colorSwipeBackBackground">#3b3b3b</color>
 </resources>

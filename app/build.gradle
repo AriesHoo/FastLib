@@ -86,6 +86,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //文件选择器
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    //友盟统计
     implementation 'com.umeng.analytics:analytics:latest.integration'
 
 }

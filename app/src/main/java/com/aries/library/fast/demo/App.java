@@ -53,6 +53,8 @@ public class App extends Application {
                 .setSwipeBackControl(impl)
                 //设置Activity/Fragment相关配置(横竖屏+背景+虚拟导航栏+状态栏+生命周期)
                 .setActivityFragmentControl(impl)
+                //设置BasisActivity 子类按键监听
+                .setActivityKeyEventControl(impl)
                 //设置http请求结果全局控制
                 .setHttpRequestControl(impl)
                 //设置主页返回键控制-默认效果为2000 毫秒时延退出程序

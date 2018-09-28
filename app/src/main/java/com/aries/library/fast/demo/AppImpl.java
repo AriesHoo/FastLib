@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,6 +26,7 @@ import android.widget.RelativeLayout;
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.i.ActivityFragmentControl;
+import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IHttpRequestControl;
@@ -39,9 +43,11 @@ import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.NetworkUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
+import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
@@ -83,7 +89,7 @@ import retrofit2.HttpException;
  * 1、新增友盟统计功能对接
  */
 public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, MultiStatusView, LoadingDialog,
-        TitleBarViewControl, SwipeBackControl, ActivityFragmentControl, HttpRequestControl, QuitAppControl {
+        TitleBarViewControl, SwipeBackControl, ActivityFragmentControl, ActivityKeyEventControl, HttpRequestControl, QuitAppControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -224,7 +230,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
-//                .setShadowResId(R.color.colorSwipeBackBackground)
+                .setShadowResId(R.color.colorSwipeBackBackground)
                 //底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
                 .setIsNavigationBarOverlap(true);
     }
@@ -242,6 +248,90 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     @Override
     public void onSwipeBackLayoutExecuted(Activity activity) {
 
+    }
+
+    /**
+     * Audio管理器，用了控制音量
+     */
+    private AudioManager mAudioManager = null;
+    private int mMaxVolume = 0;
+    private int mMinVolume = 0;
+    private int mCurrentVolume = 0;
+
+    private void volume(int value, boolean plus) {
+        if (mAudioManager == null) {
+            mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            // 获取最大音乐音量
+            mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            // 获取最小音乐音量
+            mMinVolume = mAudioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC);
+        }
+        if (plus) {
+            if (mCurrentVolume >= mMaxVolume) {
+                ToastUtil.show("当前音量已最大");
+                return;
+            }
+            mCurrentVolume += value;
+        } else {
+            if (mCurrentVolume <= mMinVolume) {
+                ToastUtil.show("当前音量已最小");
+                return;
+            }
+            mCurrentVolume -= value;
+        }
+        if (mCurrentVolume < mMinVolume) {
+            mCurrentVolume = mMinVolume;
+        }
+        if (mCurrentVolume > mMaxVolume) {
+            mCurrentVolume = mMaxVolume;
+        }
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, AudioManager.FLAG_PLAY_SOUND);
+        // 获取当前音乐音量
+        mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        LoggerManager.i(TAG, "max:" + mMaxVolume + ";min:" + mMinVolume + ";current:" + mCurrentVolume);
+        SnackBarUtil.with(FastStackUtil.getInstance().getCurrent().getWindow().getDecorView())
+                .setBgColor(Color.LTGRAY)
+                .setMessageColor(Color.MAGENTA)
+                .setMessage("当前音量:" + mCurrentVolume)
+                .setBottomMargin(NavigationBarUtil.getNavigationBarHeight(FastStackUtil.getInstance().getCurrent().getWindowManager()))
+                .show();
+
+    }
+
+    @Override
+    public boolean onKeyDown(Activity activity, int keyCode, KeyEvent event) {
+        //演示拦截系统音量键控制--类似抖音
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                volume(1, false);
+                LoggerManager.i(TAG, "volumeDown-activity:" + activity.getClass().getSimpleName());
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                volume(1, true);
+                LoggerManager.i(TAG, "volumeUp-activity:" + activity.getClass().getSimpleName());
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onKeyUp(Activity activity, int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onKeyLongPress(Activity activity, int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onKeyShortcut(Activity activity, int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onKeyMultiple(Activity activity, int keyCode, int repeatCount, KeyEvent event) {
+        return false;
     }
 
     /**
@@ -330,6 +420,14 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     @Override
     public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
         return new FastActivityLifecycleCallbacks() {
+
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                super.onActivityCreated(activity, savedInstanceState);
+                //阻止系统截屏功能
+                //activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            }
+
             @Override
             public void onActivityResumed(Activity activity) {
                 if (activity instanceof FragmentActivity) {

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
+import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
@@ -28,6 +29,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * @E-Mail: AriesHoo@126.com
  * Function: 各种UI相关配置属性
  * Description:
+ * 1、2018-9-26 16:58:14 新增BasisActivity 子类前台监听按键事件
  */
 public class FastManager {
 
@@ -73,6 +75,11 @@ public class FastManager {
      * 配置Activity/Fragment(背景+Activity强制横竖屏+Activity 生命周期回调+Fragment生命周期回调)
      */
     private ActivityFragmentControl mActivityFragmentControl;
+
+    /**
+     * 配置BasisActivity 子类前台时监听按键相关
+     */
+    private ActivityKeyEventControl mActivityKeyEventControl;
     /**
      * 配置网络请求
      */
@@ -223,6 +230,21 @@ public class FastManager {
      */
     public FastManager setActivityFragmentControl(ActivityFragmentControl control) {
         mActivityFragmentControl = control;
+        return this;
+    }
+
+    public ActivityKeyEventControl getActivityKeyEventControl() {
+        return mActivityKeyEventControl;
+    }
+
+    /**
+     * 配置BasisActivity 子类前台时监听按键相关
+     *
+     * @param activityKeyEventControl
+     * @return
+     */
+    public FastManager setActivityKeyEventControl(ActivityKeyEventControl activityKeyEventControl) {
+        mActivityKeyEventControl = activityKeyEventControl;
         return this;
     }
 

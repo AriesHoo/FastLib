@@ -6,17 +6,22 @@ import android.os.Bundle;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.ui.view.title.TitleBarView;
-
 /**
- * Created: AriesHoo on 2017/8/25 9:18
+ * @Author: AriesHoo on 2018/9/19 10:37
+ * @E-Mail: AriesHoo@126.com
  * Function: QQ默认主题Title背景渐变
- * Desc:
+ * Description:
  */
 public class QQTitleActivity extends FastTitleActivity {
 
     @Override
     public int getContentLayout() {
         return R.layout.activity_qq_title;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

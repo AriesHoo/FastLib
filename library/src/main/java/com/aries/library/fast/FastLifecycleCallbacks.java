@@ -46,8 +46,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
 
     @Override
     public void onActivityCreated(final Activity activity, final Bundle savedInstanceState) {
-        getControl();
         LoggerManager.i(TAG, "onActivityCreated:" + activity.getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(activity));
+        getControl();
+
         //统一Activity堆栈管理
         FastStackUtil.getInstance().push(activity);
         //统一横竖屏操作

@@ -9,7 +9,9 @@ import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.entity.FastTabEntity;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
+import com.aries.library.fast.util.FastUtil;
 import com.flyco.tablayout.CommonTabLayout;
 
 import java.util.ArrayList;
@@ -26,6 +28,13 @@ import butterknife.BindView;
 public class MainActivity extends FastMainActivity {
 
     @BindView(R.id.tabLayout_commonFastLib) CommonTabLayout mTabLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        LoggerManager.i(TAG, "onActivityCreated0:" + getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(this));
+        super.onCreate(savedInstanceState);
+        LoggerManager.i(TAG, "onActivityCreated1:" + getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(this));
+    }
 
     @Override
     public boolean isSwipeEnable() {
@@ -51,15 +60,4 @@ public class MainActivity extends FastMainActivity {
                 .checkVersion(false);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        List<Fragment> list = getSupportFragmentManager().getFragments();
-        if (list == null && list.size() == 0) {
-            return;
-        }
-        for (Fragment f : list) {
-            f.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 }

@@ -1,11 +1,15 @@
 package com.aries.library.fast.basis;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.aries.library.fast.FastManager;
+import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.QuitAppControl;
@@ -17,6 +21,8 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -31,6 +37,8 @@ import butterknife.Unbinder;
  * 3、2018-6-21 14:05:57 删除滑动返回控制改由全局控制
  * 4、2018-6-22 13:38:32 删除NavigationViewHelper控制方法改由全局控制
  * 5、2018-6-25 13:25:30 增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
+ * 6、2018-9-25 10:04:31 新增onActivityResult统一处理逻辑
+ * 7、2018-9-26 16:59:59 新增按键监听统一处理
  */
 public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
 
@@ -90,6 +98,76 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> list = getSupportFragmentManager().getFragments();
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        for (Fragment f : list) {
+            f.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        ActivityKeyEventControl control = FastManager.getInstance().getActivityKeyEventControl();
+        if (control != null) {
+            if (control.onKeyDown(this, keyCode, event)) {
+                return true;
+            }
+            return super.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        ActivityKeyEventControl control = FastManager.getInstance().getActivityKeyEventControl();
+        if (control != null) {
+            if (control.onKeyUp(this, keyCode, event)) {
+                return true;
+            }
+            return super.onKeyUp(keyCode, event);
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        ActivityKeyEventControl control = FastManager.getInstance().getActivityKeyEventControl();
+        if (control != null) {
+            return control.onKeyLongPress(this, keyCode, event);
+        }
+        return super.onKeyLongPress(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyShortcut(int keyCode, KeyEvent event) {
+        ActivityKeyEventControl control = FastManager.getInstance().getActivityKeyEventControl();
+        if (control != null) {
+            if (control.onKeyShortcut(this, keyCode, event)) {
+                return true;
+            }
+            return super.onKeyShortcut(keyCode, event);
+        }
+        return super.onKeyShortcut(keyCode, event);
+
+    }
+
+    @Override
+    public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
+        ActivityKeyEventControl control = FastManager.getInstance().getActivityKeyEventControl();
+        if (control != null) {
+            if (control.onKeyMultiple(this, keyCode, repeatCount, event)) {
+                return true;
+            }
+            return super.onKeyMultiple(keyCode, repeatCount, event);
+        }
+        return super.onKeyMultiple(keyCode, repeatCount, event);
     }
 
     @Override

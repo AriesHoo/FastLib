@@ -6,7 +6,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
-import com.aries.library.fast.demo.base.BaseItemTouchQuickAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
@@ -39,7 +38,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
 
     @BindView(R.id.rv_contentFastLib) RecyclerView mRvContent;
     @BindView(R.id.smartLayout_rootFastLib) SmartRefreshLayout mSmartLayout;
-    private BaseItemTouchQuickAdapter mAdapter;
+    private WidgetAdapter mAdapter;
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
 
     @Override
@@ -93,7 +92,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
         mAdapter = new WidgetAdapter();
         animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
         mAdapter.openLoadAnimation(animationIndex);
-        return mAdapter;
+        return (BaseQuickAdapter) mAdapter;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class BaseItemTouchViewHolder extends BaseViewHolder implements ItemTouch
     @Override
     public void onItemSelectedChanged() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            itemView.setTranslationZ(20);
+            itemView.setTranslationZ(30);
         }
     }
 
