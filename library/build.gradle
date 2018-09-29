@@ -10,6 +10,8 @@ android {
         targetSdkVersion ext.targetSdkVersion
         versionCode ext.versionCode
         versionName ext.versionName
+        //SVG设置颜色值支持
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {
