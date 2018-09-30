@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.main.sample.news;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.entity.FastTabEntity;
@@ -37,7 +38,7 @@ public class NewsMainActivity extends FastMainActivity {
 
     @Override
     public void setTabLayout(CommonTabLayout tabLayout) {
-        tabLayout.setTextSelectColor(getResources().getColor(R.color.colorMainNews));
+        tabLayout.setTextSelectColor(ContextCompat.getColor(mContext,R.color.colorMainNews));
         tabLayout.setIconHeight(20);
         tabLayout.setIconWidth(20);
         tabLayout.setTextsize(10);

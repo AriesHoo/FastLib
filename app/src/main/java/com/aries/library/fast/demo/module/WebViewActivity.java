@@ -142,18 +142,6 @@ public class WebViewActivity extends FastWebActivity {
                 });
     }
 
-    //    @Override
-//    protected boolean isSwipeBackEnable() {
-//        return super.isSwipeBackEnable() && !(RomUtil.isEMUI() && NavigationBarUtil.hasSoftKeys(getWindowManager()));
-//    }
-
-    @Override
-    public void initView(Bundle savedInstanceState) {
-//        if(!isSwipeBackEnable()){
-//            getWindow().getDecorView().setBackgroundResource(R.color.colorBackground);
-//        }
-    }
-
 
     private void installApk(Context context, String apkPath) {
         if (context == null || TextUtils.isEmpty(apkPath)) {
@@ -176,5 +164,9 @@ public class WebViewActivity extends FastWebActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         //横竖屏切换过后不能设置滑动返回--可以切换试一试效果
+    }
+
+    @Override
+    public void initView(Bundle savedInstanceState) {
     }
 }

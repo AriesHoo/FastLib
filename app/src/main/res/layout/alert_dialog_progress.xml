@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingBottom="18dp"
+                android:paddingEnd="?attr/dialogPreferredPadding"
+                android:paddingStart="?attr/dialogPreferredPadding">
+
+    <ProgressBar
+        android:id="@+id/pb_progressDownloadApk"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="20dp"
+        android:progressTint="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_leftDownloadApk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pb_progressDownloadApk"
+        android:textSize="14dp"
+        tools:text="10%"/>
+
+    <TextView
+        android:id="@+id/tv_rightDownloadApk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/pb_progressDownloadApk"
+        android:textSize="14dp"
+        tools:text="10M/100M"/>
+</RelativeLayout>

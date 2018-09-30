@@ -1,14 +1,16 @@
 package com.aries.library.fast.demo.helper;
 
+import android.support.v4.content.ContextCompat;
+
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.ui.view.radius.delegate.RadiusViewDelegate;
 
 /**
- * Created: AriesHoo on 2017/11/1 10:00
- * E-Mail: AriesHoo@126.com
- * Function:
- * Description:
+ * @Author: AriesHoo on 2018/9/30 9:16
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 圆角View帮助类
+ * @Description:
  */
 public class RadiusViewHelper {
 
@@ -31,7 +33,7 @@ public class RadiusViewHelper {
     public void setRadiusViewAdapter(RadiusViewDelegate delegate) {
         if (!App.isSupportElevation()) {
             delegate.setStrokeWidth(App.getContext().getResources().getDimensionPixelSize(R.dimen.dp_line_size))
-                    .setStrokeColor(App.getContext().getResources().getColor(R.color.colorLineGray))
+                    .setStrokeColor(ContextCompat.getColor(App.getContext(), R.color.colorLineGray))
                     .init();
         }
     }

@@ -1,9 +1,9 @@
 package com.aries.library.fast.demo.module.mine;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
@@ -18,6 +18,7 @@ import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.helper.ImagePickerHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
+import com.aries.library.fast.demo.widget.ProgressDialog;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
@@ -99,7 +100,7 @@ public class MineFragment extends FastTitleFragment {
                 getDimension(R.dimen.dp_elevation));
         if (!App.isSupportElevation()) {
             mStvInfo.setShapeStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp_line_size))
-                    .setShapeStrokeColor(getResources().getColor(R.color.colorLineGray))
+                    .setShapeStrokeColor(ContextCompat.getColor(mContext, R.color.colorLineGray))
                     .useShape();
         }
 
@@ -127,7 +128,7 @@ public class MineFragment extends FastTitleFragment {
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setMessage("上传中...");
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setProgressNumberFormat("0.00MB/未知");
+        mProgressDialog.setProgressNumberFormat("");
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 //额外参数
                 .addFormDataPart("basicId", "basicId");
@@ -138,6 +139,9 @@ public class MineFragment extends FastTitleFragment {
             builder.addFormDataPart("uploadfiles", file.getName(), getUploadRequestBody(file, new FastUploadRequestListener() {
                 @Override
                 public void onProgress(float progress, long current, long total) {
+                    if (!mProgressDialog.isShowing()) {
+                        return;
+                    }
                     mProgressDialog.setMessage("上传中(" + (finalI + 1) + "/" + listFile.size() + ")");
                     mProgressDialog.setProgressNumberFormat(FastFormatUtil.formatDataSize(current) + "/" + FastFormatUtil.formatDataSize(total));
                     mProgressDialog.setMax((int) total);

@@ -1,7 +1,6 @@
 package com.aries.library.fast.demo.helper;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
@@ -9,6 +8,7 @@ import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
+import com.aries.library.fast.demo.widget.ProgressDialog;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastDownloadObserver;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
@@ -170,7 +170,7 @@ public class CheckVersionHelper {
         mProgressDialog.setMessage(entity.getMessage());
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(!entity.force);
-        mProgressDialog.setProgressNumberFormat("0.00MB/未知");
+        mProgressDialog.setProgressNumberFormat("");
         mProgressDialog.setCanceledOnTouchOutside(!entity.force);
 
         //暂停下载-慎用;建议使用 Disposable.dispose();

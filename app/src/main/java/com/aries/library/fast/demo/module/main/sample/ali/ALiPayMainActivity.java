@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.main.sample.ali;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.entity.FastTabEntity;
@@ -39,7 +40,7 @@ public class ALiPayMainActivity extends FastMainActivity {
         tabLayout.setIconMargin(2);
         tabLayout.setIconWidth(22);
         tabLayout.setIconHeight(22);
-        tabLayout.setTextSelectColor(getResources().getColor(R.color.colorMainAli));
+        tabLayout.setTextSelectColor(ContextCompat.getColor(mContext,R.color.colorMainAli));
     }
 
 //    @Override

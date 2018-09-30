@@ -16,10 +16,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -111,8 +113,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         layout.setEnableHeaderTranslationContent(false)
                 .setEnableOverScrollDrag(false);
         MaterialHeader materialHeader = new MaterialHeader(mContext);
-        materialHeader.setColorSchemeColors(mContext.getResources().getColor(R.color.colorTextBlack),
-                mContext.getResources().getColor(R.color.colorTextBlackLight));
+        materialHeader.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.colorTextBlack),
+                ContextCompat.getColor(mContext, R.color.colorTextBlackLight));
         return materialHeader;
     }
 
@@ -185,7 +187,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                 .setTextSize(SizeUtil.dp2px(16f))
                 .setTextPadding(SizeUtil.dp2px(10))
                 .setTextColorResource(R.color.colorTextGray)
-                .setIndeterminateDrawable(FastUtil.getTintDrawable(activity.getResources().getDrawable(R.drawable.dialog_loading), activity.getResources().getColor(R.color.colorTitleText)))
+                .setIndeterminateDrawable(FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.dialog_loading), ContextCompat.getColor(mContext, R.color.colorTitleText)))
                 .setBackgroundRadius(SizeUtil.dp2px(6f))
                 .create());
     }
@@ -199,8 +201,8 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
     @Override
     public boolean createTitleBarViewControl(TitleBarView titleBar, Class<?> cls) {
         //默认的MD风格返回箭头icon如使用该风格可以不用设置
-        Drawable mDrawable = FastUtil.getTintDrawable(mContext.getResources().getDrawable(R.drawable.fast_ic_back),
-                mContext.getResources().getColor(R.color.colorTitleText));
+        Drawable mDrawable = FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_back),
+                ContextCompat.getColor(mContext, R.color.colorTitleText));
         //是否支持状态栏白色
         boolean isSupport = StatusBarUtil.isSupportStatusBarFontChange();
         boolean isActivity = Activity.class.isAssignableFrom(cls);
@@ -232,7 +234,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         swipeBackHelper.setSwipeBackEnable(true)
                 .setShadowResId(R.color.colorSwipeBackBackground)
                 //底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
-                .setIsNavigationBarOverlap(true);
+                .setIsNavigationBarOverlap(isControlNavigation());
     }
 
     @Override
@@ -342,9 +344,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
      */
     @Override
     public void setContentViewBackground(View contentView, Class<?> cls) {
+        //&&!android.app.Fragment.class.isAssignableFrom(cls)
+        //compileSdkVersion 28已废弃
         //避免背景色重复
-        if (!Fragment.class.isAssignableFrom(cls) &&
-                !android.app.Fragment.class.isAssignableFrom(cls)
+        if (!Fragment.class.isAssignableFrom(cls)
                 && contentView.getBackground() == null) {
             contentView.setBackgroundResource(R.color.colorBackground);
         }
@@ -408,7 +411,16 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
                 .setNavigationLayoutColor(Color.WHITE);
-        return true;
+
+        activity.getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                LoggerManager.i(TAG, "isNavigationBarVisible:" + com.aries.library.fast.demo.util.NavigationBarUtil.isNavigationBarVisible(activity) + ";checkDeviceHasNavigationBar:" +
+                        com.aries.library.fast.demo.util.NavigationBarUtil.checkDeviceHasNavigationBar(activity) +
+                        ";getNavigationBarHeight:" + com.aries.library.fast.demo.util.NavigationBarUtil.getNavigationBarHeight(activity) + ";getSystemUiVisibility:" + activity.getWindow().getDecorView().getSystemUiVisibility());
+            }
+        });
+        return isControlNavigation();
     }
 
     /**
@@ -660,4 +672,13 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
     }
 
+    /**
+     * 是否控制底部导航栏---目前发现小米8上检查是否有导航栏出现问题
+     *
+     * @return
+     */
+    private boolean isControlNavigation() {
+        LoggerManager.i(TAG, "mode:" + Build.MODEL);
+        return !(RomUtil.isMIUI() && Build.MODEL.contains("8"));
+    }
 }

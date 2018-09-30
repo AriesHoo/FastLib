@@ -3,6 +3,7 @@ package com.aries.library.fast.demo.module;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ public class SplashActivity extends FastTitleActivity {
             //隐藏状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher);
+        Drawable drawable = ContextCompat.getDrawable(mContext,R.drawable.ic_launcher);
         FastUtil.getTintDrawable(drawable, Color.WHITE);
         tvApp.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
         mContentView.setBackgroundResource(R.drawable.img_bg_login);
