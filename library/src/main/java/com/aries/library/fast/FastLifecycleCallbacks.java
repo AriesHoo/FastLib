@@ -195,7 +195,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         final BGASwipeBackHelper swipeBackHelper = new BGASwipeBackHelper(activity, new BGASwipeBackHelper.Delegate() {
             @Override
             public boolean isSupportSwipeBack() {
-                return true;
+                return mSwipeBackControl!=null?mSwipeBackControl.isSwipeBackEnable(activity):true;
             }
 
             @Override

@@ -80,6 +80,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackLayout;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 import retrofit2.HttpException;
 
@@ -218,6 +219,18 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
         }
         ViewCompat.setElevation(titleBar, mContext.getResources().getDimension(R.dimen.dp_elevation));
         return false;
+    }
+
+    /**
+     * 设置当前Activity是否支持滑动返回(用于控制是否添加一层{@link BGASwipeBackLayout})
+     * 返回为true {@link #setSwipeBack(Activity, BGASwipeBackHelper)}才有设置的意义
+     *
+     * @param activity
+     * @return
+     */
+    @Override
+    public boolean isSwipeBackEnable(Activity activity) {
+        return true;
     }
 
     /**

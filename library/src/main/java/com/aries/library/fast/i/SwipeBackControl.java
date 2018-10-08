@@ -10,13 +10,23 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Function: Activity 滑动返回控制接口
  * Description:
  * 1、新增滑动过程回调
+ * 2、2018-10-8 12:30:41 新增是否滑动返回支持
  */
 public interface SwipeBackControl {
 
     /**
-     * 设置滑动返回控制属性
+     * 设置当前Activity是否支持滑动返回(用于控制是否添加一层{@link cn.bingoogolapple.swipebacklayout.BGASwipeBackLayout})
+     * 返回为true {@link #setSwipeBack(Activity, BGASwipeBackHelper)}才有设置的意义
      *
      * @param activity 当前Activity
+     * @return
+     */
+    boolean isSwipeBackEnable(Activity activity);
+
+    /**
+     * 设置滑动返回控制属性
+     *
+     * @param activity        当前Activity
      * @param swipeBackHelper BGASwipeBackHelper 控制详见{@link com.aries.library.fast.FastManager}
      */
     void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper);
@@ -42,4 +52,5 @@ public interface SwipeBackControl {
      * @param activity 当前activity
      */
     void onSwipeBackLayoutExecuted(Activity activity);
+
 }
