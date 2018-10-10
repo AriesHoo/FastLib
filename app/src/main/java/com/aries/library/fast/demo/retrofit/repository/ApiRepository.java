@@ -5,6 +5,7 @@ import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.retrofit.service.ApiService;
 import com.aries.library.fast.retrofit.FastRetrofit;
+import com.aries.library.fast.retrofit.FastRetryWhen;
 import com.aries.library.fast.retrofit.FastTransformer;
 import com.aries.library.fast.util.FastUtil;
 
@@ -57,7 +58,7 @@ public class ApiRepository extends BaseRepository {
         Map<String, Object> params = new HashMap<>(2);
         params.put("start", start);
         params.put("count", count);
-        return FastTransformer.switchSchedulers(getApiService().getMovie(url, params));
+        return FastTransformer.switchSchedulers(getApiService().getMovie(url, params).retryWhen(new FastRetryWhen()));
     }
 
     /**
@@ -69,6 +70,6 @@ public class ApiRepository extends BaseRepository {
         Map<String, Object> params = new HashMap<>(2);
         params.put("versionCode", FastUtil.getVersionCode(App.getContext()));
         params.put("versionName", FastUtil.getVersionName(App.getContext()));
-        return FastTransformer.switchSchedulers(getApiService().updateApp(params));
+        return FastTransformer.switchSchedulers(getApiService().updateApp(params).retryWhen(new FastRetryWhen()));
     }
 }
