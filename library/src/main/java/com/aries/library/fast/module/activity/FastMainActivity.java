@@ -1,5 +1,6 @@
 package com.aries.library.fast.module.activity;
 
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import com.aries.library.fast.R;
@@ -33,9 +34,9 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     }
 
     @Override
-    public void beforeInitView() {
-        super.beforeInitView();
-        mFastMainTabDelegate = new FastMainTabDelegate(mContentView, this, this);
+    public void beforeInitView(Bundle savedInstanceState) {
+        super.beforeInitView(savedInstanceState);
+            mFastMainTabDelegate = new FastMainTabDelegate(mContentView, this, this);
     }
 
 

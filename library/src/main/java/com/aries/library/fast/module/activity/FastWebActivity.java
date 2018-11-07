@@ -85,12 +85,12 @@ public abstract class FastWebActivity extends FastTitleActivity {
     }
 
     @Override
-    public void beforeInitView() {
+    public void beforeInitView(Bundle savedInstanceState) {
         mContainer = findViewById(R.id.lLayout_containerFastWeb);
         url = getIntent().getStringExtra("url");
         mCurrentUrl = url;
         initAgentWeb();
-        super.beforeInitView();
+        super.beforeInitView(savedInstanceState);
 
     }
 

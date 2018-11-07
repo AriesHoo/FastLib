@@ -1,5 +1,7 @@
 package com.aries.library.fast.module.activity;
 
+import android.os.Bundle;
+
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.IFastTitleView;
@@ -22,8 +24,8 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
     }
 
     @Override
-    public void beforeInitView() {
-        super.beforeInitView();
+    public void beforeInitView(Bundle savedInstanceState) {
+        super.beforeInitView(savedInstanceState);
         mFastTitleDelegate = new FastTitleDelegate(mContentView, this, this.getClass());
         mTitleBar = mFastTitleDelegate.mTitleBar;
     }

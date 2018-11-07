@@ -79,7 +79,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         setContentView(mContentView);
         mUnBinder = ButterKnife.bind(this);
         mIsViewLoaded = true;
-        beforeInitView();
+        beforeInitView(savedInstanceState);
         initView(savedInstanceState);
     }
 
@@ -175,7 +175,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     }
 
     @Override
-    public void beforeInitView() {
+    public void beforeInitView(Bundle savedInstanceState) {
         if (FastManager.getInstance().getActivityFragmentControl() != null) {
             FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
         }

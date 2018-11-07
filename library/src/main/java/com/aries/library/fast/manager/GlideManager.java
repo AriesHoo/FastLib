@@ -196,7 +196,7 @@ public class GlideManager {
     }
 
     public static void loadRoundImg(Object obj, ImageView iv, boolean isOfficial) {
-        loadRoundImg(obj, iv, 4, isOfficial);
+        loadRoundImg(obj, iv, mPlaceholderRoundRadius, isOfficial);
     }
 
     public static void loadRoundImg(Object obj, ImageView iv) {

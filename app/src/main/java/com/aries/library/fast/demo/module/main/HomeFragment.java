@@ -15,6 +15,7 @@ import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
+import com.aries.library.fast.demo.helper.TitleBarViewHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
 import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
@@ -57,14 +58,14 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     protected BGABanner banner;
     private BaseQuickAdapter mAdapter;
     private List<Class> listActivity = new ArrayList<>();
-    private List<Integer> listArraysBanner = Arrays.asList(R.array.arrays_banner_all
-            , R.array.arrays_banner_an, R.array.arrays_banner_si
-            , R.array.arrays_banner_liu, R.array.arrays_banner_di, R.array.arrays_banner_jun);
+    private List<Integer> listArraysBanner = Arrays.asList(R.array.arrays_banner_all);
 
     private List<TransitionEffect> listTransitionEffect = new ArrayList<>();
     private int transitionIndex = GlobalConstant.GLOBAL_BANNER_TRANSITION_POSITION;
     private int chooseIndex = 0;
     private AlertDialog alertDialog;
+    private boolean mIsLight;
+    private TitleBarViewHelper mTitleBarViewHelper;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -75,6 +76,11 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
 
     @Override
     public boolean isLoadMoreEnable() {
+        return false;
+    }
+
+    @Override
+    public boolean isRefreshEnable() {
         return false;
     }
 
@@ -121,7 +127,9 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                     }
                 })
                 .setStatusAlpha(0)
-                .setBgColor(Color.TRANSPARENT);
+                .setTitleMainText(R.string.home)
+                .setLeftTextColor(Color.WHITE)
+                .setBgColor(Color.WHITE);
     }
 
     @Override
@@ -148,17 +156,22 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         transitionIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_HOME_TRANSITION_INDEX, transitionIndex);
         chooseIndex = transitionIndex;
         setBanner(0);
+        int mMaxHeight = App.getImageHeight() - StatusBarUtil.getStatusBarHeight() - getResources().getDimensionPixelSize(R.dimen.dp_title_height);
+        mTitleBarViewHelper = new TitleBarViewHelper(mContext)
+                .setTitleBarView(mTitleBar)
+                .setRecyclerView(mRecyclerView)
+                .setMinHeight(0)
+                .setMaxHeight(mMaxHeight)
+                .setOnScrollListener(new TitleBarViewHelper.OnScrollListener() {
+                    @Override
+                    public void onScrollChange(int alpha, boolean isLightMode) {
+                        mIsLight = isLightMode;
+                    }
+                });
     }
 
     @Override
     public void loadData(int page) {
-        if (listActivity.size() > 0) {
-            int random = FastUtil.getRandom(100);
-            int position = (random % (listArraysBanner.size() - 1)) + 1;
-            LoggerManager.d("position:" + position + ";random:" + random);
-            setBanner(position);
-            return;
-        }
         listActivity.clear();
         listActivity.add(SwipeBackActivity.class);
         listActivity.add(QQTitleActivity.class);
@@ -224,13 +237,48 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     }
 
     @Override
-    public void onItemClicked(BaseQuickAdapter<WidgetEntity,BaseViewHolder> adapter, View view, int position) {
+    public void onItemClicked(BaseQuickAdapter<WidgetEntity, BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WidgetEntity entity = adapter.getItem(position);
         if (position == 0) {
             SwipeBackActivity.start(mContext, entity.title);
         } else {
             FastUtil.startActivity(mContext, entity.activity);
+        }
+    }
+
+    @Override
+    protected void onVisibleChanged(boolean isVisibleToUser) {
+        super.onVisibleChanged(isVisibleToUser);
+        if (isVisibleToUser) {
+            banner.startAutoPlay();
+            if (mIsLight) {
+                StatusBarUtil.setStatusBarLightMode(mContext);
+            } else {
+                StatusBarUtil.setStatusBarDarkMode(mContext);
+            }
+        } else {
+            banner.stopAutoPlay();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        onVisibleChanged(isVisible());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        onVisibleChanged(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mTitleBarViewHelper!=null){
+            mTitleBarViewHelper.onDestroy();
         }
     }
 }

@@ -4,6 +4,7 @@ import android.accounts.AccountsException;
 import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -18,7 +19,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -56,7 +56,6 @@ import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.aries.ui.widget.progress.UIProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.google.gson.JsonIOException;
@@ -64,6 +63,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
+import com.luck.picture.lib.dialog.PictureDialog;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -178,19 +178,23 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 //                .setCanceledOnTouchOutside(false)
 //                .setMessage("请求数据中,请稍候...");
         //注意使用UIProgressDialog时最好在Builder里设置提示文字setMessage不然后续再设置文字信息也不会显示
-        return new FastLoadDialog(activity, new UIProgressDialog.WeChatBuilder(activity)
-                .setBackgroundColor(Color.parseColor("#FCFCFC"))
-//                .setMinHeight(SizeUtil.dp2px(140))
-//                .setMinWidth(SizeUtil.dp2px(270))
-                .setTextSizeUnit(TypedValue.COMPLEX_UNIT_PX)
-                .setMessage(R.string.fast_loading)
-                .setLoadingSize(SizeUtil.dp2px(30))
-                .setTextSize(SizeUtil.dp2px(16f))
-                .setTextPadding(SizeUtil.dp2px(10))
-                .setTextColorResource(R.color.colorTextGray)
-                .setIndeterminateDrawable(FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.dialog_loading), ContextCompat.getColor(mContext, R.color.colorTitleText)))
-                .setBackgroundRadius(SizeUtil.dp2px(6f))
-                .create());
+//        return new FastLoadDialog(activity, new UIProgressDialog.WeChatBuilder(activity)
+//                .setBackgroundColor(Color.parseColor("#FCFCFC"))
+////                .setMinHeight(SizeUtil.dp2px(140))
+////                .setMinWidth(SizeUtil.dp2px(270))
+//                .setTextSizeUnit(TypedValue.COMPLEX_UNIT_PX)
+//                .setMessage(R.string.fast_loading)
+//                .setLoadingSize(SizeUtil.dp2px(30))
+//                .setTextSize(SizeUtil.dp2px(16f))
+//                .setTextPadding(SizeUtil.dp2px(10))
+//                .setTextColorResource(R.color.colorTextGray)
+//                .setIndeterminateDrawable(FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.dialog_loading), ContextCompat.getColor(mContext, R.color.colorTitleText)))
+//                .setBackgroundRadius(SizeUtil.dp2px(6f))
+//                .create());
+        Dialog dialog = new PictureDialog(activity);
+        return new FastLoadDialog(activity, dialog)
+                .setCancelable(true)
+                .setCanceledOnTouchOutside(true);
     }
 
     /**

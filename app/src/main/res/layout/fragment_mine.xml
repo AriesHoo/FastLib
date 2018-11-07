@@ -1,106 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:scrollbars="none">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.aries.library.fast.demo.widget.OverScrollView
+        android:id="@+id/sv_containerMine"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-        <include layout="@layout/fast_layout_title_bar"/>
-
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_infoMine"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/dp_margin_item"
-            android:background="@color/colorWhite"
-            android:minHeight="140dp"
-            android:paddingBottom="24dp"
-            android:paddingRight="@dimen/dp_margin_item"
-            android:paddingTop="24dp"
-            app:sDividerLineColor="@color/colorLineGray"
-            app:sDividerLineType="none"
-            app:sLeftBottomLines="1"
-            app:sLeftBottomMaxEms="2000"
-            app:sLeftBottomTextColor="@color/colorTextBlackLight"
-            app:sLeftBottomTextSize="14dp"
-            app:sLeftBottomTextString="简书:"
-            app:sLeftIconHeight="75dp"
-            app:sLeftIconMarginLeft="12dp"
-            app:sLeftIconRes="@color/colorPlaceholder"
-            app:sLeftIconWidth="75dp"
-            app:sLeftLines="1"
-            app:sLeftMaxEms="2000"
-            app:sLeftTextColor="@color/colorTextBlackLight"
-            app:sLeftTextSize="14dp"
-            app:sLeftTextString="GitHub:"
-            app:sLeftTopLines="1"
-            app:sLeftTopMaxEms="2000"
-            app:sLeftTopTextColor="@color/colorTextBlack"
-            app:sLeftTopTextSize="20dp"
-            app:sLeftTopTextString="AriesHoo"
-            app:sLeftViewGravity="left_center"
-            app:sLeftViewMarginLeft="12dp"
-            app:sLeftViewMarginRight="0dp"
-            app:sShapeCornersRadius="@dimen/dp_radius"
-            app:sUseShape="true"/>
+            android:layout_height="wrap_content">
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_setting"
-            style="@style/SupperTextStyleItem"
-            android:visibility="gone"
-            app:sLeftIconRes="@drawable/ic_setting"
-            app:sLeftTextString="@string/setting"/>
+            <TextView
+                android:id="@+id/tv_coverMine"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/bg_top"
+                android:paddingTop="10dp"
+                android:textColor="@color/colorWhite"
+                android:lineSpacingExtra="6dp"
+                android:text="@string/tip"
+                android:gravity="center"
+                android:textSize="14dp"/>
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_libraryMine"
-            style="@style/SupperTextStyleItem"
-            app:sDividerLineType="both"
-            app:sLeftIconRes="@drawable/ic_github"
-            app:sLeftTextString="@string/library_address"/>
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_infoMine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_margin_item"
+                android:layout_marginTop="130dp"
+                android:layout_marginEnd="@dimen/dp_margin_item"
+                android:layout_marginBottom="@dimen/dp_margin_item"
+                android:background="@color/colorWhite"
+                android:minHeight="140dp"
+                android:paddingTop="24dp"
+                android:paddingRight="@dimen/dp_margin_item"
+                android:paddingBottom="24dp"
+                app:sDividerLineColor="@color/colorLineGray"
+                app:sDividerLineType="none"
+                app:sLeftBottomLines="1"
+                app:sLeftBottomMaxEms="2000"
+                app:sLeftBottomTextColor="@color/colorTextBlackLight"
+                app:sLeftBottomTextSize="14dp"
+                app:sLeftBottomTextString="简书:"
+                app:sLeftIconHeight="75dp"
+                app:sLeftIconMarginLeft="12dp"
+                app:sLeftIconRes="@color/colorPlaceholder"
+                app:sLeftIconWidth="75dp"
+                app:sLeftLines="1"
+                app:sLeftMaxEms="2000"
+                app:sLeftTextColor="@color/colorTextBlackLight"
+                app:sLeftTextSize="14dp"
+                app:sLeftTextString="GitHub:"
+                app:sLeftTopLines="1"
+                app:sLeftTopMaxEms="2000"
+                app:sLeftTopTextColor="@color/colorTextBlack"
+                app:sLeftTopTextSize="20dp"
+                app:sLeftTopTextString="AriesHoo"
+                app:sLeftViewGravity="left_center"
+                app:sLeftViewMarginLeft="12dp"
+                app:sLeftViewMarginRight="0dp"
+                app:sShapeCornersRadius="@dimen/dp_radius"
+                app:sUseShape="true"/>
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_thirdLibMine"
-            style="@style/SupperTextStyleItem"
-            app:sLeftIconRes="@drawable/ic_project"
-            app:sLeftTextString="@string/third_part"/>
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_setting"
+                style="@style/SupperTextStyleItem"
+                android:layout_below="@id/stv_infoMine"
+                android:visibility="gone"
+                app:sLeftIconRes="@drawable/ic_setting"
+                app:sLeftTextString="@string/setting"/>
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_shareMine"
-            style="@style/SupperTextStyleItem"
-            android:layout_marginTop="@dimen/dp_margin_item"
-            app:sDividerLineType="both"
-            app:sLeftIconHeight="22dp"
-            app:sLeftIconMarginLeft="13dp"
-            app:sLeftIconRes="@drawable/ic_share"
-            app:sLeftIconWidth="22dp"
-            app:sLeftTextString="@string/share"/>
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_libraryMine"
+                style="@style/SupperTextStyleItem"
+                android:layout_below="@id/stv_setting"
+                app:sDividerLineType="both"
+                app:sLeftIconRes="@drawable/ic_github"
+                app:sLeftTextString="@string/library_address"/>
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_updateMine"
-            style="@style/SupperTextStyleItem"
-            app:sLeftIconHeight="22dp"
-            app:sLeftIconMarginLeft="13dp"
-            app:sLeftIconRes="@drawable/ic_update"
-            app:sLeftIconWidth="22dp"
-            app:sLeftTextString="@string/update"/>
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_thirdLibMine"
+                style="@style/SupperTextStyleItem"
+                android:layout_below="@id/stv_libraryMine"
+                app:sLeftIconRes="@drawable/ic_project"
+                app:sLeftTextString="@string/third_part"/>
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_uploadMine"
+                style="@style/SupperTextStyleItem"
+                android:layout_below="@id/stv_thirdLibMine"
+                android:layout_marginTop="@dimen/dp_margin_item"
+                app:sDividerLineType="both"
+                app:sLeftIconHeight="22dp"
+                app:sLeftIconMarginLeft="13dp"
+                app:sLeftIconRes="@drawable/ic_update"
+                app:sLeftIconWidth="22dp"
+                app:sLeftTextString="@string/upload_file"/>
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_shareMine"
+                style="@style/SupperTextStyleItem"
+                android:layout_below="@id/stv_uploadMine"
+                android:layout_marginTop="@dimen/dp_margin_item"
+                app:sDividerLineType="both"
+                app:sLeftIconHeight="22dp"
+                app:sLeftIconMarginLeft="13dp"
+                app:sLeftIconRes="@drawable/ic_share"
+                app:sLeftIconWidth="22dp"
+                app:sLeftTextString="@string/share"/>
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_updateMine"
+                style="@style/SupperTextStyleItem"
+                android:layout_below="@id/stv_shareMine"
+                android:layout_marginBottom="@dimen/dp_margin_item"
+                app:sLeftIconHeight="22dp"
+                app:sLeftIconMarginLeft="13dp"
+                app:sLeftIconRes="@drawable/ic_update"
+                app:sLeftIconWidth="22dp"
+                app:sLeftTextString="@string/update"/>
 
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_uploadMine"
-            style="@style/SupperTextStyleItem"
-            android:layout_marginTop="@dimen/dp_margin_item"
-            app:sDividerLineType="both"
-            app:sLeftIconHeight="22dp"
-            app:sLeftIconMarginLeft="13dp"
-            app:sLeftIconRes="@drawable/ic_update"
-            app:sLeftIconWidth="22dp"
-            app:sLeftTextString="@string/upload_file"/>
-    </LinearLayout>
-</ScrollView>
+        </RelativeLayout>
+    </com.aries.library.fast.demo.widget.OverScrollView>
+
+    <include layout="@layout/fast_layout_title_bar"/>
+
+</RelativeLayout>

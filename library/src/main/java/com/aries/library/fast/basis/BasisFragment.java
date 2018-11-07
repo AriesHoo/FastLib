@@ -43,6 +43,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected Unbinder mUnBinder;
     protected final String TAG = getClass().getSimpleName();
     protected boolean mIsVisibleChanged = false;
+    private boolean mIsInViewPager;
 
     @Override
     public boolean isEventBusEnable() {
@@ -89,7 +90,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         if (isEventBusEnable()) {
             EventBus.getDefault().register(this);
         }
-        beforeInitView();
+        beforeInitView(savedInstanceState);
         initView(savedInstanceState);
 
         if (isSingleFragment() && !mIsVisibleChanged) {
@@ -109,7 +110,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     }
 
     @Override
-    public void beforeInitView() {
+    public void beforeInitView(Bundle savedInstanceState) {
         if (FastManager.getInstance().getActivityFragmentControl() != null) {
             FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
         }
@@ -136,6 +137,30 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         super.onDestroy();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoggerManager.i(TAG, "onResume-isAdded:" + isAdded() + ";getUserVisibleHint:" + getUserVisibleHint()
+                + ";isHidden:" + isHidden() + ";isVisible:" + isVisible() + ";isResume:" + isResumed() + ";isVisibleToUser:" + isVisibleToUser(this) + ";host:");
+        if (isAdded() && isVisibleToUser(this)) {
+            onVisibleChanged(true);
+        }
+    }
+
+    /**
+     * @param fragment
+     * @return
+     */
+    private boolean isVisibleToUser(BasisFragment fragment) {
+        if (fragment == null) {
+            return false;
+        }
+        if (fragment.getParentFragment() != null) {
+            return isVisibleToUser((BasisFragment) fragment.getParentFragment()) && (fragment.isInViewPager() ? fragment.getUserVisibleHint() : fragment.isVisible());
+        }
+        return fragment.isInViewPager() ? fragment.getUserVisibleHint() : fragment.isVisible();
+    }
+
     /**
      * 不在viewpager中Fragment懒加载
      */
@@ -151,7 +176,17 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        mIsInViewPager = true;
         onVisibleChanged(isVisibleToUser);
+    }
+
+    /**
+     * 是否在ViewPager
+     *
+     * @return
+     */
+    public boolean isInViewPager() {
+        return mIsInViewPager;
     }
 
     /**
@@ -160,7 +195,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
      * @param isVisibleToUser
      */
     protected void onVisibleChanged(final boolean isVisibleToUser) {
-        LoggerManager.i(TAG, "isVisibleToUser:" + isVisibleToUser);
+        LoggerManager.i(TAG, "onVisibleChanged-isVisibleToUser:" + isVisibleToUser);
         mIsVisibleChanged = true;
         if (isVisibleToUser) {
             //避免因视图未加载子类刷新UI抛出异常

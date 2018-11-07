@@ -15,6 +15,7 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.library.fast.util.SPUtil;
+import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -140,6 +141,14 @@ public class ActivityFragment extends FastTitleFragment {
 
     private List<String> getTitles(int array) {
         return Arrays.asList(getResources().getStringArray(array));
+    }
+
+    @Override
+    protected void onVisibleChanged(boolean isVisibleToUser) {
+        super.onVisibleChanged(isVisibleToUser);
+        if (isVisibleToUser) {
+            StatusBarUtil.setStatusBarLightMode(mContext);
+        }
     }
 
     @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_REFRESH_ACTIVITY_TAB)

@@ -33,17 +33,14 @@ public class SplashActivity extends FastTitleActivity {
 
     @Override
     public void beforeSetContentView() {
-        if (!isTaskRoot()) {//防止应用后台后点击桌面图标造成重启的假象---MIUI及Flyme上发现过(原生未发现)
+        //防止应用后台后点击桌面图标造成重启的假象---MIUI及Flyme上发现过(原生未发现)
+        if (!isTaskRoot()) {
             finish();
             return;
         }
         super.beforeSetContentView();
     }
 
-    @Override
-    public void beforeInitView() {
-        super.beforeInitView();
-    }
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {

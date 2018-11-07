@@ -1,5 +1,6 @@
 package com.aries.library.fast.module.activity;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,8 +38,8 @@ public abstract class FastRefreshLoadActivity<T>
     private Class<?> mClass;
 
     @Override
-    public void beforeInitView() {
-        super.beforeInitView();
+    public void beforeInitView(Bundle savedInstanceState) {
+        super.beforeInitView(savedInstanceState);
         mClass = getClass();
         mFastRefreshLoadDelegate = new FastRefreshLoadDelegate<>(mContentView, this);
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;

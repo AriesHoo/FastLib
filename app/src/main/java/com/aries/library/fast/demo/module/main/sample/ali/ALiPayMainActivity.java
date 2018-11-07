@@ -50,9 +50,9 @@ public class ALiPayMainActivity extends FastMainActivity {
 //    }
 
     @Override
-    public void beforeInitView() {
+    public void beforeInitView(Bundle savedInstanceState) {
         titles = getResources().getStringArray(R.array.arrays_tab_ali);
-        super.beforeInitView();
+        super.beforeInitView(savedInstanceState);
     }
 
     @Override

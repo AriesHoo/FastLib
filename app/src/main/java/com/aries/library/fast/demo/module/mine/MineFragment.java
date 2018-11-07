@@ -8,7 +8,9 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
 import com.aries.library.fast.basis.BasisActivity;
@@ -16,8 +18,10 @@ import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.helper.ImagePickerHelper;
+import com.aries.library.fast.demo.helper.TitleBarViewHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
+import com.aries.library.fast.demo.widget.OverScrollView;
 import com.aries.library.fast.demo.widget.ProgressDialog;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
@@ -31,6 +35,7 @@ import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
+import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 
 import java.io.File;
@@ -51,11 +56,15 @@ import okhttp3.ResponseBody;
  */
 public class MineFragment extends FastTitleFragment {
 
+    @BindView(R.id.sv_containerMine) OverScrollView mSvContainer;
+    @BindView(R.id.tv_coverMine) TextView mTvCover;
     @BindView(R.id.stv_infoMine) SuperTextView mStvInfo;
     @BindView(R.id.stv_updateMine) SuperTextView mStvUpdate;
     private ImageView mIvHead;
+    private boolean mIsLight;
 
     private ImagePickerHelper mImagePickerHelper;
+    private TitleBarViewHelper mTitleBarViewHelper;
 
     public static MineFragment newInstance() {
         Bundle args = new Bundle();
@@ -71,7 +80,10 @@ public class MineFragment extends FastTitleFragment {
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setTitleMainText(R.string.mine);
+        titleBar.setBgColor(Color.WHITE)
+                .setTitleMainTextColor(Color.WHITE)
+                .setTitleMainText(R.string.mine);
+        titleBar.getBackground().setAlpha(0);
     }
 
     @Override
@@ -98,6 +110,7 @@ public class MineFragment extends FastTitleFragment {
         mStvInfo.getLeftBottomTextView().setGravity(Gravity.LEFT);
         ViewCompat.setElevation(mStvInfo, getResources().
                 getDimension(R.dimen.dp_elevation));
+        mStvInfo.setTranslationZ(3f);
         if (!App.isSupportElevation()) {
             mStvInfo.setShapeStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp_line_size))
                     .setShapeStrokeColor(ContextCompat.getColor(mContext, R.color.colorLineGray))
@@ -112,6 +125,26 @@ public class MineFragment extends FastTitleFragment {
         }));
 
         mStvUpdate.setRightString("当前版本:V" + FastUtil.getVersionName(mContext));
+        //根据屏幕宽度重新调整背景图
+        int heightCover = SizeUtil.getScreenWidth() * 1 / 2;
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mTvCover.getLayoutParams();
+        if (params != null) {
+            params.height = heightCover;
+        }
+        ViewGroup.MarginLayoutParams margin = (ViewGroup.MarginLayoutParams) mStvInfo.getLayoutParams();
+        if (margin != null) {
+            margin.topMargin = heightCover - SizeUtil.dp2px(20);
+        }
+        mTitleBarViewHelper = new TitleBarViewHelper(mContext)
+                .setOverScrollView(mSvContainer)
+                .setShowTextEnable(true)
+                .setMaxHeight(heightCover)
+                .setOnScrollListener(new TitleBarViewHelper.OnScrollListener() {
+                    @Override
+                    public void onScrollChange(int alpha, boolean isLightMode) {
+                        mIsLight = isLightMode;
+                    }
+                });
     }
 
     /**
@@ -223,10 +256,30 @@ public class MineFragment extends FastTitleFragment {
     }
 
     @Override
+    protected void onVisibleChanged(boolean isVisibleToUser) {
+        super.onVisibleChanged(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (mIsLight) {
+                StatusBarUtil.setStatusBarLightMode(mContext);
+            } else {
+                StatusBarUtil.setStatusBarDarkMode(mContext);
+            }
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mImagePickerHelper != null) {
             mImagePickerHelper.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mTitleBarViewHelper != null) {
+            mTitleBarViewHelper.onDestroy();
         }
     }
 }

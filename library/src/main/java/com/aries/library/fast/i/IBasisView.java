@@ -41,8 +41,9 @@ public interface IBasisView {
 
     /**
      * 在初始化控件前进行一些操作
+     * @param savedInstanceState
      */
-    void beforeInitView();
+    void beforeInitView(Bundle savedInstanceState);
 
     /**
      * 需要加载数据时重写此方法
