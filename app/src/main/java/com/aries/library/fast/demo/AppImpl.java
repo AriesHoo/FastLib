@@ -21,12 +21,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.demo.module.SplashActivity;
+import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.i.HttpRequestControl;
@@ -49,6 +49,7 @@ import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
+import com.aries.ui.helper.navigation.KeyboardHelper;
 import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
@@ -428,15 +429,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
                 .setNavigationLayoutColor(Color.WHITE);
-
-        activity.getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                LoggerManager.i(TAG, "isNavigationBarVisible:" + com.aries.library.fast.demo.util.NavigationBarUtil.isNavigationBarVisible(activity) + ";checkDeviceHasNavigationBar:" +
-                        com.aries.library.fast.demo.util.NavigationBarUtil.checkDeviceHasNavigationBar(activity) +
-                        ";getNavigationBarHeight:" + com.aries.library.fast.demo.util.NavigationBarUtil.getNavigationBarHeight(activity) + ";getSystemUiVisibility:" + activity.getWindow().getDecorView().getSystemUiVisibility());
-            }
-        });
+        if (!isControlNavigation() && !(activity instanceof MainActivity)) {
+            KeyboardHelper.with(activity)
+                    .setEnable();
+        }
         return isControlNavigation();
     }
 
@@ -696,6 +692,6 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
      */
     private boolean isControlNavigation() {
         LoggerManager.i(TAG, "mode:" + Build.MODEL);
-        return !(RomUtil.isMIUI() && Build.MODEL.contains("8"));
+        return !(RomUtil.isMIUI());
     }
 }
