@@ -40,7 +40,7 @@ public class FastTitleDelegate {
         final Activity activity = FastStackUtil.getInstance().getActivity(cls);
         //设置TitleBarView 所有TextView颜色
         mTitleBar.setLeftTextDrawable(activity != null ? R.drawable.fast_ic_back : 0)
-                .setLeftTextDrawableTintResource(R.color.colorTitleText)
+                //.setLeftTextDrawableTintResource(R.color.colorTitleText)
                 .setOnLeftTextClickListener(activity == null ? null : new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -48,8 +48,8 @@ public class FastTitleDelegate {
                     }
                 })
                 .setTextColorResource(R.color.colorTitleText)
-                .setRightTextDrawableTintResource(R.color.colorTitleText)
-                .setActionTintResource(R.color.colorTitleText)
+                //.setRightTextDrawableTintResource(R.color.colorTitleText)
+                //.setActionTintResource(R.color.colorTitleText)
                 .setTitleMainText(getTitle(activity));
         TitleBarViewControl titleBarViewControl = FastManager.getInstance().getTitleBarViewControl();
         if (titleBarViewControl != null) {
