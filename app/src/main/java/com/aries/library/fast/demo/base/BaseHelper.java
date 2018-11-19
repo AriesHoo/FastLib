@@ -9,10 +9,10 @@ import org.simple.eventbus.EventBus;
 import butterknife.Unbinder;
 
 /**
- * Created: AriesHoo on 2018/5/3/003 11:11
- * E-Mail: AriesHoo@126.com
- * Function:
- * Description:
+ * @Author: AriesHoo on 2018/11/19 14:13
+ * @E-Mail: AriesHoo@126.com
+ * @Function:
+ * @Description:
  */
 public class BaseHelper {
     protected Activity mContext;

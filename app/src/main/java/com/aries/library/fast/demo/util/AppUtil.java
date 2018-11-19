@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 /**
- * Created: AriesHoo on 2017/9/21 18:19
- * Function:
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:29
+ * @E-Mail: AriesHoo@126.com
+ * @Function: app工具类
+ * @Description:
  */
-
 public class AppUtil {
 
     public static boolean isPad(Context context) {

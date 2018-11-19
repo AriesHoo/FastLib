@@ -3,11 +3,11 @@ package com.aries.library.fast.demo.entity;
 import java.io.Serializable;
 
 /**
- * Created: AriesHoo on 2017/8/25 16:35
- * Function: 电影评价星级
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:17
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 电影评价星级
+ * @Description:
  */
-
 public class RatingEntity implements Serializable {
     /**
      * max : 10

@@ -13,11 +13,11 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 /**
- * Created: AriesHoo on 2017/8/7 11:38
- * Function: 腾讯新闻-刷新
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:20
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 腾讯新闻-刷新
+ * @Description:
  */
-
 public class NewsRefreshItemFragment extends FastRefreshLoadFragment {
 
     public static NewsRefreshItemFragment newInstance() {

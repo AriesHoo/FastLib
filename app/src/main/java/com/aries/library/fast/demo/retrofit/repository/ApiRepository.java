@@ -14,13 +14,12 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 
-
 /**
- * Created: AriesHoo on 2017/9/7 11:00
- * Function:Retrofit api调用示例
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:25
+ * @E-Mail: AriesHoo@126.com
+ * @Function: Retrofit api调用示例
+ * @Description:
  */
-
 public class ApiRepository extends BaseRepository {
 
     private static volatile ApiRepository instance;

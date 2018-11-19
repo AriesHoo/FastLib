@@ -1,11 +1,11 @@
 package com.aries.library.fast.demo.constant;
 
 /**
- * Created: AriesHoo on 2017/8/26 14:30
- * Function: 接口地址常量
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:14
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 接口地址常量
+ * @Description:
  */
-
 public class ApiConstant {
 
     public static final String API_MOVIE_IN_THEATERS = "v2/movie/in_theaters";

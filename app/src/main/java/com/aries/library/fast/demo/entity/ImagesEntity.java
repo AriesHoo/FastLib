@@ -3,9 +3,10 @@ package com.aries.library.fast.demo.entity;
 import java.io.Serializable;
 
 /**
- * Created: AriesHoo on 2017/8/25 16:37
- * Function: 电影封面Image
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:17
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 电影封面Image
+ * @Description:
  */
 public class ImagesEntity implements Serializable{
     /**

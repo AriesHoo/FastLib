@@ -16,9 +16,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * Created: AriesHoo on 2017/7/31 11:27
- * Function: 具有滑动返回Activity
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:21
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 具有滑动返回Activity
+ * @Description:
  */
 public class SwipeBackActivity extends FastTitleActivity {
 

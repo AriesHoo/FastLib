@@ -6,10 +6,10 @@ import com.aries.library.fast.demo.App;
 import com.aries.library.fast.util.FastUtil;
 
 /**
- * Created: AriesHoo on 2018/7/3 13:31
- * E-Mail: AriesHoo@126.com
- * Function: 检查新版本实体
- * Description:
+ * @Author: AriesHoo on 2018/11/19 14:17
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 检查新版本实体
+ * @Description:
  */
 public class UpdateEntity {
 

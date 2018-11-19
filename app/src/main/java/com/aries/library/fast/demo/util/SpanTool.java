@@ -38,14 +38,10 @@ import com.aries.library.fast.demo.App;
 import static android.graphics.BlurMaskFilter.Blur;
 
 /**
- * @author by vondear on 2016/12/23.
- */
-
-/**
- * Created: AriesHoo on 2017/10/12 16:48
- * E-Mail: AriesHoo@126.com
- * Function: TextView SpannableString相关工具类
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:31
+ * @E-Mail: AriesHoo@126.com
+ * @Function: TextView SpannableString相关工具类
+ * @Description:
  */
 public class SpanTool {
 

@@ -41,6 +41,8 @@ public class App extends Application {
         FastManager.getInstance()
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
                 .setLoadMoreFoot(impl)
+                //全局设置RecyclerView
+                .setFastRecyclerViewControl(impl)
                 //设置RecyclerView加载过程多布局属性
                 .setMultiStatusView(impl)
                 //设置全局网络请求等待Loading提示框如登录等待loading--观察者必须为FastLoadingObserver及其子类

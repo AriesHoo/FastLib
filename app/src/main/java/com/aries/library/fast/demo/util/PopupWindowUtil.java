@@ -6,9 +6,10 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 /**
- * Created: AriesHoo on 2017/8/25 12:36
- * Function: PopupWindow工具类
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:30
+ * @E-Mail: AriesHoo@126.com
+ * @Function: PopupWindow工具类
+ * @Description:
  */
 public class PopupWindowUtil {
 

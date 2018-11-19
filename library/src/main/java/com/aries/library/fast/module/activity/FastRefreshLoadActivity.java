@@ -41,7 +41,7 @@ public abstract class FastRefreshLoadActivity<T>
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
         mClass = getClass();
-        mFastRefreshLoadDelegate = new FastRefreshLoadDelegate<>(mContentView, this);
+        mFastRefreshLoadDelegate = new FastRefreshLoadDelegate<>(mContentView, this,getClass());
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;
         mStatusManager = mFastRefreshLoadDelegate.mStatusManager;

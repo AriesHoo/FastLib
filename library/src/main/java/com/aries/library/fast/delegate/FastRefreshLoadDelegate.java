@@ -37,10 +37,12 @@ public class FastRefreshLoadDelegate<T> {
     private Context mContext;
     private FastManager mManager;
     public View mRootView;
+    private Class<?> mTargetClass;
 
-    public FastRefreshLoadDelegate(View rootView, IFastRefreshLoadView<T> iFastRefreshLoadView) {
+    public FastRefreshLoadDelegate(View rootView, IFastRefreshLoadView<T> iFastRefreshLoadView, Class<?> cls) {
         this.mRootView = rootView;
         this.mIFastRefreshLoadView = iFastRefreshLoadView;
+        this.mTargetClass = cls;
         this.mContext = rootView.getContext().getApplicationContext();
         this.mManager = FastManager.getInstance();
         if (mIFastRefreshLoadView == null) {
@@ -75,6 +77,9 @@ public class FastRefreshLoadDelegate<T> {
     protected void initRecyclerView() {
         if (mRecyclerView == null) {
             return;
+        }
+        if (FastManager.getInstance().getFastRecyclerViewControl() != null) {
+            FastManager.getInstance().getFastRecyclerViewControl().setRecyclerView(mRecyclerView, mTargetClass);
         }
         mAdapter = mIFastRefreshLoadView.getAdapter();
         mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager());

@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
+import com.aries.library.fast.i.FastRecyclerViewControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IHttpRequestControl;
@@ -92,7 +94,7 @@ import retrofit2.HttpException;
  * Description:
  * 1、新增友盟统计功能对接
  */
-public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, MultiStatusView, LoadingDialog,
+public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, FastRecyclerViewControl, MultiStatusView, LoadingDialog,
         TitleBarViewControl, SwipeBackControl, ActivityFragmentControl, ActivityKeyEventControl, HttpRequestControl, QuitAppControl {
 
     private Context mContext;
@@ -163,6 +165,17 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
 //                        return new SimpleLoadMoreView();
         //方式三:参考SimpleLoadMoreView或FastLoadMoreView完全自定义自己的LoadMoreView
 //                        return MyLoadMoreView();
+    }
+
+    /**
+     * 全局设置
+     *
+     * @param recyclerView
+     * @param cls
+     */
+    @Override
+    public void setRecyclerView(RecyclerView recyclerView, Class<?> cls) {
+        LoggerManager.i(TAG, "setRecyclerView-" + cls.getSimpleName()+"context:"+recyclerView.getContext() +";:"+(Activity.class.isAssignableFrom(recyclerView.getContext().getClass()))+";:"+(recyclerView.getContext() instanceof Activity));
     }
 
     @Override
@@ -313,7 +326,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, Multi
                 .setBgColor(Color.LTGRAY)
                 .setMessageColor(Color.MAGENTA)
                 .setMessage("当前音量:" + mCurrentVolume)
-                .setBottomMargin(NavigationBarUtil.getNavigationBarHeight(FastStackUtil.getInstance().getCurrent().getWindowManager()))
+                .setBottomMargin(NavigationBarUtil.getNavigationBarHeight(FastStackUtil.getInstance().getCurrent()))
                 .show();
 
     }

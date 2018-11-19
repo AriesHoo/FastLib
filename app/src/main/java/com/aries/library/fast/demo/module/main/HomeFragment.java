@@ -19,7 +19,7 @@ import com.aries.library.fast.demo.helper.TitleBarViewHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
 import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
-import com.aries.library.fast.demo.module.main.sample.TestFragmentActivity;
+import com.aries.library.fast.demo.module.main.sample.SingleFragmentActivity;
 import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
 import com.aries.library.fast.demo.module.main.sample.TitleWithEditTextActivity;
 import com.aries.library.fast.demo.module.main.sample.ToastActivity;
@@ -178,7 +178,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         listActivity.add(ALiPayMainActivity.class);
         listActivity.add(NewsMainActivity.class);
         listActivity.add(TestStatusActivity.class);
-        listActivity.add(TestFragmentActivity.class);
+        listActivity.add(SingleFragmentActivity.class);
         listActivity.add(ToastActivity.class);
         listActivity.add(TitleWithEditTextActivity.class);
         List<WidgetEntity> list = new ArrayList<>();

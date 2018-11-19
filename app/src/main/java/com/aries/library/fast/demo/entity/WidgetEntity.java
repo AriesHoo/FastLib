@@ -3,9 +3,10 @@ package com.aries.library.fast.demo.entity;
 import android.app.Activity;
 
 /**
- * Created: AriesHoo on 2017/7/14 9:45
- * Function: 描述性条目实体
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:18
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 描述性条目实体
+ * @Description:
  */
 public class WidgetEntity {
 

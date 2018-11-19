@@ -1,8 +1,6 @@
 package com.aries.library.fast.delegate;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.aries.library.fast.FastManager;
@@ -24,13 +22,13 @@ import com.aries.ui.view.title.TitleBarView;
  * 2、2018-6-22 14:06:50 设置通用基础数据
  * 3、2018-7-23 09:47:16 修改TitleBarView设置主标题逻辑
  * ({@link Activity#getTitle()}获取不和应用名称一致才进行设置-因Manifest未设置Activity的label属性获取的是应用名称)
+ * 4、2018-11-19 11:27:42 设置全局Tint颜色资源
  */
 public class FastTitleDelegate {
     public TitleBarView mTitleBar;
 
     public FastTitleDelegate(View rootView, IFastTitleView iTitleBarView, Class<?> cls) {
         mTitleBar = rootView.findViewById(R.id.titleBar_headFastLib);
-        Context context = rootView.getContext();
         if (mTitleBar == null) {
             mTitleBar = FindViewUtil.getTargetView(rootView, TitleBarView.class);
         }
@@ -39,18 +37,19 @@ public class FastTitleDelegate {
         }
         LoggerManager.i("class:" + cls.getSimpleName());
         //默认的MD风格返回箭头icon如使用该风格可以不用设置
-        Drawable mDrawable = FastUtil.getTintDrawable(context.getResources().getDrawable(R.drawable.fast_ic_back),
-                context.getResources().getColor(R.color.colorTitleText));
         final Activity activity = FastStackUtil.getInstance().getActivity(cls);
         //设置TitleBarView 所有TextView颜色
-        mTitleBar.setLeftTextDrawable(activity != null ? mDrawable : null)
+        mTitleBar.setLeftTextDrawable(activity != null ? R.drawable.fast_ic_back : 0)
+                .setLeftTextDrawableTintResource(R.color.colorTitleText)
                 .setOnLeftTextClickListener(activity == null ? null : new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         activity.onBackPressed();
                     }
                 })
-                .setTextColor(context.getResources().getColor(R.color.colorTitleText))
+                .setTextColorResource(R.color.colorTitleText)
+                .setRightTextDrawableTintResource(R.color.colorTitleText)
+                .setActionTintResource(R.color.colorTitleText)
                 .setTitleMainText(getTitle(activity));
         TitleBarViewControl titleBarViewControl = FastManager.getInstance().getTitleBarViewControl();
         if (titleBarViewControl != null) {

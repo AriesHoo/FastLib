@@ -1,9 +1,10 @@
 package com.aries.library.fast.demo.constant;
 
 /**
- * Created: AriesHoo on 2017/9/29 11:30
- * Function: 应用全局配置-默认
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:14
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 应用全局配置-默认
+ * @Description:
  */
 public class GlobalConstant {
 

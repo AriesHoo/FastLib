@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created: AriesHoo on 2017/8/25 16:53
- * Function:电影条目实体
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:17
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 电影条目实体
+ * @Description:
  */
-
 public class SubjectsEntity implements Serializable {
     /**
      * rating : {"max":10,"average":9.6,"stars":"50","min":0}

@@ -7,9 +7,7 @@ import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.entity.FastTabEntity;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
-import com.aries.library.fast.util.FastUtil;
 import com.flyco.tablayout.CommonTabLayout;
 
 import java.util.ArrayList;
@@ -29,9 +27,7 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LoggerManager.i(TAG, "onActivityCreated0:" + getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(this));
         super.onCreate(savedInstanceState);
-        LoggerManager.i(TAG, "onActivityCreated1:" + getClass().getSimpleName() + ";contentView:" + FastUtil.getRootView(this));
     }
 
     @Override

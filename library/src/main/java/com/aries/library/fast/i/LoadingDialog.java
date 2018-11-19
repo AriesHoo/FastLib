@@ -14,6 +14,8 @@ import com.aries.library.fast.widget.FastLoadDialog;
 public interface LoadingDialog {
 
     /**
+     * 设置快速Loading Dialog
+     *
      * @param activity
      * @return
      */

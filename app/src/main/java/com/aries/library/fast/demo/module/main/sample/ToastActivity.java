@@ -13,10 +13,10 @@ import com.aries.ui.view.title.TitleBarView;
 import butterknife.OnClick;
 
 /**
- * Created: AriesHoo on 2017/12/9 17:05
- * E-Mail: AriesHoo@126.com
- * Function:
- * Description:
+ * @Author: AriesHoo on 2018/11/19 14:23
+ * @E-Mail: AriesHoo@126.com
+ * @Function: ToastUtil工具类示例
+ * @Description:
  */
 public class ToastActivity extends FastTitleActivity {
 

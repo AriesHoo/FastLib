@@ -20,11 +20,11 @@ import java.util.List;
 
 import butterknife.BindView;
 
-
 /**
- * Created: AriesHoo on 2017/8/5 23:06
- * Function: 腾讯新闻-Fragment
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:19
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 腾讯新闻-Fragment
+ * @Description:
  */
 public class NewsItemFragment extends FastTitleFragment {
 

@@ -11,10 +11,10 @@ import com.aries.ui.view.title.TitleBarView;
 import butterknife.BindView;
 
 /**
- * Created: AriesHoo on 2018/1/26 0026 下午 1:10
- * E-Mail: AriesHoo@126.com
- * Function: activity+顶部输入框模式
- * Description:
+ * @Author: AriesHoo on 2018/11/19 14:23
+ * @E-Mail: AriesHoo@126.com
+ * @Function: activity+顶部输入框模式
+ * @Description:
  */
 public class TitleWithEditTextActivity extends FastTitleActivity {
 

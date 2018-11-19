@@ -41,16 +41,20 @@ public class ViewColorUtil {
                 Drawable[] drawables = textView.getCompoundDrawables();
                 for (Drawable item : drawables) {
                     if (item != null) {
+                        //使用该方法避免同一Drawable被全局修改
+                        item = item.mutate();
                         FastUtil.getTintDrawable(item, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255));
                     }
                 }
                 if (!showText) {
                     textView.setTextColor(Color.argb(alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255));
-                }else {
+                } else {
                     textView.setTextColor(Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255));
                 }
             } else if (rootView instanceof ImageView) {
-                FastUtil.getTintDrawable(((ImageView) rootView).getDrawable(), Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255));
+                //使用该方法避免同一Drawable被全局修改
+                Drawable drawable = ((ImageView) rootView).getDrawable().mutate();
+                FastUtil.getTintDrawable(drawable, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255));
             } else if (rootView instanceof ViewGroup) {
                 ViewGroup contentView = (ViewGroup) rootView;
                 int size = contentView.getChildCount();

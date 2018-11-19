@@ -3,11 +3,11 @@ package com.aries.library.fast.demo.entity;
 import java.io.Serializable;
 
 /**
- * Created: AriesHoo on 2017/8/25 16:41
- * Function: 演员头像实体
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:15
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 演员头像实体
+ * @Description:
  */
-
 public class AvatarsEntity implements Serializable {
     /**
      * small : https://img3.doubanio.com/img/celebrity/small/17525.jpg

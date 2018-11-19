@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
+import com.aries.library.fast.i.FastRecyclerViewControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.LoadMoreFoot;
 import com.aries.library.fast.i.LoadingDialog;
@@ -51,6 +52,10 @@ public class FastManager {
      * Adapter加载更多View
      */
     private LoadMoreFoot mLoadMoreFoot;
+    /**
+     * 全局设置列表
+     */
+    private FastRecyclerViewControl mFastRecyclerViewControl;
     /**
      * SmartRefreshLayout默认刷新头
      */
@@ -141,6 +146,21 @@ public class FastManager {
      */
     public FastManager setLoadMoreFoot(LoadMoreFoot mLoadMoreFoot) {
         this.mLoadMoreFoot = mLoadMoreFoot;
+        return this;
+    }
+
+    public FastRecyclerViewControl getFastRecyclerViewControl() {
+        return mFastRecyclerViewControl;
+    }
+
+    /**
+     * 全局设置列表
+     *
+     * @param control
+     * @return
+     */
+    public FastManager setFastRecyclerViewControl(FastRecyclerViewControl control) {
+        this.mFastRecyclerViewControl = control;
         return this;
     }
 

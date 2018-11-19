@@ -5,11 +5,11 @@ import android.os.Bundle;
 import com.aries.library.fast.demo.R;
 import com.aries.ui.view.title.TitleBarView;
 
-
 /**
- * Created: AriesHoo on 2017/8/5 23:06
- * Function: 支付宝-主页Fragment
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:19
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 支付宝-主页Fragment
+ * @Description:
  */
 public class ALiPayItemFragment extends ALiPayBaseFragment {
 

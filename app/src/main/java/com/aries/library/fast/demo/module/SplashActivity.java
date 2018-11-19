@@ -21,9 +21,10 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import butterknife.BindView;
 
 /**
- * Created: AriesHoo on 2017/8/7 21:41
- * Function:
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:25
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 欢迎页
+ * @Description:
  */
 public class SplashActivity extends FastTitleActivity {
 

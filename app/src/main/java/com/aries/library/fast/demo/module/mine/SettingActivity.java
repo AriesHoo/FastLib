@@ -26,11 +26,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * Created: AriesHoo on 2017/8/26 15:31
- * Function: 设置页
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:24
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 设置页
+ * @Description:
  */
-
 public class SettingActivity extends FastTitleActivity {
 
     @BindView(R.id.stv_activityAnimationSetting) SuperTextView stvActivityAnimation;

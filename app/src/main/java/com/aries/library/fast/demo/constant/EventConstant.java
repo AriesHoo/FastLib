@@ -1,9 +1,10 @@
 package com.aries.library.fast.demo.constant;
 
 /**
- * Created: AriesHoo on 2017/9/6 23:03
- * Function: EventBus常量
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:14
+ * @E-Mail: AriesHoo@126.com
+ * @Function: EventBus常量
+ * @Description:
  */
 public class EventConstant {
     public static final String EVENT_KEY_REFRESH_ACTIVITY_TAB = "EVENT_KEY_REFRESH_ACTIVITY_TAB";

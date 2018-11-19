@@ -3,6 +3,7 @@ package com.aries.library.fast.delegate;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.List;
  * Function: 主页tab代理类
  * Description:
  * 1、2018-7-20 17:15:08 修正获取子控件方法
+ * 2、2018-11-19 11:29:20 修正废弃 方法
  */
 public class FastMainTabDelegate {
 
@@ -69,9 +71,9 @@ public class FastMainTabDelegate {
             return;
         }
         mTabLayout.setBackgroundResource(R.color.colorTabBackground);
-        mTabLayout.setTextSelectColor(mContext.getResources().getColor(R.color.colorTabTextSelect));
-        mTabLayout.setTextUnselectColor(mContext.getResources().getColor(R.color.colorTabTextUnSelect));
-        mTabLayout.setUnderlineColor(mContext.getResources().getColor(R.color.colorTabUnderline));
+        mTabLayout.setTextSelectColor(ContextCompat.getColor(mContext,R.color.colorTabTextSelect));
+        mTabLayout.setTextUnselectColor(ContextCompat.getColor(mContext,R.color.colorTabTextUnSelect));
+        mTabLayout.setUnderlineColor(ContextCompat.getColor(mContext,R.color.colorTabUnderline));
         mTabLayout.setTextsize(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_text_size)));
         mTabLayout.setUnderlineGravity(Gravity.TOP);
         mTabLayout.setUnderlineHeight(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_underline)));

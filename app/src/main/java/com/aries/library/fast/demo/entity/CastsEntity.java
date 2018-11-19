@@ -3,11 +3,11 @@ package com.aries.library.fast.demo.entity;
 import java.io.Serializable;
 
 /**
- * Created: AriesHoo on 2017/8/25 16:43
- * Function: 电影演员实体
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:15
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 电影演员实体
+ * @Description:
  */
-
 public class CastsEntity implements Serializable {
     /**
      * alt : https://movie.douban.com/celebrity/1317646/

@@ -49,7 +49,7 @@
             android:name=".module.main.sample.ToastActivity"
             android:label="ToastUtil工具类示例"/>
         <activity
-            android:name=".module.main.sample.TestFragmentActivity"
+            android:name=".module.main.sample.SingleFragmentActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:label="Activity直接嵌套Fragment懒加载效果"/>
         <activity

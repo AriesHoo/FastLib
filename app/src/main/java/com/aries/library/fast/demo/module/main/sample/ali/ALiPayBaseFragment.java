@@ -7,11 +7,11 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.ui.view.title.TitleBarView;
 
-
 /**
- * Created: AriesHoo on 2017/8/5 23:06
- * Function: 支付宝-BaseFragment
- * Desc:
+ * @Author: AriesHoo on 2018/11/19 14:19
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 支付宝-BaseFragment
+ * @Description:
  */
 public abstract class ALiPayBaseFragment extends FastTitleFragment {
     String[] titles;

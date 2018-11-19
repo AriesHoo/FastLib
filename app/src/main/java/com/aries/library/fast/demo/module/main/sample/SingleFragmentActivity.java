@@ -10,12 +10,12 @@ import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.ui.view.title.TitleBarView;
 
 /**
- * Created: AriesHoo on 2017/11/28 14:42
- * E-Mail: AriesHoo@126.com
- * Function: Fragment单独嵌套--校验Fragment懒加载问题
- * Description:
+ * @Author: AriesHoo on 2018/11/19 14:22
+ * @E-Mail: AriesHoo@126.com
+ * @Function: Fragment单独嵌套--校验Fragment懒加载问题
+ * @Description:
  */
-public class TestFragmentActivity extends FastTitleActivity {
+public class SingleFragmentActivity extends FastTitleActivity {
     private Fragment mFragment;
 
     @Override
