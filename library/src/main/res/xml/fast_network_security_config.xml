@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--更改网络安全配置 允许明文传输(最佳方案是使用https)-->
+    <base-config cleartextTrafficPermitted="true"/>
+</network-security-config>

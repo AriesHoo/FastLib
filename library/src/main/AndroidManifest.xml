@@ -7,7 +7,7 @@
     <!--8.0开启安装应用权限-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
-    <application>
+    <application android:networkSecurityConfig="@xml/fast_network_security_config">
         <provider
             android:name=".FastFileProvider"
             android:authorities="${applicationId}.FastFileProvider"
@@ -17,5 +17,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fast_file_path"/>
         </provider>
+        <!--增加纵横比 全面屏适配-->
+        <meta-data android:name="android.max_aspect"  android:value="2.1"/>
     </application>
 </manifest>
