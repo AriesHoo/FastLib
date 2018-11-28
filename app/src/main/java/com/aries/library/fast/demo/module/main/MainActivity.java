@@ -1,6 +1,7 @@
 package com.aries.library.fast.demo.module.main;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
@@ -48,6 +49,17 @@ public class MainActivity extends FastMainActivity {
     public void setTabLayout(CommonTabLayout tabLayout) {
     }
 
+    @Override
+    public void beforeInitView(Bundle savedInstanceState) {
+        List<Fragment> list = new ArrayList<>();
+        try {
+            list = getSupportFragmentManager().getFragments();
+        } catch (Exception e) {
+        }
+        if (savedInstanceState == null || list == null || list.size() == 0) {
+            super.beforeInitView(savedInstanceState);
+        }
+    }
     @Override
     public void initView(Bundle savedInstanceState) {
         CheckVersionHelper.with(this)

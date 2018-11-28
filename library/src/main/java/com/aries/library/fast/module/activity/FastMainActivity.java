@@ -36,7 +36,7 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     @Override
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
-            mFastMainTabDelegate = new FastMainTabDelegate(mContentView, this, this);
+        mFastMainTabDelegate = new FastMainTabDelegate(mContentView, this, this);
     }
 
 

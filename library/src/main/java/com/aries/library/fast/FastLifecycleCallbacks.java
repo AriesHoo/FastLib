@@ -253,7 +253,8 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                     .setTransEnable(true)
                     .setTopView(topView);
             if (topView != null) {
-                statusViewHelper.setStatusLayoutDrawable(DrawableUtil.getNewDrawable(topView.getBackground()));
+                Drawable drawable = topView.getBackground().mutate();
+                statusViewHelper.setStatusLayoutDrawable(drawable);
             }
             boolean isInit = mActivityFragmentControl != null ? mActivityFragmentControl.setStatusBar(activity, statusViewHelper, topView) : true;
             if (isInit) {

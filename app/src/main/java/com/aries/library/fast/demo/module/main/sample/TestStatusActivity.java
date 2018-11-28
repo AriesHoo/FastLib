@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.aries.library.fast.demo.R;
+
 /**
  * @Author: AriesHoo on 2018/11/19 14:23
  * @E-Mail: AriesHoo@126.com

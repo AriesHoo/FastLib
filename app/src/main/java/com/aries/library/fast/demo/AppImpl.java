@@ -175,7 +175,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, FastR
      */
     @Override
     public void setRecyclerView(RecyclerView recyclerView, Class<?> cls) {
-        LoggerManager.i(TAG, "setRecyclerView-" + cls.getSimpleName()+"context:"+recyclerView.getContext() +";:"+(Activity.class.isAssignableFrom(recyclerView.getContext().getClass()))+";:"+(recyclerView.getContext() instanceof Activity));
+        LoggerManager.i(TAG, "setRecyclerView-" + cls.getSimpleName() + "context:" + recyclerView.getContext() + ";:" + (Activity.class.isAssignableFrom(recyclerView.getContext().getClass())) + ";:" + (recyclerView.getContext() instanceof Activity));
     }
 
     @Override
@@ -438,13 +438,27 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, FastR
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setTransEnable(isTrans(activity))
                 .setPlusNavigationViewEnable(isTrans(activity))
+                .setOnKeyboardVisibilityChangedListener(new KeyboardHelper.OnKeyboardVisibilityChangedListener() {
+                    @Override
+                    public boolean onKeyboardVisibilityChanged(Activity activity, boolean isOpen, int heightDiff, int navigationHeight) {
+                        LoggerManager.i("onKeyboardVisibilityChanged", "activity:" + activity + ";isOpen:" + isOpen + ";heightDiff:" + heightDiff + ";navigationHeight:" + navigationHeight);
+                        return false;
+                    }
+                })
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
                 .setNavigationLayoutColor(Color.WHITE);
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
-                    .setEnable();
+                    .setEnable()
+                    .setOnKeyboardVisibilityChangedListener(new KeyboardHelper.OnKeyboardVisibilityChangedListener() {
+                        @Override
+                        public boolean onKeyboardVisibilityChanged(Activity activity, boolean isOpen, int heightDiff, int navigationHeight) {
+                            LoggerManager.i("onKeyboardVisibilityChanged", "activity:" + activity + ";isOpen:" + isOpen + ";heightDiff:" + heightDiff + ";navigationHeight:" + navigationHeight);
+                            return false;
+                        }
+                    });
         }
         return isControlNavigation();
     }

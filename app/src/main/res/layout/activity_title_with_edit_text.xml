@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/lLayout_containerTestEdit"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingBottom="20dp">
 
     <include layout="@layout/fast_layout_title_bar"/>
 
@@ -25,6 +27,7 @@
                 android:id="@+id/et_bottomTitle"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"/>
+
             <View
                 android:id="@+id/v_bottom"
                 android:layout_width="match_parent"
@@ -32,4 +35,12 @@
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="我是底部-主要文字距离底部间距"
+        android:textColor="@color/colorTitleText"
+        android:textSize="16dp"/>
 </LinearLayout>
