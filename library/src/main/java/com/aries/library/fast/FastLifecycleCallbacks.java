@@ -35,6 +35,8 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Function: Activity/Fragment生命周期
  * Description:
  * 1、2018-7-2 09:29:54 新增继承{@link FastMainActivity}的Activity虚拟导航栏功能
+ * 2、2018-11-29 11:49:46 {@link #setStatusBar(Activity)}增加topView background 空判断
+ * 3、2018-11-29 11:50:58 {@link #onActivityDestroyed(Activity)} 出栈方法调用{@link FastStackUtil#pop(Activity, boolean)} 第二个参数设置为false避免因Activity状态切换进入生命周期造成状态无法保存问题
  */
 public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
 
@@ -133,7 +135,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     public void onActivityDestroyed(Activity activity) {
         getControl();
         LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
-        FastStackUtil.getInstance().pop(activity);
+        FastStackUtil.getInstance().pop(activity, false);
         //统一注销Fragment生命周期处理
         if (activity instanceof FragmentActivity) {
             FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
@@ -195,7 +197,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         final BGASwipeBackHelper swipeBackHelper = new BGASwipeBackHelper(activity, new BGASwipeBackHelper.Delegate() {
             @Override
             public boolean isSupportSwipeBack() {
-                return mSwipeBackControl!=null?mSwipeBackControl.isSwipeBackEnable(activity):true;
+                return mSwipeBackControl != null ? mSwipeBackControl.isSwipeBackEnable(activity) : true;
             }
 
             @Override
@@ -252,7 +254,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                     .setPlusStatusViewEnable(false)
                     .setTransEnable(true)
                     .setTopView(topView);
-            if (topView != null) {
+            if (topView != null && topView.getBackground() != null) {
                 Drawable drawable = topView.getBackground().mutate();
                 statusViewHelper.setStatusLayoutDrawable(drawable);
             }

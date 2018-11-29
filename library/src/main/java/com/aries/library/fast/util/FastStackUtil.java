@@ -1,6 +1,7 @@
 package com.aries.library.fast.util;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 import com.aries.library.fast.manager.LoggerManager;
 
@@ -13,6 +14,8 @@ import java.util.Stack;
  * Description:
  * 1、2018-6-21 09:49:11 新增根据class获取Activity方法
  * 2、2018-7-30 10:00:45 修改方法返回值
+ * 3、2018-11-29 11:44:16 新增{@link #pop(Activity, boolean)} 增加是否调用finish()方法参数,避免因Activity状态变换(如横竖屏切换)造成onActivityDestroyed时候切换回来状态无法保存
+ * 即:{@link Activity#onCreate(Bundle)} onCreate(Bundle savedInstanceState)  savedInstanceState对象为空-因为pop的时候已将其finish
  */
 public class FastStackUtil {
     private final String TAG = this.getClass().getSimpleName();
@@ -108,16 +111,21 @@ public class FastStackUtil {
         return sInstance;
     }
 
+    public FastStackUtil pop(Activity activity) {
+        return pop(activity, true);
+    }
+
     /**
      * 出栈
      *
      * @param activity Activity对象
+     * @param isFinish 是否关闭Activity 调用{@link Activity#finish()}--在生命周期onActivityDestroyed的时候建议传false不然Activity状态无法保存
+     * @return
      */
-    public FastStackUtil pop(Activity activity) {
+    public FastStackUtil pop(Activity activity, boolean isFinish) {
         if (activity != null) {
             LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
-            //只需在activity不在正在关闭状态下进行finish即可
-            if (!activity.isFinishing()) {
+            if (isFinish) {
                 activity.finish();
             }
             if (mActivityStack != null && mActivityStack.contains(activity)) {
