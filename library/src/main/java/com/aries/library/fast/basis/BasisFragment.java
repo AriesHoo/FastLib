@@ -44,6 +44,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected final String TAG = getClass().getSimpleName();
     protected boolean mIsVisibleChanged = false;
     private boolean mIsInViewPager;
+    protected Bundle mSavedInstanceState;
 
     @Override
     public boolean isEventBusEnable() {
@@ -74,6 +75,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.mSavedInstanceState = savedInstanceState;
         beforeSetContentView();
         mContentView = inflater.inflate(getContentLayout(), container, false);
         //解决StatusLayoutManager与SmartRefreshLayout冲突

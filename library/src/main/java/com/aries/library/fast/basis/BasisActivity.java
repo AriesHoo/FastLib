@@ -46,6 +46,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected View mContentView;
     protected Unbinder mUnBinder;
 
+    protected Bundle mSavedInstanceState;
     protected boolean mIsViewLoaded = false;
     protected boolean mIsFirstShow = true;
     protected boolean mIsFirstBack = true;
@@ -64,6 +65,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             EventBus.getDefault().register(this);
         }
         super.onCreate(savedInstanceState);
+        this.mSavedInstanceState = savedInstanceState;
         mContext = this;
         beforeSetContentView();
         mContentView = View.inflate(mContext, getContentLayout(), null);

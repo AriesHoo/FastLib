@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.main.MainActivity;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
@@ -34,6 +36,7 @@ public class SplashActivity extends FastTitleActivity {
 
     @Override
     public void beforeSetContentView() {
+        LoggerManager.i(TAG,"isTaskRoot:"+isTaskRoot()+";getCurrent:"+FastStackUtil.getInstance().getCurrent());
         //防止应用后台后点击桌面图标造成重启的假象---MIUI及Flyme上发现过(原生未发现)
         if (!isTaskRoot()) {
             finish();

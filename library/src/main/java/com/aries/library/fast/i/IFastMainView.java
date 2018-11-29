@@ -1,7 +1,10 @@
 package com.aries.library.fast.i;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import com.aries.library.fast.entity.FastTabEntity;
 import com.flyco.tablayout.CommonTabLayout;
@@ -31,6 +34,16 @@ public interface IFastMainView extends OnTabSelectListener {
      */
     @Nullable
     List<FastTabEntity> getTabList();
+
+    /**
+     * 获取onCreate 携带参数
+     * {@link android.app.Activity#onCreate(Bundle)}
+     * {@link com.aries.library.fast.module.activity.FastMainActivity#beforeInitView(Bundle)}
+     * {@link android.support.v4.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * {@link com.aries.library.fast.module.fragment.FastMainFragment#beforeInitView(Bundle)}
+     * @return
+     */
+    Bundle getSavedInstanceState();
 
     /**
      * 返回 CommonTabLayout  对象用于自定义设置

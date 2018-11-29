@@ -34,11 +34,18 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mFastMainTabDelegate != null) {
+            mFastMainTabDelegate.onSaveInstanceState(outState);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
         mFastMainTabDelegate = new FastMainTabDelegate(mContentView, this, this);
     }
-
 
     @Override
     public void onTabReselect(int position) {
@@ -47,7 +54,11 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
 
     @Override
     public void onTabSelect(int position) {
+    }
 
+    @Override
+    public Bundle getSavedInstanceState() {
+        return mSavedInstanceState;
     }
 
     @Override
