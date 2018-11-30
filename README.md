@@ -28,6 +28,18 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![](/apk/qr.png)
 
+## 录屏预览
+
+![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
+
+虚拟导航栏控制-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
+
+![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
+
+![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
+
+开启GPU过度绘制检测+GPU呈现模式分析
+
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 
 **Gradle集成-尽量使用正式版本**
@@ -196,18 +208,6 @@ dependencies {
         
 	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复
     
-	
-## 录屏预览
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
-
-虚拟导航栏控制-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
-
-开启GPU过度绘制检测+GPU呈现模式分析
 
 ## 鸣谢
 

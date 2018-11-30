@@ -1,8 +1,8 @@
 {
-	"versionCode": 230,
-	"versionName": "2.2.10-beta17",
+	"versionCode": 234,
+	"versionName": "2.2.10-beta21",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
-	"size": "3.82M",
-	"message": "\n1、新增:FastRecycleViewControl全局控制RecycleView相关属性\n2、升级:使用的三方库及插件进行部分重要性升级"
+	"size": "3.87M",
+	"message": "\n1、优化:软键盘控制帮助类KeyboardHelper增加对全面屏及导航栏可动态开关优化\n2、优化:优化TabLayout状态保存相应控制"
 }

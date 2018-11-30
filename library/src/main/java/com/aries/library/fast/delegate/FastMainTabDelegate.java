@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,7 @@ import android.view.ViewGroup;
 import com.aries.library.fast.R;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.i.IFastMainView;
-import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.manager.TabLayoutManager;
-import com.aries.library.fast.retrofit.FastObserver;
-import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.util.FindViewUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -97,17 +95,17 @@ public class FastMainTabDelegate {
             return;
         }
         mTabLayout.setBackgroundResource(R.color.colorTabBackground);
-        mTabLayout.setTextSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextSelect));
-        mTabLayout.setTextUnselectColor(ContextCompat.getColor(mContext, R.color.colorTabTextUnSelect));
-        mTabLayout.setUnderlineColor(ContextCompat.getColor(mContext, R.color.colorTabUnderline));
-        mTabLayout.setTextsize(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_text_size)));
-        mTabLayout.setUnderlineGravity(Gravity.TOP);
-        mTabLayout.setUnderlineHeight(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_underline)));
-        mTabLayout.setIconMargin(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_margin)));
-        mTabLayout.setIconWidth(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_icon)));
-        mTabLayout.setIconHeight(SizeUtil.px2dp(mContext.getResources().getDimension(R.dimen.dp_tab_icon)));
-        //设置指示器高度为0
-        mTabLayout.setIndicatorHeight(0);
+        mTabLayout.setTextSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextSelect))
+                .setTextUnSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextUnSelect))
+                .setUnderlineColor(ContextCompat.getColor(mContext, R.color.colorTabUnderline))
+                .setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))
+                .setUnderlineGravity(Gravity.TOP)
+                .setUnderlineHeight(mContext.getResources().getDimension(R.dimen.dp_tab_underline))
+                .setIconMargin(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_margin))
+                .setIconWidth(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_icon))
+                .setIconHeight(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_icon))
+                //设置指示器高度为0
+                .setIndicatorHeight(0);
         ViewGroup.LayoutParams params = mTabLayout.getLayoutParams();
         if (params != null) {
             params.height = mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_height);
@@ -195,10 +193,8 @@ public class FastMainTabDelegate {
      * 获取本地存储信息
      */
     private void getSaveState() {
-        int currentTab = 0;
         //从本地缓存获取
         if (mSavedInstanceState != null) {
-            currentTab = mSavedInstanceState.getInt(SAVED_INSTANCE_STATE_CURRENT_TAB);
             //先获取数量
             int size = mSavedInstanceState.getInt(SAVED_INSTANCE_STATE_FRAGMENT_NUMBER);
             if (size > 0) {
@@ -214,20 +210,6 @@ public class FastMainTabDelegate {
         //没有获取到
         if (mListFastTab == null || mListFastTab.size() == 0) {
             mListFastTab = mIFastMainView.getTabList();
-        } else {
-            mTabLayout.notifyDataSetChanged();
-            //控件内部错误需手动修正-待界面绘制完成再操作
-            if (currentTab != 0) {
-                final int finalCurrentTab = currentTab;
-                RxJavaManager.getInstance().setTimer(100)
-                        .subscribe(new FastObserver<Long>() {
-                            @Override
-                            public void _onNext(Long entity) {
-                                mTabLayout.setCurrentTab(0);
-                                mTabLayout.setCurrentTab(finalCurrentTab);
-                            }
-                        });
-            }
         }
     }
 }

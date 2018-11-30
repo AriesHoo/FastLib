@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.module.activity.FastMainActivity;
+import com.aries.library.fast.util.SizeUtil;
 import com.flyco.tablayout.CommonTabLayout;
 
 import java.util.ArrayList;
@@ -36,18 +37,12 @@ public class ALiPayMainActivity extends FastMainActivity {
 
     @Override
     public void setTabLayout(CommonTabLayout tabLayout) {
-        tabLayout.setTextsize(10);
-        tabLayout.setIconMargin(2);
-        tabLayout.setIconWidth(22);
-        tabLayout.setIconHeight(22);
-        tabLayout.setTextSelectColor(ContextCompat.getColor(mContext,R.color.colorMainAli));
+        tabLayout.setTextSize(10f)
+                .setIconMargin(SizeUtil.dp2px(2))
+                .setIconWidth(SizeUtil.dp2px(22))
+                .setIconHeight(SizeUtil.dp2px(22))
+                .setTextSelectColor(ContextCompat.getColor(mContext, R.color.colorMainAli));
     }
-
-//    @Override
-//    public void beforeControlNavigation(NavigationViewHelper navigationHelper) {
-//        super.beforeControlNavigation(navigationHelper);
-//        navigationHelper.setBottomView(mTabLayout);
-//    }
 
     @Override
     public void beforeInitView(Bundle savedInstanceState) {

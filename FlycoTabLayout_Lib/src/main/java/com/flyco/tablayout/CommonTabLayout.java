@@ -34,15 +34,26 @@ import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
 
-/** 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖 */
+/**
+ * @Author: AriesHoo on 2018/11/30 9:48
+ * @E-Mail: AriesHoo@126.com
+ * @Function: 没有继承HorizontalScrollView不能滑动, 对于ViewPager无依赖
+ * @Description: 1、2018-11-30 09:48:45 修改原作者在处理Activity状态回收后当前选中tab正确Fragment不正确问题{@link #onRestoreInstanceState(Parcelable)}
+ * 2、2018-11-30 10:07:38 修改参数方法拼写错误及java方法废弃部分错误拼写
+ * 3、2018-11-30 10:08:19 增加java方法回调值方便链式调用
+ * 4、2018年11月30日11:18:41 修改原作者 https://github.com/H07000223/FlycoTabLayout 选中粗体当初始化选中第一项不生效BUG
+ * * {@link #updateTabStyles()}
+ */
 public class CommonTabLayout extends FrameLayout implements ValueAnimator.AnimatorUpdateListener {
     private Context mContext;
-    private ArrayList<CustomTabEntity> mTabEntitys = new ArrayList<>();
+    private ArrayList<CustomTabEntity> mTabEntity = new ArrayList<>();
     private LinearLayout mTabsContainer;
     private int mCurrentTab;
     private int mLastTab;
     private int mTabCount;
-    /** 用于绘制显示器 */
+    /**
+     * 用于绘制显示器
+     */
     private Rect mIndicatorRect = new Rect();
     private GradientDrawable mIndicatorDrawable = new GradientDrawable();
 
@@ -59,7 +70,9 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private boolean mTabSpaceEqual;
     private float mTabWidth;
 
-    /** indicator */
+    /**
+     * indicator
+     */
     private int mIndicatorColor;
     private float mIndicatorHeight;
     private float mIndicatorWidth;
@@ -73,36 +86,47 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private boolean mIndicatorBounceEnable;
     private int mIndicatorGravity;
 
-    /** underline */
+    /**
+     * underline
+     */
     private int mUnderlineColor;
     private float mUnderlineHeight;
     private int mUnderlineGravity;
 
-    /** divider */
+    /**
+     * divider
+     */
     private int mDividerColor;
     private float mDividerWidth;
     private float mDividerPadding;
 
-    /** title */
+    /**
+     * title
+     */
     private static final int TEXT_BOLD_NONE = 0;
     private static final int TEXT_BOLD_WHEN_SELECT = 1;
     private static final int TEXT_BOLD_BOTH = 2;
-    private float mTextsize;
+    private int mTextSizeUnit = TypedValue.COMPLEX_UNIT_DIP;
+    private float mTextSize;
     private int mTextSelectColor;
-    private int mTextUnselectColor;
-    private int mTextBold;
+    private int mTextUnSelectColor;
+    private TextBold mTextBold;
     private boolean mTextAllCaps;
 
-    /** icon */
+    /**
+     * icon
+     */
     private boolean mIconVisible;
     private int mIconGravity;
-    private float mIconWidth;
-    private float mIconHeight;
-    private float mIconMargin;
+    private int mIconWidth;
+    private int mIconHeight;
+    private int mIconMargin;
 
     private int mHeight;
 
-    /** anim */
+    /**
+     * anim
+     */
     private ValueAnimator mValueAnimator;
     private OvershootInterpolator mInterpolator = new OvershootInterpolator(1.5f);
 
@@ -118,7 +142,8 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
 
     public CommonTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setWillNotDraw(false);//重写onDraw方法,需要调用这个方法来清除flag
+        //重写onDraw方法,需要调用这个方法来清除flag
+        setWillNotDraw(false);
         setClipChildren(false);
         setClipToPadding(false);
 
@@ -171,17 +196,17 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         mDividerWidth = ta.getDimension(R.styleable.CommonTabLayout_tl_divider_width, dp2px(0));
         mDividerPadding = ta.getDimension(R.styleable.CommonTabLayout_tl_divider_padding, dp2px(12));
 
-        mTextsize = ta.getDimension(R.styleable.CommonTabLayout_tl_textsize, sp2px(13f));
+        mTextSize = ta.getDimension(R.styleable.CommonTabLayout_tl_textsize, 14f);
         mTextSelectColor = ta.getColor(R.styleable.CommonTabLayout_tl_textSelectColor, Color.parseColor("#ffffff"));
-        mTextUnselectColor = ta.getColor(R.styleable.CommonTabLayout_tl_textUnselectColor, Color.parseColor("#AAffffff"));
-        mTextBold = ta.getInt(R.styleable.CommonTabLayout_tl_textBold, TEXT_BOLD_NONE);
+        mTextUnSelectColor = ta.getColor(R.styleable.CommonTabLayout_tl_textUnselectColor, Color.parseColor("#AAffffff"));
+        mTextBold = TextBold.valueOf(ta.getInt(R.styleable.CommonTabLayout_tl_textBold, TEXT_BOLD_NONE));
         mTextAllCaps = ta.getBoolean(R.styleable.CommonTabLayout_tl_textAllCaps, false);
 
         mIconVisible = ta.getBoolean(R.styleable.CommonTabLayout_tl_iconVisible, true);
         mIconGravity = ta.getInt(R.styleable.CommonTabLayout_tl_iconGravity, Gravity.TOP);
-        mIconWidth = ta.getDimension(R.styleable.CommonTabLayout_tl_iconWidth, dp2px(0));
-        mIconHeight = ta.getDimension(R.styleable.CommonTabLayout_tl_iconHeight, dp2px(0));
-        mIconMargin = ta.getDimension(R.styleable.CommonTabLayout_tl_iconMargin, dp2px(2.5f));
+        mIconWidth = ta.getDimensionPixelSize(R.styleable.CommonTabLayout_tl_iconWidth, dp2px(0));
+        mIconHeight = ta.getDimensionPixelSize(R.styleable.CommonTabLayout_tl_iconHeight, dp2px(0));
+        mIconMargin = ta.getDimensionPixelSize(R.styleable.CommonTabLayout_tl_iconMargin, dp2px(2.5f));
 
         mTabSpaceEqual = ta.getBoolean(R.styleable.CommonTabLayout_tl_tab_space_equal, true);
         mTabWidth = ta.getDimension(R.styleable.CommonTabLayout_tl_tab_width, dp2px(-1));
@@ -190,27 +215,32 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         ta.recycle();
     }
 
-    public void setTabData(ArrayList<CustomTabEntity> tabEntitys) {
-        if (tabEntitys == null || tabEntitys.size() == 0) {
-            throw new IllegalStateException("TabEntitys can not be NULL or EMPTY !");
+    public CommonTabLayout setTabData(ArrayList<CustomTabEntity> tabEntity) {
+        if (tabEntity == null || tabEntity.size() == 0) {
+            throw new IllegalStateException("TabEntity can not be NULL or EMPTY !");
         }
 
-        this.mTabEntitys.clear();
-        this.mTabEntitys.addAll(tabEntitys);
+        this.mTabEntity.clear();
+        this.mTabEntity.addAll(tabEntity);
 
         notifyDataSetChanged();
+        return this;
     }
 
-    /** 关联数据支持同时切换fragments */
-    public void setTabData(ArrayList<CustomTabEntity> tabEntitys, FragmentActivity fa, int containerViewId, ArrayList<Fragment> fragments) {
+    /**
+     * 关联数据支持同时切换fragments
+     */
+    public CommonTabLayout setTabData(ArrayList<CustomTabEntity> tabEntity, FragmentActivity fa, int containerViewId, ArrayList<Fragment> fragments) {
         mFragmentChangeManager = new FragmentChangeManager(fa.getSupportFragmentManager(), containerViewId, fragments);
-        setTabData(tabEntitys);
+        return setTabData(tabEntity);
     }
 
-    /** 更新数据 */
+    /**
+     * 更新数据
+     */
     public void notifyDataSetChanged() {
         mTabsContainer.removeAllViews();
-        this.mTabCount = mTabEntitys.size();
+        this.mTabCount = mTabEntity.size();
         View tabView;
         for (int i = 0; i < mTabCount; i++) {
             if (mIconGravity == Gravity.LEFT) {
@@ -226,16 +256,17 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             tabView.setTag(i);
             addTab(i, tabView);
         }
-
         updateTabStyles();
     }
 
-    /** 创建并添加tab */
+    /**
+     * 创建并添加tab
+     */
     private void addTab(final int position, View tabView) {
-        TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
-        tv_tab_title.setText(mTabEntitys.get(position).getTabTitle());
-        ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
-        iv_tab_icon.setImageResource(mTabEntitys.get(position).getTabUnselectedIcon());
+        TextView tv_tab_title = tabView.findViewById(R.id.tv_tab_title);
+        tv_tab_title.setText(mTabEntity.get(position).getTabTitle());
+        ImageView iv_tab_icon = tabView.findViewById(R.id.iv_tab_icon);
+        iv_tab_icon.setImageResource(mTabEntity.get(position).getTabUnselectedIcon());
 
         tabView.setOnClickListener(new OnClickListener() {
             @Override
@@ -268,38 +299,37 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         for (int i = 0; i < mTabCount; i++) {
             View tabView = mTabsContainer.getChildAt(i);
             tabView.setPadding((int) mTabPadding, 0, (int) mTabPadding, 0);
-            TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
-            tv_tab_title.setTextColor(i == mCurrentTab ? mTextSelectColor : mTextUnselectColor);
-            tv_tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextsize);
-//            tv_tab_title.setPadding((int) mTabPadding, 0, (int) mTabPadding, 0);
+            TextView tv_tab_title = tabView.findViewById(R.id.tv_tab_title);
+            tv_tab_title.setTextColor(i == mCurrentTab ? mTextSelectColor : mTextUnSelectColor);
+            tv_tab_title.setTextSize(mTextSizeUnit, mTextSize);
             if (mTextAllCaps) {
                 tv_tab_title.setText(tv_tab_title.getText().toString().toUpperCase());
             }
-
-            if (mTextBold == TEXT_BOLD_BOTH) {
+            if (mTextBold == TextBold.BOTH) {
                 tv_tab_title.getPaint().setFakeBoldText(true);
-            } else if (mTextBold == TEXT_BOLD_NONE) {
+            } else if (mTextBold == TextBold.SELECT) {
+                //增加-以修正原作者第一次选中粗体不生效问题
+                tv_tab_title.getPaint().setFakeBoldText(mCurrentTab == i);
+            } else {
                 tv_tab_title.getPaint().setFakeBoldText(false);
             }
-
-            ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
+            ImageView iv_tab_icon = tabView.findViewById(R.id.iv_tab_icon);
             if (mIconVisible) {
                 iv_tab_icon.setVisibility(View.VISIBLE);
-                CustomTabEntity tabEntity = mTabEntitys.get(i);
+                CustomTabEntity tabEntity = mTabEntity.get(i);
                 iv_tab_icon.setImageResource(i == mCurrentTab ? tabEntity.getTabSelectedIcon() : tabEntity.getTabUnselectedIcon());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        mIconWidth <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) mIconWidth,
-                        mIconHeight <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) mIconHeight);
+                        mIconWidth <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : mIconWidth,
+                        mIconHeight <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : mIconHeight);
                 if (mIconGravity == Gravity.LEFT) {
-                    lp.rightMargin = (int) mIconMargin;
+                    lp.rightMargin = mIconMargin;
                 } else if (mIconGravity == Gravity.RIGHT) {
-                    lp.leftMargin = (int) mIconMargin;
+                    lp.leftMargin = mIconMargin;
                 } else if (mIconGravity == Gravity.BOTTOM) {
-                    lp.topMargin = (int) mIconMargin;
+                    lp.topMargin = mIconMargin;
                 } else {
-                    lp.bottomMargin = (int) mIconMargin;
+                    lp.bottomMargin = mIconMargin;
                 }
-
                 iv_tab_icon.setLayoutParams(lp);
             } else {
                 iv_tab_icon.setVisibility(View.GONE);
@@ -311,12 +341,12 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         for (int i = 0; i < mTabCount; ++i) {
             View tabView = mTabsContainer.getChildAt(i);
             final boolean isSelect = i == position;
-            TextView tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
-            tab_title.setTextColor(isSelect ? mTextSelectColor : mTextUnselectColor);
-            ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
-            CustomTabEntity tabEntity = mTabEntitys.get(i);
+            TextView tab_title = tabView.findViewById(R.id.tv_tab_title);
+            tab_title.setTextColor(isSelect ? mTextSelectColor : mTextUnSelectColor);
+            ImageView iv_tab_icon = tabView.findViewById(R.id.iv_tab_icon);
+            CustomTabEntity tabEntity = mTabEntity.get(i);
             iv_tab_icon.setImageResource(isSelect ? tabEntity.getTabSelectedIcon() : tabEntity.getTabUnselectedIcon());
-            if (mTextBold == TEXT_BOLD_WHEN_SELECT) {
+            if (mTextBold == TextBold.SELECT) {
                 tab_title.getPaint().setFakeBoldText(isSelect);
             }
         }
@@ -330,9 +360,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         final View lastTabView = mTabsContainer.getChildAt(this.mLastTab);
         mLastP.left = lastTabView.getLeft();
         mLastP.right = lastTabView.getRight();
-
-//        Log.d("AAA", "mLastP--->" + mLastP.left + "&" + mLastP.right);
-//        Log.d("AAA", "mCurrentP--->" + mCurrentP.left + "&" + mCurrentP.right);
         if (mLastP.left == mCurrentP.left && mLastP.right == mCurrentP.right) {
             invalidate();
         } else {
@@ -340,7 +367,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             if (mIndicatorBounceEnable) {
                 mValueAnimator.setInterpolator(mInterpolator);
             }
-
             if (mIndicatorAnimDuration < 0) {
                 mIndicatorAnimDuration = mIndicatorBounceEnable ? 500 : 250;
             }
@@ -357,11 +383,10 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         mIndicatorRect.left = (int) left;
         mIndicatorRect.right = (int) right;
 
-        if (mIndicatorWidth < 0) {   //indicatorWidth小于0时,原jpardogo's PagerSlidingTabStrip
-
+        //indicatorWidth小于0时,原jpardogo's PagerSlidingTabStrip
+        if (mIndicatorWidth < 0) {
         } else {//indicatorWidth大于0时,圆角矩形以及三角形
             float indicatorLeft = currentTabView.getLeft() + (currentTabView.getWidth() - mIndicatorWidth) / 2;
-
             mIndicatorRect.left = (int) indicatorLeft;
             mIndicatorRect.right = (int) (mIndicatorRect.left + mIndicatorWidth);
         }
@@ -374,7 +399,8 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         mIndicatorRect.left = (int) p.left;
         mIndicatorRect.right = (int) p.right;
 
-        if (mIndicatorWidth < 0) {   //indicatorWidth小于0时,原jpardogo's PagerSlidingTabStrip
+        //indicatorWidth小于0时,原jpardogo's PagerSlidingTabStrip
+        if (mIndicatorWidth < 0) {
 
         } else {//indicatorWidth大于0时,圆角矩形以及三角形
             float indicatorLeft = p.left + (currentTabView.getWidth() - mIndicatorWidth) / 2;
@@ -458,11 +484,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
                 mIndicatorDrawable.draw(canvas);
             }
         } else {
-               /* mRectPaint.setColor(mIndicatorColor);
-                calcIndicatorRect();
-                canvas.drawRect(getPaddingLeft() + mIndicatorRect.left, getHeight() - mIndicatorHeight,
-                        mIndicatorRect.right + getPaddingLeft(), getHeight(), mRectPaint);*/
-
             if (mIndicatorHeight > 0) {
                 mIndicatorDrawable.setColor(mIndicatorColor);
                 if (mIndicatorGravity == Gravity.BOTTOM) {
@@ -482,8 +503,13 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         }
     }
 
-    //setter and getter
-    public void setCurrentTab(int currentTab) {
+    /**
+     * 设置当前选中Tab
+     *
+     * @param currentTab
+     * @return
+     */
+    public CommonTabLayout setCurrentTab(int currentTab) {
         mLastTab = this.mCurrentTab;
         this.mCurrentTab = currentTab;
         updateTabSelection(currentTab);
@@ -495,152 +521,292 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         } else {
             invalidate();
         }
+        return this;
     }
 
-    public void setIndicatorStyle(int indicatorStyle) {
+    public CommonTabLayout setIndicatorStyle(int indicatorStyle) {
         this.mIndicatorStyle = indicatorStyle;
         invalidate();
+        return this;
     }
 
-    public void setTabPadding(float tabPadding) {
-        this.mTabPadding = dp2px(tabPadding);
+    /**
+     * @param tabPadding
+     * @return
+     */
+    public CommonTabLayout setTabPadding(float tabPadding) {
+        return setTabPadding(dp2px(tabPadding));
+    }
+
+    /**
+     * 新增方法
+     *
+     * @param tabPadding
+     * @return
+     */
+    public CommonTabLayout setTabPadding(int tabPadding) {
+        this.mTabPadding = tabPadding;
         updateTabStyles();
+        return this;
     }
 
-    public void setTabSpaceEqual(boolean tabSpaceEqual) {
+    public CommonTabLayout setTabSpaceEqual(boolean tabSpaceEqual) {
         this.mTabSpaceEqual = tabSpaceEqual;
         updateTabStyles();
+        return this;
     }
 
-    public void setTabWidth(float tabWidth) {
-        this.mTabWidth = dp2px(tabWidth);
+    public CommonTabLayout setTabWidth(float tabWidth) {
+        return setTabWidth(dp2px(tabWidth));
+    }
+
+    /**
+     * 新增方法
+     *
+     * @param tabWidth
+     * @return
+     */
+    public CommonTabLayout setTabWidth(int tabWidth) {
+        this.mTabWidth = tabWidth;
         updateTabStyles();
+        return this;
     }
 
-    public void setIndicatorColor(int indicatorColor) {
+    public CommonTabLayout setIndicatorColor(int indicatorColor) {
         this.mIndicatorColor = indicatorColor;
         invalidate();
+        return this;
     }
 
-    public void setIndicatorHeight(float indicatorHeight) {
-        this.mIndicatorHeight = dp2px(indicatorHeight);
+    public CommonTabLayout setIndicatorHeight(float indicatorHeight) {
+        return setIndicatorHeight(dp2px(indicatorHeight));
+    }
+
+    /**
+     * 新增方法
+     *
+     * @param indicatorHeight
+     * @return
+     */
+    public CommonTabLayout setIndicatorHeight(int indicatorHeight) {
+        this.mIndicatorHeight = indicatorHeight;
         invalidate();
+        return this;
     }
 
-    public void setIndicatorWidth(float indicatorWidth) {
-        this.mIndicatorWidth = dp2px(indicatorWidth);
+    public CommonTabLayout setIndicatorWidth(float indicatorWidth) {
+        return setIndicatorWidth(dp2px(indicatorWidth));
+    }
+
+    /**
+     * 新增方法
+     *
+     * @param indicatorWidth
+     * @return
+     */
+    public CommonTabLayout setIndicatorWidth(int indicatorWidth) {
+        this.mIndicatorWidth = indicatorWidth;
         invalidate();
+        return this;
     }
 
-    public void setIndicatorCornerRadius(float indicatorCornerRadius) {
+    public CommonTabLayout setIndicatorCornerRadius(float indicatorCornerRadius) {
         this.mIndicatorCornerRadius = dp2px(indicatorCornerRadius);
         invalidate();
+        return this;
     }
 
-    public void setIndicatorGravity(int indicatorGravity) {
+    public CommonTabLayout setIndicatorGravity(int indicatorGravity) {
         this.mIndicatorGravity = indicatorGravity;
         invalidate();
+        return this;
     }
 
-    public void setIndicatorMargin(float indicatorMarginLeft, float indicatorMarginTop,
-                                   float indicatorMarginRight, float indicatorMarginBottom) {
-        this.mIndicatorMarginLeft = dp2px(indicatorMarginLeft);
-        this.mIndicatorMarginTop = dp2px(indicatorMarginTop);
-        this.mIndicatorMarginRight = dp2px(indicatorMarginRight);
-        this.mIndicatorMarginBottom = dp2px(indicatorMarginBottom);
+    public CommonTabLayout setIndicatorMargin(float indicatorMarginLeft, float indicatorMarginTop,
+                                              float indicatorMarginRight, float indicatorMarginBottom) {
+        return setIndicatorMargin(dp2px(indicatorMarginLeft), dp2px(indicatorMarginTop), dp2px(indicatorMarginRight), dp2px(indicatorMarginBottom));
+    }
+
+    /**
+     * 新增方法
+     *
+     * @param indicatorMarginLeft
+     * @param indicatorMarginTop
+     * @param indicatorMarginRight
+     * @param indicatorMarginBottom
+     * @return
+     */
+    public CommonTabLayout setIndicatorMargin(int indicatorMarginLeft, int indicatorMarginTop,
+                                              int indicatorMarginRight, int indicatorMarginBottom) {
+        this.mIndicatorMarginLeft = indicatorMarginLeft;
+        this.mIndicatorMarginTop = indicatorMarginTop;
+        this.mIndicatorMarginRight = indicatorMarginRight;
+        this.mIndicatorMarginBottom = indicatorMarginBottom;
         invalidate();
+        return this;
     }
 
-    public void setIndicatorAnimDuration(long indicatorAnimDuration) {
+    public CommonTabLayout setIndicatorAnimDuration(long indicatorAnimDuration) {
         this.mIndicatorAnimDuration = indicatorAnimDuration;
+        return this;
     }
 
-    public void setIndicatorAnimEnable(boolean indicatorAnimEnable) {
+    public CommonTabLayout setIndicatorAnimEnable(boolean indicatorAnimEnable) {
         this.mIndicatorAnimEnable = indicatorAnimEnable;
+        return this;
     }
 
-    public void setIndicatorBounceEnable(boolean indicatorBounceEnable) {
+    public CommonTabLayout setIndicatorBounceEnable(boolean indicatorBounceEnable) {
         this.mIndicatorBounceEnable = indicatorBounceEnable;
+        return this;
     }
 
-    public void setUnderlineColor(int underlineColor) {
+    public CommonTabLayout setUnderlineColor(int underlineColor) {
         this.mUnderlineColor = underlineColor;
         invalidate();
+        return this;
     }
 
-    public void setUnderlineHeight(float underlineHeight) {
-        this.mUnderlineHeight = dp2px(underlineHeight);
+    public CommonTabLayout setUnderlineHeight(float underlineHeight) {
+        this.mUnderlineHeight = underlineHeight;
         invalidate();
+        return this;
     }
 
-    public void setUnderlineGravity(int underlineGravity) {
+    public CommonTabLayout setUnderlineGravity(int underlineGravity) {
         this.mUnderlineGravity = underlineGravity;
         invalidate();
+        return this;
     }
 
-    public void setDividerColor(int dividerColor) {
+    public CommonTabLayout setDividerColor(int dividerColor) {
         this.mDividerColor = dividerColor;
         invalidate();
+        return this;
     }
 
-    public void setDividerWidth(float dividerWidth) {
-        this.mDividerWidth = dp2px(dividerWidth);
+    public CommonTabLayout setDividerWidth(float dividerWidth) {
+        this.mDividerWidth = dividerWidth;
         invalidate();
+        return this;
     }
 
-    public void setDividerPadding(float dividerPadding) {
-        this.mDividerPadding = dp2px(dividerPadding);
+    public CommonTabLayout setDividerPadding(float dividerPadding) {
+        this.mDividerPadding = dividerPadding;
         invalidate();
+        return this;
     }
 
-    public void setTextsize(float textsize) {
-        this.mTextsize = sp2px(textsize);
+    /**
+     * 设置文字尺寸 --新增
+     *
+     * @param textSizeUnit 单位 {@link TypedValue}
+     * @param textSize
+     * @return
+     */
+    public CommonTabLayout setTextSize(int textSizeUnit, float textSize) {
+        this.mTextSize = textSize;
+        this.mTextSizeUnit = textSizeUnit;
         updateTabStyles();
+        return this;
     }
 
-    public void setTextSelectColor(int textSelectColor) {
+    /**
+     * @param textSize
+     * @return
+     */
+    public CommonTabLayout setTextSize(float textSize) {
+        return setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+    }
+
+    public CommonTabLayout setTextSelectColor(int textSelectColor) {
         this.mTextSelectColor = textSelectColor;
         updateTabStyles();
+        return this;
     }
 
-    public void setTextUnselectColor(int textUnselectColor) {
-        this.mTextUnselectColor = textUnselectColor;
+    /**
+     * 新增
+     *
+     * @param textColor
+     * @return
+     */
+    public CommonTabLayout setTextUnSelectColor(int textColor) {
+        this.mTextUnSelectColor = textColor;
         updateTabStyles();
+        return this;
     }
 
-    public void setTextBold(int textBold) {
+    public CommonTabLayout setTextBold(TextBold textBold) {
         this.mTextBold = textBold;
         updateTabStyles();
+        return this;
     }
 
-    public void setIconVisible(boolean iconVisible) {
+    public CommonTabLayout setIconVisible(boolean iconVisible) {
         this.mIconVisible = iconVisible;
         updateTabStyles();
+        return this;
     }
 
-    public void setIconGravity(int iconGravity) {
+    public CommonTabLayout setIconGravity(int iconGravity) {
         this.mIconGravity = iconGravity;
         notifyDataSetChanged();
+        return this;
     }
 
-    public void setIconWidth(float iconWidth) {
-        this.mIconWidth = dp2px(iconWidth);
+    /**
+     * 新增设置icon宽度
+     *
+     * @param iconWidth
+     * @return
+     */
+    public CommonTabLayout setIconWidth(int iconWidth) {
+        this.mIconWidth = iconWidth;
         updateTabStyles();
+        return this;
     }
 
-    public void setIconHeight(float iconHeight) {
-        this.mIconHeight = dp2px(iconHeight);
+    public CommonTabLayout setIconWidth(float iconWidth) {
+        return setIconWidth(dp2px(iconWidth));
+    }
+
+    /**
+     * 新增设置icon 高度
+     *
+     * @param iconHeight
+     * @return
+     */
+    public CommonTabLayout setIconHeight(int iconHeight) {
+        this.mIconHeight = iconHeight;
         updateTabStyles();
+        return this;
     }
 
-    public void setIconMargin(float iconMargin) {
-        this.mIconMargin = dp2px(iconMargin);
+    public CommonTabLayout setIconHeight(float iconHeight) {
+        return setIconHeight(dp2px(iconHeight));
+    }
+
+    /**
+     * 新增设置icon间margin方法
+     *
+     * @param iconMargin
+     * @return
+     */
+    public CommonTabLayout setIconMargin(int iconMargin) {
+        this.mIconMargin = iconMargin;
         updateTabStyles();
+        return this;
     }
 
-    public void setTextAllCaps(boolean textAllCaps) {
+    public CommonTabLayout setIconMargin(float iconMargin) {
+        return setIconMargin(dp2px(iconMargin));
+    }
+
+    public CommonTabLayout setTextAllCaps(boolean textAllCaps) {
         this.mTextAllCaps = textAllCaps;
         updateTabStyles();
+        return this;
     }
 
 
@@ -732,8 +898,11 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         return mDividerPadding;
     }
 
-    public float getTextsize() {
-        return mTextsize;
+    /**
+     * @return
+     */
+    public float getTextSize() {
+        return mTextSize;
     }
 
     public int getTextSelectColor() {
@@ -741,10 +910,10 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     }
 
     public int getTextUnselectColor() {
-        return mTextUnselectColor;
+        return mTextUnSelectColor;
     }
 
-    public int getTextBold() {
+    public TextBold getTextBold() {
         return mTextBold;
     }
 
@@ -775,20 +944,23 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
 
     public ImageView getIconView(int tab) {
         View tabView = mTabsContainer.getChildAt(tab);
-        ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
+        ImageView iv_tab_icon = tabView.findViewById(R.id.iv_tab_icon);
         return iv_tab_icon;
     }
 
     public TextView getTitleView(int tab) {
         View tabView = mTabsContainer.getChildAt(tab);
-        TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
+        TextView tv_tab_title = tabView.findViewById(R.id.tv_tab_title);
         return tv_tab_title;
     }
 
     //setter and getter
 
-    // show MsgTipView
+    /**
+     * show MsgTipView
+     */
     private Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
     private SparseArray<Boolean> mInitSetMap = new SparseArray<>();
 
     /**
@@ -797,18 +969,18 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
      * @param position 显示tab位置
      * @param num      num小于等于0显示红点,num大于0显示数字
      */
-    public void showMsg(int position, int num) {
+    public CommonTabLayout showMsg(int position, int num) {
         if (position >= mTabCount) {
             position = mTabCount - 1;
         }
 
         View tabView = mTabsContainer.getChildAt(position);
-        MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
+        MsgView tipView = tabView.findViewById(R.id.rtv_msg_tip);
         if (tipView != null) {
             UnreadMsgUtils.show(tipView, num);
 
             if (mInitSetMap.get(position) != null && mInitSetMap.get(position)) {
-                return;
+                return this;
             }
 
             if (!mIconVisible) {
@@ -820,6 +992,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
 
             mInitSetMap.put(position, true);
         }
+        return this;
     }
 
     /**
@@ -827,39 +1000,46 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
      *
      * @param position 显示tab位置
      */
-    public void showDot(int position) {
+    public CommonTabLayout showDot(int position) {
         if (position >= mTabCount) {
             position = mTabCount - 1;
         }
-        showMsg(position, 0);
+        return showMsg(position, 0);
     }
 
-    public void hideMsg(int position) {
+    public CommonTabLayout hideMsg(int position) {
         if (position >= mTabCount) {
             position = mTabCount - 1;
         }
 
         View tabView = mTabsContainer.getChildAt(position);
-        MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
+        MsgView tipView = tabView.findViewById(R.id.rtv_msg_tip);
         if (tipView != null) {
             tipView.setVisibility(View.GONE);
         }
+        return this;
     }
 
     /**
+     * 新增方法
      * 设置提示红点偏移,注意
      * 1.控件为固定高度:参照点为tab内容的右上角
      * 2.控件高度不固定(WRAP_CONTENT):参照点为tab内容的右上角,此时高度已是红点的最高显示范围,所以这时bottomPadding其实就是topPadding
+     *
+     * @param position
+     * @param leftPadding
+     * @param bottomPadding
+     * @return
      */
-    public void setMsgMargin(int position, float leftPadding, float bottomPadding) {
+    public CommonTabLayout setMsgMargin(int position, int leftPadding, int bottomPadding) {
         if (position >= mTabCount) {
             position = mTabCount - 1;
         }
         View tabView = mTabsContainer.getChildAt(position);
-        MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
+        MsgView tipView = tabView.findViewById(R.id.rtv_msg_tip);
         if (tipView != null) {
-            TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
-            mTextPaint.setTextSize(mTextsize);
+            TextView tv_tab_title = tabView.findViewById(R.id.tv_tab_title);
+            mTextPaint.setTextSize(mTextSize);
             float textWidth = mTextPaint.measureText(tv_tab_title.getText().toString());
             float textHeight = mTextPaint.descent() - mTextPaint.ascent();
             MarginLayoutParams lp = (MarginLayoutParams) tipView.getLayoutParams();
@@ -868,7 +1048,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             float margin = 0;
             if (mIconVisible) {
                 if (iconH <= 0) {
-                    iconH = mContext.getResources().getDrawable(mTabEntitys.get(position).getTabSelectedIcon()).getIntrinsicHeight();
+                    iconH = mContext.getResources().getDrawable(mTabEntity.get(position).getTabSelectedIcon()).getIntrinsicHeight();
                 }
                 margin = mIconMargin;
             }
@@ -883,15 +1063,22 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
 
             tipView.setLayoutParams(lp);
         }
+        return this;
     }
 
-    /** 当前类只提供了少许设置未读消息属性的方法,可以通过该方法获取MsgView对象从而各种设置 */
+    public CommonTabLayout setMsgMargin(int position, float leftPadding, float bottomPadding) {
+        return setMsgMargin(position, dp2px(leftPadding), dp2px(bottomPadding));
+    }
+
+    /**
+     * 当前类只提供了少许设置未读消息属性的方法,可以通过该方法获取MsgView对象从而各种设置
+     */
     public MsgView getMsgView(int position) {
         if (position >= mTabCount) {
             position = mTabCount - 1;
         }
         View tabView = mTabsContainer.getChildAt(position);
-        MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
+        MsgView tipView = tabView.findViewById(R.id.rtv_msg_tip);
         return tipView;
     }
 
@@ -917,8 +1104,10 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             mCurrentTab = bundle.getInt("mCurrentTab");
             state = bundle.getParcelable("instanceState");
             if (mCurrentTab != 0 && mTabsContainer.getChildCount() > 0) {
-                updateTabSelection(mCurrentTab);
+                //updateTabSelection(mCurrentTab); 原作者恢复状态时未将Fragment选中CurrentTab
+                setCurrentTab(mCurrentTab);
             }
+
         }
         super.onRestoreInstanceState(state);
     }
@@ -942,7 +1131,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             return point;
         }
     }
-
 
     protected int dp2px(float dp) {
         final float scale = mContext.getResources().getDisplayMetrics().density;
