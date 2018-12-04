@@ -25,7 +25,6 @@ public class SubjectMovieAdapter extends BaseItemTouchQuickAdapter<SubjectsEntit
     public SubjectMovieAdapter(boolean isShowTop) {
         super(R.layout.item_subject_movie);
         this.isShowTop = isShowTop;
-        LoggerManager.i("isShowTop", "isShowTop1:" + isShowTop);
     }
 
     @Override
@@ -41,10 +40,5 @@ public class SubjectMovieAdapter extends BaseItemTouchQuickAdapter<SubjectsEntit
         labelView.setText("Top" + (helper.getLayoutPosition() + 1));
         labelView.setVisibility(isShowTop ? View.VISIBLE : View.GONE);
         RadiusViewHelper.getInstance().setRadiusViewAdapter(((RadiusRelativeLayout) helper.itemView).getDelegate());
-    }
-
-    public SubjectMovieAdapter setShowTop(boolean enable) {
-        isShowTop = enable;
-        return this;
     }
 }

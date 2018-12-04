@@ -64,7 +64,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public BaseQuickAdapter<SubjectsEntity, BaseViewHolder> getAdapter() {
-        mAdapter = new SubjectMovieAdapter(mUrl == ApiConstant.API_MOVIE_TOP);
+        mAdapter = new SubjectMovieAdapter(ApiConstant.API_MOVIE_TOP.equals(mUrl));
         changeAdapterAnimation(0);
         changeAdapterAnimationAlways(true);
         return mAdapter;
@@ -109,22 +109,14 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void loadData(int page) {
-//        if (ApiConstant.API_MOVIE_TOP.equals(mUrl)) {
-//            FastRetrofit.getInstance().setBaseUrl("http://www.baidu.com/");
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("test", "test");
-//            FastRetrofit.getInstance()
-//                    .addHeader(map)
-//                    .addHeader("ht", "ht");
-//        }
-        mDefaultPageSize = 15;//接口最大支持单页100
+        //接口最大支持单页100
+        mDefaultPageSize = 15;
         ApiRepository.getInstance().getMovie(mUrl, page * mDefaultPage, mDefaultPageSize)
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(new FastObserver<BaseMovieEntity>(getIHttpRequestControl()) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
                         LoggerManager.i("url:" + mUrl);
-                        ((SubjectMovieAdapter) mAdapter).setShowTop(mUrl == ApiConstant.API_MOVIE_TOP);
                         mStatusManager.showSuccessLayout();
                         FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity == null || entity.subjects == null ? new ArrayList<>() : entity.subjects, null);
                     }
