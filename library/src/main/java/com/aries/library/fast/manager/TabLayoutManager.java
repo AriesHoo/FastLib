@@ -8,11 +8,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.SegmentTabLayout;
-import com.flyco.tablayout.SlidingTabLayout;
-import com.flyco.tablayout.listener.CustomTabEntity;
-import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.aries.ui.view.tab.CommonTabLayout;
+import com.aries.ui.view.tab.SegmentTabLayout;
+import com.aries.ui.view.tab.SlidingTabLayout;
+import com.aries.ui.view.tab.listener.CustomTabEntity;
+import com.aries.ui.view.tab.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;

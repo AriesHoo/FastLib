@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.flyco.tablayout.SegmentTabLayout
+    <com.aries.ui.view.tab.SegmentTabLayout
         android:id="@+id/tabLayout_segment"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
@@ -21,7 +21,7 @@
         app:tl_tab_padding="15dp"
         app:tl_tab_space_equal="false"
         app:tl_textSelectColor="@color/colorTabTextSelect"
-        app:tl_textUnselectColor="@color/colorTabTextUnSelect"
-        app:tl_textsize="14dp"/>
+        app:tl_textUnSelectColor="@color/colorTabTextUnSelect"
+        app:tl_textSize="14dp"/>
 
 </FrameLayout>

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.aries.library.fast.FastManager;
-import com.flyco.tablayout.listener.CustomTabEntity;
+import com.aries.ui.view.tab.listener.CustomTabEntity;
 
 /**
  * @Author: AriesHoo on 2018/7/16 9:16

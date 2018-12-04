@@ -1,8 +1,8 @@
 {
-	"versionCode": 234,
-	"versionName": "2.2.10-beta21",
+	"versionCode": 235,
+	"versionName": "2.2.10-beta22",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
-	"size": "3.87M",
-	"message": "\n1、优化:软键盘控制帮助类KeyboardHelper增加对全面屏及导航栏可动态开关优化\n2、优化:优化TabLayout状态保存相应控制"
+	"size": "3.77M",
+	"message": "\n1、优化:软键盘控制帮助类KeyboardHelper增加对全面屏及导航栏可动态开关优化\n2、优化:将TabLayout Fork下来以远程方式加载"
 }

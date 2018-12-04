@@ -7,8 +7,9 @@ import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.entity.FastTabEntity;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
-import com.flyco.tablayout.CommonTabLayout;
+import com.aries.ui.view.tab.CommonTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,4 +60,9 @@ public class MainActivity extends FastMainActivity {
                 .checkVersion(false);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoggerManager.i(TAG,"onDestroy");
+    }
 }

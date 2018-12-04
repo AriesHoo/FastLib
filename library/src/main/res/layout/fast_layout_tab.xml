@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.flyco.tablayout.CommonTabLayout
+<com.aries.ui.view.tab.CommonTabLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tabLayout_commonFastLib"
     android:layout_width="match_parent"

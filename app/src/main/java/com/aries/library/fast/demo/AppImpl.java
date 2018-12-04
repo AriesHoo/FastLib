@@ -438,13 +438,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, FastR
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setTransEnable(isTrans(activity))
                 .setPlusNavigationViewEnable(isTrans(activity))
-                .setOnKeyboardVisibilityChangedListener(new KeyboardHelper.OnKeyboardVisibilityChangedListener() {
-                    @Override
-                    public boolean onKeyboardVisibilityChanged(Activity activity, boolean isOpen, int heightDiff, int navigationHeight) {
-                        LoggerManager.i("onKeyboardVisibilityChanged", "activity:" + activity + ";isOpen:" + isOpen + ";heightDiff:" + heightDiff + ";navigationHeight:" + navigationHeight);
-                        return false;
-                    }
-                })
+                .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener)
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
@@ -452,16 +446,16 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, FastR
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
                     .setEnable()
-                    .setOnKeyboardVisibilityChangedListener(new KeyboardHelper.OnKeyboardVisibilityChangedListener() {
-                        @Override
-                        public boolean onKeyboardVisibilityChanged(Activity activity, boolean isOpen, int heightDiff, int navigationHeight) {
-                            LoggerManager.i("onKeyboardVisibilityChanged", "activity:" + activity + ";isOpen:" + isOpen + ";heightDiff:" + heightDiff + ";navigationHeight:" + navigationHeight);
-                            return false;
-                        }
-                    });
+                    .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener);
         }
         return isControlNavigation();
     }
+
+    private KeyboardHelper.OnKeyboardVisibilityChangedListener mOnKeyboardVisibilityChangedListener = (activity, isOpen, heightDiff, navigationHeight) -> {
+        View mContent = FastUtil.getRootView(activity);
+        LoggerManager.i("onKeyboardVisibilityChanged", "activity:" + activity + ";isOpen:" + isOpen + ";heightDiff:" + heightDiff + ";navigationHeight:" + navigationHeight);
+        return false;
+    };
 
     /**
      * Activity 生命周期监听--可用于三方统计页面数据
@@ -719,6 +713,6 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot, FastR
      */
     private boolean isControlNavigation() {
         LoggerManager.i(TAG, "mode:" + Build.MODEL);
-        return !(RomUtil.isMIUI());
+        return true;
     }
 }

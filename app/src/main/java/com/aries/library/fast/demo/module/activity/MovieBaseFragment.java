@@ -1,5 +1,6 @@
 package com.aries.library.fast.demo.module.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -122,6 +123,8 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                 .subscribe(new FastObserver<BaseMovieEntity>(getIHttpRequestControl()) {
                     @Override
                     public void _onNext(BaseMovieEntity entity) {
+                        LoggerManager.i("url:" + mUrl);
+                        ((SubjectMovieAdapter) mAdapter).setShowTop(mUrl == ApiConstant.API_MOVIE_TOP);
                         mStatusManager.showSuccessLayout();
                         FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity == null || entity.subjects == null ? new ArrayList<>() : entity.subjects, null);
                     }
@@ -164,6 +167,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 //        };
 //    }
 
+    @SuppressLint("WrongConstant")
     @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION)
     public void changeAdapterAnimation(int index) {
         if (mAdapter != null) {

@@ -24,7 +24,7 @@ import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.RomUtil;
-import com.flyco.tablayout.CommonTabLayout;
+import com.aries.ui.view.tab.CommonTabLayout;
 
 import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;

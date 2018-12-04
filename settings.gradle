@@ -1,1 +1,1 @@
-include ':app', ':library', ':FlycoTabLayout_Lib'
+include ':app', ':library'

@@ -17,8 +17,8 @@ import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.flyco.tablayout.SegmentTabLayout;
-import com.flyco.tablayout.SlidingTabLayout;
+import com.aries.ui.view.tab.SegmentTabLayout;
+import com.aries.ui.view.tab.SlidingTabLayout;
 
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;

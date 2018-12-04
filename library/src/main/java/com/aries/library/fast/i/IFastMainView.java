@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.entity.FastTabEntity;
-import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.aries.ui.view.tab.CommonTabLayout;
+import com.aries.ui.view.tab.listener.OnTabSelectListener;
 
 import java.util.List;
 

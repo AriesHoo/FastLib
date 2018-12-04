@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.flyco.tablayout.SlidingTabLayout
+    <com.aries.ui.view.tab.SlidingTabLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tabLayout_slidingActivity"
         android:layout_width="match_parent"
@@ -18,6 +18,6 @@
         app:tl_tab_space_equal="true"
         app:tl_textBold="SELECT"
         app:tl_textSelectColor="@color/colorTabTextSelect"
-        app:tl_textUnselectColor="@color/colorTabTextUnSelect"
-        app:tl_textsize="16dp"/>
+        app:tl_textUnSelectColor="@color/colorTabTextUnSelect"
+        app:tl_textSize="16dp"/>
 </LinearLayout>

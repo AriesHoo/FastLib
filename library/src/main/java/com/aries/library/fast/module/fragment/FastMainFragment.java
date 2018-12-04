@@ -8,7 +8,7 @@ import com.aries.library.fast.R;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastMainTabDelegate;
 import com.aries.library.fast.i.IFastMainView;
-import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.aries.ui.view.tab.listener.OnTabSelectListener;
 
 /**
  * @Author: AriesHoo on 2018/7/23 11:27

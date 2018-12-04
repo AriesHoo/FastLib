@@ -12,7 +12,7 @@ import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.flyco.tablayout.SlidingTabLayout;
+import com.aries.ui.view.tab.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;

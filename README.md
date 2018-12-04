@@ -126,7 +126,7 @@ dependencies {
         //滑动返回Activity
         api 'cn.bingoogolapple:bga-swipebacklayout:1.1.8@aar'
         //快速Tab库
-        api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+        api 'com.aries.ui.view.tab:FlycoTabLayout_Lib:2.1.2@aar'
         //页面事件交互
         api 'org.simple:androideventbus:1.0.5.1'
         //多状态视图切换

@@ -17,8 +17,8 @@ import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.i.IFastMainView;
 import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.ui.util.FindViewUtil;
-import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.listener.CustomTabEntity;
+import com.aries.ui.view.tab.CommonTabLayout;
+import com.aries.ui.view.tab.listener.CustomTabEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +95,8 @@ public class FastMainTabDelegate {
             return;
         }
         mTabLayout.setBackgroundResource(R.color.colorTabBackground);
-        mTabLayout.setTextSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextSelect))
+        mTabLayout.getDelegate()
+                .setTextSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextSelect))
                 .setTextUnSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextUnSelect))
                 .setUnderlineColor(ContextCompat.getColor(mContext, R.color.colorTabUnderline))
                 .setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))

@@ -8,6 +8,7 @@ import com.aries.library.fast.demo.base.BaseItemTouchViewHolder;
 import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.helper.RadiusViewHelper;
 import com.aries.library.fast.manager.GlideManager;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.view.radius.RadiusRelativeLayout;
 import com.flyco.labelview.LabelView;
 
@@ -19,15 +20,17 @@ import com.flyco.labelview.LabelView;
  */
 public class SubjectMovieAdapter extends BaseItemTouchQuickAdapter<SubjectsEntity, BaseItemTouchViewHolder> {
 
-    boolean isShowTop = false;
+    boolean isShowTop;
 
     public SubjectMovieAdapter(boolean isShowTop) {
         super(R.layout.item_subject_movie);
         this.isShowTop = isShowTop;
+        LoggerManager.i("isShowTop", "isShowTop1:" + isShowTop);
     }
 
     @Override
     protected void convert(BaseItemTouchViewHolder helper, SubjectsEntity item) {
+        LoggerManager.i("isShowTop", "isShowTop:" + isShowTop);
         helper.setText(R.id.tv_titleMovie, item.title)
                 .setText(R.id.tv_typeMovie, "题材:" + item.getGenres())
                 .setText(R.id.tv_yearMovie, "年份:" + item.year)
@@ -40,4 +43,8 @@ public class SubjectMovieAdapter extends BaseItemTouchQuickAdapter<SubjectsEntit
         RadiusViewHelper.getInstance().setRadiusViewAdapter(((RadiusRelativeLayout) helper.itemView).getDelegate());
     }
 
+    public SubjectMovieAdapter setShowTop(boolean enable) {
+        isShowTop = enable;
+        return this;
+    }
 }
