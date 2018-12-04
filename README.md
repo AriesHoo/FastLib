@@ -87,11 +87,11 @@ implementation project(':fastLib')
 **包含第三方库**
 
 ```
-    compileSdkVersion = 27
-    buildToolsVersion = "27.0.2"
-    minSdkVersion = 15
-    targetSdkVersion = 27
-    supportVersion = "27.0.2"
+    compileSdkVersion = 28
+    buildToolsVersion = "28.0.3"
+    minSdkVersion = 21
+    targetSdkVersion = 28
+    supportVersion = "28.0.0"
 ```
 
 ```
@@ -126,7 +126,7 @@ dependencies {
         //滑动返回Activity
         api 'cn.bingoogolapple:bga-swipebacklayout:1.1.8@aar'
         //快速Tab库
-        api 'com.aries.ui.view.tab:FlycoTabLayout_Lib:2.1.2@aar'
+        api 'com.github.AriesHoo:TabLayout:1.0.1'
         //页面事件交互
         api 'org.simple:androideventbus:1.0.5.1'
         //多状态视图切换
