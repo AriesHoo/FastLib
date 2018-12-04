@@ -6,6 +6,10 @@ import android.os.Build;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.constant.ApiConstant;
+import com.aries.library.fast.demo.impl.ActivityControlImpl;
+import com.aries.library.fast.demo.impl.AppImpl;
+import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
+import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.SizeUtil;
@@ -20,7 +24,7 @@ import com.umeng.analytics.MobclickAgent;
 public class App extends Application {
 
     private static Context mContext;
-    private String TAG = "FastLib";
+    private static String TAG = "FastLib";
     private static int imageHeight = 0;
     private long start;
 
@@ -38,6 +42,7 @@ public class App extends Application {
         //以下为更丰富自定义方法
         //全局UI配置参数-按需求设置
         AppImpl impl = new AppImpl(mContext);
+        ActivityControlImpl activityControl = new ActivityControlImpl();
         FastManager.getInstance()
                 //设置Adapter加载更多视图--默认设置了FastLoadMoreView
                 .setLoadMoreFoot(impl)
@@ -52,13 +57,13 @@ public class App extends Application {
                 //设置全局TitleBarView相关配置
                 .setTitleBarViewControl(impl)
                 //设置Activity滑动返回控制-默认开启滑动返回功能不需要设置透明主题
-                .setSwipeBackControl(impl)
+                .setSwipeBackControl(new SwipeBackControlImpl())
                 //设置Activity/Fragment相关配置(横竖屏+背景+虚拟导航栏+状态栏+生命周期)
-                .setActivityFragmentControl(impl)
+                .setActivityFragmentControl(activityControl)
                 //设置BasisActivity 子类按键监听
-                .setActivityKeyEventControl(impl)
+                .setActivityKeyEventControl(activityControl)
                 //设置http请求结果全局控制
-                .setHttpRequestControl(impl)
+                .setHttpRequestControl(new HttpRequestControlImpl())
                 //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
                 .setQuitAppControl(impl);
 
@@ -116,6 +121,15 @@ public class App extends Application {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
+    /**
+     * 是否控制底部导航栏---目前发现小米8上检查是否有导航栏出现问题
+     *
+     * @return
+     */
+    public static boolean isControlNavigation() {
+        LoggerManager.i(TAG, "mode:" + Build.MODEL);
+        return true;
+    }
     public static Context getContext() {
         return mContext;
     }
