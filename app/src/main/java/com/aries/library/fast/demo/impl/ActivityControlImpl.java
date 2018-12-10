@@ -49,7 +49,7 @@ import static com.aries.library.fast.demo.App.isControlNavigation;
 /**
  * @Author: AriesHoo on 2018/12/4 18:04
  * @E-Mail: AriesHoo@126.com
- * @Function:
+ * @Function: Activity/Fragment 生命周期全局处理及BasisActivity 的按键处理
  * @Description:
  */
 public class ActivityControlImpl implements ActivityFragmentControl, ActivityKeyEventControl {
@@ -311,8 +311,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             }
         };
     }
-
-
 
 
     /**

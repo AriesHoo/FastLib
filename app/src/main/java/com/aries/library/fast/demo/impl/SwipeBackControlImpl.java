@@ -12,7 +12,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackLayout;
 /**
  * @Author: AriesHoo on 2018/12/4 18:00
  * @E-Mail: AriesHoo@126.com
- * @Function:
+ * @Function: 滑动返回处理
  * @Description:
  */
 public class SwipeBackControlImpl implements SwipeBackControl {

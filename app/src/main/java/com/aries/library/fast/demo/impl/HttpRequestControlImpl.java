@@ -31,7 +31,7 @@ import retrofit2.HttpException;
 /**
  * @Author: AriesHoo on 2018/12/4 18:08
  * @E-Mail: AriesHoo@126.com
- * @Function:
+ * @Function: 网络请求成功/失败全局处理
  * @Description:
  */
 public class HttpRequestControlImpl implements HttpRequestControl {
