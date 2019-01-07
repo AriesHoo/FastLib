@@ -1,7 +1,10 @@
 package com.aries.library.fast.retrofit;
 
 
+import android.content.Context;
+
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.util.NetworkUtil;
 
 import java.net.ConnectException;
 import java.net.SocketException;
@@ -18,30 +21,59 @@ import io.reactivex.functions.Function;
  * @Author: AriesHoo on 2018/10/10 15:42
  * @E-Mail: AriesHoo@126.com
  * @Function: RxJava 重试机制--retryWhen操作符{@link Observable#retryWhen(Function)}
- * @Description:
+ * @Description: 1、2019-1-7 17:57:09 新增Context参数以检查网络连接状态定向重试机制
  */
 public class FastRetryWhen implements Function<Observable<? extends Throwable>, ObservableSource<?>> {
+
+    private Context mContext;
     /**
      * 最大尝试次数--不包含原始请求次数
      */
-    private final int mRetryMaxTime;
+    private int mRetryMaxTime;
     /**
      * 尝试时间间隔ms
      */
-    private final long mRetryDelay;
+    private long mRetryDelay;
     /**
      * 记录已尝试次数
      */
     private int mRetryCount;
     private String TAG = getClass().getSimpleName();
 
-    public FastRetryWhen(int retryMaxTime, long retryDelay) {
+    public FastRetryWhen(Context context, int retryMaxTime, long retryDelay) {
+        this.mContext = context;
         this.mRetryMaxTime = retryMaxTime;
         this.mRetryDelay = retryDelay;
     }
 
+    public FastRetryWhen(Context context) {
+        this(context, 3, 500);
+    }
+
     public FastRetryWhen() {
-        this(3, 500);
+        this(null);
+    }
+
+    /**
+     * 重试间隔
+     *
+     * @param delay
+     * @return
+     */
+    public FastRetryWhen setRetryDelay(long delay) {
+        mRetryDelay = delay;
+        return this;
+    }
+
+    /**
+     * 重试次数
+     *
+     * @param time
+     * @return
+     */
+    public FastRetryWhen setRetryMaxTime(int time) {
+        mRetryMaxTime = time;
+        return this;
     }
 
     /**
@@ -55,6 +87,10 @@ public class FastRetryWhen implements Function<Observable<? extends Throwable>, 
         return observable.flatMap(new Function<Throwable, ObservableSource<?>>() {
             @Override
             public ObservableSource<?> apply(Throwable throwable) {
+                //未连接网络直接返回异常
+                if (NetworkUtil.isConnected(mContext)) {
+                    return Observable.error(throwable);
+                }
                 //仅仅对连接失败相关错误进行重试
                 if (throwable instanceof ConnectException
                         || throwable instanceof UnknownHostException

@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -308,6 +309,12 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 super.onFragmentPaused(fm, f);
                 LoggerManager.i(TAG, "onFragmentPaused:统计Fragment:" + f.getClass().getSimpleName());
                 MobclickAgent.onPageEnd(f.getClass().getSimpleName());
+            }
+
+            @Override
+            public void onFragmentDestroyed(@NonNull FragmentManager fm, @NonNull Fragment f) {
+                super.onFragmentDestroyed(fm, f);
+                LoggerManager.i(TAG, "onFragmentDestroyed:" + f.getClass().getSimpleName());
             }
         };
     }

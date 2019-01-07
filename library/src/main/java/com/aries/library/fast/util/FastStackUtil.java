@@ -16,6 +16,7 @@ import java.util.Stack;
  * 2、2018-7-30 10:00:45 修改方法返回值
  * 3、2018-11-29 11:44:16 新增{@link #pop(Activity, boolean)} 增加是否调用finish()方法参数,避免因Activity状态变换(如横竖屏切换)造成onActivityDestroyed时候切换回来状态无法保存
  * 即:{@link Activity#onCreate(Bundle)} onCreate(Bundle savedInstanceState)  savedInstanceState对象为空-因为pop的时候已将其finish
+ * 4、2019-1-7 17:51:08 新增{@link #exit(boolean)} 是否杀死进程控制
  */
 public class FastStackUtil {
     private final String TAG = this.getClass().getSimpleName();
@@ -180,16 +181,25 @@ public class FastStackUtil {
         }
     }
 
+    public FastStackUtil exit() {
+        return exit(true);
+    }
+
     /**
      * 应用程序退出
+     *
+     * @param kill 是否杀掉进程
+     * @return
      */
-    public FastStackUtil exit() {
+    public FastStackUtil exit(boolean kill) {
         try {
             popAll();
-            //退出JVM(java虚拟机),释放所占内存资源,0表示正常退出(非0的都为异常退出)
-            System.exit(0);
-            //从操作系统中结束掉当前程序的进程
-            android.os.Process.killProcess(android.os.Process.myPid());
+            if (kill) {
+                //退出JVM(java虚拟机),释放所占内存资源,0表示正常退出(非0的都为异常退出)
+                System.exit(0);
+                //从操作系统中结束掉当前程序的进程
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
         } catch (Exception e) {
             System.exit(-1);
             LoggerManager.e(TAG, "exit():" + e.getMessage());

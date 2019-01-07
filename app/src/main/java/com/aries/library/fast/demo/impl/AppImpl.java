@@ -202,7 +202,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
         if (isFirst) {
             ToastUtil.show(R.string.fast_quit_app);
         } else {
-            FastStackUtil.getInstance().exit();
+            FastStackUtil.getInstance().exit(false);
         }
         return 2000;
     }
