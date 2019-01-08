@@ -88,7 +88,7 @@ public class FastRetryWhen implements Function<Observable<? extends Throwable>, 
             @Override
             public ObservableSource<?> apply(Throwable throwable) {
                 //未连接网络直接返回异常
-                if (NetworkUtil.isConnected(mContext)) {
+                if (!NetworkUtil.isConnected(mContext)) {
                     return Observable.error(throwable);
                 }
                 //仅仅对连接失败相关错误进行重试
