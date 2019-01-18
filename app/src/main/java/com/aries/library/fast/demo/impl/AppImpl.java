@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.i.FastRecyclerViewControl;
@@ -19,6 +20,7 @@ import com.aries.library.fast.i.LoadingDialog;
 import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.TitleBarViewControl;
+import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
@@ -27,6 +29,7 @@ import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.ui.util.StatusBarUtil;
+import com.aries.ui.view.radius.RadiusTextView;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
@@ -47,7 +50,7 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
  */
 public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
         FastRecyclerViewControl, MultiStatusView, LoadingDialog,
-        TitleBarViewControl, QuitAppControl {
+        TitleBarViewControl, QuitAppControl,ToastControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -208,4 +211,13 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
     }
 
 
+    @Override
+    public Toast getToast() {
+        return null;
+    }
+
+    @Override
+    public void setToast(Toast toast, RadiusTextView textView) {
+
+    }
 }

@@ -62,10 +62,14 @@ public class App extends Application {
                 .setActivityFragmentControl(activityControl)
                 //设置BasisActivity 子类按键监听
                 .setActivityKeyEventControl(activityControl)
+                //配置BasisActivity 子类事件派发相关
+                .setActivityDispatchEventControl(activityControl)
                 //设置http请求结果全局控制
                 .setHttpRequestControl(new HttpRequestControlImpl())
                 //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
-                .setQuitAppControl(impl);
+                .setQuitAppControl(impl)
+                //设置ToastUtil全局控制
+                .setToastControl(impl);
 
         //初始化Retrofit配置
         FastRetrofit.getInstance()
@@ -130,6 +134,7 @@ public class App extends Application {
         LoggerManager.i(TAG, "mode:" + Build.MODEL);
         return true;
     }
+
     public static Context getContext() {
         return mContext;
     }

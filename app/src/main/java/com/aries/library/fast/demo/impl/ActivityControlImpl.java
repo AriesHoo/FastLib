@@ -13,7 +13,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -23,6 +25,7 @@ import com.aries.library.fast.demo.BuildConfig;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
+import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.impl.FastActivityLifecycleCallbacks;
@@ -53,7 +56,7 @@ import static com.aries.library.fast.demo.App.isControlNavigation;
  * @Function: Activity/Fragment 生命周期全局处理及BasisActivity 的按键处理
  * @Description:
  */
-public class ActivityControlImpl implements ActivityFragmentControl, ActivityKeyEventControl {
+public class ActivityControlImpl implements ActivityFragmentControl, ActivityKeyEventControl, ActivityDispatchEventControl {
     private static String TAG = "ActivityControlImpl";
     /**
      * Audio管理器，用了控制音量
@@ -349,5 +352,44 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      */
     protected boolean isTrans(Activity activity) {
         return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
+    }
+
+    /**
+     * @param activity
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(Activity activity, MotionEvent event) {
+        //根据事件派发全局控制点击非EditText 关闭软键盘
+        if (activity != null) {
+            KeyboardHelper.handleAutoCloseKeyboard(true, activity.getCurrentFocus(), event, activity);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean dispatchGenericMotionEvent(Activity activity, MotionEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(Activity activity, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean dispatchKeyShortcutEvent(Activity activity, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean dispatchTrackballEvent(Activity activity, MotionEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean dispatchPopulateAccessibilityEvent(Activity activity, AccessibilityEvent event) {
+        return false;
     }
 }

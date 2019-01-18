@@ -1,14 +1,18 @@
 package com.aries.library.fast.basis;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 
 import com.aries.library.fast.FastManager;
+import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
@@ -170,6 +174,79 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
             return super.onKeyMultiple(keyCode, repeatCount, event);
         }
         return super.onKeyMultiple(keyCode, repeatCount, event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        ActivityDispatchEventControl control = FastManager.getInstance().getActivityDispatchEventControl();
+        if (control != null) {
+            if (control.dispatchTouchEvent(this, ev)) {
+                return true;
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean dispatchGenericMotionEvent(MotionEvent ev) {
+        ActivityDispatchEventControl control = FastManager.getInstance().getActivityDispatchEventControl();
+        if (control != null) {
+            if (control.dispatchGenericMotionEvent(this, ev)) {
+                return true;
+            }
+            return super.dispatchGenericMotionEvent(ev);
+        }
+        return super.dispatchGenericMotionEvent(ev);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        ActivityDispatchEventControl control = FastManager.getInstance().getActivityDispatchEventControl();
+        if (control != null) {
+            if (control.dispatchKeyEvent(this, event)) {
+                return true;
+            }
+            return super.dispatchKeyEvent(event);
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public boolean dispatchKeyShortcutEvent(KeyEvent event) {
+        ActivityDispatchEventControl control = FastManager.getInstance().getActivityDispatchEventControl();
+        if (control != null) {
+            if (control.dispatchKeyShortcutEvent(this, event)) {
+                return true;
+            }
+            return super.dispatchKeyShortcutEvent(event);
+        }
+        return super.dispatchKeyShortcutEvent(event);
+    }
+
+    @Override
+    public boolean dispatchTrackballEvent(MotionEvent ev) {
+        ActivityDispatchEventControl control = FastManager.getInstance().getActivityDispatchEventControl();
+        if (control != null) {
+            if (control.dispatchTrackballEvent(this, ev)) {
+                return true;
+            }
+            return super.dispatchTrackballEvent(ev);
+        }
+        return super.dispatchTrackballEvent(ev);
+    }
+
+    @Override
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+        ActivityDispatchEventControl control = FastManager.getInstance().getActivityDispatchEventControl();
+        if (control != null) {
+            if (control.dispatchPopulateAccessibilityEvent(this, event)) {
+                return true;
+            }
+            return super.dispatchPopulateAccessibilityEvent(event);
+        }
+        return super.dispatchPopulateAccessibilityEvent(event);
     }
 
     @Override

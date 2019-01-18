@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
+import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.i.FastRecyclerViewControl;
@@ -16,6 +17,7 @@ import com.aries.library.fast.i.MultiStatusView;
 import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
+import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.util.ToastUtil;
@@ -85,6 +87,11 @@ public class FastManager {
      * 配置BasisActivity 子类前台时监听按键相关
      */
     private ActivityKeyEventControl mActivityKeyEventControl;
+
+    /**
+     * 配置BasisActivity 子类事件派发相关
+     */
+    private ActivityDispatchEventControl mActivityDispatchEventControl;
     /**
      * 配置网络请求
      */
@@ -93,6 +100,10 @@ public class FastManager {
      * Activity 主页点击返回键控制
      */
     private QuitAppControl mQuitAppControl;
+    /**
+     * ToastUtil相关配置
+     */
+    private ToastControl mToastControl;
 
     public Application getApplication() {
         return mApplication;
@@ -260,11 +271,26 @@ public class FastManager {
     /**
      * 配置BasisActivity 子类前台时监听按键相关
      *
-     * @param activityKeyEventControl
+     * @param control
      * @return
      */
-    public FastManager setActivityKeyEventControl(ActivityKeyEventControl activityKeyEventControl) {
-        mActivityKeyEventControl = activityKeyEventControl;
+    public FastManager setActivityKeyEventControl(ActivityKeyEventControl control) {
+        mActivityKeyEventControl = control;
+        return this;
+    }
+
+    public ActivityDispatchEventControl getActivityDispatchEventControl() {
+        return mActivityDispatchEventControl;
+    }
+
+    /**
+     * 配置BasisActivity 子类事件派发相关
+     *
+     * @param control
+     * @return
+     */
+    public FastManager setActivityDispatchEventControl(ActivityDispatchEventControl control) {
+        mActivityDispatchEventControl = control;
         return this;
     }
 
@@ -296,6 +322,21 @@ public class FastManager {
      */
     public FastManager setQuitAppControl(QuitAppControl control) {
         mQuitAppControl = control;
+        return this;
+    }
+
+    public ToastControl getToastControl() {
+        return mToastControl;
+    }
+
+    /**
+     * 配置ToastUtil
+     *
+     * @param control
+     * @return
+     */
+    public FastManager setToastControl(ToastControl control) {
+        mToastControl = control;
         return this;
     }
 }

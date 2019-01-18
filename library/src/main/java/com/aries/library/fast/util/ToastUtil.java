@@ -11,7 +11,10 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.aries.library.fast.FastConstant;
+import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
+import com.aries.library.fast.i.ToastControl;
+import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 
 import io.reactivex.Observable;
@@ -25,13 +28,16 @@ import io.reactivex.schedulers.Schedulers;
  * Function: Toast 工具
  * Description:
  * 1、2018-7-11 15:40:26 去掉Toast返回值并新增子线程弹出Toast功能
+ * 2、2019-1-18 18:09:07 新增{@link ToastControl} 全局
  */
 public class ToastUtil {
 
     public static Context sContext;
     private static Toast sSystemToast;
     private static RadiusTextView sTextView;
-    //是否前台运行才显示toast
+    /**
+     * 是否前台运行才显示toast
+     */
     private static boolean sIsShowRunningForeground;
     private static Builder sBuilder;
     private static Builder sBuilderSuccess;
@@ -177,6 +183,10 @@ public class ToastUtil {
                 builder.gravityXOffset > -1 ? builder.gravityXOffset : 0,
                 builder.gravityYOffset > -1 ? builder.gravityYOffset :
                         builder.gravity == Gravity.BOTTOM ? SizeUtil.dp2px(64) : 0);
+        ToastControl control = FastManager.getInstance().getToastControl();
+        if (content != null) {
+            control.setToast(sSystemToast, sTextView);
+        }
         if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(sContext))) {
             sSystemToast.show();
         }
@@ -611,6 +621,14 @@ public class ToastUtil {
         }
 
         public static final Toast getInstance() {
+            ToastControl control = FastManager.getInstance().getToastControl();
+            if (control != null && control.getToast() != null) {
+                return control.getToast();
+            }
+            //目前发现华为Android 9.0版本系统Toast做了单利操作造成短信时间快速Toast 后面无法弹出问题
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && RomUtil.isEMUI()) {
+                return new Toast(sContext);
+            }
             return SingleToastHolder.INSTANCE.getToast();
         }
     }

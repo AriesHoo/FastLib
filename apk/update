@@ -1,8 +1,8 @@
 {
 	"versionCode": 235,
-	"versionName": "2.2.10-beta22",
+	"versionName": "2.2.10-beta23",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
 	"size": "3.77M",
-	"message": "\n1、优化:软键盘控制帮助类KeyboardHelper增加对全面屏及导航栏可动态开关优化\n2、优化:将TabLayout Fork下来以远程方式加载"
+	"message": "\n1、优化:新增BasisActivity 事件派发全局控制\n2、修复:增加ToastUtil 判断华为手机Android 9.0快速弹出第二次不显示问题并增加全局控制ToastControl
 }
