@@ -184,7 +184,7 @@ public class ToastUtil {
                 builder.gravityYOffset > -1 ? builder.gravityYOffset :
                         builder.gravity == Gravity.BOTTOM ? SizeUtil.dp2px(64) : 0);
         ToastControl control = FastManager.getInstance().getToastControl();
-        if (content != null) {
+        if (control != null) {
             control.setToast(sSystemToast, sTextView);
         }
         if (!isShowRunningForeground || (isShowRunningForeground && FastUtil.isRunningForeground(sContext))) {
