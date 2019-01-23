@@ -23,11 +23,12 @@ import com.aries.ui.view.title.TitleBarView;
  * 3、2018-7-23 09:47:16 修改TitleBarView设置主标题逻辑
  * ({@link Activity#getTitle()}获取不和应用名称一致才进行设置-因Manifest未设置Activity的label属性获取的是应用名称)
  * 4、2018-11-19 11:27:42 设置全局Tint颜色资源
+ * 5、2019-1-23 16:17:37 修改返回键操作逻辑避免快速点击造成页面崩溃问题
  */
 public class FastTitleDelegate {
     public TitleBarView mTitleBar;
 
-    public FastTitleDelegate(View rootView, IFastTitleView iTitleBarView, Class<?> cls) {
+    public FastTitleDelegate(View rootView, IFastTitleView iTitleBarView, final Class<?> cls) {
         mTitleBar = rootView.findViewById(R.id.titleBar_headFastLib);
         if (mTitleBar == null) {
             mTitleBar = FindViewUtil.getTargetView(rootView, TitleBarView.class);
@@ -44,6 +45,11 @@ public class FastTitleDelegate {
                 .setOnLeftTextClickListener(activity == null ? null : new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Activity activity = FastStackUtil.getInstance().getActivity(cls);
+                        //增加判断避免快速点击返回键造成崩溃
+                        if (activity == null) {
+                            return;
+                        }
                         activity.onBackPressed();
                     }
                 })

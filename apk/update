@@ -1,8 +1,9 @@
 {
 	"versionCode": 235,
-	"versionName": "2.2.10-beta23",
+	"versionName": "2.2.10-beta25",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
 	"size": "3.77M",
 	"message": "\n1、优化:新增BasisActivity 事件派发全局控制\n2、修复:增加ToastUtil 判断华为手机Android 9.0快速弹出第二次不显示问题并增加全局控制ToastControl
+	\n3、修改返回键操作逻辑避免快速点击造成页面崩溃问题"
 }

@@ -82,7 +82,14 @@ public class MineFragment extends FastTitleFragment {
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setBgColor(Color.WHITE)
                 .setTitleMainTextColor(Color.WHITE)
-                .setTitleMainText(R.string.mine);
+                .setTitleMainText(R.string.mine)
+                .setLeftTextDrawable(R.drawable.ic_setting)
+                .setOnLeftTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FastUtil.startActivity(mContext, SettingActivity.class);
+                    }
+                });
         titleBar.getBackground().setAlpha(0);
     }
 
