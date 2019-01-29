@@ -33,6 +33,7 @@ import butterknife.Unbinder;
  * 1、新增控制是否为FragmentActivity的唯一Fragment 方法以优化懒加载方式
  * 2、增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
  * 3、2018-7-6 17:12:16 删除IBasisFragment 控制是否单Fragment 通过另一种方式实现
+ * 4、2019-1-29 18:33:10 修改对用户可以见回调{@link #setUserVisibleHint(boolean)}{@link #onHiddenChanged(boolean)} (boolean)}
  */
 public abstract class BasisFragment extends RxFragment implements IBasisView {
 
@@ -167,19 +168,42 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
      * 不在viewpager中Fragment懒加载
      */
     @Override
-    public void onHiddenChanged(boolean hidden) {
+    public void onHiddenChanged(final boolean hidden) {
         super.onHiddenChanged(hidden);
-        onVisibleChanged(!hidden);
+        if (!mIsViewLoaded) {
+            RxJavaManager.getInstance().setTimer(10)
+                    .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                    .subscribe(new FastObserver<Long>() {
+                        @Override
+                        public void _onNext(Long entity) {
+                            onHiddenChanged(hidden);
+                        }
+                    });
+        } else {
+            onVisibleChanged(!hidden);
+        }
+
     }
 
     /**
      * 在viewpager中的Fragment懒加载
      */
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
+    public void setUserVisibleHint(final boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         mIsInViewPager = true;
-        onVisibleChanged(isVisibleToUser);
+        if (!mIsViewLoaded) {
+            RxJavaManager.getInstance().setTimer(10)
+                    .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                    .subscribe(new FastObserver<Long>() {
+                        @Override
+                        public void _onNext(Long entity) {
+                            setUserVisibleHint(isVisibleToUser);
+                        }
+                    });
+        } else {
+            onVisibleChanged(isVisibleToUser);
+        }
     }
 
     /**

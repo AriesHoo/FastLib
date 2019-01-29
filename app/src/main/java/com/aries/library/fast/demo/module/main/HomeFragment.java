@@ -277,7 +277,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mTitleBarViewHelper!=null){
+        if (mTitleBarViewHelper != null) {
             mTitleBarViewHelper.onDestroy();
         }
     }
