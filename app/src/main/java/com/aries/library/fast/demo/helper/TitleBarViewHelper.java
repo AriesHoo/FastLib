@@ -70,7 +70,7 @@ public class TitleBarViewHelper extends BaseHelper {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mScrollY += dy;
+                mScrollY = recyclerView.computeVerticalScrollOffset();
                 mAlpha = setChange(mScrollY);
             }
         });

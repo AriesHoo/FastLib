@@ -31,8 +31,11 @@ import java.util.Random;
  * Description:
  * 1、将startActivity 参数Activity 改为Context
  * 2、2018-7-23 09:29:55 新增获取App 应用名称方法
+ * 3、2019-2-15 11:28:53 修改startActivity 方法增加single tag设置方法{@link #setActivitySingleFlag(int)}
  */
 public class FastUtil {
+
+    private static int ACTIVITY_SINGLE_FLAG = Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
     /**
      * 获取应用名称
@@ -231,6 +234,17 @@ public class FastUtil {
     }
 
     /**
+     * 设置Activity只启动一个Flag
+     *
+     * @param flag {@link Intent#FLAG_ACTIVITY_SINGLE_TOP}
+     *             {@link Intent#FLAG_ACTIVITY_NEW_TASK}
+     *             {@link Intent#FLAG_ACTIVITY_CLEAR_TOP}
+     */
+    public static void setActivitySingleFlag(int flag) {
+        ACTIVITY_SINGLE_FLAG = flag;
+    }
+
+    /**
      * @param context
      * @param activity 跳转Activity
      * @param bundle
@@ -241,8 +255,7 @@ public class FastUtil {
             return;
         }
         Intent intent = new Intent(context, activity);
-        intent.setFlags(isSingle ? Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TOP : Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(isSingle ? ACTIVITY_SINGLE_FLAG : Intent.FLAG_ACTIVITY_NEW_TASK);
         if (bundle != null) {
             intent.putExtras(bundle);
         }

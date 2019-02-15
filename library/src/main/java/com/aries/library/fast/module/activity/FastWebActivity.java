@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -107,8 +108,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
             }
         })
                 .setRightTextDrawable(FastUtil.getTintDrawable(
-                        getResources().getDrawable(R.drawable.fast_ic_more),
-                        getResources().getColor(R.color.colorTitleText)))
+                        ContextCompat.getDrawable(mContext, R.drawable.fast_ic_more),
+                        ContextCompat.getColor(mContext, R.color.colorTitleText)))
                 .setOnRightTextClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -116,8 +117,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
                     }
                 })
                 .addLeftAction(titleBar.new ImageAction(
-                        FastUtil.getTintDrawable(getResources().getDrawable(R.drawable.fast_ic_close),
-                                getResources().getColor(R.color.colorTitleText)), new View.OnClickListener() {
+                        FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_close),
+                                ContextCompat.getColor(mContext, R.color.colorTitleText)), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showDialog();
@@ -222,7 +223,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     public void onBackPressed() {
-        if (mAgentWeb.back()) {
+        if (mAgentWeb != null && mAgentWeb.back()) {
             return;
         }
         super.onBackPressed();
@@ -230,19 +231,25 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
+        if (mAgentWeb != null) {
+            mAgentWeb.getWebLifeCycle().onPause();
+        }
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        mAgentWeb.getWebLifeCycle().onResume();
+        if (mAgentWeb != null) {
+            mAgentWeb.getWebLifeCycle().onResume();
+        }
         super.onResume();
     }
 
     @Override
     protected void onDestroy() {
-        mAgentWeb.getWebLifeCycle().onDestroy();
+        if (mAgentWeb != null) {
+            mAgentWeb.getWebLifeCycle().onDestroy();
+        }
         super.onDestroy();
     }
 }
