@@ -18,16 +18,16 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">45dp</item>
-        <item name="com.aries.library.fast.demo:sLeftViewMarginLeft">6dp</item>
-        <item name="com.aries.library.fast.demo:sLeftIconHeight">24dp</item>
-        <item name="com.aries.library.fast.demo:sLeftIconWidth">24dp</item>
-        <item name="com.aries.library.fast.demo:sLeftTextSize">16dp</item>
-        <item name="com.aries.library.fast.demo:sDividerLineColor">@color/colorLineGray</item>
-        <item name="com.aries.library.fast.demo:sDividerLineType">bottom</item>
-        <item name="com.aries.library.fast.demo:sLeftTextColor">@color/colorTextBlack</item>
-        <item name="com.aries.library.fast.demo:sRightIconRes">@drawable/ic_arrow_right</item>
-        <item name="com.aries.library.fast.demo:sRightTextColor">@color/colorTextGray</item>
-        <item name="com.aries.library.fast.demo:sRightTextSize">14dp</item>
+        <item name="sLeftViewMarginLeft">6dp</item>
+        <item name="sLeftIconHeight">24dp</item>
+        <item name="sLeftIconWidth">24dp</item>
+        <item name="sLeftTextSize">16dp</item>
+        <item name="sDividerLineColor">@color/colorLineGray</item>
+        <item name="sDividerLineType">bottom</item>
+        <item name="sLeftTextColor">@color/colorTextBlack</item>
+        <item name="sRightIconRes">@drawable/ic_arrow_right</item>
+        <item name="sRightTextColor">@color/colorTextGray</item>
+        <item name="sRightTextSize">14dp</item>
     </style>
 
     <style name="TextStyleMovieItem">
@@ -50,12 +50,10 @@
         <item name="android:layout_marginLeft">@dimen/dp_margin_item</item>
         <item name="android:layout_marginTop">@dimen/dp_margin_item</item>
         <item name="android:layout_marginRight">@dimen/dp_margin_item</item>
-        <item name="com.aries.library.fast.demo:rv_rippleEnable">true</item>
-        <item name="com.aries.library.fast.demo:rv_backgroundColor">@color/colorWhite</item>
-        <item name="com.aries.library.fast.demo:rv_backgroundPressedColor">
-            @color/colorWhitePressed
-        </item>
-        <item name="com.aries.library.fast.demo:rv_radius">@dimen/dp_radius</item>
+        <item name="rv_rippleEnable">true</item>
+        <item name="rv_backgroundColor">@color/colorWhite</item>
+        <item name="rv_backgroundPressedColor">@color/colorWhitePressed</item>
+        <item name="rv_radius">@dimen/dp_radius</item>
     </style>
 
     <style name="RadiusTextStyle">
@@ -69,13 +67,11 @@
         <item name="android:gravity">center</item>
         <item name="android:minHeight">45dp</item>
         <item name="android:textSize">14dp</item>
-        <item name="com.aries.library.fast.demo:rv_radius">@dimen/dp_radius</item>
-        <item name="com.aries.library.fast.demo:rv_backgroundColor">@color/colorWhite</item>
-        <item name="com.aries.library.fast.demo:rv_backgroundPressedColor">
-            @color/colorWhitePressed
-        </item>
-        <item name="com.aries.library.fast.demo:rv_strokeColor">@color/colorLineGray</item>
-        <item name="com.aries.library.fast.demo:rv_strokeWidth">@dimen/dp_line_size</item>
+        <item name="rv_radius">@dimen/dp_radius</item>
+        <item name="rv_backgroundColor">@color/colorWhite</item>
+        <item name="rv_backgroundPressedColor">@color/colorWhitePressed</item>
+        <item name="rv_strokeColor">@color/colorLineGray</item>
+        <item name="rv_strokeWidth">@dimen/dp_line_size</item>
     </style>
 
 </resources>
