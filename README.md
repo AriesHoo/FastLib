@@ -55,7 +55,8 @@ allprojects {
 
 ```
 dependencies {
-     implementation 'com.github.AriesHoo:FastLib:2.2.1'
+      implementation 'com.github.AriesHoo:FastLib:2.2.11-androidx'
+     //implementation 'com.github.AriesHoo:FastLib:2.2.11'
 }
 ```
 
@@ -157,6 +158,14 @@ dependencies {
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
+* 2.2.11-androidx
+
+    * 重大变更: 2.2.11的androidx版本-起始版本
+    
+* 2.2.11
+   
+    *  最后一个support版本以后版本为androidx
+    
 * 2.2.10-beta6
    
     *  重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异
