@@ -1,7 +1,7 @@
 package com.aries.library.fast.demo.module.main.sample;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.TypedValue;
 
 import com.aries.library.fast.demo.R;

@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -28,6 +27,8 @@ import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.just.agentweb.AgentWeb;
 
 import java.io.File;
+
+import androidx.core.content.FileProvider;
 
 /**
  * @Author: AriesHoo on 2018/7/30 11:04

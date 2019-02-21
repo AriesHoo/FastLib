@@ -1,8 +1,9 @@
 package com.aries.library.fast.i;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -39,7 +40,7 @@ public interface IFastMainView extends OnTabSelectListener {
      * 获取onCreate 携带参数
      * {@link android.app.Activity#onCreate(Bundle)}
      * {@link com.aries.library.fast.module.activity.FastMainActivity#beforeInitView(Bundle)}
-     * {@link android.support.v4.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
      * {@link com.aries.library.fast.module.fragment.FastMainFragment#beforeInitView(Bundle)}
      * @return
      */

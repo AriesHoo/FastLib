@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 
 import java.io.File;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
 /**
  * @Author: AriesHoo on 2018/7/20 15:41

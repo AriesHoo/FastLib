@@ -1,6 +1,6 @@
 package com.aries.library.fast.demo.helper;
 
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;

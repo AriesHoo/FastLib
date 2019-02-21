@@ -1,7 +1,7 @@
 package com.aries.library.fast.retrofit;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;

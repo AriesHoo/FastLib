@@ -1,7 +1,7 @@
 package com.aries.library.fast.i;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 
 /**
  * @Author: AriesHoo on 2018/7/16 16:31

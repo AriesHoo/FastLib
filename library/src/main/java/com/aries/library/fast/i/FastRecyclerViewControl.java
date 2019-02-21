@@ -1,6 +1,6 @@
 package com.aries.library.fast.i;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @Author: AriesHoo on 2018/11/19 12:02

@@ -2,11 +2,12 @@ package com.aries.library.fast.i;
 
 import android.app.Activity;
 import android.app.Application;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
+
+import androidx.fragment.app.FragmentManager;
 
 /**
  * @Author: AriesHoo on 2018/7/22/022 18:19

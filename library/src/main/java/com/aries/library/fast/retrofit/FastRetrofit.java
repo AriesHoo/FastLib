@@ -1,6 +1,6 @@
 package com.aries.library.fast.retrofit;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 

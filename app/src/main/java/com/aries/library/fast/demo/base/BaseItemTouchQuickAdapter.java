@@ -1,8 +1,5 @@
 package com.aries.library.fast.demo.base;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-
 import com.aries.library.fast.demo.touch.ItemTouchHelperAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -10,6 +7,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 /**
  * @Author: AriesHoo on 2018/8/10 10:04

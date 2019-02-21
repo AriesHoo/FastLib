@@ -2,8 +2,8 @@ package com.aries.library.fast.demo.module.main.sample.news;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
 

@@ -5,9 +5,6 @@ import android.app.Application;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,6 +23,9 @@ import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 

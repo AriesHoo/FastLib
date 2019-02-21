@@ -20,7 +20,7 @@
                 style="@style/LineGray.Horizontal"
                 android:layout_marginTop="@dimen/dp_margin_item"/>
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_activityTabSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 app:sLeftViewGravity="left_center"
                 app:sRightIconRes="@null">
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switch_activityAnimationSetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

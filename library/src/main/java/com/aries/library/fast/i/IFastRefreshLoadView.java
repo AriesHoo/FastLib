@@ -1,6 +1,5 @@
 package com.aries.library.fast.i;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -8,6 +7,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @Author: AriesHoo on 2018/7/20 16:52

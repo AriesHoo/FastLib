@@ -1,8 +1,8 @@
 package com.aries.library.fast.demo.touch;
 
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 /**
  * @Author: AriesHoo on 2018/8/9 17:25

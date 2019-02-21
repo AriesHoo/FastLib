@@ -48,33 +48,34 @@ android {
     }
 }
 dependencies {
-    compileOnly 'com.android.support:design:'.concat(supportVersion)
-    compileOnly 'com.android.support:appcompat-v7:'.concat(supportVersion)
-    compileOnly 'com.android.support:recyclerview-v7:'.concat(supportVersion)
+    compileOnly 'com.google.android.material:material:'.concat(supportVersion)
+    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
+    compileOnly 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
     //万能适配器
-    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
     //webView库
     compileOnly 'com.just.agentweb:agentweb:4.0.2'
     //下拉刷新库
     compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //图片加载
-    compileOnly 'com.github.bumptech.glide:glide:4.5.0'
+    compileOnly 'com.github.bumptech.glide:glide:4.8.0'
     //常用UI控件(TitleBarView、RadiusView等)
-    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.7'
+    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.7-androidx'
     //日志打印
     api 'com.orhanobut:logger:2.2.0'
     //注解
-    api 'com.jakewharton:butterknife:8.8.1'
+    api 'com.jakewharton:butterknife:10.1.0'
     //retrofit+rxjava 网络请求及数据解析相关
-    api "io.reactivex.rxjava2:rxjava:2.1.16"
-    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    api 'com.squareup.retrofit2:retrofit:2.4.0'
-    api 'com.squareup.retrofit2:converter-gson:2.4.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    api "io.reactivex.rxjava2:rxjava:2.2.6"
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'com.squareup.retrofit2:retrofit:2.5.0'
+    api 'com.squareup.retrofit2:converter-gson:2.5.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.13.1'
     api 'com.google.code.gson:gson:2.8.5'
     //处理rxjava内存泄漏-生命周期绑定
-    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+//    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
+    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
     //滑动返回Activity
     api 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
     //快速Tab库

@@ -1,7 +1,7 @@
 package com.aries.library.fast.demo.helper;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.text.TextUtils;
 
 import com.aries.library.fast.basis.BasisActivity;
@@ -18,8 +18,8 @@ import com.aries.library.fast.util.FastFileUtil;
 import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.ToastUtil;
-import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle3.android.ActivityEvent;
+import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
 import java.io.File;
 import java.lang.ref.SoftReference;

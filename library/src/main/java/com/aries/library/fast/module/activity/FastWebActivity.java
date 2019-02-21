@@ -1,12 +1,10 @@
 package com.aries.library.fast.module.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,6 +23,9 @@ import com.aries.ui.widget.BasisDialog;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebCreator;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 
 /**
  * @Author: AriesHoo on 2018/6/28 14:59
@@ -134,7 +135,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected void initAgentWeb() {
         mAgentBuilder = AgentWeb.with(this)
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))
-                .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : getResources().getColor(R.color.colorTitleText),
+                .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : ContextCompat.getColor(mContext,R.color.colorTitleText),
                         getProgressHeight())
                 .setWebChromeClient(new WebChromeClient() {
                     @Override

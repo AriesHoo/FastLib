@@ -3,7 +3,6 @@ package com.aries.library.fast;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
@@ -25,6 +24,7 @@ import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.widget.progress.UIProgressDialog;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 
+import androidx.annotation.Nullable;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**

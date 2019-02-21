@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,13 +20,14 @@ import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle3.android.ActivityEvent;
+import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
 import org.simple.eventbus.EventBus;
 
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 

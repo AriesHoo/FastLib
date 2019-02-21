@@ -1,12 +1,13 @@
 package com.aries.library.fast.module.activity;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 
 import com.aries.library.fast.R;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.delegate.FastMainTabDelegate;
 import com.aries.library.fast.i.IFastMainView;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * @Author: AriesHoo on 2018/7/23 10:00

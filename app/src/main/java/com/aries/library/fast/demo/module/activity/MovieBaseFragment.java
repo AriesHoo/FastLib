@@ -2,7 +2,6 @@ package com.aries.library.fast.demo.module.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.aries.library.fast.FastManager;
@@ -26,13 +25,14 @@ import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.trello.rxlifecycle3.android.FragmentEvent;
 
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**

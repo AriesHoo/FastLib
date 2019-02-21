@@ -1,8 +1,8 @@
 package com.aries.library.fast;
 
-import android.support.v4.content.FileProvider;
-
 import com.aries.library.fast.util.FastFileUtil;
+
+import androidx.core.content.FileProvider;
 
 /**
  * @Author: AriesHoo on 2018/7/23 14:39

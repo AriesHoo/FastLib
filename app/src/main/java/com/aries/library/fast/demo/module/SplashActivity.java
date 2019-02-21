@@ -3,7 +3,7 @@ package com.aries.library.fast.demo.module;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -18,7 +18,7 @@ import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import butterknife.BindView;
 

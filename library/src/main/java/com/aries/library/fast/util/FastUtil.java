@@ -13,8 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,9 @@ import com.aries.library.fast.manager.LoggerManager;
 
 import java.util.List;
 import java.util.Random;
+
+import androidx.annotation.ColorInt;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
  * @Author: AriesHoo on 2018/7/23 9:29

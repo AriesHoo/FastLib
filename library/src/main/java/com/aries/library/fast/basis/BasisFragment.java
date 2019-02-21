@@ -4,7 +4,6 @@ package com.aries.library.fast.basis;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,12 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.trello.rxlifecycle2.android.FragmentEvent;
-import com.trello.rxlifecycle2.components.support.RxFragment;
+import com.trello.rxlifecycle3.android.FragmentEvent;
+import com.trello.rxlifecycle3.components.support.RxFragment;
 
 import org.simple.eventbus.EventBus;
 
+import androidx.fragment.app.FragmentManager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 

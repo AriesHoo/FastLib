@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -17,6 +16,7 @@ import com.aries.library.fast.i.ToastControl;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 
+import androidx.annotation.ColorInt;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DefaultObserver;
