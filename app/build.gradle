@@ -63,7 +63,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library')
-//    implementation 'com.github.AriesHoo:FastLib:2.2.10-beta6_25'
+//    implementation 'com.github.AriesHoo:FastLib:2.2.11'
 
     //设置界面Item库
     //以下库library里使用provided只是编译使用时需根据项目选择相应版本
@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:'.concat(ext.supportVersion)
     implementation 'com.android.support:recyclerview-v7:'.concat(ext.supportVersion)
     //万能适配器--一般都需要吧
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不compile
     implementation 'com.just.agentweb:agentweb:4.0.2'
     //webView提供下载功能
@@ -84,9 +84,8 @@ dependencies {
     //以上库library里使用provided只是编译使用时需根据项目选择相应版本
     implementation 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
-    implementation 'com.github.lygttpod:SuperTextView:2.1.5'
+    implementation 'com.github.lygttpod:SuperTextView:2.1.8'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
-    implementation 'com.just.agentweb:agentweb:+'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //文件选择器
