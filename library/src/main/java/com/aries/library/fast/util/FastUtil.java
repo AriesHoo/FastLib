@@ -33,6 +33,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
  * 1、将startActivity 参数Activity 改为Context
  * 2、2018-7-23 09:29:55 新增获取App 应用名称方法
  * 3、2019-2-15 11:28:53 修改startActivity 方法增加single tag设置方法{@link #setActivitySingleFlag(int)}
+ * 4、2019-2-22 13:49:12 修改{@link #getRootView(Activity)} 判断逻辑
  */
 public class FastUtil {
 
@@ -89,6 +90,9 @@ public class FastUtil {
      */
     public static View getRootView(Activity activity) {
         if (activity == null) {
+            return null;
+        }
+        if (activity.findViewById(android.R.id.content) == null) {
             return null;
         }
         return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
