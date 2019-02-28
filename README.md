@@ -59,8 +59,7 @@ allprojects {
 
 ```
 dependencies {
-      implementation 'com.github.AriesHoo:FastLib:2.2.11-androidx'
-     //implementation 'com.github.AriesHoo:FastLib:2.2.11'
+      implementation 'com.github.AriesHoo:FastLib:2.2.12'
 }
 ```
 
@@ -96,46 +95,46 @@ implementation project(':fastLib')
     buildToolsVersion = "28.0.3"
     minSdkVersion = 21
     targetSdkVersion = 28
-    supportVersion = "28.0.0"
+    supportVersion = "1.0.0"
 ```
 
 ```
 dependencies {
-        compileOnly 'com.android.support:design:'.concat(supportVersion)
-        compileOnly 'com.android.support:appcompat-v7:'.concat(supportVersion)
-        compileOnly 'com.android.support:recyclerview-v7:'.concat(supportVersion)
-        //万能适配器
-        compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
-        //webView库
-        compileOnly 'com.just.agentweb:agentweb:4.0.2'
-        //下拉刷新库
-        compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
-        //图片加载
-        compileOnly 'com.github.bumptech.glide:glide:4.5.0'
-        //常用UI控件(TitleBarView、RadiusView等)
-        api 'com.github.AriesHoo.UIWidget:widget-core:3.2.6'
-        //日志打印
-        api 'com.orhanobut:logger:2.1.1'
-        //注解
-        api 'com.jakewharton:butterknife:8.8.1'
-        //retrofit+rxjava 网络请求及数据解析相关
-        api "io.reactivex.rxjava2:rxjava:2.1.14"
-        api 'io.reactivex.rxjava2:rxandroid:2.0.1'
-        api 'com.squareup.retrofit2:retrofit:2.3.0'
-        api 'com.squareup.retrofit2:converter-gson:2.3.0'
-        api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-        api 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-        api 'com.google.code.gson:gson:2.8.5'
-        //处理rxjava内存泄漏-生命周期绑定
-        api 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
-        //滑动返回Activity
-        api 'cn.bingoogolapple:bga-swipebacklayout:1.1.8@aar'
-        //快速Tab库
-        api 'com.github.AriesHoo:TabLayout:1.0.1'
-        //页面事件交互
-        api 'org.simple:androideventbus:1.0.5.1'
-        //多状态视图切换
-        api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
+    compileOnly 'com.google.android.material:material:'.concat(supportVersion)
+    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
+    compileOnly 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
+    //万能适配器
+    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
+    //webView库
+    compileOnly 'com.just.agentweb:agentweb:4.0.2'
+    //下拉刷新库
+    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    //图片加载
+    compileOnly 'com.github.bumptech.glide:glide:4.8.0'
+    //常用UI控件(TitleBarView、RadiusView等)
+    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.9'
+    //日志打印
+    api 'com.orhanobut:logger:2.2.0'
+    //注解
+    api 'com.jakewharton:butterknife:10.1.0'
+    //retrofit+rxjava 网络请求及数据解析相关
+    api "io.reactivex.rxjava2:rxjava:2.2.6"
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'com.squareup.retrofit2:retrofit:2.5.0'
+    api 'com.squareup.retrofit2:converter-gson:2.5.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.13.1'
+    api 'com.google.code.gson:gson:2.8.5'
+    //处理rxjava内存泄漏-生命周期绑定
+    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
+    //滑动返回Activity
+    api 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
+    //快速Tab库
+    api 'com.github.AriesHoo:TabLayout:1.0.2'
+    //页面事件交互
+    api 'org.simple:androideventbus:1.0.5.1'
+    //多状态视图切换
+    api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
 }
 ```
 
