@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.aries.library.fast.R;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.i.IFastMainView;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
@@ -34,16 +35,16 @@ import androidx.viewpager.widget.ViewPager;
  * 3、2018-11-29 16:08:12 新增Activity被系统回收相关处理
  */
 public class FastMainTabDelegate {
-
+    private Context mContext;
+    private Object mObject;
+    private FragmentManager mFragmentManager;
+    private IFastMainView mIFastMainView;
     public CommonTabLayout mTabLayout;
     public ViewPager mViewPager;
     public List<FastTabEntity> mListFastTab = new ArrayList<>();
-    private IFastMainView mIFastMainView;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-    private Context mContext;
-    private Object mObject;
     private Bundle mSavedInstanceState;
-    private FragmentManager mFragmentManager;
+
     public static final String SAVED_INSTANCE_STATE_CURRENT_TAB = "saved_instance_state_current_tab";
     /**
      * 存放历史主页Tab数量
@@ -101,6 +102,7 @@ public class FastMainTabDelegate {
                 .setTextUnSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextUnSelect))
                 .setUnderlineColor(ContextCompat.getColor(mContext, R.color.colorTabUnderline))
                 .setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))
+                .setTextSelectSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))
                 .setUnderlineGravity(Gravity.TOP)
                 .setUnderlineHeight(mContext.getResources().getDimension(R.dimen.dp_tab_underline))
                 .setIconMargin(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_margin))
@@ -213,5 +215,30 @@ public class FastMainTabDelegate {
         if (mListFastTab == null || mListFastTab.size() == 0) {
             mListFastTab = mIFastMainView.getTabList();
         }
+    }
+
+    /**
+     * 与Activity 及Fragment onDestroy 及时解绑释放避免内存泄露
+     */
+    public void onDestroy() {
+        mContext = null;
+        mObject = null;
+        mFragmentManager = null;
+        mIFastMainView = null;
+        mTabLayout = null;
+        mViewPager = null;
+        if (mListFastTab != null) {
+            mListFastTab.clear();
+            mListFastTab = null;
+        }
+        if (mTabEntities != null) {
+            mTabEntities.clear();
+            mTabEntities = null;
+        }
+        if (mSavedInstanceState != null) {
+            mSavedInstanceState.clear();
+            mSavedInstanceState = null;
+        }
+        LoggerManager.i("FastMainTabDelegate", "onDestroy");
     }
 }

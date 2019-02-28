@@ -3,16 +3,22 @@ package com.aries.library.fast.demo;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.constant.ApiConstant;
+import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.impl.ActivityControlImpl;
 import com.aries.library.fast.demo.impl.AppImpl;
 import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
 import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
+import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.squareup.leakcanary.LeakCanary;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -107,8 +113,24 @@ public class App extends Application {
 
         //初始化友盟统计
         MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(mContext, "5b349499b27b0a085f000052", "FastLib"));
-
+        CrashReport.initCrashReport(getApplicationContext());
+        String appChannel = (String) SPUtil.get(getApplicationContext(), SPConstant.SP_KEY_APP_CHANNEL, "");
+        LoggerManager.i(TAG, "appChannel0:" + appChannel);
+        if (TextUtils.isEmpty(appChannel)) {
+            appChannel = CrashReport.getAppChannel();
+            Log.i(TAG, "appChannel1:" + appChannel);
+            SPUtil.put(getApplicationContext(), SPConstant.SP_KEY_APP_CHANNEL, appChannel);
+        } else {
+            CrashReport.setAppChannel(getApplicationContext(), appChannel);
+        }
+        LoggerManager.i(TAG, "appChannel2:" + appChannel);
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     /**

@@ -29,4 +29,5 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
         mFastTitleDelegate = new FastTitleDelegate(mContentView, this, this.getClass());
         mTitleBar = mFastTitleDelegate.mTitleBar;
     }
+
 }

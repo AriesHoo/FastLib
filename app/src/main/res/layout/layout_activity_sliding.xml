@@ -19,5 +19,6 @@
         app:tl_textBold="SELECT"
         app:tl_textSelectColor="@color/colorTabTextSelect"
         app:tl_textUnSelectColor="@color/colorTabTextUnSelect"
-        app:tl_textSize="16dp"/>
+        app:tl_textSize="16dp"
+        app:tl_textSelectSize="18dp"/>
 </LinearLayout>

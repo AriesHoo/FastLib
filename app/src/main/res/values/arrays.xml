@@ -83,8 +83,8 @@
         <item>RxLifeCycle</item>
         <item>BaseRecyclerViewAdapterHelper</item>
         <item>BGASwipeBackLayout</item>
-        <item>FlycoTabLayout</item>
-        <item>EasyStatusView</item>
+        <item>TabLayout-forked from FlycoTabLayout</item>
+        <item>StatusLayoutManager</item>
         <item>UIWidget</item>
         <item>SmartRefreshLayout</item>
         <item>AndroidEventBus</item>
@@ -121,8 +121,8 @@
         <item>https://github.com/trello/RxLifecycle</item>
         <item>https://github.com/CymChad/BaseRecyclerViewAdapterHelper</item>
         <item>https://github.com/bingoogolapple/BGASwipeBackLayout-Android</item>
-        <item>https://github.com/H07000223/FlycoTabLayout</item>
-        <item>https://github.com/MarnoDev/EasyStatusView</item>
+        <item>https://github.com/AriesHoo/TabLayout</item>
+        <item>https://github.com/Bakumon/StatusLayoutManager</item>
         <item>https://github.com/AriesHoo/UIWidget</item>
         <item>https://github.com/scwang90/SmartRefreshLayout</item>
         <item>https://github.com/hehonghui/AndroidEventBus</item>
@@ -137,12 +137,6 @@
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405268&amp;di=542a54fb3f2b50f1941965c25517869f&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F1%2F57a2fa3c59b53.jpg</item>
         <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502008608181&amp;di=09ad460e1c901ed3097d60d7c8461a92&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F3%2F5880197169c04.jpg</item>
         <item>https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2060246906,3265914169&amp;fm=26&amp;gp=0.jpg</item>
-        <item>https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1171603568,246318761&amp;fm=26&amp;gp=0.jpg</item>
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502603809&amp;di=bbf8bf71aa136a510578d7152a374641&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fwww.desktx.com%2Fd%2Ffile%2Fwallpaper%2FPeople%2Ffemales%2F20160825%2Ff26d5deaa7b92190a84b45769a28ab67.jpg</item>
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502009037206&amp;di=22099663ebd18901b9364f4381d1cab5&amp;imgtype=jpg&amp;src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D2616633398%2C643750943%26fm%3D214%26gp%3D0.jpg</item>
-        <item>http://img1.xiazaizhijia.com/walls/20160621/mid_2f6f1fa9f9d5e3b.jpg</item>
-        <item>http://img5.xiazaizhijia.com/walls/20160621/mid_31d8e8056e92272.jpg</item>
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502193302435&amp;di=08f48aec17d044f64bb53d6edd0bcdfc&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Ff%2F573bd3d1262cb.jpg</item>
     </array>
 
     <array name="arrays_animation">

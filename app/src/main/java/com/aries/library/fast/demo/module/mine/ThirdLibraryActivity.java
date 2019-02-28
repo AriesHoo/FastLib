@@ -1,6 +1,9 @@
 package com.aries.library.fast.demo.module.mine;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
@@ -9,6 +12,7 @@ import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
+import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.touch.ItemTouchHelperCallback;
 import com.aries.library.fast.demo.touch.OnItemTouchHelperListener;
 import com.aries.library.fast.manager.LoggerManager;
@@ -127,4 +131,13 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                 });
     }
 
+    @Override
+    public void onItemClicked(BaseQuickAdapter<WidgetEntity, BaseViewHolder> adapter, View view, int position) {
+        super.onItemClicked(adapter, view, position);
+        WidgetEntity item = adapter.getItem(position);
+        if(item==null|| TextUtils.isEmpty(item.url)){
+            return;
+        }
+        WebViewActivity.start(mContext,item.url,true);
+    }
 }

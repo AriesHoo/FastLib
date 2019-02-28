@@ -11,4 +11,5 @@ public class SPConstant {
     public static final String SP_KEY_ACTIVITY_ANIMATION_ALWAYS = "SP_KEY_ACTIVITY_ANIMATION_ALWAYS";
     public static final String SP_KEY_ACTIVITY_ANIMATION_INDEX = "SP_KEY_ACTIVITY_ANIMATION_INDEX";
     public static final String SP_KEY_HOME_TRANSITION_INDEX = "SP_KEY_HOME_TRANSITION_INDEX";
+    public static final String SP_KEY_APP_CHANNEL = "SP_KEY_APP_CHANNEL";
 }

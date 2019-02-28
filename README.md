@@ -24,7 +24,11 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 其它功能请在demo中发现
 
-[[Download]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
+[[Download-蒲公英]](https://www.pgyer.com/KmaF)
+
+![Download-蒲公英](/apk/qr_pgyer.png)
+
+[[Download-github]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
 
 ![](/apk/qr.png)
 

@@ -66,4 +66,12 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     public void onBackPressed() {
         quitApp();
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mFastMainTabDelegate != null) {
+            mFastMainTabDelegate.onDestroy();
+        }
+        super.onDestroy();
+    }
 }

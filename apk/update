@@ -1,8 +1,8 @@
 {
-	"versionCode": 238,
-	"versionName": "2.2.11-androidx",
+	"versionCode": 239,
+	"versionName": "2.2.12",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
 	"size": "3.80M",
-	"message": "1、upgrade androidx\n2、优化:新增BasisActivity 事件派发全局控制\n3、修复:增加ToastUtil 判断华为手机Android 9.0快速弹出第二次不显示问题并增加全局控制ToastControl\n4、修改返回键操作逻辑避免快速点击造成页面崩溃问题"
+	"message": "1、优化代理类避免内存泄露\n2、升级三方库及gradle \n3、新增Bugly功能"
 }

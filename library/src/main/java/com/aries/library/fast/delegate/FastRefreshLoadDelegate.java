@@ -6,6 +6,7 @@ import android.view.View;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -190,5 +191,21 @@ public class FastRefreshLoadDelegate<T> {
         if (mRecyclerView == null) {
             mRecyclerView = FindViewUtil.getTargetView(rootView, RecyclerView.class);
         }
+    }
+
+    /**
+     * 与Activity 及Fragment onDestroy 及时解绑释放避免内存泄露
+     */
+    public void onDestroy() {
+        mRefreshLayout = null;
+        mRecyclerView = null;
+        mAdapter = null;
+        mStatusManager = null;
+        mIFastRefreshLoadView = null;
+        mContext = null;
+        mManager = null;
+        mRootView = null;
+        mTargetClass = null;
+        LoggerManager.i("FastRefreshLoadDelegate", "onDestroy");
     }
 }

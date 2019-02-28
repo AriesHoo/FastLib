@@ -25,6 +25,7 @@ import com.aries.ui.widget.progress.UIProgressDialog;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -137,7 +138,7 @@ public class FastManager {
             //初始化Toast工具
             ToastUtil.init(mApplication);
             //初始化Glide
-            GlideManager.setPlaceholderColor(mApplication.getResources().getColor(R.color.colorPlaceholder));
+            GlideManager.setPlaceholderColor(ContextCompat.getColor(mApplication,R.color.colorPlaceholder));
             GlideManager.setPlaceholderRoundRadius(mApplication.getResources().getDimension(R.dimen.dp_placeholder_radius));
         }
         return getInstance();
