@@ -78,7 +78,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.AriesHoo</groupId>
 	    <artifactId>FastLib</artifactId>
-	    <version>2.2.1</version>
+	    <version>2.2.12</version>
 	</dependency>
 ```
 
