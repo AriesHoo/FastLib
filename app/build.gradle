@@ -71,6 +71,10 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+
+    implementation 'com.google.android.material:material:'.concat(supportVersion)
+    implementation 'androidx.appcompat:appcompat:'.concat(supportVersion)
+    implementation 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
     //以下库library里使用provided只是编译使用时需根据项目选择相应版本
     //万能适配器--一般都需要吧
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
