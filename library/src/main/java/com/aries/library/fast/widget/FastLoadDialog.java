@@ -126,7 +126,7 @@ public class FastLoadDialog {
 
     public void dismiss() {
         mActivity = mReference.get();
-        if (mDialog != null && !mActivity.isFinishing()) {
+        if (mActivity != null && mDialog != null && !mActivity.isFinishing()) {
             mDialog.dismiss();
         }
     }
