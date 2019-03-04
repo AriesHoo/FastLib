@@ -7,11 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.view.ViewCompat;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,6 +42,12 @@ import com.luck.picture.lib.PicturePreviewActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import static com.aries.library.fast.demo.App.isControlNavigation;
 
@@ -150,8 +151,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      */
     @Override
     public void setContentViewBackground(View contentView, Class<?> cls) {
-        //&&!android.app.Fragment.class.isAssignableFrom(cls)
-        //compileSdkVersion 28已废弃
         //避免背景色重复
         if (!Fragment.class.isAssignableFrom(cls)
                 && contentView.getBackground() == null) {

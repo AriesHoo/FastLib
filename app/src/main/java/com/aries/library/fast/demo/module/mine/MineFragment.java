@@ -3,9 +3,6 @@ package com.aries.library.fast.demo.module.mine;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.appcompat.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +39,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.MultipartBody;
@@ -136,6 +136,7 @@ public class MineFragment extends FastTitleFragment {
             margin.topMargin = heightCover - SizeUtil.dp2px(20);
         }
         mTitleBarViewHelper = new TitleBarViewHelper(mContext)
+                .setTitleBarView(mTitleBar)
                 .setOverScrollView(mSvContainer)
                 .setShowTextEnable(true)
                 .setMaxHeight(heightCover)

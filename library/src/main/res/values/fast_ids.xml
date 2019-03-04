@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="navigation_view_helper" type="id"></item>
-    <item name="status_view_helper" type="id"></item>
-    <item name="set_content_view_background" type="id"></item>
-</resources>
