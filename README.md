@@ -10,19 +10,25 @@
 
 ## 简介：
 
-一个Android项目级快速开发框架,节约大部分写常用功能时间以实现更多项目业务功能及体验上的优化.有问题欢迎issue。
+**FastLib** 是一个整合了常用主流开源项目的 **Android** 快速搭建**UI**库, 其中包含 **Retrofit**、**RxJava** 、**RxAndroid**、**RxLifecycle**等三方库, 并且提供较多的基础**Activity**与**Fragment**如快速搭建**微信类tab+fragment** 的**FastMainActivity**、快速搭建包含TitleBar的**FastTitleActivity**及**FastTitleFragment**、快速搭建列表刷新的**FastRefreshLoadActivity**及**FastRefreshLoadFragment**；并提供快速配置**Retrofit**相关功能的**FastRetrofit**：解决添加统一请求**header**及**多url**等常见功能。
+
+**FastLib 只是一个快速搭建UI及网络请求的库，是常用三方库的一个封装集合,本身不具备框架特性。可在此基础上做MVP、MVVM等框架的扩展**。
+
+基于**FasbLib 2.2.12** 、**Android Studio 3.3.1**、**Gradle 4.10.1**版本编写,后期重大变更会同步更新。
 
 Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.douban.com/wiki/?title=api_v2) ***版权及最终解释权归d豆瓣所有,如有侵权请联系删除!***
 
 ## 主要功能
 
-* 基于Retrofit2.x及RxJava2.x的网络请求封装、网络请求与生命周期绑定、快速观察者、快速loading观察者、快速返回常用错误
-* 常用功能库二次封装方便调用:Glide加载图片封装、TabLayout+ViewPager Fragment切换封装、Logger日志打印封装
-* 多种常用界面布局:标题+多状态+下拉刷新+列表、标题+ViewPager等方便快速创建常用布局增加layout复用
+* 基于**Retrofit2.x**及**RxJava2.x**的网络请求封装、网络请求与生命周期绑定、快速观察者、快速loading观察者、快速返回常用错误
+* 常用功能库二次封装方便调用:**Glide**加载图片封装**GlideManager**、**TabLayout+ViewPager Fragment**切换封装**TabLayoutManager**、**Logger**日志打印封装**LoggerManager**
+* 多种常用界面布局:**标题+多状态+下拉刷新+列表**、**标题+ViewPager**等方便快速创建常用布局增加layout复用
 * Fragment 懒加载封装
-* 快速实现Activity滑动返回、下拉刷新加载更多、沉浸式等
+* 快速实现**Activity滑动返回**、**下拉刷新+自动加载更多**、**沉浸式状态栏+导航栏**等
+* 解决一些老大难问题：**Tab+Fragment 当Activity回收后Fragment 重叠-FastMainActivity**、**软键盘无法弹起-KeyboardHelper**、**状态栏文字转换-StatusBarUtil**、**不同Fragment切换状态栏文字颜色变换-BasisFragment+StatusBarUtil**、**Android 7.0 fileprovider-FastFileUtil**、**Android 9.0 network security policy问题**等
+* 提供众多常用工具类：**ToastUtil-统一样式吐司**、**FastFormatUtil-快速格式化时间、字节单位、double类型小数点保留几位**、**SizeUtil-尺寸转换屏幕宽高获取**、**SPUtil-暂存数据**等
 
-其它功能请在demo中发现
+其它功能请在demo中发现，详细使用请看[wiki](https://github.com/AriesHoo/FastLib/wiki)
 
 [[Download-蒲公英]](https://www.pgyer.com/KmaF)
 
