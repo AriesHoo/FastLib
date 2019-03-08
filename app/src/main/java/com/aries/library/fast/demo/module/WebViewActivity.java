@@ -14,11 +14,13 @@ import android.util.TypedValue;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.library.fast.retrofit.FastDownloadObserver;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFileUtil;
+import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
@@ -55,6 +57,16 @@ public class WebViewActivity extends FastWebActivity {
     @Override
     protected int getProgressColor() {
         return super.getProgressColor();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String url = intent.getStringExtra("url");
+        if (!TextUtils.isEmpty(url)) {
+            start(mContext, url);
+            finish();
+        }
     }
 
     @Override
@@ -169,5 +181,15 @@ public class WebViewActivity extends FastWebActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        Activity activity = FastStackUtil.getInstance().getPrevious();
+        if (activity == null) {
+            FastUtil.startActivity(mContext, MainActivity.class);
+        }
+        super.onBackPressed();
+
     }
 }

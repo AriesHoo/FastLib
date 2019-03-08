@@ -8,7 +8,6 @@ import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,6 +18,7 @@ import com.aries.library.fast.demo.impl.ActivityControlImpl;
 import com.aries.library.fast.demo.impl.AppImpl;
 import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
 import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
+import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFormatUtil;
@@ -156,22 +156,26 @@ public class App extends Application {
             List<ShortcutInfo> list = new ArrayList<>();
             ShortcutInfo shortGit;
             ShortcutInfo shortBlog;
-            Intent intent = new Intent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Bundle bundle = new Bundle();
-            bundle.putString("url", "https://github.com/AriesHoo");
-            intent.putExtras(bundle);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.jianshu.com/u/a229eee96115"));
+            intent.setClassName(getPackageName(),WebViewActivity.class.getName());
+            intent.putExtra("url", "https://www.jianshu.com/u/a229eee96115");
+
+            Intent intentGit = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AriesHoo"));
+            intentGit.setClassName(getPackageName(), WebViewActivity.class.getName());
+            intentGit.putExtra("url", "https://github.com/AriesHoo");
+
+
             shortGit = new ShortcutInfo.Builder(this, "github")
                     .setShortLabel("GitHub")
                     .setLongLabel("GitHub-AriesHoo")
                     .setIcon(Icon.createWithResource(mContext, R.drawable.ic_github))
-                    .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AriesHoo")))
+                    .setIntent(intentGit)
                     .build();
             shortBlog = new ShortcutInfo.Builder(this, "jianshu")
                     .setShortLabel("简书")
                     .setLongLabel("简书-AriesHoo")
                     .setIcon(Icon.createWithResource(mContext, R.drawable.ic_book))
-                    .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.jianshu.com/u/a229eee96115")))
+                    .setIntent(intent)
                     .build();
             list.add(shortGit);
             list.add(shortBlog);
