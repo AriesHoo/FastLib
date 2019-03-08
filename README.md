@@ -7,6 +7,7 @@
 [![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/简书-AriesHoo-blue.svg)](http://www.jianshu.com/u/a229eee96115)
+[![](https://img.shields.io/badge/wiki-使用说明-green.svg)](https://github.com/AriesHoo/FastLib/wiki)
 
 ## 简介：
 
