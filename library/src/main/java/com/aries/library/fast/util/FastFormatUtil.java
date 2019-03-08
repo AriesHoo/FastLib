@@ -13,6 +13,7 @@ import java.util.Date;
  * Description:
  * 1、2018-7-11 15:23:40 将日期格式化TimeFormatUtil迁移至此,新增格式化文件大小
  * 2、2018-8-30 09:20:01 新增格式化保留小数点方法
+ * 3、2019-3-8 15:37:23 修改{@link #formatWeek(long)}错误
  */
 public class FastFormatUtil {
 
@@ -25,7 +26,7 @@ public class FastFormatUtil {
     public static int formatWeek(long millis) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(millis);
-        int index = calendar.get(Calendar.DAY_OF_WEEK) + 1;
+        int index = calendar.get(Calendar.DAY_OF_WEEK);
         return index;
     }
 

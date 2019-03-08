@@ -4,8 +4,6 @@ buildscript {
     repositories {
         jcenter()
         google()
-        mavenLocal()
-        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.1'
@@ -16,10 +14,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        google()
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://jitpack.io" }
+        google() //AndroidStudio v3.0 可以使用 google() 替代 maven { url "https://maven.google.com" }
+        maven { url "https://jitpack.io" }//FastLib 及部分三方库通过JitPack发布需添加才可依赖
     }
 }
 
@@ -29,10 +25,8 @@ task clean(type: Delete) {
 
 ext{
     compileSdkVersion = 28
-    buildToolsVersion = "28.0.3"
     minSdkVersion = 21
     targetSdkVersion = 28
-//    supportVersion = "28.0.0"
     supportVersion = "1.0.0"
     versionCode = 239
     versionName = "2.2.12"

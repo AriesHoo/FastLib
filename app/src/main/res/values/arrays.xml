@@ -104,7 +104,7 @@
         <item>不错的滑动关闭Activity库</item>
         <item>不错的主界面tab、滑动tab、分段选择器tab功能库</item>
         <item>方便快速实现加载中、加载失败、网络错误、无数据等四种状态布局</item>
-        <item>常用控件库包括(TitleBarView、RadiusView、UIAlertView、UIActionSheetView、UIProgressView)</item>
+        <item>常用控件库包括(TitleBarView、RadiusView、UIAlertDialog、UIActionSheetDialog、UIProgressDialog)</item>
         <item>非常不错的下拉刷新库支持多款刷新头与自定义刷新头方便使用</item>
         <item>方便使用的Android界面事件分发库(支持TAG)</item>
         <item>基于Android WebView 一个功能完善小型浏览器库.使用很方便;集成进你应用,只需几行代码</item>

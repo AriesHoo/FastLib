@@ -20,11 +20,6 @@ public class QQTitleActivity extends FastTitleActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void initView(Bundle savedInstanceState) {
 
     }

@@ -2,7 +2,13 @@ package com.aries.library.fast.demo;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,11 +21,17 @@ import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
 import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
+import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @Author: AriesHoo on 2018/7/31 10:43
@@ -38,7 +50,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         //初始化Logger日志打印
-        LoggerManager.init(TAG, BuildConfig.DEBUG);
+        LoggerManager.init(TAG, BuildConfig.DEBUG,
+                PrettyFormatStrategy.newBuilder()
+                        .methodOffset(0)
+                        .showThreadInfo(true)
+                        .methodCount(3));
         start = System.currentTimeMillis();
         LoggerManager.i(TAG, "start:" + start);
         mContext = this;
@@ -115,7 +131,7 @@ public class App extends Application {
         MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(mContext, "5b349499b27b0a085f000052", "FastLib"));
         CrashReport.initCrashReport(getApplicationContext());
         String appChannel = (String) SPUtil.get(getApplicationContext(), SPConstant.SP_KEY_APP_CHANNEL, "");
-        LoggerManager.i(TAG, "appChannel0:" + appChannel);
+        LoggerManager.i(TAG, "appChannel0:" + appChannel + ";week:" + FastFormatUtil.formatWeek(System.currentTimeMillis()) + ";:" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
         if (TextUtils.isEmpty(appChannel)) {
             appChannel = CrashReport.getAppChannel();
             Log.i(TAG, "appChannel1:" + appChannel);
@@ -125,12 +141,42 @@ public class App extends Application {
         }
         LoggerManager.i(TAG, "appChannel2:" + appChannel);
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
+        setShortcut();
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return;
         }
         LeakCanary.install(this);
+    }
+
+    private void setShortcut() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+            ShortcutManager shortcutManager = mContext.getSystemService(ShortcutManager.class);
+            List<ShortcutInfo> list = new ArrayList<>();
+            ShortcutInfo shortGit;
+            ShortcutInfo shortBlog;
+            Intent intent = new Intent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            Bundle bundle = new Bundle();
+            bundle.putString("url", "https://github.com/AriesHoo");
+            intent.putExtras(bundle);
+            shortGit = new ShortcutInfo.Builder(this, "github")
+                    .setShortLabel("GitHub")
+                    .setLongLabel("GitHub-AriesHoo")
+                    .setIcon(Icon.createWithResource(mContext, R.drawable.ic_github))
+                    .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AriesHoo")))
+                    .build();
+            shortBlog = new ShortcutInfo.Builder(this, "jianshu")
+                    .setShortLabel("简书")
+                    .setLongLabel("简书-AriesHoo")
+                    .setIcon(Icon.createWithResource(mContext, R.drawable.ic_book))
+                    .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.jianshu.com/u/a229eee96115")))
+                    .build();
+            list.add(shortGit);
+            list.add(shortBlog);
+            shortcutManager.setDynamicShortcuts(list);
+        }
     }
 
     /**

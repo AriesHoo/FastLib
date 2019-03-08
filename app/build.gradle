@@ -72,34 +72,31 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
+    //以下库FastLib里使用compileOnly只是编译,使用时需根据项目选择相应版本
     implementation 'com.google.android.material:material:'.concat(supportVersion)
     implementation 'androidx.appcompat:appcompat:'.concat(supportVersion)
     implementation 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
-    //以下库library里使用provided只是编译使用时需根据项目选择相应版本
     //万能适配器--一般都需要吧
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
-    //webView库 继承FastWebActivity需要,不需要内置WebView可以不compile
+    //webView库 继承FastWebActivity需要,不需要内置WebView可以不implementation
     implementation 'com.just.agentweb:agentweb:4.0.2'
     //webView提供下载功能
     implementation 'com.just.agentweb:download:4.0.2'
-    implementation 'com.just.agentweb:filechooser:4.0.2'
     //下拉刷新库注意刷新头SmartRefreshHeader版本最好对应尤其头版本不要低于SmartRefreshLayout版本
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
-    //图片加载 4.X
+    //Glide图片加载
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    //以上库library里使用provided只是编译使用时需根据项目选择相应版本
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    //以上库FastLib里使用compileOnly只是编译,使用时需根据项目选择相应版本
     implementation 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
     implementation 'com.github.lygttpod:SuperTextView:2.1.8'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
-    implementation 'com.just.agentweb:agentweb:+'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     //文件选择器
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     //友盟统计
     implementation 'com.umeng.analytics:analytics:latest.integration'
     //Bugly
     implementation 'com.tencent.bugly:crashreport:2.8.6.0'
-//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
