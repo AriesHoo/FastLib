@@ -44,6 +44,7 @@
         </activity>
         <activity
             android:name=".module.main.MainActivity"
+            android:launchMode="singleTop"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"/>
         <!-- 应用内浏览器 -->
         <activity

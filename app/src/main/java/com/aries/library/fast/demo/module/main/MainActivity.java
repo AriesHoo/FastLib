@@ -1,9 +1,12 @@
 package com.aries.library.fast.demo.module.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
+import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.entity.FastTabEntity;
@@ -46,6 +49,24 @@ public class MainActivity extends FastMainActivity {
     }
 
     @Override
+    public void beforeSetContentView() {
+        super.beforeSetContentView();
+        String url = getIntent().getStringExtra("url");
+        if (!TextUtils.isEmpty(url)) {
+            WebViewActivity.start(mContext, url);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String url = intent.getStringExtra("url");
+        if (!TextUtils.isEmpty(url)) {
+            WebViewActivity.start(mContext, url);
+        }
+    }
+
+    @Override
     public void setTabLayout(CommonTabLayout tabLayout) {
     }
 
@@ -63,6 +84,6 @@ public class MainActivity extends FastMainActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoggerManager.i(TAG,"onDestroy");
+        LoggerManager.i(TAG, "onDestroy");
     }
 }

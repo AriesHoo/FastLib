@@ -18,7 +18,7 @@ import com.aries.library.fast.demo.impl.ActivityControlImpl;
 import com.aries.library.fast.demo.impl.AppImpl;
 import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
 import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
-import com.aries.library.fast.demo.module.WebViewActivity;
+import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFormatUtil;
@@ -157,11 +157,11 @@ public class App extends Application {
             ShortcutInfo shortGit;
             ShortcutInfo shortBlog;
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.jianshu.com/u/a229eee96115"));
-            intent.setClassName(getPackageName(),WebViewActivity.class.getName());
+            intent.setClassName(getPackageName(), MainActivity.class.getName());
             intent.putExtra("url", "https://www.jianshu.com/u/a229eee96115");
 
             Intent intentGit = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AriesHoo"));
-            intentGit.setClassName(getPackageName(), WebViewActivity.class.getName());
+            intentGit.setClassName(getPackageName(), MainActivity.class.getName());
             intentGit.putExtra("url", "https://github.com/AriesHoo");
 
 
