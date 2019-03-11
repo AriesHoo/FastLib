@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
@@ -22,7 +22,6 @@ import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFileUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
-import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
@@ -30,6 +29,7 @@ import com.just.agentweb.AgentWeb;
 
 import java.io.File;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 
 /**
@@ -136,10 +136,11 @@ public class WebViewActivity extends FastWebActivity {
                 .subscribe(new FastDownloadObserver(mFilePath, fileName) {
                     @Override
                     public void onSuccess(File file) {
-                        SnackBarUtil.with(mContainer)
+                        new AlertDialog.Builder(mContext)
+                                .setTitle("保存成功")
                                 .setMessage("图片已保存至" + mFilePath + "文件夹")
-                                .setMessageColor(Color.parseColor("#2394FE"))
-                                .setBgColor(Color.WHITE)
+                                .setPositiveButton(R.string.ensure, null)
+                                .create()
                                 .show();
                     }
 
