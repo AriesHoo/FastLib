@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="我是底部-主要文字距离底部间距"
+        android:text="我是底部-注意文字距离底部间距"
         android:textColor="@color/colorTitleText"
         android:textSize="16dp"/>
 </LinearLayout>

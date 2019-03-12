@@ -19,6 +19,7 @@ import com.aries.library.fast.demo.impl.AppImpl;
 import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
 import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
 import com.aries.library.fast.demo.module.main.MainActivity;
+import com.aries.library.fast.demo.util.NotificationUtil;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFormatUtil;
@@ -129,7 +130,10 @@ public class App extends Application {
 
         //初始化友盟统计
         MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(mContext, "5b349499b27b0a085f000052", "FastLib"));
+        //初始化Bugly
         CrashReport.initCrashReport(getApplicationContext());
+        //初始化通知栏控制
+        NotificationUtil.getInstance().init(getApplicationContext());
         String appChannel = (String) SPUtil.get(getApplicationContext(), SPConstant.SP_KEY_APP_CHANNEL, "");
         LoggerManager.i(TAG, "appChannel0:" + appChannel + ";week:" + FastFormatUtil.formatWeek(System.currentTimeMillis()) + ";:" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
         if (TextUtils.isEmpty(appChannel)) {
