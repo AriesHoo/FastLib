@@ -145,27 +145,6 @@ dependencies {
 }
 ```
 
-## 实现功能-多看注释及版本修改说明
-
-* 支持全局多种参数配置(加载更多+多状态页面+网络加载Loading+下拉刷新头+TitleBarView属性设置+Activity滑动关闭-类微信+http网络返回及错误处理+Activity与Fragment生命周期监听+主页返回键控制) 参看[FastManager](/library/src/main/java/com/aries/library/fast/FastManager.java) 实现及 [App](/app/src/main/java/com/aries/library/fast/demo/App.java)配置
-* 支持修改三方库 TitleBar 及虚拟导航栏沉浸式 及 Activity滑动关闭功能
-* 网络请求与Activity/Fragment生命周期绑定--通过RxLifeCycle2.x
-* Retrofit2.x+RxJava2.x 网络请求简要封装支持多BaseUrl、支持快速下载、快速上传文件功能 参看[FastRetrofit](/library/src/main/java/com/aries/library/fast/retrofit/FastRetrofit.java)
-* Basis开头是通用基类:[BasisActivity](/library/src/main/java/com/aries/library/fast/basis/BasisActivity.java)和[BasisFragment](/library/src/main/java/com/aries/library/fast/basis/BasisFragment.java)
-* Fast开头的是快速创建常见功能页面:[FastMainActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastMainActivity.java)-快速创建包含tab主Activity;[FastTitleActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastTitleActivity.java)-快速创建包含TitleBarView的Activity;[FastRefreshLoadActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastRefreshLoadActivity.java)-快速创建包含TitleBarView及下拉刷新、多状态切换的Activity;[FastWebActivity](/library/src/main/java/com/aries/library/fast/module/activity/FastWebActivity.java)快速创建应用内webView的Activity;[FastTitleFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastTitleFragment.java)-快速创建包含TitleBarView的Fragment;[FastRefreshLoadFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastRefreshLoadFragment.java)-快速实现下拉刷新的Fragment;[FastTitleRefreshLoadFragment](/library/src/main/java/com/aries/library/fast/module/fragment/FastTitleRefreshLoadFragment.java)-快速实现包含TitleBarView及下拉刷新与多状态切换Fragment
-* Manager类是三方库二次封装:目前有[GlideManager](/library/src/main/java/com/aries/library/fast/manager/GlideManager.java)-图片加载库Glide库封装;[LoggerManager](/library/src/main/java/com/aries/library/fast/manager/LoggerManager.java)-日志打印logger库封装;[RxJavaManager](/library/src/main/java/com/aries/library/fast/manager/RxJavaManager.java)-RxJava实现timer;[TabLayoutManager](/library/src/main/java/com/aries/library/fast/manager/TabLayoutManager.java)-FlycoTabLayout+ViewPager使用:包括CommonTabLayout、SlidingTabLayout、SegmentTabLayout在FragmentActivity与Fragment中使用的封装
-* Util类为常用工具:[FastStackUtil](/library/src/main/java/com/aries/library/fast/util/FastStackUtil.java)-应用Activity栈管理类;[FastUtil](/library/src/main/java/com/aries/library/fast/util/FastUtil.java)-部分应用常用功能类;[SizeUtil](/src/main/java/com/aries/library/fast/util/SizeUtil.java)-尺寸转换类;[SPUtil](/library/src/main/java/com/aries/library/fast/util/SPUtil.java) -SharedPreferences使用类;[TimeFormatUtil](/library/src/main/java/com/aries/library/fast/util/TimeFormatUtil.java)-时间转换类;[ToastUtil](/library/src/main/java/com/aries/library/fast/util/ToastUtil.java)-单例模式toast工具类:可配置是否后台显示
-* Delegate为代理类:[FastTitleDelegate](/library/src/main/java/com/aries/library/fast/delegate/FastTitleDelegate.java)-快速实现包含TitleBarView的Fragment/Activity;[FastRefreshLoadDelegate](/library/src/main/java/com/aries/library/fast/delegate/FastRefreshLoadDelegate.java)-快速实现下拉刷新、上拉加载更多、多状态切换的Fragment/Activity
-* 沉浸式状态栏:继承FastTitleActivity/FastRefreshLoadActivity/FastWebActivity/FastTitleFragment/FastTitleRefreshLoadFragment 无需额外代码即可实现
-* 状态栏白底黑字模式:同沉浸式状态栏功能继承,只需重写父类实现接口isLightStatusBarEnable即可实现;MIUI V6、Flyme 4.0、Android 6.0以上:参考[UIWidget-StatusBarUtil](/library/src/main/java/com/aries/ui/util/StatusBarUtil.java)
-* 快速创建圆角、全圆、按下、不可点击状态的TextView、EditText、FrameLayout、LinearLayout、RelativeLayout、RadioButton、CheckBox减少shape文件创建设置:参考库[UIWidget](https://github.com/AriesHoo/UIWidget)
-* Activity/Fragment 页面事件交互(支持设置TAG)
-* 万能适配器（ListView、GridView，RecyclerView):可添加多个Header和Footer
-* Fragment懒加载,Activity可见时加载--统一了普通Fragment及与ViewPager配合滑动的用户可见回调
-* 下拉刷新、上拉加载:支持多种效果的刷新头及自定义刷新头-参考库[SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
-
-## 注意事项
-
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
 * 2.2.11-androidx
@@ -230,21 +209,23 @@ dependencies {
 
 ## 鸣谢
 
-* [ButterKnife-注解](https://github.com/JakeWharton/butterknife)
-* [Retrofit2.X-网络请求](https://github.com/square/retrofit)
-* [RxJava2.X-响应式编程](https://github.com/ReactiveX/RxJava)
-* [RxLifeCycle2.X-网络请求生命周期绑定](https://github.com/trello/RxLifecycle)
-* [Glide-图片加载](https://github.com/bumptech/glide)
-* [Logger-日志打印](https://github.com/orhanobut/logger)
-* [BaseRecyclerViewAdapterHelper-万能适配器](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
-* [TabLayout-快速Tab(forked from FlycoTabLayout)](https://github.com/AriesHoo/TabLayout)
-* [SmartRefreshLayout-智能刷新](https://github.com/scwang90/SmartRefreshLayout)
-* [BGABanner-Android-Banner图](https://github.com/bingoogolapple/BGABanner-Android)
-* [BGASwipeBackLayout-滑动返回Activity](https://github.com/bingoogolapple/BGASwipeBackLayout-Android)
-* [StatusLayoutManager-多状态视图切换](https://github.com/Bakumon/StatusLayoutManager)
-* [UIWidget-常用UI库](https://github.com/AriesHoo/UIWidget)
-* [AndroidEventBus-页面事件交互](https://github.com/hehonghui/AndroidEventBus)
-* [AgentWeb-原生WebView快速集成库](https://github.com/Justson/AgentWeb)
+1. [`Retrofit` 是 `Square`出品的网络请求库，极大的减少了 Http 请求的代码和步骤](https://github.com/square/retrofit)
+2. [`RxJava` 提供优雅的响应式 API 解决异步请求以及事件处理](https://github.com/ReactiveX/RxJava)
+3. [`RxAndroid` 为 Android 提供响应式 API](https://github.com/ReactiveX/RxAndroid)
+4. [`Rxlifecycle`，在 Android 上使用 `RxJava` 都知道的一个坑，就是生命周期的解除订阅，这个框架通过绑定 Activity 和 Fragment 的生命周期完美解决该问题](https://github.com/trello/RxLifecycle)
+5. [`Okhttp` 同样 `Square` 出品，不多介绍，做 Android 的都应该知道](https://github.com/square/okhttp)
+6. [`Gson` 是 `Google` 官方的 Json Convert 框架](https://github.com/google/gson)
+7. [`Butterknife` 是 `JakeWharton` 大神出品的 View 注入框架](https://github.com/JakeWharton/butterknife)
+8. [`AndroidEventBus` 是一个轻量级的 `EventBus`，提供TAG支持](https://github.com/hehonghui/AndroidEventBus)
+9. [`Logger` 是 `orhanobut` 出品的 Log 框架，`FastLib`提供相关封装类`LoggerManager`](https://github.com/orhanobut/logger)
+10. [`Glide` 是`Google`推荐的图片加载库，`FastLib`提供相关封装类`GlideManager`](https://github.com/bumptech/glide)
+11. [`BaseRecyclerViewAdapterHelper` 是`陈宇明`封装的RecyclerView 适配器帮助类](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+12. [`SmartRefreshLayout` 是`scwang90`封装的刷新库，扩展性很强](https://github.com/scwang90/SmartRefreshLayout)
+13. [`AgentWeb` 是`Justson`封装的原生WebView库，使用方便扩展性很强](https://github.com/Justson/AgentWeb)
+14. [`BGASwipeBackLayout` 是`bingoogolapple-王浩`封装的微信效果的Activity滑动返回库](https://github.com/bingoogolapple/BGASwipeBackLayout-Android)
+15. [`StatusLayoutManager` 是`Bakumon`封装的多状态控制管理工具,方便实现加载中、加载失败、网络错误等状态](https://github.com/Bakumon/StatusLayoutManager)
+16. [`TabLayout` 是`AriesHoo` forked from `FlycoTabLayout`并加以优化调整的主界面tab、滑动tab、分段选择器tab功能库](https://github.com/AriesHoo/TabLayout)
+17. [`UIWidget` 是`AriesHoo` 封装的常用UI库(TitleBarView、RadiusView、StatusViewHelper、NavigationViewHelper等)](https://github.com/AriesHoo/UIWidget)
 
 ## License
 
