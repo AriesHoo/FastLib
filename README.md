@@ -43,17 +43,17 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
 
-虚拟导航栏控制-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
+**虚拟导航栏控制**-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
 
-模拟器软键盘控制
+**模拟器软键盘控制**
 
 ![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard01.gif)
 
-华为可隐藏软键盘控制
+**华为可隐藏软键盘控制**
 
 ![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard02.gif)
 
-华为全面屏手势控制
+**华为全面屏手势控制**
 
 ![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard03.gif)
 
@@ -61,11 +61,11 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
 
-开启GPU过度绘制检测+GPU呈现模式分析
+**开启GPU过度绘制检测+GPU呈现模式分析**
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/DoraemonKit.gif)
 
-DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调 
+**DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调** 
 
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 
