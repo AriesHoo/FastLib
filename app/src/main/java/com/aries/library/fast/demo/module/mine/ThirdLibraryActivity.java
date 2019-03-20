@@ -85,7 +85,9 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                             public void onEnd(int star, int end) {
                                 mRefreshLayout.setEnableRefresh(true);
                                 LoggerManager.i(TAG, "onEnd-star:" + star + ";end:" + end);
-                                ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
+                                if (star != end) {
+                                    ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
+                                }
                             }
                         }));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -135,9 +137,9 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
     public void onItemClicked(BaseQuickAdapter<WidgetEntity, BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WidgetEntity item = adapter.getItem(position);
-        if(item==null|| TextUtils.isEmpty(item.url)){
+        if (item == null || TextUtils.isEmpty(item.url)) {
             return;
         }
-        WebViewActivity.start(mContext,item.url,true);
+        WebViewActivity.start(mContext, item.url, true);
     }
 }

@@ -99,4 +99,8 @@ dependencies {
     implementation 'com.umeng.analytics:analytics:latest.integration'
     //Bugly
     implementation 'com.tencent.bugly:crashreport:2.8.6.0'
+    //哆啦A梦
+    implementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
+//    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
+//    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.2'
 }

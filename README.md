@@ -63,6 +63,10 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 开启GPU过度绘制检测+GPU呈现模式分析
 
+![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/DoraemonKit.gif)
+
+DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调 
+
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 
 **Gradle集成-尽量使用正式版本**

@@ -18,13 +18,17 @@ import com.aries.library.fast.demo.impl.ActivityControlImpl;
 import com.aries.library.fast.demo.impl.AppImpl;
 import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
 import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
+import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.demo.util.NotificationUtil;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFormatUtil;
+import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -134,6 +138,8 @@ public class App extends Application {
         CrashReport.initCrashReport(getApplicationContext());
         //初始化通知栏控制
         NotificationUtil.getInstance().init(getApplicationContext());
+
+        //设置用户下载App的初始渠道
         String appChannel = (String) SPUtil.get(getApplicationContext(), SPConstant.SP_KEY_APP_CHANNEL, "");
         LoggerManager.i(TAG, "appChannel0:" + appChannel + ";week:" + FastFormatUtil.formatWeek(System.currentTimeMillis()) + ";:" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
         if (TextUtils.isEmpty(appChannel)) {
@@ -145,6 +151,18 @@ public class App extends Application {
         }
         LoggerManager.i(TAG, "appChannel2:" + appChannel);
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
+
+        //初始化哆啦A梦
+        DoraemonKit.install(this);
+        // H5任意门功能需要，非必须
+        DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
+            @Override
+            public void overrideUrlLoading(Context context, String s) {
+                // 使用自己的H5容器打开这个链接
+                LoggerManager.i("overrideUrlLoading", "url:" + s);
+                WebViewActivity.start(FastStackUtil.getInstance().getCurrent(),s);
+            }
+        });
         setShortcut();
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

@@ -101,7 +101,9 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                             public void onEnd(int star, int end) {
                                 mRefreshLayout.setEnableRefresh(true);
                                 LoggerManager.i(TAG, "onEnd-star:" + star + ";end:" + end);
-                                ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
+                                if (star != end) {
+                                    ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
+                                }
                             }
                         }));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);

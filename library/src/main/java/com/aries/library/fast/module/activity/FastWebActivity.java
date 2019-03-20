@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,11 +34,17 @@ import androidx.core.content.ContextCompat;
  * Function: App内快速实现WebView功能
  * Description:
  * 1、调整WebView自适应屏幕代码属性{@link #initAgentWeb()}
+ * 2、2019-3-20 11:45:07 增加url自动添加http://功能及规范url
  */
 public abstract class FastWebActivity extends FastTitleActivity {
 
     protected ViewGroup mContainer;
+    /**
+     * {@use mUrl}
+     */
+    @Deprecated
     protected String url = "";
+    protected String mUrl = "";
     protected String mCurrentUrl;
     protected AlertDialog mAlertDialog;
     protected AgentWeb mAgentWeb;
@@ -89,8 +96,13 @@ public abstract class FastWebActivity extends FastTitleActivity {
     @Override
     public void beforeInitView(Bundle savedInstanceState) {
         mContainer = findViewById(R.id.lLayout_containerFastWeb);
-        url = getIntent().getStringExtra("url");
-        mCurrentUrl = url;
+        mUrl = getIntent().getStringExtra("url");
+        if (!TextUtils.isEmpty(mUrl)) {
+            mUrl = mUrl.startsWith("http") ? mUrl : "http://" + mUrl;
+            getIntent().putExtra("url", mUrl);
+        }
+        url = mUrl;
+        mCurrentUrl = mUrl;
         initAgentWeb();
         super.beforeInitView(savedInstanceState);
 
@@ -135,7 +147,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected void initAgentWeb() {
         mAgentBuilder = AgentWeb.with(this)
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))
-                .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : ContextCompat.getColor(mContext,R.color.colorTitleText),
+                .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : ContextCompat.getColor(mContext, R.color.colorTitleText),
                         getProgressHeight())
                 .setWebChromeClient(new WebChromeClient() {
                     @Override
@@ -150,7 +162,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
         mAgentWeb = mAgentBuilder
                 .createAgentWeb()//
                 .ready()
-                .go(url);
+                .go(mUrl);
         WebSettings webSettings = mAgentWeb.getAgentWebSettings().getWebSettings();
         //设置webView自适应屏幕
         webSettings.setUseWideViewPort(true);
@@ -232,7 +244,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     protected void onPause() {
-        if (mAgentWeb != null) {
+        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null) {
             mAgentWeb.getWebLifeCycle().onPause();
         }
         super.onPause();
@@ -240,7 +252,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     protected void onResume() {
-        if (mAgentWeb != null) {
+        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null) {
             mAgentWeb.getWebLifeCycle().onResume();
         }
         super.onResume();
@@ -248,7 +260,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     protected void onDestroy() {
-        if (mAgentWeb != null) {
+        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null) {
             mAgentWeb.getWebLifeCycle().onDestroy();
         }
         super.onDestroy();

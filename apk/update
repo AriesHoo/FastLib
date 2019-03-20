@@ -3,6 +3,6 @@
 	"versionName": "2.2.12",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
-	"size": "3.80M",
-	"message": "1、优化代理类避免内存泄露\n2、升级三方库及gradle \n3、新增Bugly功能"
+	"size": "4.85M",
+	"message": "1、优化代理类避免内存泄露\n2、升级三方库及gradle \n3、新增Bugly功能及DoraemonKit功能"
 }
