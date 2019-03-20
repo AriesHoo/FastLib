@@ -45,6 +45,18 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 虚拟导航栏控制-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
 
+模拟器软键盘控制
+
+![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard01.gif)
+
+华为可隐藏软键盘控制
+
+![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard02.gif)
+
+华为全面屏手势控制
+
+![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard03.gif)
+
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
