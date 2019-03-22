@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
+import com.aries.library.fast.i.IFastRefreshLoadView;
+import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
@@ -95,6 +98,13 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         //回调开发者处理
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityStarted(activity);
+        }
+        if (activity instanceof IFastRefreshView && !(activity instanceof IFastRefreshLoadView)) {
+            View contentView = FastUtil.getRootView(activity);
+            if (contentView != null) {
+                LoggerManager.i("mRefreshLayout0");
+                FastRefreshDelegate delegate = new FastRefreshDelegate(contentView, (IFastRefreshView) activity);
+            }
         }
     }
 

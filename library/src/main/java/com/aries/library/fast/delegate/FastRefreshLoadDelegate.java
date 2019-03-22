@@ -12,9 +12,8 @@ import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
@@ -35,6 +34,7 @@ public class FastRefreshLoadDelegate<T> {
     public BaseQuickAdapter<T, BaseViewHolder> mAdapter;
     public StatusLayoutManager mStatusManager;
     private IFastRefreshLoadView<T> mIFastRefreshLoadView;
+    private FastRefreshDelegate mRefreshDelegate;
     private Context mContext;
     private FastManager mManager;
     public View mRootView;
@@ -49,27 +49,11 @@ public class FastRefreshLoadDelegate<T> {
         if (mIFastRefreshLoadView == null) {
             return;
         }
-        getRefreshLayout(rootView);
+        mRefreshDelegate = new FastRefreshDelegate(rootView, iFastRefreshLoadView);
+        mRefreshLayout = mRefreshDelegate.mRefreshLayout;
         getRecyclerView(rootView);
-        initRefreshHeader();
         initRecyclerView();
         setStatusManager();
-    }
-
-    /**
-     * 初始化刷新头配置
-     */
-    protected void initRefreshHeader() {
-        if (mRefreshLayout == null) {
-            return;
-        }
-        mRefreshLayout.setRefreshHeader(mIFastRefreshLoadView.getRefreshHeader() != null
-                ? mIFastRefreshLoadView.getRefreshHeader() :
-                mManager.getDefaultRefreshHeader() != null ?
-                        mManager.getDefaultRefreshHeader().createRefreshHeader(mContext, mRefreshLayout) :
-                        new ClassicsHeader(mContext).setSpinnerStyle(SpinnerStyle.Translate));
-        mRefreshLayout.setOnRefreshListener(mIFastRefreshLoadView);
-        mRefreshLayout.setEnableRefresh(mIFastRefreshLoadView.isRefreshEnable());
     }
 
     /**
@@ -83,7 +67,7 @@ public class FastRefreshLoadDelegate<T> {
             FastManager.getInstance().getFastRecyclerViewControl().setRecyclerView(mRecyclerView, mTargetClass);
         }
         mAdapter = mIFastRefreshLoadView.getAdapter();
-        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager());
+        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager()==null?new LinearLayoutManager(mContext):mIFastRefreshLoadView.getLayoutManager());
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setAdapter(mAdapter);
         if (mAdapter != null) {
@@ -118,6 +102,9 @@ public class FastRefreshLoadDelegate<T> {
         }
         if (contentView == null) {
             contentView = mRecyclerView;
+        }
+        if (contentView == null) {
+            contentView = mRootView;
         }
         if (contentView == null) {
             return;
@@ -169,19 +156,6 @@ public class FastRefreshLoadDelegate<T> {
     }
 
     /**
-     * 获取布局里的刷新Layout
-     *
-     * @param rootView
-     * @return
-     */
-    private void getRefreshLayout(View rootView) {
-        mRefreshLayout = rootView.findViewById(R.id.smartLayout_rootFastLib);
-        if (mRefreshLayout == null) {
-            mRefreshLayout = FindViewUtil.getTargetView(rootView, SmartRefreshLayout.class);
-        }
-    }
-
-    /**
      * 获取布局RecyclerView
      *
      * @param rootView
@@ -197,6 +171,10 @@ public class FastRefreshLoadDelegate<T> {
      * 与Activity 及Fragment onDestroy 及时解绑释放避免内存泄露
      */
     public void onDestroy() {
+        if (mRefreshDelegate != null) {
+            mRefreshDelegate.onDestroy();
+            mRefreshDelegate = null;
+        }
         mRefreshLayout = null;
         mRecyclerView = null;
         mAdapter = null;

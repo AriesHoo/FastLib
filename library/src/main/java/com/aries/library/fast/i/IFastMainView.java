@@ -1,9 +1,6 @@
 package com.aries.library.fast.i;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -12,6 +9,10 @@ import com.aries.ui.view.tab.CommonTabLayout;
 import com.aries.ui.view.tab.listener.OnTabSelectListener;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * @Author: AriesHoo on 2018/7/20 17:07
@@ -26,7 +27,9 @@ public interface IFastMainView extends OnTabSelectListener {
      *
      * @return true 可滑动切换(配合ViewPager)
      */
-    boolean isSwipeEnable();
+    default boolean isSwipeEnable() {
+        return false;
+    }
 
     /**
      * 用于添加Tab属性(文字-图标)
@@ -42,6 +45,7 @@ public interface IFastMainView extends OnTabSelectListener {
      * {@link com.aries.library.fast.module.activity.FastMainActivity#beforeInitView(Bundle)}
      * {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
      * {@link com.aries.library.fast.module.fragment.FastMainFragment#beforeInitView(Bundle)}
+     *
      * @return
      */
     Bundle getSavedInstanceState();
@@ -58,5 +62,27 @@ public interface IFastMainView extends OnTabSelectListener {
      *
      * @param mViewPager ViewPager属性控制
      */
-    void setViewPager(ViewPager mViewPager);
+    default void setViewPager(ViewPager mViewPager) {
+
+    }
+
+    /**
+     * tab首次选中
+     *
+     * @param position
+     */
+    @Override
+    default void onTabSelect(int position) {
+
+    }
+
+    /**
+     * tab选中状态再点击
+     *
+     * @param position
+     */
+    @Override
+    default void onTabReselect(int position) {
+
+    }
 }

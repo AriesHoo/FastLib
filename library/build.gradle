@@ -25,6 +25,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    //java 1.8--Interface的虚方法设置默认值default
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     //以下为配置library注释在打包jar后保留
     // 打包源码jar
     task sourcesJar(type: Jar) {

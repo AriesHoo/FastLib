@@ -5,11 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.aries.library.fast.demo.R;
@@ -39,6 +34,11 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -50,7 +50,7 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
  */
 public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
         FastRecyclerViewControl, MultiStatusView, LoadingDialog,
-        TitleBarViewControl, QuitAppControl,ToastControl {
+        TitleBarViewControl, QuitAppControl, ToastControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();

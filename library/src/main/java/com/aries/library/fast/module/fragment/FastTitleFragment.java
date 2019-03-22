@@ -19,13 +19,9 @@ public abstract class FastTitleFragment extends BasisFragment implements IFastTi
     protected TitleBarView mTitleBar;
 
     @Override
-    public void beforeSetTitleBar(TitleBarView titleBar) {
-    }
-
-    @Override
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
-        mFastTitleDelegate = new FastTitleDelegate(mContentView, this,this.getClass());
+        mFastTitleDelegate = new FastTitleDelegate(mContentView, this, this.getClass());
         mTitleBar = mFastTitleDelegate.mTitleBar;
     }
 }

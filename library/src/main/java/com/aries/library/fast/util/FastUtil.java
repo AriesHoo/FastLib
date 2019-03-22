@@ -161,8 +161,8 @@ public class FastUtil {
     public static boolean isClassExist(String className) {
         boolean isExit = false;
         try {
-            Class.forName(className);
-            isExit = true;
+            Class<?> cls = Class.forName(className);
+            isExit = cls != null;
         } catch (ClassNotFoundException e) {
             LoggerManager.e("FastUtil", "isClassExist:" + e.getMessage());
         }

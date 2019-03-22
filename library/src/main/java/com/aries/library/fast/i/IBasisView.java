@@ -1,6 +1,7 @@
 package com.aries.library.fast.i;
 
 import android.os.Bundle;
+
 import androidx.annotation.LayoutRes;
 
 /**
@@ -17,7 +18,9 @@ public interface IBasisView {
      *
      * @return
      */
-    boolean isEventBusEnable();
+    default boolean isEventBusEnable() {
+        return true;
+    }
 
     /**
      * Activity或Fragment 布局xml
@@ -37,16 +40,23 @@ public interface IBasisView {
     /**
      * 执行加载布局文件之前操作方法前调用
      */
-    void beforeSetContentView();
+    default void beforeSetContentView() {
+
+    }
 
     /**
      * 在初始化控件前进行一些操作
+     *
      * @param savedInstanceState
      */
-    void beforeInitView(Bundle savedInstanceState);
+    default void beforeInitView(Bundle savedInstanceState) {
+
+    }
 
     /**
      * 需要加载数据时重写此方法
      */
-    void loadData();
+    default void loadData() {
+
+    }
 }

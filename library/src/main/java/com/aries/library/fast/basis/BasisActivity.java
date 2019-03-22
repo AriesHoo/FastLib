@@ -19,6 +19,7 @@ import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.FastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle3.android.ActivityEvent;
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
@@ -59,11 +60,6 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     private QuitAppControl mQuitAppControl;
 
     @Override
-    public boolean isEventBusEnable() {
-        return true;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (isEventBusEnable()) {
             EventBus.getDefault().register(this);
@@ -74,13 +70,17 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         beforeSetContentView();
         mContentView = View.inflate(mContext, getContentLayout(), null);
         //解决StatusLayoutManager与SmartRefreshLayout冲突
-        if (this instanceof IFastRefreshLoadView && mContentView.getClass() == SmartRefreshLayout.class) {
-            FrameLayout frameLayout = new FrameLayout(mContext);
-            if (mContentView.getLayoutParams() != null) {
-                frameLayout.setLayoutParams(mContentView.getLayoutParams());
+        if (this instanceof IFastRefreshLoadView) {
+            if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
+                if (mContentView.getClass() == SmartRefreshLayout.class) {
+                    FrameLayout frameLayout = new FrameLayout(mContext);
+                    if (mContentView.getLayoutParams() != null) {
+                        frameLayout.setLayoutParams(mContentView.getLayoutParams());
+                    }
+                    frameLayout.addView(mContentView);
+                    mContentView = frameLayout;
+                }
             }
-            frameLayout.addView(mContentView);
-            mContentView = frameLayout;
         }
         setContentView(mContentView);
         mUnBinder = ButterKnife.bind(this);
@@ -250,19 +250,10 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     }
 
     @Override
-    public void beforeSetContentView() {
-    }
-
-    @Override
     public void beforeInitView(Bundle savedInstanceState) {
         if (FastManager.getInstance().getActivityFragmentControl() != null) {
             FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
         }
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
     private void beforeLazyLoad() {

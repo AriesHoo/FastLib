@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.demo.util.NotificationUtil;
+import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.library.fast.retrofit.FastDownloadObserver;
@@ -22,6 +23,7 @@ import com.aries.library.fast.util.FastFileUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.just.agentweb.AbsAgentWebSettings;
@@ -33,6 +35,8 @@ import com.just.agentweb.download.AgentWebDownloader;
 import com.just.agentweb.download.DefaultDownloadImpl;
 import com.just.agentweb.download.DownloadListenerAdapter;
 import com.just.agentweb.download.DownloadingService;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.io.File;
 
@@ -45,7 +49,7 @@ import androidx.appcompat.app.AlertDialog;
  * Description:
  * 1、2018-7-30 11:04:22 新增图片下载功能
  */
-public class WebViewActivity extends FastWebActivity {
+public class WebViewActivity extends FastWebActivity implements IFastRefreshView {
 
     private String mFilePath = FastFileUtil.getCacheDir();
     private String mFormat = "保存图片<br><small><font color='#2394FE'>图片文件夹路径:%1s</font></small>";
@@ -326,5 +330,17 @@ public class WebViewActivity extends FastWebActivity {
                                         this.mAgentWeb.getPermissionInterceptor()));
             }
         };
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshLayout) {
+        mAgentWeb.getUrlLoader().reload();
+        refreshLayout.finishRefresh();
+    }
+
+    @Override
+    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
+        int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
+        refreshLayout.setHeaderInsetStartPx(statusHeight);
     }
 }

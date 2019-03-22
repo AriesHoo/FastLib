@@ -7,8 +7,6 @@ import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.delegate.FastMainTabDelegate;
 import com.aries.library.fast.i.IFastMainView;
 
-import androidx.viewpager.widget.ViewPager;
-
 /**
  * @Author: AriesHoo on 2018/7/23 10:00
  * @E-Mail: AriesHoo@126.com
@@ -18,16 +16,6 @@ import androidx.viewpager.widget.ViewPager;
 public abstract class FastMainActivity extends BasisActivity implements IFastMainView {
 
     protected FastMainTabDelegate mFastMainTabDelegate;
-
-    @Override
-    public void setViewPager(ViewPager mViewPager) {
-
-    }
-
-    @Override
-    public boolean isSwipeEnable() {
-        return false;
-    }
 
     @Override
     public int getContentLayout() {
@@ -46,15 +34,6 @@ public abstract class FastMainActivity extends BasisActivity implements IFastMai
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
         mFastMainTabDelegate = new FastMainTabDelegate(mContentView, this, this);
-    }
-
-    @Override
-    public void onTabReselect(int position) {
-
-    }
-
-    @Override
-    public void onTabSelect(int position) {
     }
 
     @Override

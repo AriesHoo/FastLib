@@ -17,7 +17,9 @@ public interface IFastTitleView {
      *
      * @param titleBar
      */
-    void beforeSetTitleBar(TitleBarView titleBar);
+    default void beforeSetTitleBar(TitleBarView titleBar) {
+
+    }
 
     /**
      * 一般用于最终实现子类设置TitleBarView 其它属性

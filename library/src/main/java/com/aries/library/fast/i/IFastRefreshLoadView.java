@@ -5,8 +5,6 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
  * Description:
  * 1、2018-7-20 17:11:22 多状态集成关系
  * 2、2018-7-20 17:39:55 去掉点击事件getMultiStatusViewChildClickListener
+ * 3、2019-3-22 15:06:07 抽离下拉刷新功能并设置部分默认返回值
  */
-public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, IMultiStatusView {
+public interface IFastRefreshLoadView<T> extends IFastRefreshView, BaseQuickAdapter.RequestLoadMoreListener, IMultiStatusView {
     /**
      * 使用BaseRecyclerViewAdapterHelper作为上拉加载的实现方式
      * 如果使用ListView或GridView等需要自己去实现上拉加载更多的逻辑
@@ -32,21 +31,18 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      *
      * @return RecyclerView的布局管理器对象
      */
-    RecyclerView.LayoutManager getLayoutManager();
-
-    /**
-     * 获取下拉刷新头布局
-     *
-     * @return 下拉刷新头
-     */
-    RefreshHeader getRefreshHeader();
+    default RecyclerView.LayoutManager getLayoutManager() {
+        return null;
+    }
 
     /**
      * 获取加载更多布局
      *
      * @return
      */
-    LoadMoreView getLoadMoreView();
+    default LoadMoreView getLoadMoreView() {
+        return null;
+    }
 
     /**
      * 触发下拉或上拉刷新操作
@@ -60,21 +56,18 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      *
      * @return
      */
-    boolean isLoadMoreEnable();
-
-    /**
-     * 是否支持下拉刷新功能
-     *
-     * @return
-     */
-    boolean isRefreshEnable();
+    default boolean isLoadMoreEnable() {
+        return true;
+    }
 
     /**
      * item是否有点击事件
      *
      * @return
      */
-    boolean isItemClickEnable();
+    default boolean isItemClickEnable() {
+        return true;
+    }
 
     /**
      * item点击回调
@@ -83,7 +76,9 @@ public interface IFastRefreshLoadView<T> extends OnRefreshListener, BaseQuickAda
      * @param view
      * @param position
      */
-    void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
+    default void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position) {
+
+    }
 
     /**
      * 设置全局监听接口

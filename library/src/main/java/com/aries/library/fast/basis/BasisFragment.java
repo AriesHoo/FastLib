@@ -15,6 +15,7 @@ import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.FastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle3.android.FragmentEvent;
 import com.trello.rxlifecycle3.components.support.RxFragment;
@@ -47,11 +48,6 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     private boolean mIsInViewPager;
     protected Bundle mSavedInstanceState;
 
-    @Override
-    public boolean isEventBusEnable() {
-        return true;
-    }
-
     /**
      * 检查Fragment或FragmentActivity承载的Fragment是否只有一个
      *
@@ -80,13 +76,17 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         beforeSetContentView();
         mContentView = inflater.inflate(getContentLayout(), container, false);
         //解决StatusLayoutManager与SmartRefreshLayout冲突
-        if (this instanceof IFastRefreshLoadView && mContentView.getClass() == SmartRefreshLayout.class) {
-            FrameLayout frameLayout = new FrameLayout(container.getContext());
-            if (mContentView.getLayoutParams() != null) {
-                frameLayout.setLayoutParams(mContentView.getLayoutParams());
+        if (this instanceof IFastRefreshLoadView) {
+            if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
+                if (mContentView.getClass() == SmartRefreshLayout.class) {
+                    FrameLayout frameLayout = new FrameLayout(mContext);
+                    if (mContentView.getLayoutParams() != null) {
+                        frameLayout.setLayoutParams(mContentView.getLayoutParams());
+                    }
+                    frameLayout.addView(mContentView);
+                    mContentView = frameLayout;
+                }
             }
-            frameLayout.addView(mContentView);
-            mContentView = frameLayout;
         }
         mUnBinder = ButterKnife.bind(this, mContentView);
         mIsViewLoaded = true;
@@ -108,20 +108,10 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     }
 
     @Override
-    public void beforeSetContentView() {
-
-    }
-
-    @Override
     public void beforeInitView(Bundle savedInstanceState) {
         if (FastManager.getInstance().getActivityFragmentControl() != null) {
             FastManager.getInstance().getActivityFragmentControl().setContentViewBackground(mContentView, this.getClass());
         }
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
     @Override

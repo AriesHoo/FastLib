@@ -19,11 +19,6 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
     protected TitleBarView mTitleBar;
 
     @Override
-    public void beforeSetTitleBar(TitleBarView titleBar) {
-
-    }
-
-    @Override
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
         mFastTitleDelegate = new FastTitleDelegate(mContentView, this, this.getClass());

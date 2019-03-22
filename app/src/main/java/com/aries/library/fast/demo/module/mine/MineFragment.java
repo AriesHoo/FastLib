@@ -20,6 +20,7 @@ import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
 import com.aries.library.fast.demo.widget.OverScrollView;
 import com.aries.library.fast.demo.widget.ProgressDialog;
+import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
@@ -34,6 +35,7 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +56,7 @@ import okhttp3.ResponseBody;
  * @Function: 我的
  * @Description:
  */
-public class MineFragment extends FastTitleFragment {
+public class MineFragment extends FastTitleFragment implements IFastRefreshView {
 
     @BindView(R.id.sv_containerMine) OverScrollView mSvContainer;
     @BindView(R.id.tv_coverMine) TextView mTvCover;
@@ -282,5 +284,10 @@ public class MineFragment extends FastTitleFragment {
         if (mTitleBarViewHelper != null) {
             mTitleBarViewHelper.onDestroy();
         }
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshLayout) {
+
     }
 }

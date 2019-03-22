@@ -16,33 +16,43 @@ public interface IMultiStatusView {
      *
      * @return
      */
-    View getMultiStatusContentView();
+    default View getMultiStatusContentView() {
+        return null;
+    }
 
     /**
      * 设置StatusLayoutManager属性
      *
      * @param statusView
      */
-    void setMultiStatusView(StatusLayoutManager.Builder statusView);
+    default void setMultiStatusView(StatusLayoutManager.Builder statusView) {
+
+    }
 
     /**
      * 获取空布局里点击View回调
      *
      * @return
      */
-    View.OnClickListener getEmptyClickListener();
+    default View.OnClickListener getEmptyClickListener() {
+        return null;
+    }
 
     /**
      * 获取错误布局里点击View回调
      *
      * @return
      */
-    View.OnClickListener getErrorClickListener();
+    default View.OnClickListener getErrorClickListener() {
+        return null;
+    }
 
     /**
      * 获取自定义布局里点击View回调
      *
      * @return
      */
-    View.OnClickListener getCustomerClickListener();
+    default View.OnClickListener getCustomerClickListener() {
+        return null;
+    }
 }
