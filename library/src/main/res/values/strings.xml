@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_view_tip">示例展示 \n1、普通Activity通过IFastTitleView 实现TitleBarView 全局控制\n2、通过IFastRefreshView以达到下拉刷新功能不改变原xml布局(Fragment参考MineFragment)</string>
+</resources>

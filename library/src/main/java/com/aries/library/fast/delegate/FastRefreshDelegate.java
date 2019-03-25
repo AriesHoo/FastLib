@@ -35,6 +35,12 @@ public class FastRefreshDelegate {
         if (mIFastRefreshView == null) {
             return;
         }
+        if (mRootView == null) {
+            mRootView = mIFastRefreshView.getContentView();
+        }
+        if (mRootView == null) {
+            return;
+        }
         getRefreshLayout(rootView);
         //原布局无SmartRefreshLayout 将rootView 从父布局移除并添加进SmartRefreshLayout 将SmartRefreshLayout作为新的
         if (mRefreshLayout == null && mIFastRefreshView.isRefreshEnable()) {
@@ -46,6 +52,20 @@ public class FastRefreshDelegate {
                 parentLayout = (ViewGroup) mRootView.getParent();
             } else {
                 parentLayout = mRootView.getRootView().findViewById(android.R.id.content);
+            }
+            //如果此时parentLayout为null 可能mRootView为Fragment 根布局
+            if (parentLayout == null) {
+                if (mRootView.getRootView() instanceof ViewGroup) {
+                    parentLayout = (ViewGroup) mRootView.getRootView();
+                }
+            }
+            if (parentLayout == null) {
+                return;
+            }
+            LoggerManager.i("mRefreshLayout-parentLayout:" + parentLayout);
+            //mRootView为Fragment根布局
+            if (parentLayout == mRootView) {
+                return;
             }
             int index = parentLayout.indexOfChild(mRootView);
             //先移除rootView

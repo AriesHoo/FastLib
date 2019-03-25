@@ -35,6 +35,7 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.io.File;
@@ -64,6 +65,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     @BindView(R.id.stv_updateMine) SuperTextView mStvUpdate;
     private ImageView mIvHead;
     private boolean mIsLight;
+    private SmartRefreshLayout mRefreshLayout;
 
     private ImagePickerHelper mImagePickerHelper;
     private TitleBarViewHelper mTitleBarViewHelper;
@@ -73,6 +75,25 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
         MineFragment fragment = new MineFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    /**
+     * Activity 可以通过给根布局添加SmartRefreshLayout实现
+     * Fragment 根布局getParent 为null无法获取父容器故需传递一个被SmartRefreshLayout包裹的View
+     * 如Fragment根布局为SmartRefreshLayout 此处传递null即可
+     *
+     * @return
+     */
+    @Override
+    public View getContentView() {
+        return mSvContainer;
+    }
+
+    @Override
+    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
+        mRefreshLayout = refreshLayout;
+        int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
+        refreshLayout.setHeaderInsetStartPx(statusHeight);
     }
 
     @Override
@@ -148,6 +169,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
                         mIsLight = isLightMode;
                     }
                 });
+        LoggerManager.i("initView_getParent:" + mContentView.getParent() + ";rootView:" + mContentView.getRootView());
     }
 
     /**
@@ -262,6 +284,9 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     protected void onVisibleChanged(boolean isVisibleToUser) {
         super.onVisibleChanged(isVisibleToUser);
         if (isVisibleToUser) {
+            if (mRefreshLayout != null) {
+                mRefreshLayout.autoRefresh();
+            }
             if (mIsLight) {
                 StatusBarUtil.setStatusBarLightMode(mContext);
             } else {
@@ -288,6 +313,6 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-
+        refreshLayout.finishRefresh();
     }
 }

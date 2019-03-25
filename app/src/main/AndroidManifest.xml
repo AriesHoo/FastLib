@@ -85,6 +85,10 @@
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:label="@string/test_status"/>
         <activity
+            android:name=".module.main.sample.FastViewActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="模拟快速下拉刷新及TitleBarView统一设置"/>
+        <activity
             android:name=".module.mine.SettingActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:label="@string/setting"/>

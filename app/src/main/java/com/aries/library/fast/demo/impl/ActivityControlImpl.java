@@ -190,14 +190,14 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         }
         //全局控制屏幕横竖屏
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
-        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-            try {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } catch (Exception e) {
-                e.printStackTrace();
-                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
-            }
-        }
+//        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+//            try {
+//                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
+//            }
+//        }
     }
 
     /**
@@ -335,6 +335,12 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             public void onFragmentDestroyed(@NonNull FragmentManager fm, @NonNull Fragment f) {
                 super.onFragmentDestroyed(fm, f);
                 LoggerManager.i(TAG, "onFragmentDestroyed:" + f.getClass().getSimpleName());
+            }
+
+            @Override
+            public void onFragmentViewDestroyed(@NonNull FragmentManager fm, @NonNull Fragment f) {
+                super.onFragmentViewDestroyed(fm, f);
+                LoggerManager.i(TAG, "onFragmentViewDestroyed:" + f.getClass().getSimpleName());
             }
         };
     }

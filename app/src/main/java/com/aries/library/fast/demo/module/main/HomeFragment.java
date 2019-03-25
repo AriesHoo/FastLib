@@ -3,7 +3,6 @@ package com.aries.library.fast.demo.module.main;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,9 +16,10 @@ import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.helper.TitleBarViewHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
+import com.aries.library.fast.demo.module.main.sample.FastViewActivity;
 import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
-import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
 import com.aries.library.fast.demo.module.main.sample.SingleFragmentActivity;
+import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
 import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
 import com.aries.library.fast.demo.module.main.sample.TitleWithEditTextActivity;
 import com.aries.library.fast.demo.module.main.sample.ToastActivity;
@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.appcompat.app.AlertDialog;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.bingoogolapple.bgabanner.transformer.TransitionEffect;
 
@@ -173,6 +174,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     @Override
     public void loadData(int page) {
         listActivity.clear();
+        listActivity.add(FastViewActivity.class);
         listActivity.add(SwipeBackActivity.class);
         listActivity.add(QQTitleActivity.class);
         listActivity.add(ALiPayMainActivity.class);
@@ -240,7 +242,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     public void onItemClicked(BaseQuickAdapter<WidgetEntity, BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
         WidgetEntity entity = adapter.getItem(position);
-        if (position == 0) {
+        if (position == 1) {
             SwipeBackActivity.start(mContext, entity.title);
         } else {
             FastUtil.startActivity(mContext, entity.activity);
