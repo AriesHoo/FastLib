@@ -163,6 +163,10 @@ dependencies {
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
+* 2.2.13
+
+    * 新增: 下拉刷新接口IFastRefreshView及标题栏IFastTitleBarView
+    
 * 2.2.11-androidx
 
     * 重大变更: 2.2.11的androidx版本-起始版本
