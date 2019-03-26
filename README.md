@@ -82,7 +82,7 @@ allprojects {
 
 ```
 dependencies {
-      implementation 'com.github.AriesHoo:FastLib:2.2.12'
+      implementation 'com.github.AriesHoo:FastLib:2.2.13'
 }
 ```
 
@@ -101,7 +101,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.AriesHoo</groupId>
 	    <artifactId>FastLib</artifactId>
-	    <version>2.2.12</version>
+	    <version>2.2.13</version>
 	</dependency>
 ```
 
