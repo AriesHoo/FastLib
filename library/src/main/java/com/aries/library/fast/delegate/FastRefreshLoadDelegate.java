@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
@@ -112,10 +113,10 @@ public class FastRefreshLoadDelegate<T> {
         StatusLayoutManager.Builder builder = new StatusLayoutManager.Builder(contentView)
                 .setDefaultLayoutsBackgroundColor(android.R.color.transparent)
                 .setDefaultEmptyText(R.string.fast_multi_empty)
-                .setDefaultEmptyClickViewTextColor(contentView.getResources().getColor(R.color.colorTitleText))
+                .setDefaultEmptyClickViewTextColor(ContextCompat.getColor(mContext,R.color.colorTitleText))
                 .setDefaultLoadingText(R.string.fast_multi_loading)
                 .setDefaultErrorText(R.string.fast_multi_error)
-                .setDefaultErrorClickViewTextColor(contentView.getResources().getColor(R.color.colorTitleText))
+                .setDefaultErrorClickViewTextColor(ContextCompat.getColor(mContext,R.color.colorTitleText))
                 .setOnStatusChildClickListener(new OnStatusChildClickListener() {
                     @Override
                     public void onEmptyChildClick(View view) {

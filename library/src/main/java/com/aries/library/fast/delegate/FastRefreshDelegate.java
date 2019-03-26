@@ -42,42 +42,6 @@ public class FastRefreshDelegate {
             return;
         }
         getRefreshLayout(rootView);
-        //原布局无SmartRefreshLayout 将rootView 从父布局移除并添加进SmartRefreshLayout 将SmartRefreshLayout作为新的
-        if (mRefreshLayout == null && mIFastRefreshView.isRefreshEnable()) {
-
-            ViewGroup parentLayout;
-            ViewGroup.LayoutParams params = mRootView.getLayoutParams();
-
-            if (mRootView.getParent() != null) {
-                parentLayout = (ViewGroup) mRootView.getParent();
-            } else {
-                parentLayout = mRootView.getRootView().findViewById(android.R.id.content);
-            }
-            //如果此时parentLayout为null 可能mRootView为Fragment 根布局
-            if (parentLayout == null) {
-                if (mRootView.getRootView() instanceof ViewGroup) {
-                    parentLayout = (ViewGroup) mRootView.getRootView();
-                }
-            }
-            if (parentLayout == null) {
-                return;
-            }
-            LoggerManager.i("mRefreshLayout-parentLayout:" + parentLayout);
-            //mRootView为Fragment根布局
-            if (parentLayout == mRootView) {
-                return;
-            }
-            int index = parentLayout.indexOfChild(mRootView);
-            //先移除rootView
-            parentLayout.removeView(mRootView);
-            //新建SmartRefreshLayout
-            mRefreshLayout = new SmartRefreshLayout(mRootView.getContext());
-            //将rootView添加进SmartRefreshLayout
-            mRefreshLayout.addView(mRootView);
-            //将SmartRefreshLayout添加进parentLayout
-            parentLayout.addView(mRefreshLayout, index, params);
-            LoggerManager.i("mRefreshLayout1-parentLayout:" + parentLayout + ";index:" + index);
-        }
         initRefreshHeader();
         if (mRefreshLayout != null) {
             mIFastRefreshView.setRefreshLayout(mRefreshLayout);
@@ -113,6 +77,30 @@ public class FastRefreshDelegate {
         mRefreshLayout = rootView.findViewById(R.id.smartLayout_rootFastLib);
         if (mRefreshLayout == null) {
             mRefreshLayout = FindViewUtil.getTargetView(rootView, SmartRefreshLayout.class);
+        }
+        //原布局无SmartRefreshLayout 将rootView 从父布局移除并添加进SmartRefreshLayout 将SmartRefreshLayout作为新的
+        if (mRefreshLayout == null && mIFastRefreshView.isRefreshEnable()) {
+            ViewGroup parentLayout;
+            ViewGroup.LayoutParams params = mRootView.getLayoutParams();
+
+            if (mRootView.getParent() != null) {
+                parentLayout = (ViewGroup) mRootView.getParent();
+            } else {
+                parentLayout = mRootView.getRootView().findViewById(android.R.id.content);
+            }
+            //如果此时parentLayout为null 可能mRootView为Fragment 根布局
+            if (parentLayout == null) {
+                return;
+            }
+            int index = parentLayout.indexOfChild(mRootView);
+            //先移除rootView
+            parentLayout.removeView(mRootView);
+            //新建SmartRefreshLayout
+            mRefreshLayout = new SmartRefreshLayout(mRootView.getContext());
+            //将rootView添加进SmartRefreshLayout
+            mRefreshLayout.addView(mRootView);
+            //将SmartRefreshLayout添加进parentLayout
+            parentLayout.addView(mRefreshLayout, index, params);
         }
     }
 

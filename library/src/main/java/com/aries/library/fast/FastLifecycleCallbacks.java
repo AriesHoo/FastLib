@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
-import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
+import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
 import com.aries.library.fast.module.activity.FastTitleActivity;
+import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.library.fast.module.fragment.FastTitleRefreshLoadFragment;
 import com.aries.library.fast.util.FastStackUtil;
@@ -93,7 +94,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     public void onActivityStarted(Activity activity) {
         View contentView = FastUtil.getRootView(activity);
         LoggerManager.i(TAG, "onActivityStarted:" + activity.getClass().getSimpleName() + ";contentView:" + contentView);
-        boolean isSet = activity.getIntent().getBooleanExtra(FastKey.IS_SET_CONTENT_VIEW_BACKGROUND, false);
+        boolean isSet = activity.getIntent().getBooleanExtra(FastConstant.IS_SET_CONTENT_VIEW_BACKGROUND, false);
         if (!isSet) {
             setContentViewBackground(FastUtil.getRootView(activity), activity.getClass());
         }
@@ -103,8 +104,8 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         setNavigationBar(activity);
         //配置下拉刷新
         if (activity instanceof IFastRefreshView
-                && !(activity instanceof IFastRefreshLoadView)
-                && !activity.getIntent().getBooleanExtra(FastKey.IS_SET_REFRESH_VIEW, false)) {
+                && !(FastRefreshLoadActivity.class.isAssignableFrom(activity.getClass()))
+                && !activity.getIntent().getBooleanExtra(FastConstant.IS_SET_REFRESH_VIEW, false)) {
             IFastRefreshView refreshView = (IFastRefreshView) activity;
             if (contentView != null
                     || refreshView.getContentView() != null) {
@@ -112,18 +113,18 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                         refreshView.getContentView() != null ? refreshView.getContentView() : contentView,
                         (IFastRefreshView) activity);
                 String keyDelegate = UUID.randomUUID().toString();
-                activity.getIntent().putExtra(FastKey.KEY_FAST_DELEGATE, keyDelegate);
+                activity.getIntent().putExtra(FastConstant.KEY_FAST_DELEGATE, keyDelegate);
                 FastDelegateManager.getInstance().putFastRefreshDelegate(keyDelegate, delegate);
-                activity.getIntent().putExtra(FastKey.IS_SET_REFRESH_VIEW, true);
+                activity.getIntent().putExtra(FastConstant.IS_SET_REFRESH_VIEW, true);
             }
         }
         //设置TitleBarView
         if (activity instanceof IFastTitleView
                 && !(FastTitleActivity.class.isAssignableFrom(activity.getClass()))
-                && !activity.getIntent().getBooleanExtra(FastKey.IS_SET_TITLE_BAR_VIEW, false)
+                && !activity.getIntent().getBooleanExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false)
                 && contentView != null) {
             new FastTitleDelegate(contentView, (IFastTitleView) activity, activity.getClass());
-            activity.getIntent().putExtra(FastKey.IS_SET_TITLE_BAR_VIEW, true);
+            activity.getIntent().putExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, true);
         }
         //回调开发者处理
         if (mActivityLifecycleCallbacks != null) {
@@ -171,17 +172,17 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     public void onActivityDestroyed(Activity activity) {
         //横竖屏会重绘将状态重置
         if (activity.getIntent() != null) {
-            activity.getIntent().putExtra(FastKey.IS_SET_STATUS_VIEW_HELPER, false);
-            activity.getIntent().putExtra(FastKey.IS_SET_NAVIGATION_VIEW_HELPER, false);
-            activity.getIntent().putExtra(FastKey.IS_SET_CONTENT_VIEW_BACKGROUND, false);
-            activity.getIntent().putExtra(FastKey.IS_SET_REFRESH_VIEW, false);
-            activity.getIntent().putExtra(FastKey.IS_SET_TITLE_BAR_VIEW, false);
+            activity.getIntent().putExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, false);
+            activity.getIntent().putExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER, false);
+            activity.getIntent().putExtra(FastConstant.IS_SET_CONTENT_VIEW_BACKGROUND, false);
+            activity.getIntent().putExtra(FastConstant.IS_SET_REFRESH_VIEW, false);
+            activity.getIntent().putExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false);
         }
         LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
         FastStackUtil.getInstance().pop(activity, false);
 
         //清除下拉刷新代理FastRefreshDelegate
-        String keyDelegate = activity.getIntent().getStringExtra(FastKey.KEY_FAST_DELEGATE);
+        String keyDelegate = activity.getIntent().getStringExtra(FastConstant.KEY_FAST_DELEGATE);
         FastDelegateManager.getInstance().removeFastRefreshDelegate(keyDelegate);
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityDestroyed(activity);
@@ -191,16 +192,16 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     @Override
     public void onFragmentViewCreated(FragmentManager fm, Fragment f, View v, Bundle savedInstanceState) {
         super.onFragmentViewCreated(fm, f, v, savedInstanceState);
-        boolean isSet = f.getArguments() != null ? f.getArguments().getBoolean(FastKey.IS_SET_CONTENT_VIEW_BACKGROUND, false) : false;
+        boolean isSet = f.getArguments() != null ? f.getArguments().getBoolean(FastConstant.IS_SET_CONTENT_VIEW_BACKGROUND, false) : false;
         if (!isSet) {
             setContentViewBackground(v, f.getClass());
         }
         //刷新功能处理
         if (f instanceof IFastRefreshView
-                && !(f instanceof IFastRefreshLoadView)) {
+                && !(FastRefreshLoadFragment.class.isAssignableFrom(f.getClass()))) {
             IFastRefreshView refreshView = (IFastRefreshView) f;
             String keyDelegate = UUID.randomUUID().toString();
-            f.getArguments().putString(FastKey.KEY_FAST_DELEGATE, keyDelegate);
+            f.getArguments().putString(FastConstant.KEY_FAST_DELEGATE, keyDelegate);
             FastRefreshDelegate delegate = new FastRefreshDelegate(
                     refreshView.getContentView() != null ? refreshView.getContentView() : f.getView(),
                     refreshView);
@@ -219,8 +220,8 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     public void onFragmentViewDestroyed(@NonNull FragmentManager fm, @NonNull Fragment f) {
         super.onFragmentViewDestroyed(fm, f);
         if (f.getArguments() != null) {
-            f.getArguments().putBoolean(FastKey.IS_SET_CONTENT_VIEW_BACKGROUND, false);
-            String keyDelegate = f.getArguments().getString(FastKey.KEY_FAST_DELEGATE);
+            f.getArguments().putBoolean(FastConstant.IS_SET_CONTENT_VIEW_BACKGROUND, false);
+            String keyDelegate = f.getArguments().getString(FastConstant.KEY_FAST_DELEGATE);
             FastDelegateManager.getInstance().removeFastRefreshDelegate(keyDelegate);
         }
     }
@@ -308,7 +309,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     }
 
     private void setStatusBar(Activity activity) {
-        boolean isSet = activity.getIntent().getBooleanExtra(FastKey.IS_SET_STATUS_VIEW_HELPER, false);
+        boolean isSet = activity.getIntent().getBooleanExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, false);
         if (isSet) {
             return;
         }
@@ -329,7 +330,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
             boolean isInit = mActivityFragmentControl != null ? mActivityFragmentControl.setStatusBar(activity, statusViewHelper, topView) : true;
             if (isInit) {
                 statusViewHelper.init();
-                activity.getIntent().putExtra(FastKey.IS_SET_STATUS_VIEW_HELPER, true);
+                activity.getIntent().putExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, true);
             }
         }
     }
@@ -340,7 +341,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
      * @param activity
      */
     private void setNavigationBar(Activity activity) {
-        boolean isSet = activity.getIntent().getBooleanExtra(FastKey.IS_SET_NAVIGATION_VIEW_HELPER, false);
+        boolean isSet = activity.getIntent().getBooleanExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER, false);
         if (isSet) {
             return;
         }
@@ -380,7 +381,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 .setNavigationLayoutColor(Color.WHITE);
         boolean isInit = mActivityFragmentControl != null ? mActivityFragmentControl.setNavigationBar(activity, navigationViewHelper, bottomView) : true;
         if (isInit) {
-            activity.getIntent().putExtra(FastKey.IS_SET_NAVIGATION_VIEW_HELPER, true);
+            activity.getIntent().putExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER, true);
             navigationViewHelper.init();
         }
     }

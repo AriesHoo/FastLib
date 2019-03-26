@@ -261,6 +261,9 @@ public class FastUtil {
         }
         Intent intent = new Intent(context, activity);
         intent.setFlags(isSingle ? ACTIVITY_SINGLE_FLAG : Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         if (bundle != null) {
             intent.putExtras(bundle);
         }

@@ -8,7 +8,7 @@ import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.trello.rxlifecycle3.android.FragmentEvent;
 
@@ -37,11 +37,6 @@ public class NewsRefreshItemFragment extends FastRefreshLoadFragment {
     }
 
     @Override
-    public RefreshHeader getRefreshHeader() {
-        return new ClassicsHeader(mContext);
-    }
-
-    @Override
     public BaseQuickAdapter getAdapter() {
         return new WidgetAdapter();
     }
@@ -57,5 +52,10 @@ public class NewsRefreshItemFragment extends FastRefreshLoadFragment {
                         mRefreshLayout.finishRefresh();
                     }
                 });
+    }
+
+    @Override
+    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
+        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
     }
 }

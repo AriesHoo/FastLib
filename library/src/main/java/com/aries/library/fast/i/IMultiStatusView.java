@@ -30,6 +30,14 @@ public interface IMultiStatusView {
     }
 
     /**
+     * 设置StatusLayoutManager
+     *
+     * @param manager
+     */
+    default void setMultiStatusView(StatusLayoutManager manager) {
+    }
+
+    /**
      * 获取空布局里点击View回调
      *
      * @return
