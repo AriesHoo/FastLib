@@ -122,7 +122,7 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     }
 
     private void showDownDialog(String url) {
-        mActionSheetView = new UIActionSheetDialog.ListSheetBuilder(mContext)
+        UIActionSheetDialog actionSheetDialog = new UIActionSheetDialog.ListSheetBuilder(mContext)
                 .addItem(Html.fromHtml(String.format(mFormat, mFilePath)))
                 .setOnItemClickListener((dialog, itemView, i) -> {
                     switch (i) {
@@ -134,7 +134,7 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
                 .setCancel(com.aries.library.fast.R.string.fast_cancel)
                 .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
                 .create();
-        mActionSheetView.show();
+        actionSheetDialog.show();
     }
 
     /**
