@@ -1,7 +1,6 @@
 package com.aries.library.fast.demo.helper;
 
 import android.app.Activity;
-import androidx.appcompat.app.AlertDialog;
 import android.text.TextUtils;
 
 import com.aries.library.fast.basis.BasisActivity;
@@ -26,6 +25,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.appcompat.app.AlertDialog;
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -113,7 +113,7 @@ public class CheckVersionHelper {
             }
             return;
         }
-        if (TextUtils.isEmpty(entity.url) || !entity.url.contains("apk")) {
+        if (TextUtils.isEmpty(entity.url)) {
             if (mIsLoading) {
                 ToastUtil.show("不是有效的下载链接:" + entity.url);
             }
