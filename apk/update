@@ -1,7 +1,7 @@
 {
 	"versionCode": 240,
 	"versionName": "2.2.13",
-	"url": "https://www.pgyer.com/apiv2/app/install?appKey=b88a08387635b27ea95dcf2d6b887a33&_api_key=f4d7dae2132cf8715c99ca79043deefb",
+	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": true,
 	"size": "4.85M",
 	"message": "1、优化：FastLib 在Activity/Fragment生命周期自动处理IFastRefreshView下拉刷新及IFastTitleView 标题栏效果\n2、优化：FastWebActivity增加url自动添加http://功能及规范url\n3、Demo增加三方研发工具doraemonkit\n4、Demo增加网页下拉刷新功能\n5、Demo增加下拉刷新示例Activity"
