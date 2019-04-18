@@ -102,6 +102,13 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         setStatusBar(activity);
         //设置虚拟导航栏功能
         setNavigationBar(activity);
+        //设置TitleBarView-先设置TitleBarView避免多状态将布局替换
+        if (activity instanceof IFastTitleView
+                && !activity.getIntent().getBooleanExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false)
+                && contentView != null) {
+            new FastTitleDelegate(contentView, (IFastTitleView) activity, activity.getClass());
+            activity.getIntent().putExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, true);
+        }
         //配置下拉刷新
         if (activity instanceof IFastRefreshView
                 && !(FastRefreshLoadActivity.class.isAssignableFrom(activity.getClass()))
@@ -117,13 +124,6 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 FastDelegateManager.getInstance().putFastRefreshDelegate(keyDelegate, delegate);
                 activity.getIntent().putExtra(FastConstant.IS_SET_REFRESH_VIEW, true);
             }
-        }
-        //设置TitleBarView
-        if (activity instanceof IFastTitleView
-                && !activity.getIntent().getBooleanExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false)
-                && contentView != null) {
-            new FastTitleDelegate(contentView, (IFastTitleView) activity, activity.getClass());
-            activity.getIntent().putExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, true);
         }
         //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
@@ -199,6 +199,11 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         if (!isSet) {
             setContentViewBackground(v, f.getClass());
         }
+         //设置TitleBarView-先设置TitleBarView避免多状态将布局替换
+        if (f instanceof IFastTitleView
+                && v != null) {
+            new FastTitleDelegate(v, (IFastTitleView) f, f.getClass());
+        }
         //刷新功能处理
         if (f instanceof IFastRefreshView
                 && !(FastRefreshLoadFragment.class.isAssignableFrom(f.getClass()))) {
@@ -209,11 +214,6 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                     refreshView.getContentView() != null ? refreshView.getContentView() : f.getView(),
                     refreshView);
             FastDelegateManager.getInstance().putFastRefreshDelegate(keyDelegate, delegate);
-        }
-        //设置TitleBarView
-        if (f instanceof IFastTitleView
-                && v != null) {
-            new FastTitleDelegate(v, (IFastTitleView) f, f.getClass());
         }
     }
 
