@@ -104,7 +104,7 @@ public class FastMainTabDelegate {
                 .setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))
                 .setTextSelectSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))
                 .setUnderlineGravity(Gravity.TOP)
-                .setUnderlineHeight(mContext.getResources().getDimension(R.dimen.dp_tab_underline))
+                .setUnderlineHeight(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_underline))
                 .setIconMargin(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_margin))
                 .setIconWidth(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_icon))
                 .setIconHeight(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_icon))

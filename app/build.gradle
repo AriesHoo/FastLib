@@ -21,6 +21,7 @@ android {
 
     dexOptions {
         javaMaxHeapSize "Xg"
+        preDexLibraries = false
     }
     signingConfigs {
         release {
@@ -62,6 +63,11 @@ android {
             options.compilerArgs << "-Xlint:deprecation" << '-Xlint:-unchecked'
         }
     }
+//    configurations.all {
+//        resolutionStrategy {
+//            force 'com.squareup.okhttp3:logging-interceptor:3.12.2'
+//        }
+//    }
 }
 
 dependencies {
@@ -83,14 +89,14 @@ dependencies {
     //webView提供下载功能
     implementation 'com.just.agentweb:download:4.0.2'
     //下拉刷新库注意刷新头SmartRefreshHeader版本最好对应尤其头版本不要低于SmartRefreshLayout版本
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     //Glide图片加载
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     //以上库FastLib里使用compileOnly只是编译,使用时需根据项目选择相应版本
     implementation 'cn.bingoogolapple:bga-banner:2.1.7@aar'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
     implementation 'com.github.lygttpod:SuperTextView:2.1.8'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
     //文件选择器
@@ -103,4 +109,7 @@ dependencies {
     implementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
 //    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
 //    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.2'
+    //Multidex 5.0以下
+    implementation 'androidx.multidex:multidex:2.0.0'
+
 }

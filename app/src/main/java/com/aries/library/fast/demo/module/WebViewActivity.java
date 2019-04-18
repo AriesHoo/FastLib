@@ -1,8 +1,12 @@
 package com.aries.library.fast.demo.module;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -22,7 +26,12 @@ import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFileUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.ui.helper.navigation.NavigationBarUtil;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
+import com.aries.ui.util.DrawableUtil;
+import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
@@ -41,6 +50,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import java.io.File;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 /**
  * @Author: AriesHoo on 2018/7/30 11:04
@@ -48,6 +58,7 @@ import androidx.appcompat.app.AlertDialog;
  * Function: 应用内浏览器
  * Description:
  * 1、2018-7-30 11:04:22 新增图片下载功能
+ * 2、2019-4-18 09:34:51 增加BasisDialog 虚拟导航栏沉浸控制
  */
 public class WebViewActivity extends FastWebActivity implements IFastRefreshView {
 
@@ -55,11 +66,11 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     private String mFormat = "保存图片<br><small><font color='#2394FE'>图片文件夹路径:%1s</font></small>";
     private static boolean mIsShowTitle = true;
 
-    public static void start(Activity mActivity, String url) {
+    public static void start(Context mActivity, String url) {
         start(mActivity, url, true);
     }
 
-    public static void start(Activity mActivity, String url, boolean isShowTitle) {
+    public static void start(Context mActivity, String url, boolean isShowTitle) {
         mIsShowTitle = isShowTitle;
         start(mActivity, WebViewActivity.class, url);
     }
@@ -91,6 +102,12 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
                     .setVisibility(View.GONE);
         }
         titleBar.setTitleMainTextMarquee(true)
+//                .setOnRightTextClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        WebViewActivity.start(mContext,"www.baidu.com");
+//                    }
+//                })
                 .setDividerVisible(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP);
     }
 
@@ -132,6 +149,7 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
                     }
                 })
                 .setCancel(com.aries.library.fast.R.string.fast_cancel)
+                .setNavigationBarControl(this)
                 .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
                 .create();
         actionSheetDialog.show();
@@ -341,6 +359,22 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     @Override
     public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
         int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
-        refreshLayout.setHeaderInsetStartPx(statusHeight);
+        refreshLayout.setHeaderInsetStart(SizeUtil.px2dp(statusHeight));
+    }
+
+    @Override
+    public boolean setNavigationBar(Dialog dialog, NavigationViewHelper helper, View bottomView) {
+        Drawable drawableTop = ContextCompat.getDrawable(mContext, R.color.colorLineGray);
+        DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
+        helper.setPlusNavigationViewEnable(true)
+                .setNavigationViewColor(Color.argb(isTrans() ? 0 : 60, 0, 0, 0))
+                .setNavigationViewDrawableTop(drawableTop)
+                .setNavigationLayoutColor(Color.WHITE);
+        //导航栏在底部控制才有意义,不然会很丑;开发者自己决定;这里仅供参考
+        return NavigationBarUtil.isNavigationAtBottom(dialog.getWindow());
+    }
+
+    protected boolean isTrans() {
+        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0));
     }
 }

@@ -6,12 +6,12 @@ android {
     compileSdkVersion ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion ext.minSdkVersion
+        minSdkVersion ext.minLibSdkVersion
         targetSdkVersion ext.targetSdkVersion
         versionCode ext.versionCode
         versionName ext.versionName
         //SVG设置颜色值支持
-        vectorDrawables.useSupportLibrary = true
+//        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {
@@ -65,7 +65,7 @@ dependencies {
     //图片加载
     compileOnly 'com.github.bumptech.glide:glide:4.8.0'
     //常用UI控件(TitleBarView、RadiusView等)
-    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.10'
+    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.12'
     //日志打印
     api 'com.orhanobut:logger:2.2.0'
     //注解
@@ -76,7 +76,8 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.5.0'
     api 'com.squareup.retrofit2:converter-gson:2.5.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.13.1'
+    //3.12.x是支持Android 4.4的
+    api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     api 'com.google.code.gson:gson:2.8.5'
     //处理rxjava内存泄漏-生命周期绑定
 //    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
@@ -84,7 +85,7 @@ dependencies {
     //滑动返回Activity
     api 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
     //快速Tab库
-    api 'com.github.AriesHoo:TabLayout:1.0.2'
+    api 'com.github.AriesHoo:TabLayout:1.0.5'
     //页面事件交互
     api 'org.simple:androideventbus:1.0.5.1'
     //多状态视图切换

@@ -51,7 +51,6 @@
             android:name=".module.WebViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTop"
             android:label="@string/fast_loading"/>
         <activity
             android:name=".module.main.sample.TitleWithEditTextActivity"

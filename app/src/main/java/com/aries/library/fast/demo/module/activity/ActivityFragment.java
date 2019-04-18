@@ -1,10 +1,9 @@
 package com.aries.library.fast.demo.module.activity;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.aries.library.fast.demo.R;
@@ -16,9 +15,9 @@ import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.util.StatusBarUtil;
-import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.view.tab.SegmentTabLayout;
 import com.aries.ui.view.tab.SlidingTabLayout;
+import com.aries.ui.view.title.TitleBarView;
 
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
@@ -27,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 /**
@@ -72,7 +73,8 @@ public class ActivityFragment extends FastTitleFragment {
         LinearLayout center = titleBar.getLinearLayout(Gravity.CENTER);
         if (isSliding) {
             if (center.indexOfChild(viewSliding) == -1) {
-                titleBar.addCenterAction(titleBar.new ViewAction(viewSliding));
+                titleBar.addCenterAction(titleBar.new ViewAction(viewSliding),
+                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
             viewSliding.setVisibility(View.VISIBLE);
             if (viewSegment != null) {
@@ -80,13 +82,15 @@ public class ActivityFragment extends FastTitleFragment {
             }
         } else {
             if (center.indexOfChild(viewSegment) == -1) {
-                titleBar.addCenterAction(titleBar.new ViewAction(viewSegment));
+                titleBar.addCenterAction(titleBar.new ViewAction(viewSegment),
+                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
             viewSegment.setVisibility(View.VISIBLE);
             if (viewSliding != null) {
                 viewSliding.setVisibility(View.GONE);
             }
         }
+        setTab();
     }
 
     @Override
@@ -99,7 +103,7 @@ public class ActivityFragment extends FastTitleFragment {
      */
     @Override
     public void initView(Bundle savedInstanceState) {
-        setTab();
+//        setTab();
     }
 
     @Override

@@ -11,19 +11,19 @@ import android.view.ViewGroup;
 import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
+import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
 import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
-import com.aries.library.fast.module.activity.FastTitleActivity;
+import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
-import com.aries.library.fast.module.fragment.FastTitleFragment;
-import com.aries.library.fast.module.fragment.FastTitleRefreshLoadFragment;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
+import com.aries.ui.helper.navigation.KeyboardHelper;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.DrawableUtil;
@@ -39,7 +39,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import cn.bingoogolapple.swipebacklayout.BGAKeyboardUtil;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -51,6 +50,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * 2、2018-11-29 11:49:46 {@link #setStatusBar(Activity)}增加topView background 空判断
  * 3、2018-11-29 11:50:58 {@link #onActivityDestroyed(Activity)} 出栈方法调用{@link FastStackUtil#pop(Activity, boolean)} 第二个参数设置为false避免因Activity状态切换进入生命周期造成状态无法保存问题
  * 4、2019-3-25 14:27:33 新增下拉刷新功能处理及管理并删除原Fragment生命周期注销方法
+ * 5、2019-4-8 17:03:25 删除关于{@link IFastRefreshLoadView}与{@link IFastRefreshView}重复判断相关代码
  */
 public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
 
@@ -120,13 +120,12 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         }
         //设置TitleBarView
         if (activity instanceof IFastTitleView
-                && !(FastTitleActivity.class.isAssignableFrom(activity.getClass()))
                 && !activity.getIntent().getBooleanExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false)
                 && contentView != null) {
             new FastTitleDelegate(contentView, (IFastTitleView) activity, activity.getClass());
             activity.getIntent().putExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, true);
         }
-        //回调开发者处理
+        //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityStarted(activity);
         }
@@ -145,8 +144,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         LoggerManager.i(TAG, "onActivityPaused:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
         //Activity销毁前的时机需要关闭软键盘-在onActivityStopped及onActivityDestroyed生命周期内已无法关闭
         if (activity.isFinishing()) {
-            BGAKeyboardUtil.closeKeyboard(activity);
+            KeyboardHelper.closeKeyboard(activity);
         }
+        //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityPaused(activity);
         }
@@ -155,6 +155,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     @Override
     public void onActivityStopped(Activity activity) {
         LoggerManager.i(TAG, "onActivityStopped:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
+        //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityStopped(activity);
         }
@@ -163,6 +164,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
         LoggerManager.i(TAG, "onActivitySaveInstanceState:" + activity.getClass().getSimpleName());
+        //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivitySaveInstanceState(activity, outState);
         }
@@ -184,6 +186,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         //清除下拉刷新代理FastRefreshDelegate
         String keyDelegate = activity.getIntent().getStringExtra(FastConstant.KEY_FAST_DELEGATE);
         FastDelegateManager.getInstance().removeFastRefreshDelegate(keyDelegate);
+        //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityDestroyed(activity);
         }
@@ -209,8 +212,6 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         }
         //设置TitleBarView
         if (f instanceof IFastTitleView
-                && !(FastTitleFragment.class.isAssignableFrom(f.getClass()))
-                && !(FastTitleRefreshLoadFragment.class.isAssignableFrom(f.getClass()))
                 && v != null) {
             new FastTitleDelegate(v, (IFastTitleView) f, f.getClass());
         }
@@ -270,14 +271,23 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
             @Override
             public void onSwipeBackLayoutSlide(float slideOffset) {
                 LoggerManager.i(TAG, "onSwipeBackLayoutCancel");
+                Activity pre = FastStackUtil.getInstance().getPrevious();
+                if (pre != null && pre instanceof FastWebActivity) {
+                    ((FastWebActivity) pre).onWebViewResume();
+                }
                 if (mSwipeBackControl != null) {
                     mSwipeBackControl.onSwipeBackLayoutSlide(activity, slideOffset);
                 }
             }
 
+
             @Override
             public void onSwipeBackLayoutCancel() {
                 LoggerManager.i(TAG, "onSwipeBackLayoutCancel");
+                Activity pre = FastStackUtil.getInstance().getPrevious();
+                if (pre != null && pre instanceof FastWebActivity) {
+                    ((FastWebActivity) pre).onWebViewPause();
+                }
                 if (mSwipeBackControl != null) {
                     mSwipeBackControl.onSwipeBackLayoutCancel(activity);
                 }
@@ -289,7 +299,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 if (activity == null || activity.isFinishing()) {
                     return;
                 }
-                BGAKeyboardUtil.closeKeyboard(activity);
+                KeyboardHelper.closeKeyboard(activity);
                 activity.finish();
                 activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
                 if (mSwipeBackControl != null) {
@@ -358,25 +368,12 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
         //设置虚拟导航栏控制
         NavigationViewHelper navigationViewHelper = NavigationViewHelper.with(activity)
-                .setLogEnable(BuildConfig.DEBUG)
-                //是否控制虚拟导航栏true 后续属性有效--第一优先级
                 .setControlEnable(true)
-                //是否全透明导航栏优先级第二--同步设置setNavigationViewColor故注意调用顺序
-                //华为的半透明和全透明类似
                 .setTransEnable(isTrans())
-                //是否增加假的NavigationView用于沉浸至虚拟导航栏遮住
                 .setPlusNavigationViewEnable(isTrans())
-                //设置是否控制底部输入框--默认属性
                 .setControlBottomEditTextEnable(true)
-                //设置最下边View用于增加paddingBottom--建议activity 根布局
                 .setBottomView(bottomView)
-                //影响setPlusNavigationViewEnable(true)单个条件
-                //或者(setPlusNavigationViewEnable(false)&&setControlEnable(true))--两个前置条件
-                //半透明默认设置102
                 .setNavigationViewColor(Color.argb(isTrans() ? 0 : 102, 0, 0, 0))
-                //setPlusNavigationViewEnable(true)才有效注意与setNavigationViewColor调用顺序
-//                .setNavigationViewDrawable(mContext.getResources().getDrawable(R.drawable.img_bg_login))
-                //setPlusNavigationViewEnable(true)有效
                 .setNavigationViewDrawableTop(drawableTop)
                 .setNavigationLayoutColor(Color.WHITE);
         boolean isInit = mActivityFragmentControl != null ? mActivityFragmentControl.setNavigationBar(activity, navigationViewHelper, bottomView) : true;
@@ -387,12 +384,12 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     }
 
     /**
-     * 是否全透明-华为4.1以上可根据导航栏位置颜色设置导航图标颜色
+     * 是否全透明-华为4.1以上及MIUI V6 以上及Android O以上可根据导航栏位置颜色设置导航图标颜色
      *
      * @return
      */
     protected boolean isTrans() {
-        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0);
+        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0)) || RomUtil.isMIUI();
     }
 
     /**

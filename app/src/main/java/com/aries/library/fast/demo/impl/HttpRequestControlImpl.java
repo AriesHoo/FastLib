@@ -16,6 +16,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import java.net.ConnectException;
 import java.net.SocketException;
@@ -74,7 +75,7 @@ public class HttpRequestControlImpl implements HttpRequestControl {
             return;
         }
         statusLayoutManager.showSuccessLayout();
-        if (smartRefreshLayout.isRefreshing() || page == 0) {
+        if (smartRefreshLayout.getState()== RefreshState.Refreshing || page == 0) {
             adapter.setNewData(new ArrayList());
         }
         adapter.addData(list);

@@ -1,6 +1,5 @@
 package com.aries.library.fast.demo;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -38,13 +37,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.multidex.MultiDexApplication;
+
 /**
  * @Author: AriesHoo on 2018/7/31 10:43
  * @E-Mail: AriesHoo@126.com
  * Function:基础配置Application
  * Description:
  */
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static Context mContext;
     private static String TAG = "FastLib";
@@ -151,7 +152,6 @@ public class App extends Application {
         }
         LoggerManager.i(TAG, "appChannel2:" + appChannel);
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
-
         //初始化哆啦A梦
         DoraemonKit.install(this);
         // H5任意门功能需要，非必须
@@ -160,7 +160,7 @@ public class App extends Application {
             public void overrideUrlLoading(Context context, String s) {
                 // 使用自己的H5容器打开这个链接
                 LoggerManager.i("overrideUrlLoading", "url:" + s);
-                WebViewActivity.start(FastStackUtil.getInstance().getCurrent(),s);
+                WebViewActivity.start(FastStackUtil.getInstance().getCurrent(), s);
             }
         });
         setShortcut();
@@ -232,4 +232,5 @@ public class App extends Application {
     public static Context getContext() {
         return mContext;
     }
+
 }

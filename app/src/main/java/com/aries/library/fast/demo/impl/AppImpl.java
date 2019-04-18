@@ -70,6 +70,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
     @Override
     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
         layout.setEnableHeaderTranslationContent(false)
+                .setPrimaryColorsId(R.color.colorAccent)
                 .setEnableOverScrollDrag(false);
         MaterialHeader materialHeader = new MaterialHeader(mContext);
         materialHeader.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.colorTextBlack),

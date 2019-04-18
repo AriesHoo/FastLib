@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -27,6 +28,8 @@ import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.impl.FastActivityLifecycleCallbacks;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.manager.RxJavaManager;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
@@ -48,6 +51,7 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -172,7 +176,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     }
 
     /**
-     * 设置屏幕方向--注意targetSDK设置27以上不能设置windowIsTranslucent=true属性不然应用直接崩溃
+     * 设置屏幕方向--注意targetSDK设置27以上不能设置windowIsTranslucent=true属性不然应用直接崩溃-强烈建议手机应用锁定竖屏
      * 错误为 Only fullscreen activities can request orientation
      * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
      * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -190,14 +194,14 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         }
         //全局控制屏幕横竖屏
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
-//        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-//            try {
-//                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
-//            }
-//        }
+        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+            try {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
+            }
+        }
     }
 
     /**
@@ -210,11 +214,17 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     @Override
     public boolean setStatusBar(Activity activity, StatusViewHelper helper, View topView) {
         boolean isSupportStatusBarFont = StatusBarUtil.isSupportStatusBarFontChange();
-        StatusBarUtil.setStatusBarLightMode(activity);
         helper.setTransEnable(isSupportStatusBarFont)
                 .setPlusStatusViewEnable(true)
                 .setStatusLayoutColor(Color.WHITE);
         setStatusBarActivity(activity);
+        RxJavaManager.getInstance().setTimer(100)
+                .subscribe(new FastObserver<Long>() {
+                    @Override
+                    public void _onNext(Long entity) {
+                        StatusBarUtil.setStatusBarLightMode(activity);
+                    }
+                });
         return true;
     }
 
@@ -228,13 +238,16 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     public boolean setNavigationBar(Activity activity, NavigationViewHelper helper, View bottomView) {
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
-                .setTransEnable(isTrans(activity))
-                .setPlusNavigationViewEnable(isTrans(activity))
+                .setTransEnable(true)
+                .setPlusNavigationViewEnable(!(activity instanceof SplashActivity))
+                .setNavigationBarLightMode(true)
+                //FastLib默认在可变导航栏icon 增加一个0.5dp的灰色分割线
+                .setNavigationViewDrawableTop(null)
                 .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener)
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
-                .setNavigationLayoutColor(Color.WHITE);
+                .setNavigationLayoutColor(ContextCompat.getColor(activity, R.color.colorTabBackground));
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
                     .setEnable()
@@ -258,6 +271,15 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     @Override
     public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
         return new FastActivityLifecycleCallbacks() {
+
+//            @Override
+//            public void onActivityStarted(Activity activity) {
+//                super.onActivityStarted(activity);
+//                if (activity instanceof SplashActivity || activity instanceof IFastTitleView) {
+//                    return;
+//                }
+//                StatusBarUtil.setStatusBarLightMode(activity);
+//            }
 
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -374,7 +396,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      * @return
      */
     protected boolean isTrans(Activity activity) {
-        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
+        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0)) || RomUtil.isMIUI() || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     /**

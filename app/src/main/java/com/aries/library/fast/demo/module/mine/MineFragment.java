@@ -93,7 +93,8 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
         int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
-        refreshLayout.setHeaderInsetStartPx(statusHeight);
+        LoggerManager.i("statusHeight:"+statusHeight+";dp:"+SizeUtil.px2dp(statusHeight));
+        refreshLayout.setHeaderInsetStart(SizeUtil.px2dp(statusHeight));
     }
 
     @Override
@@ -105,6 +106,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setBgColor(Color.WHITE)
                 .setTitleMainTextColor(Color.WHITE)
+                .setDividerVisible(false)
                 .setTitleMainText(R.string.mine);
         titleBar.getBackground().setAlpha(0);
     }
@@ -133,7 +135,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
         mStvInfo.getLeftBottomTextView().setGravity(Gravity.LEFT);
         ViewCompat.setElevation(mStvInfo, getResources().
                 getDimension(R.dimen.dp_elevation));
-        mStvInfo.setTranslationZ(3f);
+        ViewCompat.setTranslationZ(mStvInfo,3f);
         if (!App.isSupportElevation()) {
             mStvInfo.setShapeStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp_line_size))
                     .setShapeStrokeColor(ContextCompat.getColor(mContext, R.color.colorLineGray))

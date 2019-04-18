@@ -42,9 +42,9 @@ public class FastViewActivity extends AppCompatActivity implements IFastTitleVie
     @Override
     public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
         int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
-        refreshLayout.setHeaderInsetStartPx(statusHeight)
+        refreshLayout.setHeaderInsetStart(statusHeight)
                 .setRefreshHeader(new MaterialHeader(this)
-                        .setColorSchemeColors(Color.MAGENTA, Color.BLUE));
-        refreshLayout.autoRefresh();
+                        .setColorSchemeColors(Color.MAGENTA, Color.BLUE))
+                .autoRefresh();
     }
 }

@@ -9,8 +9,10 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorWhitePressed">#DCDCDC</color>
 
+    <!--微信背景-->
+    <!--<color name="colorTitleBackground">#EDEDED</color>-->
     <!--TitleBarView背景色-->
-    <color name="colorTitleBackground">#FFFFFF</color>
+    <color name="colorTitleBackground">#FCFCFC</color>
     <!--TitleBarView 文字颜色-->
     <color name="colorTitleText">#393939</color>
     <!--TitleBarView 下划线颜色-->

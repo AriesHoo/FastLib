@@ -1,7 +1,8 @@
 package com.aries.library.fast.module.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,9 +20,11 @@ import com.aries.library.fast.R;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.BasisDialog;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
+import com.aries.ui.widget.i.NavigationBarControl;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebCreator;
 
@@ -36,7 +39,7 @@ import androidx.core.content.ContextCompat;
  * 1、调整WebView自适应屏幕代码属性{@link #initAgentWeb()}
  * 2、2019-3-20 11:45:07 增加url自动添加http://功能及规范url
  */
-public abstract class FastWebActivity extends FastTitleActivity {
+public abstract class FastWebActivity extends FastTitleActivity implements NavigationBarControl {
 
     protected ViewGroup mContainer;
     /**
@@ -51,8 +54,22 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected AgentWeb.CommonBuilder mAgentBuilder;
     protected UIActionSheetDialog mActionSheetView;
     private TitleBarViewControl mTitleBarViewControl;
+    /**
+     * WebView是否处于暂停状态
+     */
+    private boolean mIsPause;
 
-    protected static void start(Activity mActivity, Class<? extends FastWebActivity> activity, String url) {
+    public void onWebViewPause() {
+        onPause();
+    }
+
+
+    public void onWebViewResume() {
+        onResume();
+    }
+
+
+    protected static void start(Context mActivity, Class<? extends FastWebActivity> activity, String url) {
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
         FastUtil.startActivity(mActivity, activity, bundle);
@@ -223,6 +240,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                     .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
                     .create();
         }
+        mActionSheetView.setNavigationBarControl(this);
         mActionSheetView.show();
     }
 
@@ -244,16 +262,18 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     protected void onPause() {
-        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null) {
+        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null && !mIsPause && !isFinishing()) {
             mAgentWeb.getWebLifeCycle().onPause();
+            mIsPause = true;
         }
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null) {
+        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null && mIsPause) {
             mAgentWeb.getWebLifeCycle().onResume();
+            mIsPause = false;
         }
         super.onResume();
     }
@@ -265,4 +285,10 @@ public abstract class FastWebActivity extends FastTitleActivity {
         }
         super.onDestroy();
     }
+
+    @Override
+    public boolean setNavigationBar(Dialog dialog, NavigationViewHelper helper, View bottomView) {
+        return false;
+    }
+
 }
