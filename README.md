@@ -39,7 +39,77 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![](/apk/qr.png)
 
+## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
+
+* 2.2.13
+
+    * 新增: 下拉刷新接口IFastRefreshView及标题栏IFastTitleBarView
+    
+* 2.2.11-androidx
+
+    * 重大变更: 2.2.11的androidx版本-起始版本
+    
+* 2.2.11
+   
+    *  最后一个support版本以后版本为androidx
+    
+* 2.2.10-beta6
+   
+    *  重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异
+    *  优化:BasisFragment 控制是否为单Fragment 方法
+    *  优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
+    *  优化:多状态管理StatusLayoutManager调整完成
+    *  优化:滑动返回控制swipeBack功能新增各种回调功能
+    *  优化:将原默认配置方法调整到最终实现类功能
+    *  新增:增加友盟统计功能演示
+    *  新增:新增首页演示其它三方库状态栏及导航栏功能控制
+    *  新增:个人MineFragment中选择头像功能三方库状态栏及导航栏控制示例
+    *  优化:UI全局控制相关回调并调整三方库Activity控制
+    *  优化:新增FastRetrofit 下载/上传功能
+    *  优化:新增FastRetrofit 控制多BaseUrl方式
+    *  新增:新增Demo检查版本功能试验下载文件功能
+    *  删除:删除原多状态布局相关配置
+    *  修复:修改FastRefreshActivity 设置Adapter错误BUG
+    *  升级:升级部分三方库版本
+    *  修复:删除IHttpRequestControl判断避免http错误时无法全局控制BUG
+    *  优化:修改解析method方法增加对get方法兼容
+    *  优化:修改ToastUtil 增加子线程调用自动切换主线程操作
+    *  优化:优化下载功能新增FastDownloadRetrofit并新增格式化文件方法FastFormatUtil#formatDataSize
+    *  修复:修复FastRetrofit无法删除单个header问题
+    *  优化:优化上传文件并通过新增的FastUploadRequestBody及FastUploadRequestListener实现单个/多个文件 上传进度监听 可参看 MineFragment 示例
+    *  优化:FastFileUtil 安装App在Android 7.0以下版本兼容性
+    *  新增:新增IMultiStatusView 用于设置StatusLayoutManager 属性
+    *  优化:调整setMultiStatusView位置并抽离设置StatusLayoutManager相关属性
+    *  优化:注释及代码规范调整
+    *  优化:调整列表刷新控制多状态配置及itemClick事件
+    *  优化:优化下载功能统一使用全局设置Retrofit
+    *  优化:优化LoggerManager可设置自定义属性
+    *  优化:优化FastRetrofit日志打印控制--json格式打印
+    *  新增:demo新增拖拽调整列表顺序功能
+    *  新增:FastFileUtil及fast_file_path以适配更多文件系统及开发者自定义
+	
+* 2.2.9-beta6
+        
+	* 重构设置全局TitleBarView设置方式(通过TitleBarViewControl实现可参看AppImpl实现类)
+	
+* 2.2.9-beta5
+        
+	* library 直接compile UIWidget core 3.1.0版本
+	
+* 2.1.5 更新
+            
+    * 新增众多全局设置TitleBarView属性、Adapter加载动画、SmartRefreshLayout刷新配置、Glide加载占位Drawable属性等控制的FastConfig类用于全局设置应用通用属性并减少部分冗余代码及冗余drawable资源文件
+
+* 2.1.0 更新
+        
+	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复
+    
 ## 录屏预览
+
+![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/FastRefresh.gif)
+
+**快速实现页面下拉刷新-全局控制及局部个性化**-参考WebActivity、FastRefreshActivity、MineFragment
+
 
 ![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
 
@@ -161,71 +231,7 @@ dependencies {
 }
 ```
 
-## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
-* 2.2.13
-
-    * 新增: 下拉刷新接口IFastRefreshView及标题栏IFastTitleBarView
-    
-* 2.2.11-androidx
-
-    * 重大变更: 2.2.11的androidx版本-起始版本
-    
-* 2.2.11
-   
-    *  最后一个support版本以后版本为androidx
-    
-* 2.2.10-beta6
-   
-    *  重大变更:重构大部分代码及实现方式删除许多类及实现方法包括三方库慎重升级与之前版本有很大差异
-    *  优化:BasisFragment 控制是否为单Fragment 方法
-    *  优化:调整ActivityFragmentControl 将状态栏及导航栏控制增加
-    *  优化:多状态管理StatusLayoutManager调整完成
-    *  优化:滑动返回控制swipeBack功能新增各种回调功能
-    *  优化:将原默认配置方法调整到最终实现类功能
-    *  新增:增加友盟统计功能演示
-    *  新增:新增首页演示其它三方库状态栏及导航栏功能控制
-    *  新增:个人MineFragment中选择头像功能三方库状态栏及导航栏控制示例
-    *  优化:UI全局控制相关回调并调整三方库Activity控制
-    *  优化:新增FastRetrofit 下载/上传功能
-    *  优化:新增FastRetrofit 控制多BaseUrl方式
-    *  新增:新增Demo检查版本功能试验下载文件功能
-    *  删除:删除原多状态布局相关配置
-    *  修复:修改FastRefreshActivity 设置Adapter错误BUG
-    *  升级:升级部分三方库版本
-    *  修复:删除IHttpRequestControl判断避免http错误时无法全局控制BUG
-    *  优化:修改解析method方法增加对get方法兼容
-    *  优化:修改ToastUtil 增加子线程调用自动切换主线程操作
-    *  优化:优化下载功能新增FastDownloadRetrofit并新增格式化文件方法FastFormatUtil#formatDataSize
-    *  修复:修复FastRetrofit无法删除单个header问题
-    *  优化:优化上传文件并通过新增的FastUploadRequestBody及FastUploadRequestListener实现单个/多个文件 上传进度监听 可参看 MineFragment 示例
-    *  优化:FastFileUtil 安装App在Android 7.0以下版本兼容性
-    *  新增:新增IMultiStatusView 用于设置StatusLayoutManager 属性
-    *  优化:调整setMultiStatusView位置并抽离设置StatusLayoutManager相关属性
-    *  优化:注释及代码规范调整
-    *  优化:调整列表刷新控制多状态配置及itemClick事件
-    *  优化:优化下载功能统一使用全局设置Retrofit
-    *  优化:优化LoggerManager可设置自定义属性
-    *  优化:优化FastRetrofit日志打印控制--json格式打印
-    *  新增:demo新增拖拽调整列表顺序功能
-    *  新增:FastFileUtil及fast_file_path以适配更多文件系统及开发者自定义
-	
-* 2.2.9-beta6
-        
-	* 重构设置全局TitleBarView设置方式(通过TitleBarViewControl实现可参看AppImpl实现类)
-	
-* 2.2.9-beta5
-        
-	* library 直接compile UIWidget core 3.1.0版本
-	
-* 2.1.5 更新
-            
-    * 新增众多全局设置TitleBarView属性、Adapter加载动画、SmartRefreshLayout刷新配置、Glide加载占位Drawable属性等控制的FastConfig类用于全局设置应用通用属性并减少部分冗余代码及冗余drawable资源文件
-
-* 2.1.0 更新
-        
-	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复
-    
 
 ## 鸣谢
 

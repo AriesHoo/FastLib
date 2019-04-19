@@ -46,6 +46,7 @@ import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseActivity;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
+import com.squareup.leakcanary.internal.DisplayLeakActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
@@ -214,17 +215,12 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     @Override
     public boolean setStatusBar(Activity activity, StatusViewHelper helper, View topView) {
         boolean isSupportStatusBarFont = StatusBarUtil.isSupportStatusBarFontChange();
-        helper.setTransEnable(isSupportStatusBarFont)
-                .setPlusStatusViewEnable(true)
-                .setStatusLayoutColor(Color.WHITE);
+        helper.setTransEnable(isSupportStatusBarFont || activity instanceof DisplayLeakActivity)
+                .setPlusStatusViewEnable(!(activity instanceof DisplayLeakActivity))
+                .setStatusLayoutColor(activity instanceof DisplayLeakActivity ?
+                        ContextCompat.getColor(activity, R.color.leak_canary_background_color) :
+                        Color.WHITE);
         setStatusBarActivity(activity);
-        RxJavaManager.getInstance().setTimer(100)
-                .subscribe(new FastObserver<Long>() {
-                    @Override
-                    public void _onNext(Long entity) {
-                        StatusBarUtil.setStatusBarLightMode(activity);
-                    }
-                });
         return true;
     }
 
@@ -246,7 +242,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener)
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
-                .setNavigationViewColor(Color.argb(isDarkIcon() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
+                .setNavigationViewColor(activity instanceof DisplayLeakActivity ? Color.BLACK : Color.argb(isDarkIcon() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
                 .setNavigationLayoutColor(ContextCompat.getColor(activity, R.color.colorTabBackground));
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
@@ -274,7 +270,8 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      * @return
      */
     protected boolean isPlusView(Activity activity) {
-        return !(activity instanceof SplashActivity);
+        return !(activity instanceof SplashActivity)
+                && !(activity instanceof DisplayLeakActivity);
     }
 
     private KeyboardHelper.OnKeyboardVisibilityChangedListener mOnKeyboardVisibilityChangedListener = (activity, isOpen, heightDiff, navigationHeight) -> {
@@ -409,6 +406,16 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
             }
         }
+        RxJavaManager.getInstance().setTimer(100)
+                .subscribe(new FastObserver<Long>() {
+                    @Override
+                    public void _onNext(Long entity) {
+                        if (activity instanceof DisplayLeakActivity) {
+                            return;
+                        }
+                        StatusBarUtil.setStatusBarLightMode(activity);
+                    }
+                });
     }
 
     /**

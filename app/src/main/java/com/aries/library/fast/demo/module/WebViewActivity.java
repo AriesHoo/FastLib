@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -13,6 +12,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.aries.library.fast.demo.R;
@@ -32,7 +32,6 @@ import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.util.RomUtil;
-import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.just.agentweb.AbsAgentWebSettings;
@@ -44,6 +43,7 @@ import com.just.agentweb.download.AgentWebDownloader;
 import com.just.agentweb.download.DefaultDownloadImpl;
 import com.just.agentweb.download.DownloadListenerAdapter;
 import com.just.agentweb.download.DownloadingService;
+import com.scwang.smartrefresh.header.WaterDropHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
@@ -65,6 +65,7 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     private String mFilePath = FastFileUtil.getCacheDir();
     private String mFormat = "保存图片<br><small><font color='#2394FE'>图片文件夹路径:%1s</font></small>";
     private static boolean mIsShowTitle = true;
+    private RefreshLayout mRefreshLayout;
 
     public static void start(Context mActivity, String url) {
         start(mActivity, url, true);
@@ -115,7 +116,24 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     protected void setAgentWeb(AgentWeb.CommonBuilder mAgentBuilder) {
         super.setAgentWeb(mAgentBuilder);
         //设置 IAgentWebSettings
-        mAgentBuilder.setAgentWebWebSettings(getSettings());
+        mAgentBuilder.setAgentWebWebSettings(getSettings())
+                .setWebChromeClient(new WebChromeClient() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        super.onProgressChanged(view, newProgress);
+                        if (newProgress == 100 && mRefreshLayout != null) {
+                            mRefreshLayout.finishRefresh();
+                        }
+                    }
+
+                    @Override
+                    public void onReceivedTitle(WebView view, String title) {
+                        super.onReceivedTitle(view, title);
+                        if (mTitleBar != null) {
+                            mTitleBar.setTitleMainText(title);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -187,9 +205,42 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //横竖屏切换过后不能设置滑动返回--可以切换试一试效果
+    public void onRefresh(RefreshLayout refreshLayout) {
+        mAgentWeb.getUrlLoader().reload();
+    }
+
+    @Override
+    public View getContentView() {
+        LoggerManager.i("getContentView");
+        if (mAgentWeb != null) {
+            LoggerManager.i("getContentView", "webView:" + mAgentWeb.getWebCreator().getWebView());
+            return mAgentWeb.getWebCreator().getWebView();
+        }
+        return null;
+    }
+
+    @Override
+    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
+        this.mRefreshLayout = refreshLayout;
+        refreshLayout.setRefreshHeader(new WaterDropHeader(this))
+                .setPrimaryColorsId(R.color.colorTextBlack)
+                .setEnableHeaderTranslationContent(true);
+    }
+
+    @Override
+    public boolean setNavigationBar(Dialog dialog, NavigationViewHelper helper, View bottomView) {
+        Drawable drawableTop = ContextCompat.getDrawable(mContext, R.color.colorLineGray);
+        DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
+        helper.setPlusNavigationViewEnable(true)
+                .setNavigationViewColor(Color.argb(isTrans() ? 0 : 60, 0, 0, 0))
+                .setNavigationViewDrawableTop(drawableTop)
+                .setNavigationLayoutColor(Color.WHITE);
+        //导航栏在底部控制才有意义,不然会很丑;开发者自己决定;这里仅供参考
+        return NavigationBarUtil.isNavigationAtBottom(dialog.getWindow());
+    }
+
+    protected boolean isTrans() {
+        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0));
     }
 
     @Override
@@ -348,33 +399,5 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
                                         this.mAgentWeb.getPermissionInterceptor()));
             }
         };
-    }
-
-    @Override
-    public void onRefresh(RefreshLayout refreshLayout) {
-        mAgentWeb.getUrlLoader().reload();
-        refreshLayout.finishRefresh();
-    }
-
-    @Override
-    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
-        int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
-        refreshLayout.setHeaderInsetStart(SizeUtil.px2dp(statusHeight));
-    }
-
-    @Override
-    public boolean setNavigationBar(Dialog dialog, NavigationViewHelper helper, View bottomView) {
-        Drawable drawableTop = ContextCompat.getDrawable(mContext, R.color.colorLineGray);
-        DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
-        helper.setPlusNavigationViewEnable(true)
-                .setNavigationViewColor(Color.argb(isTrans() ? 0 : 60, 0, 0, 0))
-                .setNavigationViewDrawableTop(drawableTop)
-                .setNavigationLayoutColor(Color.WHITE);
-        //导航栏在底部控制才有意义,不然会很丑;开发者自己决定;这里仅供参考
-        return NavigationBarUtil.isNavigationAtBottom(dialog.getWindow());
-    }
-
-    protected boolean isTrans() {
-        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0));
     }
 }

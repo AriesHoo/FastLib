@@ -1,7 +1,6 @@
 package com.aries.library.fast.demo.impl;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -26,9 +25,9 @@ import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 import com.aries.ui.view.title.TitleBarView;
+import com.aries.ui.widget.progress.UIProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.luck.picture.lib.dialog.PictureDialog;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -138,15 +137,20 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
     public void setMultiStatusView(StatusLayoutManager.Builder statusView, IFastRefreshLoadView iFastRefreshLoadView) {
     }
 
+    /**
+     * 这里将局部设置的FastLoadDialog 抛至该处用于全局设置，在局部使用{@link com.aries.library.fast.retrofit.FastLoadingObserver}
+     * @param activity
+     * @return
+     */
     @Nullable
     @Override
     public FastLoadDialog createLoadingDialog(@Nullable Activity activity) {
-//        return new FastLoadDialog(activity,
-//                new UIProgressDialog.WeBoBuilder(activity)
-//                        .setMessage("加载中")
-//                        .create())
-//                .setCanceledOnTouchOutside(false)
-//                .setMessage("请求数据中,请稍候...");
+        return new FastLoadDialog(activity,
+                new UIProgressDialog.WeBoBuilder(activity)
+                        .setMessage("加载中")
+                        .create())
+                .setCanceledOnTouchOutside(false)
+                .setMessage("请求数据中,请稍候...");
         //注意使用UIProgressDialog时最好在Builder里设置提示文字setMessage不然后续再设置文字信息也不会显示
 //        return new FastLoadDialog(activity, new UIProgressDialog.WeChatBuilder(activity)
 //                .setBackgroundColor(Color.parseColor("#FCFCFC"))
@@ -161,10 +165,10 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
 //                .setIndeterminateDrawable(FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.dialog_loading), ContextCompat.getColor(mContext, R.color.colorTitleText)))
 //                .setBackgroundRadius(SizeUtil.dp2px(6f))
 //                .create());
-        Dialog dialog = new PictureDialog(activity);
-        return new FastLoadDialog(activity, dialog)
-                .setCancelable(true)
-                .setCanceledOnTouchOutside(true);
+//        Dialog dialog = new PictureDialog(activity);
+//        return new FastLoadDialog(activity, dialog)
+//                .setCancelable(true)
+//                .setCanceledOnTouchOutside(true);
     }
 
     /**
