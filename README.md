@@ -106,7 +106,7 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
     
 ## 录屏预览
 
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/FastRefresh.gif)
+![](https://github.com/AriesHoo/FastLib/blob/dev/screenshot/FastRefresh.gif)
 
 **快速实现页面下拉刷新-全局控制及局部个性化**-参考WebActivity、FastRefreshActivity、MineFragment
 
