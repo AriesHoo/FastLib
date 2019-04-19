@@ -104,6 +104,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         setNavigationBar(activity);
         //设置TitleBarView-先设置TitleBarView避免多状态将布局替换
         if (activity instanceof IFastTitleView
+                && !(activity instanceof IFastRefreshLoadView)
                 && !activity.getIntent().getBooleanExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false)
                 && contentView != null) {
             new FastTitleDelegate(contentView, (IFastTitleView) activity, activity.getClass());
@@ -199,8 +200,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         if (!isSet) {
             setContentViewBackground(v, f.getClass());
         }
-         //设置TitleBarView-先设置TitleBarView避免多状态将布局替换
+        //设置TitleBarView-先设置TitleBarView避免多状态将布局替换
         if (f instanceof IFastTitleView
+                && !(f instanceof IFastRefreshLoadView)
                 && v != null) {
             new FastTitleDelegate(v, (IFastTitleView) f, f.getClass());
         }

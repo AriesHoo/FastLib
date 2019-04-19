@@ -2,8 +2,8 @@ package com.aries.library.fast.module.fragment;
 
 import android.os.Bundle;
 
+import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.IFastTitleView;
-import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.view.title.TitleBarView;
 
 /**
@@ -18,7 +18,7 @@ public abstract class FastTitleRefreshLoadFragment<T> extends FastRefreshLoadFra
 
     @Override
     public void beforeInitView(Bundle savedInstanceState) {
+        mTitleBar = new FastTitleDelegate(mContentView, this, getClass()).mTitleBar;
         super.beforeInitView(savedInstanceState);
-        mTitleBar = FindViewUtil.getTargetView(mContentView, TitleBarView.class);
     }
 }
