@@ -239,14 +239,14 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setTransEnable(true)
-                .setPlusNavigationViewEnable(!(activity instanceof SplashActivity))
-                .setNavigationBarLightMode(true)
+                .setPlusNavigationViewEnable(isPlusView(activity))
+                .setNavigationBarLightMode(isDarkIcon() && isPlusView(activity))
                 //FastLib默认在可变导航栏icon 增加一个0.5dp的灰色分割线
                 .setNavigationViewDrawableTop(null)
                 .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener)
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
-                .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
+                .setNavigationViewColor(Color.argb(isDarkIcon() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
                 .setNavigationLayoutColor(ContextCompat.getColor(activity, R.color.colorTabBackground));
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
@@ -254,6 +254,27 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                     .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener);
         }
         return isControlNavigation();
+    }
+
+    /**
+     * 是否全透明-华为4.1以上、小米V6以上及Android O以上版本
+     * 可根据导航栏位置颜色设置导航图标颜色
+     *
+     * @return
+     */
+    protected boolean isDarkIcon() {
+        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0))
+                || RomUtil.isMIUI() || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+    }
+
+    /**
+     * 是否增加假导航栏占位
+     *
+     * @param activity
+     * @return
+     */
+    protected boolean isPlusView(Activity activity) {
+        return !(activity instanceof SplashActivity);
     }
 
     private KeyboardHelper.OnKeyboardVisibilityChangedListener mOnKeyboardVisibilityChangedListener = (activity, isOpen, heightDiff, navigationHeight) -> {
@@ -388,15 +409,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
             }
         }
-    }
-
-    /**
-     * 是否全透明-华为4.1以上可根据导航栏位置颜色设置导航图标颜色
-     *
-     * @return
-     */
-    protected boolean isTrans(Activity activity) {
-        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0)) || RomUtil.isMIUI() || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     /**

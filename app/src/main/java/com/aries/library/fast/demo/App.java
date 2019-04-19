@@ -220,7 +220,7 @@ public class App extends MultiDexApplication {
     }
 
     /**
-     * 是否控制底部导航栏---目前发现小米8上检查是否有导航栏出现问题
+     * 是否控制底部导航栏
      *
      * @return
      */
