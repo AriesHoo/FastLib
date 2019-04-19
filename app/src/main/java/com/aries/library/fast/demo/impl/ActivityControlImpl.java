@@ -23,6 +23,7 @@ import com.aries.library.fast.demo.BuildConfig;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
+import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
@@ -271,6 +272,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      */
     protected boolean isPlusView(Activity activity) {
         return !(activity instanceof SplashActivity)
+                && !(activity instanceof TestStatusActivity)
                 && !(activity instanceof DisplayLeakActivity);
     }
 

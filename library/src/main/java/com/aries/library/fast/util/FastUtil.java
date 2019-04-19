@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
@@ -34,6 +37,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
  * 2、2018-7-23 09:29:55 新增获取App 应用名称方法
  * 3、2019-2-15 11:28:53 修改startActivity 方法增加single tag设置方法{@link #setActivitySingleFlag(int)}
  * 4、2019-2-22 13:49:12 修改{@link #getRootView(Activity)} 判断逻辑
+ * 5、2019-4-19 17:02:01 修改{@link #getTintDrawable(Drawable, int)}以支持5.0以下版本并增加{@link #getTintDrawable(Drawable, ColorStateList)}
  */
 public class FastUtil {
 
@@ -107,7 +111,22 @@ public class FastUtil {
      */
     public static Drawable getTintDrawable(Drawable drawable, @ColorInt int color) {
         if (drawable != null) {
-            DrawableCompat.setTint(drawable, color);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                DrawableCompat.setTint(drawable, color);
+            } else {
+                drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            }
+        }
+        return drawable;
+    }
+
+    public static Drawable getTintDrawable(Drawable drawable, @Nullable ColorStateList tint) {
+        if (drawable != null && tint != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                DrawableCompat.setTintList(drawable, tint);
+            } else {
+                drawable.setColorFilter(tint.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+            }
         }
         return drawable;
     }
