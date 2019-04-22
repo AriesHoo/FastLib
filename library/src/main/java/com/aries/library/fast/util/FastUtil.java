@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.ui.util.DrawableUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -38,6 +39,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
  * 3、2019-2-15 11:28:53 修改startActivity 方法增加single tag设置方法{@link #setActivitySingleFlag(int)}
  * 4、2019-2-22 13:49:12 修改{@link #getRootView(Activity)} 判断逻辑
  * 5、2019-4-19 17:02:01 修改{@link #getTintDrawable(Drawable, int)}以支持5.0以下版本并增加{@link #getTintDrawable(Drawable, ColorStateList)}
+ * 6、2019-4-22 17:44:14 修改{@link #getTintDrawable(Drawable, int)}以支持5.0以下版本并增加{@link #getTintDrawable(Drawable, ColorStateList)}
  */
 public class FastUtil {
 
@@ -104,11 +106,13 @@ public class FastUtil {
 
     /**
      * 给一个Drawable变换线框颜色
+     * {@link DrawableUtil#setTintDrawable(Drawable, int)}
      *
      * @param drawable 需要变换颜色的drawable
      * @param color    需要变换的颜色
      * @return
      */
+    @Deprecated
     public static Drawable getTintDrawable(Drawable drawable, @ColorInt int color) {
         if (drawable != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -117,18 +121,19 @@ public class FastUtil {
                 drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
             }
         }
-        return drawable;
+        return DrawableUtil.setTintDrawable(drawable, color);
     }
 
+    /**
+     * {@link DrawableUtil#setTintDrawable(Drawable, ColorStateList)}
+     *
+     * @param drawable
+     * @param tint
+     * @return
+     */
+    @Deprecated
     public static Drawable getTintDrawable(Drawable drawable, @Nullable ColorStateList tint) {
-        if (drawable != null && tint != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                DrawableCompat.setTintList(drawable, tint);
-            } else {
-                drawable.setColorFilter(tint.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
-            }
-        }
-        return drawable;
+        return DrawableUtil.setTintDrawable(drawable, tint);
     }
 
     /**

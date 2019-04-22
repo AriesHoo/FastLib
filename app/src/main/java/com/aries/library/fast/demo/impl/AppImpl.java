@@ -17,11 +17,11 @@ import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastStackUtil;
-import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
+import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 import com.aries.ui.view.title.TitleBarView;
@@ -180,7 +180,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
     @Override
     public boolean createTitleBarViewControl(TitleBarView titleBar, Class<?> cls) {
         //默认的MD风格返回箭头icon如使用该风格可以不用设置
-        Drawable mDrawable = FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_back),
+        Drawable mDrawable = DrawableUtil.setTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_back),
                 ContextCompat.getColor(mContext, R.color.colorTitleText));
         //是否支持状态栏白色
         boolean isSupport = StatusBarUtil.isSupportStatusBarFontChange();

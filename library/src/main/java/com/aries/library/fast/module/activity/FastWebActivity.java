@@ -21,6 +21,7 @@ import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
+import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.BasisDialog;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
@@ -137,7 +138,7 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
                 onBackPressed();
             }
         })
-                .setRightTextDrawable(FastUtil.getTintDrawable(
+                .setRightTextDrawable(DrawableUtil.setTintDrawable(
                         ContextCompat.getDrawable(mContext, R.drawable.fast_ic_more),
                         ContextCompat.getColor(mContext, R.color.colorTitleText)))
                 .setOnRightTextClickListener(new View.OnClickListener() {
@@ -147,7 +148,7 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
                     }
                 })
                 .addLeftAction(titleBar.new ImageAction(
-                        FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_close),
+                        DrawableUtil.setTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_close),
                                 ContextCompat.getColor(mContext, R.color.colorTitleText)), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

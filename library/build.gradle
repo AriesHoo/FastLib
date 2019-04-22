@@ -65,7 +65,7 @@ dependencies {
     //图片加载
     compileOnly 'com.github.bumptech.glide:glide:4.8.0'
     //常用UI控件(TitleBarView、RadiusView等)
-    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.12'
+    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.13'
     //日志打印
     api 'com.orhanobut:logger:2.2.0'
     //注解
@@ -85,7 +85,7 @@ dependencies {
     //滑动返回Activity
     api 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
     //快速Tab库
-    api 'com.github.AriesHoo:TabLayout:1.0.5'
+    api 'com.github.AriesHoo:TabLayout:1.0.6'
     //页面事件交互
     api 'org.simple:androideventbus:1.0.5.1'
     //多状态视图切换

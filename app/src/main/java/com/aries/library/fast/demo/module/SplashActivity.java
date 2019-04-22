@@ -3,7 +3,6 @@ package com.aries.library.fast.demo.module;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -16,10 +15,12 @@ import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.trello.rxlifecycle3.android.ActivityEvent;
 
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 
 /**
@@ -36,7 +37,7 @@ public class SplashActivity extends FastTitleActivity {
 
     @Override
     public void beforeSetContentView() {
-        LoggerManager.i(TAG,"isTaskRoot:"+isTaskRoot()+";getCurrent:"+FastStackUtil.getInstance().getCurrent());
+        LoggerManager.i(TAG, "isTaskRoot:" + isTaskRoot() + ";getCurrent:" + FastStackUtil.getInstance().getCurrent());
         //防止应用后台后点击桌面图标造成重启的假象---MIUI及Flyme上发现过(原生未发现)
         if (!isTaskRoot()) {
             finish();
@@ -66,8 +67,8 @@ public class SplashActivity extends FastTitleActivity {
             //隐藏状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        Drawable drawable = ContextCompat.getDrawable(mContext,R.drawable.ic_launcher);
-        FastUtil.getTintDrawable(drawable, Color.WHITE);
+        Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_launcher);
+        DrawableUtil.setTintDrawable(drawable, Color.WHITE);
         tvApp.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
         mContentView.setBackgroundResource(R.drawable.img_bg_login);
         tvVersion.setText("V" + FastUtil.getVersionName(mContext));

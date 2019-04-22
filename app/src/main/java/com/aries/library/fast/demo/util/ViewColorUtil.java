@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aries.library.fast.util.FastUtil;
+import com.aries.ui.util.DrawableUtil;
 
 /**
  * @Author: AriesHoo on 2018/11/2 13:27
@@ -42,8 +42,7 @@ public class ViewColorUtil {
                 for (Drawable item : drawables) {
                     if (item != null) {
                         //使用该方法避免同一Drawable被全局修改
-                        item = item.mutate();
-                        FastUtil.getTintDrawable(item, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
+                        DrawableUtil.setTintDrawable(item, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
                     }
                 }
                 if (!showText) {
@@ -54,7 +53,7 @@ public class ViewColorUtil {
             } else if (rootView instanceof ImageView) {
                 //使用该方法避免同一Drawable被全局修改
                 Drawable drawable = ((ImageView) rootView).getDrawable().mutate();
-                FastUtil.getTintDrawable(drawable, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
+                DrawableUtil.setTintDrawable(drawable, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
             } else if (rootView instanceof ViewGroup) {
                 ViewGroup contentView = (ViewGroup) rootView;
                 int size = contentView.getChildCount();
