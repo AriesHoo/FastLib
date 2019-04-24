@@ -34,6 +34,15 @@
         <meta-data
             android:name="BaiduMobAd_CHANNEL"
             android:value="${app_channel}"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>
         <activity
             android:name=".module.SplashActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc">
@@ -49,6 +58,11 @@
         <!-- 应用内浏览器 -->
         <activity
             android:name=".module.WebViewActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="@string/fast_loading"/>
+        <activity
+            android:name=".module.WebAppActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"
             android:label="@string/fast_loading"/>

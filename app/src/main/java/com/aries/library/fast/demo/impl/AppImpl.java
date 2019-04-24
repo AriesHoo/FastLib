@@ -7,6 +7,7 @@ import android.os.Build;
 import android.widget.Toast;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.module.WebAppActivity;
 import com.aries.library.fast.i.FastRecyclerViewControl;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.LoadMoreFoot;
@@ -139,6 +140,7 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
 
     /**
      * 这里将局部设置的FastLoadDialog 抛至该处用于全局设置，在局部使用{@link com.aries.library.fast.retrofit.FastLoadingObserver}
+     *
      * @param activity
      * @return
      */
@@ -194,6 +196,9 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
                 .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0);
         if (activity != null) {
             titleBar.setTitleMainText(activity.getTitle());
+        }
+        if (activity instanceof WebAppActivity) {
+            return false;
         }
         ViewCompat.setElevation(titleBar, mContext.getResources().getDimension(R.dimen.dp_elevation));
         return false;

@@ -1,8 +1,10 @@
 package com.aries.library.fast.demo.module.mine;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.helper.ImagePickerHelper;
 import com.aries.library.fast.demo.helper.TitleBarViewHelper;
+import com.aries.library.fast.demo.module.WebAppActivity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
 import com.aries.library.fast.demo.widget.OverScrollView;
@@ -37,6 +40,7 @@ import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.zhihu.matisse.Matisse;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +73,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
 
     private ImagePickerHelper mImagePickerHelper;
     private TitleBarViewHelper mTitleBarViewHelper;
+    private static final int REQUEST_CODE_CHOOSE = 23;
 
     public static MineFragment newInstance() {
         Bundle args = new Bundle();
@@ -93,7 +98,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
         int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
-        LoggerManager.i("statusHeight:"+statusHeight+";dp:"+SizeUtil.px2dp(statusHeight));
+        LoggerManager.i("statusHeight:" + statusHeight + ";dp:" + SizeUtil.px2dp(statusHeight));
         refreshLayout.setHeaderInsetStart(SizeUtil.px2dp(statusHeight));
     }
 
@@ -135,7 +140,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
         mStvInfo.getLeftBottomTextView().setGravity(Gravity.LEFT);
         ViewCompat.setElevation(mStvInfo, getResources().
                 getDimension(R.dimen.dp_elevation));
-        ViewCompat.setTranslationZ(mStvInfo,3f);
+        ViewCompat.setTranslationZ(mStvInfo, 3f);
         if (!App.isSupportElevation()) {
             mStvInfo.setShapeStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp_line_size))
                     .setShapeStrokeColor(ContextCompat.getColor(mContext, R.color.colorLineGray))
@@ -303,6 +308,9 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
         if (mImagePickerHelper != null) {
             mImagePickerHelper.onActivityResult(requestCode, resultCode, data);
         }
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == Activity.RESULT_OK) {
+            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
+        }
     }
 
     @Override
@@ -317,4 +325,5 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     public void onRefresh(RefreshLayout refreshLayout) {
         refreshLayout.finishRefresh();
     }
+
 }

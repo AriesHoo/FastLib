@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aries.ui.view.radius.RadiusTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:rv_backgroundColor="@color/colorWhite"
+    app:rv_radius="@dimen/dp_radius"
+    android:elevation="@dimen/dp_elevation"
+    app:rv_topDrawableHeight="36dp"
+    app:rv_topDrawableWidth="36dp"
+    android:padding="@dimen/dp_margin_item"
+    app:rv_topDrawable="@drawable/ic_launcher"
+    tools:text="豆瓣"
+    android:gravity="center"
+    android:textColor="@color/colorTextBlack"
+    android:textSize="16dp"
+    android:drawablePadding="@dimen/dp_margin_item"
+    app:rv_backgroundPressedColor="@color/colorWhitePressed"
+    android:layout_height="wrap_content"/>

@@ -111,5 +111,6 @@ dependencies {
 //    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.2'
     //Multidex 5.0以下
     implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'com.zhihu.android:matisse:0.5.2-beta4'
 
 }

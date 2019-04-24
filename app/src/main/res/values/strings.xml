@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">FastLib</string>
     <string name="home">主页</string>
+    <string name="web_app">WebApp</string>
     <string name="activity">活动</string>
     <string name="mine">我的</string>
     <string name="home_list_content">点击查看示例</string>
@@ -24,4 +25,5 @@
     <string name="update_now">立即更新</string>
     <string name="upload_file">上传文件演示</string>
     <string name="tip">Work Harder,Live Better!</string>
+    <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
 </resources>
