@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.view.View;
 import android.widget.Toast;
 
 import com.aries.library.fast.demo.R;
@@ -195,7 +196,13 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
                 .setLeftTextDrawable(isActivity ? mDrawable : null)
                 .setDividerHeight(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? SizeUtil.dp2px(0.5f) : 0);
         if (activity != null) {
-            titleBar.setTitleMainText(activity.getTitle());
+            titleBar.setTitleMainText(activity.getTitle())
+                    .setOnLeftTextClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            activity.finish();
+                        }
+                    });
         }
         if (activity instanceof WebAppActivity) {
             return false;

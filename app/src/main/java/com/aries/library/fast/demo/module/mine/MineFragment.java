@@ -1,10 +1,8 @@
 package com.aries.library.fast.demo.module.mine;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.helper.ImagePickerHelper;
 import com.aries.library.fast.demo.helper.TitleBarViewHelper;
-import com.aries.library.fast.demo.module.WebAppActivity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.util.SpanTool;
 import com.aries.library.fast.demo.widget.OverScrollView;
@@ -40,7 +37,6 @@ import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.zhihu.matisse.Matisse;
 
 import java.io.File;
 import java.io.IOException;
@@ -307,9 +303,6 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
         super.onActivityResult(requestCode, resultCode, data);
         if (mImagePickerHelper != null) {
             mImagePickerHelper.onActivityResult(requestCode, resultCode, data);
-        }
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == Activity.RESULT_OK) {
-            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainOriginalState(data)));
         }
     }
 

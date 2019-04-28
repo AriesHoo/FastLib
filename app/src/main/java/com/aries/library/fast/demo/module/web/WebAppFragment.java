@@ -49,7 +49,7 @@ public class WebAppFragment extends FastTitleRefreshLoadFragment<WebAppEntity> {
 
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
-        return new GridLayoutManager(mContext, 2, RecyclerView.VERTICAL, false);
+        return new GridLayoutManager(mContext, 3, RecyclerView.VERTICAL, false);
     }
 
     @Override
@@ -77,17 +77,28 @@ public class WebAppFragment extends FastTitleRefreshLoadFragment<WebAppEntity> {
     @Override
     public void loadData(int page) {
         List<WebAppEntity> list = new ArrayList<>();
-        list.add(new WebAppEntity(R.drawable.ic_bilibili, "Bilibili", "m.bilibili.com/index.html"));
-        list.add(new WebAppEntity(R.drawable.ic_dou_ban, "豆瓣", "m.douban.com"));
-        list.add(new WebAppEntity(R.drawable.ic_you_ku, "优酷", "www.youku.com"));
-        list.add(new WebAppEntity(R.drawable.ic_ai_qi_yi, "爱奇艺", "m.iqiyi.com", Color.argb(255, 25, 25, 25)));
-        list.add(new WebAppEntity(R.drawable.ic_dou_yu, "斗鱼", "m.douyu.com"));
-        list.add(new WebAppEntity(R.drawable.ic_hu_ya, "虎牙", "m.huya.com"));
+        list.add(new WebAppEntity(R.drawable.ic_zhi_hu, "知乎", "www.zhihu.com"));
+        list.add(new WebAppEntity(R.drawable.ic_jian_shu, "简书", "www.jianshu.com"));
+        list.add(new WebAppEntity(R.drawable.ic_little_red_book, "小红书", "www.xiaohongshu.com"));
+
         list.add(new WebAppEntity(R.drawable.ic_bai_du, "百度", "m.baidu.com"));
         list.add(new WebAppEntity(R.drawable.ic_tie, "贴吧", "c.tieba.baidu.com/index/tbwise/feed?shownew=1"));
         list.add(new WebAppEntity(R.drawable.ic_we_bo, "微博", "m.weibo.cn"));
+
+        list.add(new WebAppEntity(R.drawable.ic_dou_yu, "斗鱼", "m.douyu.com"));
+        list.add(new WebAppEntity(R.drawable.ic_hu_ya, "虎牙", "m.huya.com"));
+        list.add(new WebAppEntity(R.drawable.ic_listen, "喜马拉雅", "m.ximalaya.com"));
+
+        list.add(new WebAppEntity(R.drawable.ic_bilibili, "Bilibili", "m.bilibili.com/index.html"));
+        list.add(new WebAppEntity(R.drawable.ic_you_ku, "优酷", "www.youku.com"));
+        list.add(new WebAppEntity(R.drawable.ic_ai_qi_yi, "爱奇艺", "m.iqiyi.com", Color.argb(255, 25, 25, 25)));
+
+        list.add(new WebAppEntity(R.drawable.ic_dou_ban, "豆瓣", "m.douban.com"));
         list.add(new WebAppEntity(R.drawable.ic_wang_yi, "网易", "3g.163.com/touch/#/", Color.parseColor("#F01B1B")));
         list.add(new WebAppEntity(R.drawable.ic_tao_piao_piao, "淘票票", "h5.m.taopiaopiao.com/app/moviemain/pages/index/index.html"));
+
+        list.add(new WebAppEntity(R.drawable.ic_xia_chu_fang, "下厨房", "m.xiachufang.com"));
+        list.add(new WebAppEntity(R.drawable.ic_buy, "什么值得买", "m.smzdm.com"));
         list.add(new WebAppEntity(R.drawable.ic_search, "查快递", "m.kuaidi100.com"));
         FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), list, null);
     }
