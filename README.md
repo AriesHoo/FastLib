@@ -15,7 +15,7 @@
 
 **FastLib 只是一个快速搭建UI及网络请求的库，是常用三方库的一个封装集合,本身不具备框架特性。可在此基础上做MVP、MVVM等框架的扩展**。
 
-[wiki](https://github.com/AriesHoo/FastLib/wiki) 基于**FasbLib 2.2.12** 、**Android Studio 3.3.1**、**Gradle 4.10.1**版本编写,后期重大变更会同步更新。
+[wiki](https://github.com/AriesHoo/FastLib/wiki) 基于**FastLib 2.2.12** 、**Android Studio 3.3.1**、**Gradle 4.10.1**版本编写,后期重大变更会同步更新。
 
 Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.douban.com/wiki/?title=api_v2) **版权及最终解释权归d豆瓣所有,如有侵权请联系删除!**
 
