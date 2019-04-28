@@ -37,7 +37,6 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.helper.navigation.KeyboardHelper;
-import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
@@ -82,7 +81,9 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             // 获取最大音乐音量
             mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             // 获取最小音乐音量
-            mMinVolume = mAudioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                mMinVolume = mAudioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC);
+            }
         }
         if (plus) {
             if (mCurrentVolume >= mMaxVolume) {
@@ -108,12 +109,10 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         LoggerManager.i(TAG, "max:" + mMaxVolume + ";min:" + mMinVolume + ";current:" + mCurrentVolume);
         SnackBarUtil.with(FastStackUtil.getInstance().getCurrent().getWindow().getDecorView())
-                .setBgColor(Color.LTGRAY)
-                .setMessageColor(Color.MAGENTA)
+                .setBgColor(Color.argb(187, 0, 0, 0))
+                .setMessageColor(Color.WHITE)
                 .setMessage("当前音量:" + mCurrentVolume)
-                .setBottomMargin(NavigationBarUtil.getNavigationBarHeight(FastStackUtil.getInstance().getCurrent()))
                 .show();
-
     }
 
     @Override
