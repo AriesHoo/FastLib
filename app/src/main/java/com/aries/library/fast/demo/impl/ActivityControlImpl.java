@@ -85,6 +85,8 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 mMinVolume = mAudioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC);
             }
         }
+        // 获取当前音乐音量
+        mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         if (plus) {
             if (mCurrentVolume >= mMaxVolume) {
                 ToastUtil.show("当前音量已最大");
