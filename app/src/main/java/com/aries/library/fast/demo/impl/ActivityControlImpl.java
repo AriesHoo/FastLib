@@ -109,10 +109,10 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         LoggerManager.i(TAG, "max:" + mMaxVolume + ";min:" + mMinVolume + ";current:" + mCurrentVolume);
         SnackBarUtil.with(FastStackUtil.getInstance().getCurrent().getWindow().getDecorView())
-                .setBgColor(Color.argb(187, 0, 0, 0))
-                .setMessageColor(Color.WHITE)
+                .setBgColor(Color.WHITE)
+                .setMessageColor(Color.BLACK)
                 .setMessage("当前音量:" + mCurrentVolume)
-                .show();
+                .showSuccess();
     }
 
     @Override
