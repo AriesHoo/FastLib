@@ -54,7 +54,8 @@ public class ApiRepository extends BaseRepository {
      * @return
      */
     public Observable<BaseMovieEntity> getMovie(String url, int start, int count) {
-        Map<String, Object> params = new HashMap<>(2);
+        Map<String, Object> params = new HashMap<>(3);
+        params.put("apikey","0b2bdeda43b5688921839c8ecb20399b");
         params.put("start", start);
         params.put("count", count);
         return FastTransformer.switchSchedulers(getApiService().getMovie(url, params).retryWhen(new FastRetryWhen()));

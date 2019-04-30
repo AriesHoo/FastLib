@@ -24,6 +24,7 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
@@ -63,11 +64,10 @@ public class App extends MultiDexApplication {
                         .showThreadInfo(true)
                         .methodCount(3));
         start = System.currentTimeMillis();
-        LoggerManager.i(TAG, "start:" + start);
+        LoggerManager.i(TAG, "start:" + start+";Application:"+ FastUtil.getApplication());
         mContext = this;
-
         //最简单UI配置模式-必须进行初始化
-        FastManager.init(this);
+        // FastManager.init(this);
         //以下为更丰富自定义方法
         //全局UI配置参数-按需求设置
         AppImpl impl = new AppImpl(mContext);

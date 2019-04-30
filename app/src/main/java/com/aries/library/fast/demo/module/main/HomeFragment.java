@@ -167,6 +167,8 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
                     @Override
                     public void onScrollChange(int alpha, boolean isLightMode) {
                         mIsLight = isLightMode;
+                        int colorText = Color.argb(alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255);
+                        mTitleBar.setTitleMainTextColor(colorText);
                     }
                 });
     }

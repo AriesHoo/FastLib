@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aries.ui.util.DrawableUtil;
+import com.aries.ui.view.title.TitleBarView;
 
 /**
  * @Author: AriesHoo on 2018/11/2 13:27
@@ -33,27 +34,41 @@ public class ViewColorUtil {
         return sInstance;
     }
 
-    public void changeColor(View rootView, int alpha, boolean mIsLight, boolean showText) {
+    public void changeColor(View rootView, int alpha, boolean mIsLight, boolean showText, boolean mutate) {
         if (rootView != null) {
-            //滚动视图
+            int color = Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255);
+            int colorText = !showText ? Color.argb(alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255) : color;
+            if (rootView instanceof TitleBarView) {
+                ((TitleBarView) rootView).setLeftTextDrawableTint(color)
+                        .setTextColor(colorText)
+                        .setRightTextDrawableTint(color)
+                        .setActionTint(color);
+            }
             if (rootView instanceof TextView) {
+                //滚动视图
                 TextView textView = (TextView) rootView;
                 Drawable[] drawables = textView.getCompoundDrawables();
                 for (Drawable item : drawables) {
                     if (item != null) {
-                        //使用该方法避免同一Drawable被全局修改
-                        DrawableUtil.setTintDrawable(item, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
+                        if (mutate) {
+                            item = item.mutate();
+                        }
+                        if (!showText) {
+                            DrawableUtil.setTintDrawable(item, Color.argb(alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255));
+                        } else {
+                            DrawableUtil.setTintDrawable(item, color);
+                        }
                     }
                 }
                 if (!showText) {
-                    textView.setTextColor(Color.argb(alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
+                    textView.setTextColor(Color.argb(alpha, mIsLight ? 0 : 255, mIsLight ? 0 : 255, mIsLight ? 0 : 255));
                 } else {
-                    textView.setTextColor(Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
+                    textView.setTextColor(color);
                 }
             } else if (rootView instanceof ImageView) {
-                //使用该方法避免同一Drawable被全局修改
-                Drawable drawable = ((ImageView) rootView).getDrawable().mutate();
-                DrawableUtil.setTintDrawable(drawable, Color.argb(mIsLight ? alpha : 255 - alpha, mIsLight ? 0 : 252, mIsLight ? 0 : 252, mIsLight ? 0 : 252));
+                Drawable drawable = ((ImageView) rootView).getDrawable();
+                drawable = drawable.mutate();
+                DrawableUtil.setTintDrawable(drawable, color);
             } else if (rootView instanceof ViewGroup) {
                 ViewGroup contentView = (ViewGroup) rootView;
                 int size = contentView.getChildCount();
@@ -61,7 +76,7 @@ public class ViewColorUtil {
                 for (int i = 0; i < size; i++) {
                     View childView = contentView.getChildAt(i);
                     //递归查找
-                    changeColor(childView, alpha, mIsLight, showText);
+                    changeColor(childView, alpha, mIsLight, showText, mutate);
                 }
             }
         }

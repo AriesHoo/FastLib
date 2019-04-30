@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
@@ -18,7 +19,9 @@ import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.GlideManager;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.widget.progress.UIProgressDialog;
@@ -36,6 +39,14 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * 1、2018-9-26 16:58:14 新增BasisActivity 子类前台监听按键事件
  */
 public class FastManager {
+
+    static {
+        Application application = FastUtil.getApplication();
+        if (application != null) {
+            LoggerManager.i("init0");
+            init(application);
+        }
+    }
 
     private static String TAG = "FastManager";
     private static volatile FastManager sInstance;
@@ -116,6 +127,7 @@ public class FastManager {
      * @param application
      */
     public static FastManager init(Application application) {
+        LoggerManager.i("init");
         //保证只执行一次初始化属性
         if (mApplication == null && application != null) {
             mApplication = application;
@@ -138,7 +150,7 @@ public class FastManager {
             //初始化Toast工具
             ToastUtil.init(mApplication);
             //初始化Glide
-            GlideManager.setPlaceholderColor(ContextCompat.getColor(mApplication,R.color.colorPlaceholder));
+            GlideManager.setPlaceholderColor(ContextCompat.getColor(mApplication, R.color.colorPlaceholder));
             GlideManager.setPlaceholderRoundRadius(mApplication.getResources().getDimension(R.dimen.dp_placeholder_radius));
         }
         return getInstance();
@@ -182,7 +194,7 @@ public class FastManager {
 
     /**
      * 设置SmartRefreshLayout 下拉刷新头
-     * 最终调用{@link FastRefreshLoadDelegate#initRefreshHeader()}
+     * 最终调用{@link FastRefreshDelegate#initRefreshHeader()}
      *
      * @param control
      * @return
@@ -198,7 +210,7 @@ public class FastManager {
 
     /**
      * 设置多状态布局--加载中/空数据/错误/无网络
-     * 最终调用{@link FastRefreshLoadDelegate#initRefreshHeader()}
+     * 最终调用{@link FastRefreshDelegate#initRefreshHeader()}
      *
      * @param control
      * @return

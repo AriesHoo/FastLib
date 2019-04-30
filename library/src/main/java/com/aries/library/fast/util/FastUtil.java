@@ -2,6 +2,9 @@ package com.aries.library.fast.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityThread;
+import android.app.AppGlobals;
+import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -44,6 +47,33 @@ import androidx.core.graphics.drawable.DrawableCompat;
 public class FastUtil {
 
     private static int ACTIVITY_SINGLE_FLAG = Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
+    /**
+     * 反射获取application对象
+     *
+     * @return application
+     */
+    public static Application getApplication() {
+        try {
+            //兼容android P，直接调用@hide注解的方法来获取application对象
+            Application app = ActivityThread.currentApplication();
+            LoggerManager.e("getApplication0:"+app);
+            if (app != null) {
+                return app;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            //兼容android P，直接调用@hide注解的方法来获取application对象
+            Application app = AppGlobals.getInitialApplication();
+            LoggerManager.e("getApplication1:"+app);
+            if (app != null) {
+                return app;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
     /**
      * 获取应用名称

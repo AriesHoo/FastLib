@@ -26,6 +26,7 @@ import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFileUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.helper.navigation.NavigationBarUtil;
@@ -122,7 +123,10 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
                     public void onProgressChanged(WebView view, int newProgress) {
                         super.onProgressChanged(view, newProgress);
                         if (newProgress == 100 && mRefreshLayout != null) {
+                            mCurrentUrl = view.getUrl();
                             mRefreshLayout.finishRefresh();
+                            int position = (int) SPUtil.get(mContext, mCurrentUrl, 0);
+                            view.scrollTo(0, position);
                         }
                     }
 
@@ -255,6 +259,13 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
         }
         super.onBackPressed();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        WebView webView = mAgentWeb.getWebCreator().getWebView();
+        SPUtil.put(mContext, webView.getUrl(), webView.getScrollY());
     }
 
     /**
