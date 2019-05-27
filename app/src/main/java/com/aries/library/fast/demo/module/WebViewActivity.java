@@ -258,7 +258,6 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
             FastUtil.startActivity(mContext, MainActivity.class);
         }
         super.onBackPressed();
-
     }
 
     @Override

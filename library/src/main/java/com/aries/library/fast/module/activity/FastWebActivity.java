@@ -174,6 +174,18 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
                         mCurrentUrl = view.getUrl();
                         mTitleBar.setTitleMainText(title);
                     }
+
+                    @Override
+                    public void onShowCustomView(View view, CustomViewCallback callback) {
+                        super.onShowCustomView(view, callback);
+                        ToastUtil.show("show");
+                    }
+
+                    @Override
+                    public void onHideCustomView() {
+                        super.onHideCustomView();
+                        ToastUtil.show("hide");
+                    }
                 })
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK);
         setAgentWeb(mAgentBuilder);

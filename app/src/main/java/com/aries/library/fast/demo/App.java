@@ -39,7 +39,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import androidx.multidex.MultiDexApplication;
-import me.jessyan.autosize.AutoSizeConfig;
 
 /**
  * @Author: AriesHoo on 2018/7/31 10:43
@@ -154,10 +153,6 @@ public class App extends MultiDexApplication {
         LoggerManager.i(TAG, "appChannel2:" + appChannel);
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
 
-        AutoSizeConfig.getInstance()
-                .setCustomFragment(true)
-                .setExcludeFontScale(true)
-                .setLog(BuildConfig.DEBUG);
         //初始化哆啦A梦
         DoraemonKit.install(this);
         // H5任意门功能需要，非必须
