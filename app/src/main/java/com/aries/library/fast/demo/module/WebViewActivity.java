@@ -12,6 +12,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -20,8 +21,10 @@ import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.demo.util.NotificationUtil;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.library.fast.retrofit.FastDownloadObserver;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFileUtil;
 import com.aries.library.fast.util.FastStackUtil;
@@ -38,7 +41,9 @@ import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.just.agentweb.AbsAgentWebSettings;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.IAgentWebSettings;
+import com.just.agentweb.IVideo;
 import com.just.agentweb.LogUtils;
+import com.just.agentweb.VideoImpl;
 import com.just.agentweb.WebListenerManager;
 import com.just.agentweb.download.AgentWebDownloader;
 import com.just.agentweb.download.DefaultDownloadImpl;
@@ -136,6 +141,30 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
                         if (mTitleBar != null) {
                             mTitleBar.setTitleMainText(title);
                         }
+                    }
+
+                    @Override
+                    public void onHideCustomView() {
+                        super.onHideCustomView();
+                        getIVideo().onHideCustomView();
+                        //显示状态栏
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        NavigationBarUtil.setNavigationBarLightMode(mContext);
+                    }
+
+                    @Override
+                    public void onShowCustomView(View view, CustomViewCallback callback) {
+                        super.onShowCustomView(view, callback);
+                        getIVideo().onShowCustomView(view, callback);
+                        //隐藏状态栏
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        RxJavaManager.getInstance().setTimer(100)
+                                .subscribe(new FastObserver<Long>() {
+                                    @Override
+                                    public void _onNext(Long entity) {
+                                        NavigationBarUtil.setNavigationBarDarkMode(mContext);
+                                    }
+                                });
                     }
                 });
     }
@@ -265,6 +294,15 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
         super.onPause();
         WebView webView = mAgentWeb.getWebCreator().getWebView();
         SPUtil.put(mContext, webView.getUrl(), webView.getScrollY());
+    }
+
+    private IVideo mIVideo = null;
+
+    private IVideo getIVideo() {
+        if (mIVideo == null) {
+            mIVideo = new VideoImpl(mContext, mAgentWeb.getWebCreator().getWebView());
+        }
+        return mIVideo;
     }
 
     /**
