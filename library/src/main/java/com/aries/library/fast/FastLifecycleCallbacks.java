@@ -16,10 +16,12 @@ import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
 import com.aries.library.fast.module.activity.FastRefreshLoadActivity;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
@@ -341,8 +343,14 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
             }
             boolean isInit = mActivityFragmentControl != null ? mActivityFragmentControl.setStatusBar(activity, statusViewHelper, topView) : true;
             if (isInit) {
-                statusViewHelper.init();
-                activity.getIntent().putExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, true);
+                RxJavaManager.getInstance().setTimer(50)
+                        .subscribe(new FastObserver<Long>() {
+                            @Override
+                            public void _onNext(Long entity) {
+                                statusViewHelper.init();
+                                activity.getIntent().putExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, true);
+                            }
+                        });
             }
         }
     }
