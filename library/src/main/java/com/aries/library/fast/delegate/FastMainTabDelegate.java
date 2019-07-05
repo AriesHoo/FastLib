@@ -124,10 +124,10 @@ public class FastMainTabDelegate {
             initViewPager(fragments);
         } else {
             if (mObject instanceof FragmentActivity) {
-                mTabLayout.setTabData(mTabEntities, (FragmentActivity) mObject, R.id.fLayout_containerFastMain, fragments);
+                mTabLayout.setTabData(mTabEntities, (FragmentActivity) mObject, mIFastMainView.getContainerViewId(), fragments);
                 mTabLayout.setOnTabSelectListener(mIFastMainView);
             } else if (mObject instanceof Fragment) {
-                mTabLayout.setTabData(mTabEntities, ((Fragment) mObject).getActivity(), R.id.fLayout_containerFastMain, fragments);
+                mTabLayout.setTabData(mTabEntities, ((Fragment) mObject).getActivity(), mIFastMainView.getContainerViewId(), fragments);
                 mTabLayout.setOnTabSelectListener(mIFastMainView);
             }
 
