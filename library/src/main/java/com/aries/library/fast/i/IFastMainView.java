@@ -18,7 +18,7 @@ import androidx.viewpager.widget.ViewPager;
  * @Author: AriesHoo on 2018/7/20 17:07
  * @E-Mail: AriesHoo@126.com
  * Function: 包含CommonTabLayout的主页面Activity/Fragment
- * Description:
+ * Description:1、2019-7-5 15:05:42 增加 getContainerViewId以解决多层Fragment嵌套id相同后造成Fragmen加载错误问题
  */
 public interface IFastMainView extends OnTabSelectListener {
 
@@ -31,6 +31,14 @@ public interface IFastMainView extends OnTabSelectListener {
         return false;
     }
 
+     /**
+     * 承载主界面Fragment的ViewGroup id 一般为FrameLayout
+     *
+     * @return viewId
+     */
+    default int getContainerViewId() {
+        return R.id.fLayout_containerFastMain;
+    }
     /**
      * 用于添加Tab属性(文字-图标)
      *
