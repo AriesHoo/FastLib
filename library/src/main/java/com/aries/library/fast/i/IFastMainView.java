@@ -13,6 +13,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import com.aries.library.fast.R;
 
 /**
  * @Author: AriesHoo on 2018/7/20 17:07
