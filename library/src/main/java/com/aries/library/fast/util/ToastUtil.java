@@ -625,8 +625,8 @@ public class ToastUtil {
             if (control != null && control.getToast() != null) {
                 return control.getToast();
             }
-            //目前发现华为Android 9.0版本系统Toast做了单利操作造成短信时间快速Toast 后面无法弹出问题
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && RomUtil.isEMUI()) {
+            //目前发现Android 9.0版本系统Toast做了单例操作造成短时间快速Toast 后面无法弹出问题
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 return new Toast(sContext);
             }
             return SingleToastHolder.INSTANCE.getToast();
