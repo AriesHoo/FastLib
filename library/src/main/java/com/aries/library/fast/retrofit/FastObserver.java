@@ -34,6 +34,10 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
     public void onError(Throwable e) {
+        if (e instanceof FastNullException) {
+            _onNext(null);
+            return;
+        }
         if (FastManager.getInstance().getHttpRequestControl() != null) {
             FastManager.getInstance().getHttpRequestControl().httpRequestError(mHttpRequestControl, e);
         }

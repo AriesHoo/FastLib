@@ -3,6 +3,7 @@ package com.aries.library.fast.demo.retrofit.repository;
 import android.accounts.NetworkErrorException;
 
 import com.aries.library.fast.demo.base.BaseEntity;
+import com.aries.library.fast.retrofit.FastNullException;
 import com.aries.library.fast.retrofit.FastRetryWhen;
 import com.aries.library.fast.retrofit.FastTransformer;
 
@@ -30,7 +31,12 @@ public abstract class BaseRepository {
                             if (result == null) {
                                 return Observable.error(new NetworkErrorException());
                             } else {
-                                return Observable.just(result.data);
+                                if (result.success) {
+                                    return result.data != null ? Observable.just(result.data)
+                                            : Observable.error(new FastNullException());
+                                } else {
+                                    return Observable.error(new NetworkErrorException());
+                                }
                             }
                         }));
     }
