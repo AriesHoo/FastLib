@@ -33,7 +33,7 @@ public abstract class BaseRepository {
                             } else {
                                 if (result.success) {
                                     return result.data != null ? Observable.just(result.data)
-                                            : Observable.error(new FastNullException());
+                                            : Observable.error(new FastNullException("没有数据"));
                                 } else {
                                     return Observable.error(new NetworkErrorException());
                                 }

@@ -1,6 +1,5 @@
 package com.aries.library.fast.retrofit;
 
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -16,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;

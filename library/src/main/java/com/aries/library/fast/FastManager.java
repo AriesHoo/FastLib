@@ -9,6 +9,7 @@ import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
+import com.aries.library.fast.i.FastObserverControl;
 import com.aries.library.fast.i.FastRecyclerViewControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.LoadMoreFoot;
@@ -21,6 +22,7 @@ import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
@@ -108,6 +110,11 @@ public class FastManager {
      * 配置网络请求
      */
     private HttpRequestControl mHttpRequestControl;
+
+    /**
+     * 配置{@link FastObserver#onError(Throwable)}全局处理
+     */
+    private FastObserverControl mFastObserverControl;
     /**
      * Activity 主页点击返回键控制
      */
@@ -322,6 +329,20 @@ public class FastManager {
         return this;
     }
 
+    public FastObserverControl getFastObserverControl() {
+        return mFastObserverControl;
+    }
+
+    /**
+     * 配置{@link FastObserver#onError(Throwable)}全局处理
+     *
+     * @param control FastObserverControl对象
+     * @return
+     */
+    public FastManager setFastObserverControl(FastObserverControl control) {
+        mFastObserverControl = control;
+        return this;
+    }
 
     public QuitAppControl getQuitAppControl() {
         return mQuitAppControl;

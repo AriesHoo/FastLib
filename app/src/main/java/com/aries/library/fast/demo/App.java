@@ -63,7 +63,7 @@ public class App extends MultiDexApplication {
                         .showThreadInfo(true)
                         .methodCount(3));
         start = System.currentTimeMillis();
-        LoggerManager.i(TAG, "start:" + start+";Application:"+ FastUtil.getApplication());
+        LoggerManager.i(TAG, "start:" + start + ";Application:" + FastUtil.getApplication());
         mContext = this;
         //最简单UI配置模式-必须进行初始化
         // FastManager.init(this);
@@ -94,6 +94,8 @@ public class App extends MultiDexApplication {
                 .setActivityDispatchEventControl(activityControl)
                 //设置http请求结果全局控制
                 .setHttpRequestControl(new HttpRequestControlImpl())
+                //配置{@link FastObserver#onError(Throwable)}全局处理
+                .setFastObserverControl(impl)
                 //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
                 .setQuitAppControl(impl)
                 //设置ToastUtil全局控制

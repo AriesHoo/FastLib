@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.WebAppActivity;
+import com.aries.library.fast.demo.retrofit.repository.BaseRepository;
+import com.aries.library.fast.i.FastObserverControl;
 import com.aries.library.fast.i.FastRecyclerViewControl;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.LoadMoreFoot;
@@ -18,6 +20,8 @@ import com.aries.library.fast.i.QuitAppControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.retrofit.FastNullException;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
@@ -40,6 +44,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.Observable;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -51,7 +56,7 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
  */
 public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
         FastRecyclerViewControl, MultiStatusView, LoadingDialog,
-        TitleBarViewControl, QuitAppControl, ToastControl {
+        TitleBarViewControl, QuitAppControl, ToastControl, FastObserverControl {
 
     private Context mContext;
     private String TAG = this.getClass().getSimpleName();
@@ -238,5 +243,22 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
     @Override
     public void setToast(Toast toast, RadiusTextView textView) {
 
+    }
+
+    /**
+     * @param o {@link FastObserver} 对象用于后续事件逻辑
+     * @param e 原始错误
+     * @return true 拦截操作不进行原始{@link FastObserver#onError(Throwable)}后续逻辑
+     * false 不拦截继续后续逻辑
+     * {@link FastNullException} 已在{@link FastObserver#onError} ｝处理如果为该类型Exception可不用管,参考
+     * {@link BaseRepository#transform(Observable)} 处理逻辑
+     */
+    @Override
+    public boolean onError(FastObserver o, Throwable e) {
+        if (e instanceof FastNullException) {
+            o._onNext(null);
+            return true;
+        }
+        return false;
     }
 }
