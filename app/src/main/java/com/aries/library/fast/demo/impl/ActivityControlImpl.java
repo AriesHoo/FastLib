@@ -15,11 +15,11 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.aries.library.fast.BuildConfig;
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.demo.App;
-import com.aries.library.fast.demo.BuildConfig;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
