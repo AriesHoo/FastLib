@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -13,7 +14,6 @@ import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.ToastControl;
-import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 
 import androidx.annotation.ColorInt;
@@ -133,6 +133,10 @@ public class ToastUtil {
     }
 
     private static void showToast(CharSequence content, boolean isShowRunningForeground, Builder builder) {
+        //过滤空字符情况
+        if (TextUtils.isEmpty(content) || TextUtils.isEmpty(content.toString().trim())) {
+            return;
+        }
         //修复快速点击无法显示的问题,修复超过50之后无法显示的问题
         sSystemToast = SingleToast.getInstance();
         sTextView = new RadiusTextView(sContext);

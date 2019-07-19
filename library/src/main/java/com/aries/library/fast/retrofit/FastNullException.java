@@ -11,13 +11,17 @@ public class FastNullException extends Exception {
 
     public int errorCode;
 
-    public FastNullException(String message, int errorCode) {
-        super(message);
-        this.errorCode = errorCode;
+    public FastNullException() {
+        this("");
     }
 
     public FastNullException(String message) {
         this(message, -1);
+    }
+
+    public FastNullException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
     }
 
     public FastNullException(String message, Throwable cause) {
