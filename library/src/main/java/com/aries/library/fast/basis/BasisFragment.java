@@ -43,7 +43,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected boolean mIsFirstShow;
     protected boolean mIsViewLoaded;
     protected Unbinder mUnBinder;
-    protected final String TAG = getClass().getSimpleName();
+    protected String TAG = getClass().getSimpleName();
     protected boolean mIsVisibleChanged = false;
     private boolean mIsInViewPager;
     protected Bundle mSavedInstanceState;
@@ -120,6 +120,11 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
+        mUnBinder = null;
+        mContentView = null;
+        mContext = null;
+        mSavedInstanceState = null;
+        TAG = null;
     }
 
     @Override
@@ -162,7 +167,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         super.onHiddenChanged(hidden);
         if (!mIsViewLoaded) {
             RxJavaManager.getInstance().setTimer(10)
-                    .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                    .compose(bindUntilEvent(FragmentEvent.DESTROY))
                     .subscribe(new FastObserver<Long>() {
                         @Override
                         public void _onNext(Long entity) {
@@ -184,7 +189,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mIsInViewPager = true;
         if (!mIsViewLoaded) {
             RxJavaManager.getInstance().setTimer(10)
-                    .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                    .compose(bindUntilEvent(FragmentEvent.DESTROY))
                     .subscribe(new FastObserver<Long>() {
                         @Override
                         public void _onNext(Long entity) {
@@ -217,20 +222,20 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
             //避免因视图未加载子类刷新UI抛出异常
             if (!mIsViewLoaded) {
                 RxJavaManager.getInstance().setTimer(10)
-                        .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                        .compose(bindUntilEvent(FragmentEvent.DESTROY))
                         .subscribe(new FastObserver<Long>() {
                             @Override
                             public void _onNext(Long entity) {
-                                onVisibleChanged(isVisibleToUser);
+                                onVisibleChanged(true);
                             }
                         });
             } else {
-                lazyLoad();
+                fastLazyLoad();
             }
         }
     }
 
-    private void lazyLoad() {
+    private void fastLazyLoad() {
         if (mIsFirstShow && mIsViewLoaded) {
             mIsFirstShow = false;
             loadData();

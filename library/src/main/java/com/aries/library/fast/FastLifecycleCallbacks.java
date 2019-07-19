@@ -14,6 +14,8 @@ import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.i.IFastTitleView;
+import com.aries.library.fast.i.INavigationBar;
+import com.aries.library.fast.i.IStatusBar;
 import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -33,8 +35,6 @@ import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
 import com.aries.ui.view.title.TitleBarView;
-
-import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -109,7 +109,8 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 && !(activity instanceof IFastRefreshLoadView)
                 && !activity.getIntent().getBooleanExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false)
                 && contentView != null) {
-            new FastTitleDelegate(contentView, (IFastTitleView) activity, activity.getClass());
+            FastDelegateManager.getInstance().putFastTitleDelegate(activity.getClass(),
+                    new FastTitleDelegate(contentView, (IFastTitleView) activity, activity.getClass()));
             activity.getIntent().putExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, true);
         }
         //配置下拉刷新
@@ -119,12 +120,10 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
             IFastRefreshView refreshView = (IFastRefreshView) activity;
             if (contentView != null
                     || refreshView.getContentView() != null) {
-                FastRefreshDelegate delegate = new FastRefreshDelegate(
-                        refreshView.getContentView() != null ? refreshView.getContentView() : contentView,
-                        (IFastRefreshView) activity);
-                String keyDelegate = UUID.randomUUID().toString();
-                activity.getIntent().putExtra(FastConstant.KEY_FAST_DELEGATE, keyDelegate);
-                FastDelegateManager.getInstance().putFastRefreshDelegate(keyDelegate, delegate);
+                FastDelegateManager.getInstance().putFastRefreshDelegate(activity.getClass(),
+                        new FastRefreshDelegate(
+                                refreshView.getContentView() != null ? refreshView.getContentView() : contentView,
+                                (IFastRefreshView) activity));
                 activity.getIntent().putExtra(FastConstant.IS_SET_REFRESH_VIEW, true);
             }
         }
@@ -187,8 +186,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         FastStackUtil.getInstance().pop(activity, false);
 
         //清除下拉刷新代理FastRefreshDelegate
-        String keyDelegate = activity.getIntent().getStringExtra(FastConstant.KEY_FAST_DELEGATE);
-        FastDelegateManager.getInstance().removeFastRefreshDelegate(keyDelegate);
+        FastDelegateManager.getInstance().removeFastRefreshDelegate(activity.getClass());
+        //清除标题栏代理类FastTitleDelegate
+        FastDelegateManager.getInstance().removeFastTitleDelegate(activity.getClass());
         //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityDestroyed(activity);
@@ -206,18 +206,17 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         if (f instanceof IFastTitleView
                 && !(f instanceof IFastRefreshLoadView)
                 && v != null) {
-            new FastTitleDelegate(v, (IFastTitleView) f, f.getClass());
+            FastDelegateManager.getInstance().putFastTitleDelegate(f.getClass(),
+                    new FastTitleDelegate(v, (IFastTitleView) f, f.getClass()));
         }
         //刷新功能处理
         if (f instanceof IFastRefreshView
                 && !(FastRefreshLoadFragment.class.isAssignableFrom(f.getClass()))) {
             IFastRefreshView refreshView = (IFastRefreshView) f;
-            String keyDelegate = UUID.randomUUID().toString();
-            f.getArguments().putString(FastConstant.KEY_FAST_DELEGATE, keyDelegate);
-            FastRefreshDelegate delegate = new FastRefreshDelegate(
-                    refreshView.getContentView() != null ? refreshView.getContentView() : f.getView(),
-                    refreshView);
-            FastDelegateManager.getInstance().putFastRefreshDelegate(keyDelegate, delegate);
+            FastDelegateManager.getInstance().putFastRefreshDelegate(f.getClass(),
+                    new FastRefreshDelegate(
+                            refreshView.getContentView() != null ? refreshView.getContentView() : f.getView(),
+                            refreshView));
         }
     }
 
@@ -226,9 +225,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         super.onFragmentViewDestroyed(fm, f);
         if (f.getArguments() != null) {
             f.getArguments().putBoolean(FastConstant.IS_SET_CONTENT_VIEW_BACKGROUND, false);
-            String keyDelegate = f.getArguments().getString(FastConstant.KEY_FAST_DELEGATE);
-            FastDelegateManager.getInstance().removeFastRefreshDelegate(keyDelegate);
         }
+        FastDelegateManager.getInstance().removeFastRefreshDelegate(f.getClass());
+        FastDelegateManager.getInstance().removeFastTitleDelegate(f.getClass());
     }
 
     /**
@@ -266,7 +265,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         LoggerManager.i(TAG, activity + getClass().getSimpleName() + ":设置Activity滑动返回");
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        final BGASwipeBackHelper swipeBackHelper = new BGASwipeBackHelper(activity, new BGASwipeBackHelper.Delegate() {
+        BGASwipeBackHelper swipeBackHelper = new BGASwipeBackHelper(activity, new BGASwipeBackHelper.Delegate() {
             @Override
             public boolean isSupportSwipeBack() {
                 return mSwipeBackControl != null ? mSwipeBackControl.isSwipeBackEnable(activity) : true;
@@ -322,6 +321,11 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         }
     }
 
+    /**
+     * 设置状态栏
+     *
+     * @param activity 目标Activity
+     */
     private void setStatusBar(Activity activity) {
         boolean isSet = activity.getIntent().getBooleanExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, false);
         if (isSet) {
@@ -342,11 +346,18 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 statusViewHelper.setStatusLayoutDrawable(drawable);
             }
             boolean isInit = mActivityFragmentControl != null ? mActivityFragmentControl.setStatusBar(activity, statusViewHelper, topView) : true;
+            if (activity instanceof IStatusBar) {
+                isInit = ((IStatusBar) activity).setStatusBar(activity, statusViewHelper, topView);
+            }
             if (isInit) {
-                RxJavaManager.getInstance().setTimer(50)
+                //状态栏黑色文字图标flag被覆盖问题--临时解决
+                RxJavaManager.getInstance().setTimer(10)
                         .subscribe(new FastObserver<Long>() {
                             @Override
                             public void _onNext(Long entity) {
+                                if (activity == null || activity.isFinishing()) {
+                                    return;
+                                }
                                 statusViewHelper.init();
                                 activity.getIntent().putExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, true);
                             }
@@ -358,7 +369,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     /**
      * 设置全局虚拟导航栏功能
      *
-     * @param activity
+     * @param activity 目标Activity
      */
     private void setNavigationBar(Activity activity) {
         boolean isSet = activity.getIntent().getBooleanExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER, false);
@@ -386,7 +397,13 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 .setNavigationViewColor(Color.argb(isTrans() ? 0 : 102, 0, 0, 0))
                 .setNavigationViewDrawableTop(drawableTop)
                 .setNavigationLayoutColor(Color.WHITE);
+        if (activity instanceof KeyboardHelper.OnKeyboardVisibilityChangedListener) {
+            navigationViewHelper.setOnKeyboardVisibilityChangedListener((KeyboardHelper.OnKeyboardVisibilityChangedListener) activity);
+        }
         boolean isInit = mActivityFragmentControl != null ? mActivityFragmentControl.setNavigationBar(activity, navigationViewHelper, bottomView) : true;
+        if (activity instanceof INavigationBar) {
+            isInit = ((INavigationBar) activity).setNavigationBar(activity, navigationViewHelper, bottomView);
+        }
         if (isInit) {
             activity.getIntent().putExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER, true);
             navigationViewHelper.init();

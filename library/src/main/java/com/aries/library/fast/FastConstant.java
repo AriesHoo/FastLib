@@ -31,8 +31,4 @@ public interface FastConstant {
      * 是否设置TitleBarView标记
      */
     String IS_SET_TITLE_BAR_VIEW = "IS_SET_TITLE_BAR_VIEW";
-    /**
-     * 设置FastDelegateManager 的key
-     */
-    String KEY_FAST_DELEGATE = "KEY_FAST_DELEGATE";
 }

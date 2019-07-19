@@ -26,4 +26,9 @@ public abstract class FastTitleActivity extends BasisActivity implements IFastTi
         mTitleBar = FindViewUtil.getTargetView(mContentView, TitleBarView.class);
     }
 
+    @Override
+    protected void onDestroy() {
+        mTitleBar = null;
+        super.onDestroy();
+    }
 }

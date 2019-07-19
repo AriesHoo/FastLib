@@ -244,7 +244,7 @@ public class FastRetrofit {
     public Observable<ResponseBody> uploadFile(String uploadUrl, @Nullable final RequestBody body, Map<String, Object> header) {
         return getRetrofit()
                 .create(FastRetrofitService.class)
-                .uploadFile(uploadUrl, body, header == null ? new HashMap<String, Object>() : header)
+                .uploadFile(uploadUrl, body, header == null ? new HashMap<>() : header)
                 .compose(FastTransformer.<ResponseBody>switchSchedulers());
     }
 

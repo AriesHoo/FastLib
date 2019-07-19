@@ -29,7 +29,8 @@ public interface SwipeBackControl {
      * @param activity        当前Activity
      * @param swipeBackHelper BGASwipeBackHelper 控制详见{@link com.aries.library.fast.FastManager}
      */
-    void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper);
+    default void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
+    }
 
     /**
      * 正在滑动返回
@@ -37,20 +38,23 @@ public interface SwipeBackControl {
      * @param activity    滑动的Activity
      * @param slideOffset 滑动偏移量 0-1
      */
-    void onSwipeBackLayoutSlide(Activity activity, float slideOffset);
+    default void onSwipeBackLayoutSlide(Activity activity, float slideOffset) {
+    }
 
     /**
      * 没达到滑动返回的阈值,取消滑动返回动作,回到默认状态
      *
      * @param activity 当前Activity
      */
-    void onSwipeBackLayoutCancel(Activity activity);
+    default void onSwipeBackLayoutCancel(Activity activity) {
+    }
 
     /**
      * 滑动返回执行完毕,销毁当前 Activity
      *
      * @param activity 当前activity
      */
-    void onSwipeBackLayoutExecuted(Activity activity);
+    default void onSwipeBackLayoutExecuted(Activity activity) {
+    }
 
 }

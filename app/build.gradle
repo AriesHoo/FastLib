@@ -77,7 +77,6 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
-    implementation 'com.github.AriesHoo.UIWidget:widget-core:3.2.14'
 
     //以下库FastLib里使用compileOnly只是编译,使用时需根据项目选择相应版本
     implementation 'com.google.android.material:material:'.concat(supportVersion)
@@ -90,14 +89,14 @@ dependencies {
     //webView提供下载功能
     implementation 'com.just.agentweb:download:4.0.2'
     //下拉刷新库注意刷新头SmartRefreshHeader版本最好对应尤其头版本不要低于SmartRefreshLayout版本
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
     //Glide图片加载
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     //以上库FastLib里使用compileOnly只是编译,使用时需根据项目选择相应版本
     implementation 'cn.bingoogolapple:bga-banner:2.1.7@aar'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-14'
     implementation 'com.github.lygttpod:SuperTextView:2.1.8'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
     //文件选择器

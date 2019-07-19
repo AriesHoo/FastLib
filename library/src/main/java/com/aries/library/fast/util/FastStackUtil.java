@@ -44,7 +44,7 @@ public class FastStackUtil {
      */
     public Stack<Activity> getStack() {
         if (mActivityStack == null) {
-            mActivityStack = new Stack();
+            mActivityStack = new Stack<>();
         }
         return mActivityStack;
     }

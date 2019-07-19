@@ -29,8 +29,6 @@ import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
 import com.aries.library.fast.impl.FastActivityLifecycleCallbacks;
 import com.aries.library.fast.manager.LoggerManager;
-import com.aries.library.fast.manager.RxJavaManager;
-import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
@@ -178,35 +176,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     }
 
     /**
-     * 设置屏幕方向--注意targetSDK设置27以上不能设置windowIsTranslucent=true属性不然应用直接崩溃-强烈建议手机应用锁定竖屏
-     * 错误为 Only fullscreen activities can request orientation
-     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
-     *
-     * @param activity
-     */
-    @Override
-    public void setRequestedOrientation(Activity activity) {
-        LoggerManager.i("setRequestedOrientation:" + activity.getClass().getSimpleName() + ";:" + (BaseActivity.class.isAssignableFrom(activity.getClass()))
-                + ";:" + (UniversalActivity.class.isAssignableFrom(activity.getClass())));
-        if (BaseActivity.class.isAssignableFrom(activity.getClass())) {
-            return;
-        }
-        //全局控制屏幕横竖屏
-        //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
-        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-            try {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } catch (Exception e) {
-                e.printStackTrace();
-                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
-            }
-        }
-    }
-
-    /**
      * 设置非FastLib且未实现Activity 状态栏功能的三方Activity 状态栏沉浸
      *
      * @param activity
@@ -219,6 +188,8 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         boolean isSupportStatusBarFont = StatusBarUtil.isSupportStatusBarFontChange();
         helper.setTransEnable(isSupportStatusBarFont || isLeak(activity))
                 .setPlusStatusViewEnable(!isLeak(activity))
+                .setStatusBarLightMode(isSupportStatusBarFont)
+                .setStatusViewColor(Color.argb(isSupportStatusBarFont?0:102,0,0,0))
                 .setStatusLayoutColor(Color.WHITE);
         setStatusBarActivity(activity);
         return true;
@@ -239,21 +210,28 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setTransEnable(true)
-                .setPlusNavigationViewEnable(isPlusView(activity))
+                .setPlusNavigationViewEnable(true, !isPlusView(activity), true)
                 .setNavigationBarLightMode(isDarkIcon() && isPlusView(activity))
                 //FastLib默认在可变导航栏icon 增加一个0.5dp的灰色分割线
                 .setNavigationViewDrawableTop(null)
-                .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener)
+                .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity))
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(isLeak(activity) ? Color.BLACK : Color.argb(isDarkIcon() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
-                .setNavigationLayoutColor(ContextCompat.getColor(activity, R.color.colorTabBackground));
+                .setNavigationLayoutColor(ContextCompat.getColor(activity, !isPlusView(activity) ? R.color.transparent : R.color.colorTabBackground));
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
                     .setEnable()
-                    .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener);
+                    .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity));
         }
         return isControlNavigation();
+    }
+
+    private KeyboardHelper.OnKeyboardVisibilityChangedListener getOnKeyboardVisibilityChangedListener(Activity activity) {
+        if (activity instanceof KeyboardHelper.OnKeyboardVisibilityChangedListener) {
+            return (KeyboardHelper.OnKeyboardVisibilityChangedListener) activity;
+        }
+        return mOnKeyboardVisibilityChangedListener;
     }
 
     /**
@@ -286,6 +264,34 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     };
 
     /**
+     * 设置屏幕方向--注意targetSDK设置27以上不能设置windowIsTranslucent=true属性不然应用直接崩溃-强烈建议手机应用锁定竖屏
+     * 错误为 Only fullscreen activities can request orientation
+     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
+     *
+     * @param activity
+     */
+    public void setActivityOrientation(Activity activity) {
+        LoggerManager.i("setRequestedOrientation:" + activity.getClass().getSimpleName() + ";:" + (BaseActivity.class.isAssignableFrom(activity.getClass()))
+                + ";:" + (UniversalActivity.class.isAssignableFrom(activity.getClass())));
+        if (BaseActivity.class.isAssignableFrom(activity.getClass())) {
+            return;
+        }
+        //全局控制屏幕横竖屏
+        //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
+        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+            try {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
+            }
+        }
+    }
+
+    /**
      * Activity 生命周期监听--可用于三方统计页面数据
      * 示例仅为参考如无需添加自己代码可回调null
      *
@@ -309,6 +315,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 super.onActivityCreated(activity, savedInstanceState);
                 //阻止系统截屏功能
                 //activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+                setActivityOrientation(activity);
             }
 
             @Override
@@ -411,16 +418,16 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
             }
         }
-        RxJavaManager.getInstance().setTimer(100)
-                .subscribe(new FastObserver<Long>() {
-                    @Override
-                    public void _onNext(Long entity) {
-                        if (isLeak(activity)) {
-                            return;
-                        }
-                        StatusBarUtil.setStatusBarLightMode(activity);
-                    }
-                });
+//        RxJavaManager.getInstance().setTimer(100)
+//                .subscribe(new FastObserver<Long>() {
+//                    @Override
+//                    public void _onNext(Long entity) {
+//                        if (isLeak(activity)) {
+//                            return;
+//                        }
+//                        StatusBarUtil.setStatusBarLightMode(activity);
+//                    }
+//                });
     }
 
     /**

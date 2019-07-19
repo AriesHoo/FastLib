@@ -49,7 +49,7 @@ import com.just.agentweb.download.AgentWebDownloader;
 import com.just.agentweb.download.DefaultDownloadImpl;
 import com.just.agentweb.download.DownloadListenerAdapter;
 import com.just.agentweb.download.DownloadingService;
-import com.scwang.smartrefresh.header.WaterDropHeader;
+import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
@@ -255,8 +255,10 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     @Override
     public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
         this.mRefreshLayout = refreshLayout;
-        refreshLayout.setRefreshHeader(new WaterDropHeader(this))
-                .setPrimaryColorsId(R.color.colorTextBlack)
+        refreshLayout.setRefreshHeader(new StoreHouseHeader(mContext)
+                .initWithString("FastLib Refresh")
+                .setTextColor(ContextCompat.getColor(mContext, R.color.colorTextBlack)))
+                .setPrimaryColorsId(R.color.transparent)
                 .setEnableHeaderTranslationContent(true);
     }
 

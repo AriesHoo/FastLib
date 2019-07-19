@@ -56,7 +56,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean mIsFirstShow = true;
     protected boolean mIsFirstBack = true;
     protected long mDelayBack = 2000;
-    protected final String TAG = getClass().getSimpleName();
+    protected String TAG = getClass().getSimpleName();
     private QuitAppControl mQuitAppControl;
 
     @Override
@@ -91,7 +91,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     protected void onResume() {
-        beforeLazyLoad();
+        beforeFastLazyLoad();
         super.onResume();
     }
 
@@ -104,6 +104,12 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
+        mUnBinder = null;
+        mContentView = null;
+        mContext = null;
+        mSavedInstanceState = null;
+        mQuitAppControl = null;
+        TAG = null;
     }
 
     @Override
@@ -256,7 +262,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
-    private void beforeLazyLoad() {
+    private void beforeFastLazyLoad() {
         //确保视图加载及视图绑定完成避免刷新UI抛出异常
         if (!mIsViewLoaded) {
             RxJavaManager.getInstance().setTimer(10)
@@ -264,15 +270,15 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
                     .subscribe(new FastObserver<Long>() {
                         @Override
                         public void _onNext(Long entity) {
-                            beforeLazyLoad();
+                            beforeFastLazyLoad();
                         }
                     });
         } else {
-            lazyLoad();
+            fastLazyLoad();
         }
     }
 
-    private void lazyLoad() {
+    private void fastLazyLoad() {
         if (mIsFirstShow) {
             mIsFirstShow = false;
             loadData();

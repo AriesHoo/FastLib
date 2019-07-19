@@ -27,6 +27,7 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public class FastTitleDelegate {
     public TitleBarView mTitleBar;
+    private TitleBarViewControl mTitleBarViewControl;
 
     public FastTitleDelegate(View rootView, IFastTitleView iTitleBarView, final Class<?> cls) {
         mTitleBar = rootView.findViewById(R.id.titleBar_headFastLib);
@@ -57,9 +58,9 @@ public class FastTitleDelegate {
                 //.setRightTextDrawableTintResource(R.color.colorTitleText)
                 //.setActionTintResource(R.color.colorTitleText)
                 .setTitleMainText(getTitle(activity));
-        TitleBarViewControl titleBarViewControl = FastManager.getInstance().getTitleBarViewControl();
-        if (titleBarViewControl != null) {
-            titleBarViewControl.createTitleBarViewControl(mTitleBar, cls);
+        mTitleBarViewControl = FastManager.getInstance().getTitleBarViewControl();
+        if (mTitleBarViewControl != null) {
+            mTitleBarViewControl.createTitleBarViewControl(mTitleBar, cls);
         }
         iTitleBarView.beforeSetTitleBar(mTitleBar);
         iTitleBarView.setTitleBar(mTitleBar);
@@ -80,5 +81,11 @@ public class FastTitleDelegate {
             }
         }
         return "";
+    }
+
+    public void onDestroy() {
+        mTitleBar = null;
+        mTitleBarViewControl = null;
+        LoggerManager.i("FastTitleDelegate", "onDestroy");
     }
 }

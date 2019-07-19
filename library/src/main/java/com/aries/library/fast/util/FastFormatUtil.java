@@ -2,6 +2,7 @@ package com.aries.library.fast.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,43 +17,6 @@ import java.util.Date;
  * 3、2019-3-8 15:37:23 修改{@link #formatWeek(long)}错误
  */
 public class FastFormatUtil {
-
-    /**
-     * 格式化星期
-     *
-     * @param millis
-     * @return 1-星期日...7-星期六
-     */
-    public static int formatWeek(long millis) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        int index = calendar.get(Calendar.DAY_OF_WEEK);
-        return index;
-    }
-
-    /**
-     * 格式化时间(类似yyyy-MM-dd HH:mm:ss)
-     *
-     * @param time
-     * @param format
-     * @return
-     */
-    public static String formatTime(long time, String format) {
-        return formatTime(new Date(time), format);
-    }
-
-    /**
-     * 格式化时间(类似yyyy-MM-dd HH:mm:ss)
-     *
-     * @param time
-     * @param format
-     * @return
-     */
-    public static String formatTime(Date time, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(time);
-    }
-
     /**
      * 格式化数据
      *
@@ -60,7 +24,7 @@ public class FastFormatUtil {
      * @return
      */
     public static String formatDataSize(long dataSize) {
-        return formatDataSize(dataSize, "###.00");
+        return formatDataSize(dataSize, "###.##");
     }
 
     /**
@@ -102,8 +66,70 @@ public class FastFormatUtil {
         BigDecimal bg = new BigDecimal(value);
         try {
             result = bg.setScale(maxLength, roundingMode).doubleValue() + "";
+            int index = result.indexOf(".");
         } catch (Exception e) {
         }
         return result;
     }
+
+    /**
+     * 格式化金钱
+     *
+     * @param money  金钱数
+     * @param format 格式
+     * @return 格式化后字符串
+     */
+    public static String formatMoney(double money, String format) {
+        NumberFormat nf = new DecimalFormat(format);
+        return nf.format(money);
+    }
+
+    public static String formatMoney(double money) {
+        return formatMoney(money, "#,###.##");
+    }
+
+    public static String formatMoney(String money, String format) {
+        try {
+            return formatMoney(Double.parseDouble(money), format);
+        } catch (Exception e) {
+            return money;
+        }
+    }
+
+    /**
+     * 格式化时间(类似yyyy-MM-dd HH:mm:ss)
+     *
+     * @param time
+     * @param format
+     * @return
+     */
+    public static String formatTime(long time, String format) {
+        return formatTime(new Date(time), format);
+    }
+
+    /**
+     * 格式化时间(类似yyyy-MM-dd HH:mm:ss)
+     *
+     * @param time
+     * @param format
+     * @return
+     */
+    public static String formatTime(Date time, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(time);
+    }
+
+    /**
+     * 格式化星期
+     *
+     * @param millis
+     * @return 1-星期日...7-星期六
+     */
+    public static int formatWeek(long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        int index = calendar.get(Calendar.DAY_OF_WEEK);
+        return index;
+    }
+
 }

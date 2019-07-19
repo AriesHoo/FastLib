@@ -95,10 +95,9 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
     public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
         if (adapter != null) {
             //设置动画是否一直开启
-            adapter.isFirstOnly(true);
-            adapter.setDuration(1000);
+            adapter.isFirstOnly(false);
             //设置动画
-            adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+            adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
             adapter.openLoadAnimation();
         }
         //方式一:设置FastLoadMoreView--可参考FastLoadMoreView.Builder相应set方法
@@ -255,10 +254,6 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
      */
     @Override
     public boolean onError(FastObserver o, Throwable e) {
-        if (e instanceof FastNullException) {
-            o._onNext(null);
-            return true;
-        }
         return false;
     }
 }
