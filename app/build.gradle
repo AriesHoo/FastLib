@@ -12,7 +12,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
-        buildConfigField "String", "BASE__UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/\""
+        buildConfigField "String", "BASE__UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/\""
         manifestPlaceholders = [
                 app_channel   : "FastLib",
                 bugly_id      : "a66ee7eb32"
