@@ -1,8 +1,12 @@
 {
-	"versionCode": 240,
-	"versionName": "2.2.13",
-	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
+	"versionCode": 241,
+	"versionName": "2.2.13_beta9",
+	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/sample.apk",
 	"force": true,
 	"size": "4.85M",
-	"message": "1、优化：FastLib 在Activity/Fragment生命周期自动处理IFastRefreshView下拉刷新及IFastTitleView 标题栏效果\n2、优化：FastWebActivity增加url自动添加http://功能及规范url\n3、Demo增加三方研发工具doraemonkit\n4、Demo增加网页下拉刷新功能\n5、Demo增加下拉刷新示例Activity"
+	"message": "1、新增:抽离IStatusBar及INavigationBar分别管理状态栏及导航栏用于Activity个性化
+1、新增:抽离IStatusBar及INavigationBar分别管理状态栏及导航栏用于Activity个性化
+2、优化:FastMainTabDelegate 回收后tab选中记录并恢复
+3、升级:升级widget及SmartRefresh(Androidx版本)
+4、优化修改:变更library widget版本以避免软键盘谈起有黑色背景一闪而过得现象"
 }
