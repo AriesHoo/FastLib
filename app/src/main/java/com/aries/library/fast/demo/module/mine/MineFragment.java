@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+
 import com.allen.library.SuperTextView;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.demo.App;
@@ -42,9 +46,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.MultipartBody;
@@ -271,6 +272,12 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
 //                        .downloadApk(updateEntity, "king_glory.apk", true);
                 CheckVersionHelper.with((BasisActivity) mContext)
                         .checkVersion(true);
+//                new PgyUpdateManager.Builder()
+//                        .setForced(false)                //设置是否强制提示更新
+//                        // v3.0.4+ 以上同时可以在官网设置强制更新最高低版本；网站设置和代码设置一种情况成立则提示强制更新
+//                        .setUserCanRetry(false)         //失败后是否提示重新下载
+//                        .setDeleteHistroyApk(false)     // 检查更新前是否删除本地历史 Apk， 默认为true
+//                        .register();
                 break;
             case R.id.stv_uploadMine:
                 mImagePickerHelper.selectFile(1001, 5, (requestCode, list) -> {

@@ -16,6 +16,8 @@ allprojects {
         jcenter()
         google() //AndroidStudio v3.0 可以使用 google() 替代 maven { url "https://maven.google.com" }
         maven { url "https://jitpack.io" }//FastLib 及部分三方库通过JitPack发布需添加才可依赖
+        //蒲公英
+        maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
     }
 }
 
@@ -29,6 +31,6 @@ ext{
     minLibSdkVersion = 15
     targetSdkVersion = 28
     supportVersion = "1.0.0"
-    versionCode = 241
-    versionName = "2.2.13_beta10"
+    versionCode = 242
+    versionName = "2.2.13_beta11"
 }

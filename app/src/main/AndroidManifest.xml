@@ -43,6 +43,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public"></meta-data>
         </provider>
+        <!--蒲公英Start-->
+        <provider
+            android:name="com.pgyersdk.PgyerProvider"
+            android:authorities="${applicationId}.com.pgyer.provider"
+            android:exported="false"/>
+        <!-- 必填 -->
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="${PGYER_ID}">
+        </meta-data>
         <activity
             android:name=".module.SplashActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc">

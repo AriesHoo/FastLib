@@ -2,11 +2,15 @@ package com.aries.library.fast;
 
 import android.app.Activity;
 import android.app.Application;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
@@ -26,21 +30,13 @@ import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
-import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.helper.navigation.KeyboardHelper;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
-import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.util.FindViewUtil;
-import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
 import com.aries.ui.view.title.TitleBarView;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -385,18 +381,9 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 bottomView = tabLayout;
             }
         }
-        Drawable drawableTop = ContextCompat.getDrawable(activity, R.color.colorLineGray);
-        DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
         //设置虚拟导航栏控制
         NavigationViewHelper navigationViewHelper = NavigationViewHelper.with(activity)
-                .setControlEnable(true)
-                .setTransEnable(isTrans())
-                .setPlusNavigationViewEnable(isTrans())
-                .setControlBottomEditTextEnable(true)
-                .setBottomView(bottomView)
-                .setNavigationViewColor(Color.argb(isTrans() ? 0 : 102, 0, 0, 0))
-                .setNavigationViewDrawableTop(drawableTop)
-                .setNavigationLayoutColor(Color.WHITE);
+               .setWhiteStyle();
         if (activity instanceof KeyboardHelper.OnKeyboardVisibilityChangedListener) {
             navigationViewHelper.setOnKeyboardVisibilityChangedListener((KeyboardHelper.OnKeyboardVisibilityChangedListener) activity);
         }
@@ -408,15 +395,6 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
             activity.getIntent().putExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER, true);
             navigationViewHelper.init();
         }
-    }
-
-    /**
-     * 是否全透明-华为4.1以上及MIUI V6 以上及Android O以上可根据导航栏位置颜色设置导航图标颜色
-     *
-     * @return
-     */
-    protected boolean isTrans() {
-        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0)) || RomUtil.isMIUI();
     }
 
     /**

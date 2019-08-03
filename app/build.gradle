@@ -15,7 +15,8 @@ android {
         buildConfigField "String", "BASE__UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/\""
         manifestPlaceholders = [
                 app_channel   : "FastLib",
-                bugly_id      : "a66ee7eb32"
+                bugly_id      : "a66ee7eb32",
+                PGYER_ID : "b88a08387635b27ea95dcf2d6b887a33"
         ]
     }
 
@@ -111,4 +112,6 @@ dependencies {
 //    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.2'
     //Multidex 5.0以下
     implementation 'androidx.multidex:multidex:2.0.0'
+    //蒲公英
+    implementation 'com.pgyersdk:sdk:3.0.5'
 }

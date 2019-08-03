@@ -3,6 +3,10 @@ package com.aries.library.fast.delegate;
 import android.content.Context;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshLoadView;
@@ -13,9 +17,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
@@ -68,7 +69,7 @@ public class FastRefreshLoadDelegate<T> {
             FastManager.getInstance().getFastRecyclerViewControl().setRecyclerView(mRecyclerView, mTargetClass);
         }
         mAdapter = mIFastRefreshLoadView.getAdapter();
-        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager()==null?new LinearLayoutManager(mContext):mIFastRefreshLoadView.getLayoutManager());
+        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager() == null ? new LinearLayoutManager(mContext) : mIFastRefreshLoadView.getLayoutManager());
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setAdapter(mAdapter);
         if (mAdapter != null) {
@@ -92,7 +93,9 @@ public class FastRefreshLoadDelegate<T> {
     }
 
     public void setLoadMore(boolean enable) {
-        mAdapter.setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null, mRecyclerView);
+        if (mAdapter != null) {
+            mAdapter.setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null, mRecyclerView);
+        }
     }
 
     private void setStatusManager() {
@@ -113,10 +116,10 @@ public class FastRefreshLoadDelegate<T> {
         StatusLayoutManager.Builder builder = new StatusLayoutManager.Builder(contentView)
                 .setDefaultLayoutsBackgroundColor(android.R.color.transparent)
                 .setDefaultEmptyText(R.string.fast_multi_empty)
-                .setDefaultEmptyClickViewTextColor(ContextCompat.getColor(mContext,R.color.colorTitleText))
+                .setDefaultEmptyClickViewTextColor(ContextCompat.getColor(mContext, R.color.colorTitleText))
                 .setDefaultLoadingText(R.string.fast_multi_loading)
                 .setDefaultErrorText(R.string.fast_multi_error)
-                .setDefaultErrorClickViewTextColor(ContextCompat.getColor(mContext,R.color.colorTitleText))
+                .setDefaultErrorClickViewTextColor(ContextCompat.getColor(mContext, R.color.colorTitleText))
                 .setOnStatusChildClickListener(new OnStatusChildClickListener() {
                     @Override
                     public void onEmptyChildClick(View view) {

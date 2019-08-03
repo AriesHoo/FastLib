@@ -15,6 +15,13 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.aries.library.fast.BuildConfig;
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
@@ -35,10 +42,10 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.ui.helper.navigation.KeyboardHelper;
+import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
-import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseActivity;
@@ -47,13 +54,6 @@ import com.luck.picture.lib.PicturePreviewActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import static com.aries.library.fast.demo.App.isControlNavigation;
 
@@ -209,15 +209,12 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     public boolean setNavigationBar(Activity activity, NavigationViewHelper helper, View bottomView) {
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
-                .setTransEnable(true)
                 .setPlusNavigationViewEnable(true, !isPlusView(activity), true)
-                .setNavigationBarLightMode(isDarkIcon() && isPlusView(activity))
-                //FastLib默认在可变导航栏icon 增加一个0.5dp的灰色分割线
-                .setNavigationViewDrawableTop(null)
+                .setNavigationBarLightMode(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity))
                 .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity))
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
-                .setNavigationViewColor(isLeak(activity) ? Color.BLACK : Color.argb(isDarkIcon() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
+                .setNavigationViewColor(isLeak(activity) ? Color.BLACK : Color.argb(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
                 .setNavigationLayoutColor(ContextCompat.getColor(activity, !isPlusView(activity) ? R.color.transparent : R.color.colorTabBackground));
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
@@ -232,17 +229,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             return (KeyboardHelper.OnKeyboardVisibilityChangedListener) activity;
         }
         return mOnKeyboardVisibilityChangedListener;
-    }
-
-    /**
-     * 是否全透明-华为4.1以上、小米V6以上及Android O以上版本
-     * 可根据导航栏位置颜色设置导航图标颜色
-     *
-     * @return
-     */
-    protected boolean isDarkIcon() {
-        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0))
-                || RomUtil.isMIUI() || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     /**
