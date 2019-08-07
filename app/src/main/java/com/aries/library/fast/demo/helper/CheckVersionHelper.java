@@ -3,6 +3,9 @@ package com.aries.library.fast.demo.helper;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.aries.library.fast.BasisHelper;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.entity.UpdateEntity;
@@ -25,7 +28,6 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.appcompat.app.AlertDialog;
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -34,20 +36,16 @@ import io.reactivex.annotations.NonNull;
  * Function: 检查版本升级的工具类--该处只做下载演示开发者可根据自己项目情况进行调整
  * Description:
  */
-public class CheckVersionHelper {
+public class CheckVersionHelper extends BasisHelper {
 
     private FastDownloadObserver mDownloadObserver;
-    private SoftReference<BasisActivity> mActivity;
+    private SoftReference<Activity> mActivity;
     private boolean mIsLoading = false;
 
-    private CheckVersionHelper(BasisActivity activity) {
+    public CheckVersionHelper(Activity activity) {
+        super(activity);
         this.mActivity = new SoftReference<>(activity);
     }
-
-    public static CheckVersionHelper with(BasisActivity activity) {
-        return new CheckVersionHelper(activity);
-    }
-
 
     /**
      * Function:开放平台监测版本升级
@@ -56,7 +54,7 @@ public class CheckVersionHelper {
      * @return
      */
     public void checkVersion(boolean loading) {
-        BasisActivity activity = mActivity.get();
+        BasisActivity activity = (BasisActivity) mActivity.get();
         mIsLoading = loading;
         if (activity == null) {
             return;

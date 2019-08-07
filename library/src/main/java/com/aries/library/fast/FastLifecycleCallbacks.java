@@ -185,6 +185,8 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         FastDelegateManager.getInstance().removeFastRefreshDelegate(activity.getClass());
         //清除标题栏代理类FastTitleDelegate
         FastDelegateManager.getInstance().removeFastTitleDelegate(activity.getClass());
+        //清除BasisHelper
+        FastDelegateManager.getInstance().removeBasisHelper(activity);
         //回调给开发者实现自己应用逻辑
         if (mActivityLifecycleCallbacks != null) {
             mActivityLifecycleCallbacks.onActivityDestroyed(activity);

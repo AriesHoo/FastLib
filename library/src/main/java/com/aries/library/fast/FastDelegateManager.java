@@ -2,14 +2,16 @@ package com.aries.library.fast;
 
 import android.app.Activity;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.manager.LoggerManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.WeakHashMap;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 /**
  * @Author: AriesHoo on 2019/3/25 10:48
@@ -41,6 +43,7 @@ class FastDelegateManager {
      */
     private WeakHashMap<Class, FastRefreshDelegate> mFastRefreshDelegateMap = new WeakHashMap<>();
     private WeakHashMap<Class, FastTitleDelegate> mFastTitleDelegateMap = new WeakHashMap<>();
+    private WeakHashMap<Activity, List<BasisHelper>> mBasisHelperMap = new WeakHashMap<>();
 
     public FastRefreshDelegate getFastRefreshDelegate(Class cls) {
         FastRefreshDelegate delegate = null;
@@ -96,6 +99,39 @@ class FastDelegateManager {
         if (delegate != null) {
             delegate.onDestroy();
             mFastTitleDelegateMap.remove(cls);
+        }
+    }
+
+
+    public void putBasisHelper(Activity activity, BasisHelper helper) {
+        if (activity == null) {
+            return;
+        }
+        if (mBasisHelperMap.containsKey(activity)) {
+            mBasisHelperMap.get(activity).add(helper);
+        } else {
+            List<BasisHelper> list = new ArrayList<>();
+            list.add(helper);
+            mBasisHelperMap.put(activity, list);
+        }
+    }
+
+    /**
+     * {@link FastLifecycleCallbacks#onActivityDestroyed(Activity)}
+     *
+     * @param activity
+     */
+    public void removeBasisHelper(Activity activity) {
+        if (mBasisHelperMap.containsKey(activity)) {
+            List<BasisHelper> list = mBasisHelperMap.get(activity);
+            if (list != null) {
+                LoggerManager.i("list:"+list.size());
+                for (BasisHelper item : list) {
+                    item.onDestroy();
+                }
+                list.clear();
+                mBasisHelperMap.remove(activity);
+            }
         }
     }
 }

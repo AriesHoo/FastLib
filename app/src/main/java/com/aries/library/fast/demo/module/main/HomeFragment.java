@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
@@ -14,6 +16,7 @@ import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
+import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.helper.TitleBarViewHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.FastViewActivity;
@@ -44,7 +47,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import androidx.appcompat.app.AlertDialog;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.bingoogolapple.bgabanner.transformer.TransitionEffect;
 
@@ -141,6 +143,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     @Override
     public void initView(Bundle savedInstanceState) {
         LoggerManager.d(TAG, "initView");
+        new CheckVersionHelper(mContext).checkVersion(false);
         listTransitionEffect.add(TransitionEffect.Default);
         listTransitionEffect.add(TransitionEffect.Alpha);
         listTransitionEffect.add(TransitionEffect.Rotate);

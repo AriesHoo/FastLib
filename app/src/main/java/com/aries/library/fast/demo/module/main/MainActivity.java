@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
@@ -23,7 +24,6 @@ import com.trello.rxlifecycle3.android.ActivityEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AlertDialog;
 import butterknife.BindView;
 
 /**
@@ -85,8 +85,6 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        CheckVersionHelper.with(this)
-                .checkVersion(false);
         RxJavaManager.getInstance().setTimer(2000)
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new FastObserver<Long>() {

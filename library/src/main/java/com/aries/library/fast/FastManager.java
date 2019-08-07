@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
@@ -29,8 +32,6 @@ import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.widget.progress.UIProgressDialog;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -45,7 +46,7 @@ public class FastManager {
     static {
         Application application = FastUtil.getApplication();
         if (application != null) {
-            LoggerManager.i("init0");
+            LoggerManager.i("FastManager", "initSuccess");
             init(application);
         }
     }

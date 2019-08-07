@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
 import com.allen.library.SuperTextView;
-import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
@@ -270,7 +269,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
 //                updateEntity.url = "http://gdown.baidu.com/data/wisegame/008c0de8d4355b41/wangzherongyao_35011414.apk";
 //                CheckVersionHelper.with((BasisActivity) mContext)
 //                        .downloadApk(updateEntity, "king_glory.apk", true);
-                CheckVersionHelper.with((BasisActivity) mContext)
+                new CheckVersionHelper(mContext)
                         .checkVersion(true);
 //                new PgyUpdateManager.Builder()
 //                        .setForced(false)                //设置是否强制提示更新
