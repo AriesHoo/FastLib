@@ -75,7 +75,7 @@ public class HttpRequestControlImpl implements HttpRequestControl {
             return;
         }
         statusLayoutManager.showSuccessLayout();
-        if (smartRefreshLayout.getState()== RefreshState.Refreshing || page == 0) {
+        if (smartRefreshLayout.getState() == RefreshState.Refreshing || page == 0) {
             adapter.setNewData(new ArrayList());
         }
         adapter.addData(list);
@@ -92,6 +92,7 @@ public class HttpRequestControlImpl implements HttpRequestControl {
 
     @Override
     public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+        LoggerManager.e(TAG, "httpRequestError:" + e.getMessage());
         int reason = R.string.fast_exception_other_error;
 //        int code = FastError.EXCEPTION_OTHER_ERROR;
         if (!NetworkUtil.isConnected(App.getContext())) {

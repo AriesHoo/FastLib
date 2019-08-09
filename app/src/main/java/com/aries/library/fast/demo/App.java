@@ -10,6 +10,8 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.constant.ApiConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
@@ -38,8 +40,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.multidex.MultiDexApplication;
-
 /**
  * @Author: AriesHoo on 2018/7/31 10:43
  * @E-Mail: AriesHoo@126.com
@@ -57,7 +57,7 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         //初始化Logger日志打印
-        LoggerManager.init(TAG, BuildConfig.DEBUG,
+        LoggerManager.init(TAG, BuildConfig.LOG_ENABALE,
                 PrettyFormatStrategy.newBuilder()
                         .methodOffset(0)
                         .showThreadInfo(true)
@@ -66,7 +66,7 @@ public class App extends MultiDexApplication {
         LoggerManager.i(TAG, "start:" + start + ";Application:" + FastUtil.getApplication());
         mContext = this;
         //最简单UI配置模式-必须进行初始化
-//         FastManager.init(this);
+         FastManager.init(this);
         //以下为更丰富自定义方法
         //全局UI配置参数-按需求设置
         AppImpl impl = new AppImpl(mContext);

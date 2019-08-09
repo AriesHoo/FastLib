@@ -11,6 +11,7 @@ android {
         versionName ext.versionName
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "Boolean", "LOG_ENABALE", "true"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
         buildConfigField "String", "BASE__UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/\""
         manifestPlaceholders = [
@@ -41,15 +42,17 @@ android {
         debug {
             //是否debug模式用于控制是否打印log等
             debuggable true
-            minifyEnabled false
+            zipAlignEnabled true //是否支持Zip Align
+            shrinkResources true //是否清理无用资源
+            minifyEnabled true //是否启动混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         release {
-            debuggable false
+            debuggable true
             zipAlignEnabled true //是否支持Zip Align
-//            shrinkResources true //是否清理无用资源
-            minifyEnabled false
+            shrinkResources true //是否清理无用资源
+            minifyEnabled true //是否启动混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
