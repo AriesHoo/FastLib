@@ -145,12 +145,12 @@ public class HttpRequestControlImpl implements HttpRequestControl {
             }
             //初始页
             if (page == 0) {
-                if (!NetworkUtil.isConnected(App.getContext())) {
-                    //可自定义网络错误页面展示
-                    statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
-                } else {
+//                if (!NetworkUtil.isConnected(App.getContext())) {
+//                    //可自定义网络错误页面展示
+//                    statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
+//                } else {
                     statusLayoutManager.showErrorLayout();
-                }
+//                }
                 return;
             }
             //可根据不同错误展示不同错误布局  showCustomLayout(R.layout.xxx);
