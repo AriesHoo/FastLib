@@ -65,8 +65,8 @@ public class App extends MultiDexApplication {
         start = System.currentTimeMillis();
         LoggerManager.i(TAG, "start:" + start + ";Application:" + FastUtil.getApplication());
         mContext = this;
-        //最简单UI配置模式-必须进行初始化
-         FastManager.init(this);
+        //最简单UI配置模式-必须进行初始化-最新版本无需初始化FastLib内部自动初始化
+//         FastManager.init(this);
         //以下为更丰富自定义方法
         //全局UI配置参数-按需求设置
         AppImpl impl = new AppImpl(mContext);

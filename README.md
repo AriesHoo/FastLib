@@ -39,6 +39,12 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![](/apk/qr.png)
 
+## 关于混淆
+
+1、**2.2.13_beta12版本**开始自带混淆规则，并且会自动导入，正常情况下无需手动导入。
+
+2、**2.2.13_beta12以上版本**可参考[proguard-rules.pro](https://github.com/AriesHoo/FastLib/blob/dev/library/proguard-rules.pro)
+
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
 * 2.2.13

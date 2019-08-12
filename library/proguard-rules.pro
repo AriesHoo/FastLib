@@ -15,14 +15,16 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-#-keep public class android.app**
+
 #FastLib-START
--keep public class com.aries.library.fast.**
--keepclassmembers public class com.aries.library.fast.**{
-   *** set*(***);
-   *** get*();
+-dontwarn android.app.**
+-keep class android.app.**{*;}
+#保持实现Parcelable的类不被混淆
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
 }
 #FastLib-END
+
 #BaseRecyclerViewAdapterHelper-START
 -keep class com.chad.library.adapter.** {
 *;
@@ -34,12 +36,12 @@
 }
 -keepattributes InnerClasses
 #BaseRecyclerViewAdapterHelper-END
+
 #agentweb-START
--keep class com.just.agentweb.** {
-    *;
-}
+-keep class com.just.agentweb.** {*;}
 -dontwarn com.just.agentweb.**
 #agentweb-END
+
 #Glide-START
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
@@ -48,44 +50,39 @@
   public *;
 }
 #Glide-END
+
 #AndroidEventBus-START
--keep class org.simple.** { *; }
--keep interface org.simple.** { *; }
+-keep class org.simple.** {*;}
+-keep interface org.simple.** {*;}
 -keepclassmembers class * {
     @org.simple.eventbus.Subscriber <methods>;
 }
 -keepattributes *Annotation*
 #AndroidEventBus-END
+
 #Logger-START
 -dontwarn com.orhanobut.logger.**
 -keep class com.orhanobut.logger.**{*;}
 -keep interface com.orhanobut.logger.**{*;}
 #Logger-END
 
-#retrofit2  混淆
+#Retrofit-START
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
-# OkHttp3
--dontwarn okhttp3.logging.**
--keep class okhttp3.internal.**{*;}
--dontwarn okio.**
-# Retrofit
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
--keepattributes Signature
--keepattributes Exceptions
-
-# Retrofit
 -dontnote retrofit2.Platform
 -dontnote retrofit2.Platform$IOS$MainThreadExecutor
 -dontwarn retrofit2.Platform$Java8
 -keepattributes Signature
 -keepattributes Exceptions
+#Retrofit-END
 
-# okhttp
+#OkHttp-START
+-dontwarn okhttp3.logging.**
+-keep class okhttp3.internal.**{*;}
 -dontwarn okio.**
+#OkHttp-END
 
-# RxJava RxAndroid
+#RxJava RxAndroid-START
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
     long producerIndex;
@@ -97,7 +94,9 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+#RxJava RxAndroid-END
 
-# Gson
+#Gson-START
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
+#Gson-END

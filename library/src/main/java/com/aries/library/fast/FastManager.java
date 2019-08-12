@@ -50,7 +50,6 @@ public class FastManager {
             init(application);
         }
     }
-
     private static String TAG = "FastManager";
     private static volatile FastManager sInstance;
 

@@ -43,13 +43,13 @@ android {
             //是否debug模式用于控制是否打印log等
             debuggable true
             zipAlignEnabled true //是否支持Zip Align
-            shrinkResources true //是否清理无用资源
-            minifyEnabled true //是否启动混淆
+            shrinkResources false //是否清理无用资源
+            minifyEnabled false //是否启动混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         release {
-            debuggable true
+            debuggable false
             zipAlignEnabled true //是否支持Zip Align
             shrinkResources true //是否清理无用资源
             minifyEnabled true //是否启动混淆
@@ -87,7 +87,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:'.concat(supportVersion)
     implementation 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
     //万能适配器--一般都需要吧
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不implementation
     implementation 'com.just.agentweb:agentweb:4.0.2'
     //webView提供下载功能
