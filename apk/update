@@ -1,9 +1,9 @@
 {
-	"versionCode": 242,
-	"versionName": "2.2.13_beta11",
+	"versionCode": 243,
+	"versionName": "2.2.13_beta12",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/sample.apk",
 	"force": true,
-	"size": "4.85M",
+	"size": "3.49M",
 	"message": "1、新增:抽离IStatusBar及INavigationBar分别管理状态栏及导航栏用于Activity个性化
 1、新增:抽离IStatusBar及INavigationBar分别管理状态栏及导航栏用于Activity个性化
 2、优化:FastMainTabDelegate 回收后tab选中记录并恢复
