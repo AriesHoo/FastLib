@@ -172,11 +172,11 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
     public void onActivityDestroyed(Activity activity) {
         //横竖屏会重绘将状态重置
         if (activity.getIntent() != null) {
-            activity.getIntent().putExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER, false);
-            activity.getIntent().putExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER, false);
-            activity.getIntent().putExtra(FastConstant.IS_SET_CONTENT_VIEW_BACKGROUND, false);
-            activity.getIntent().putExtra(FastConstant.IS_SET_REFRESH_VIEW, false);
-            activity.getIntent().putExtra(FastConstant.IS_SET_TITLE_BAR_VIEW, false);
+            activity.getIntent().removeExtra(FastConstant.IS_SET_STATUS_VIEW_HELPER);
+            activity.getIntent().removeExtra(FastConstant.IS_SET_NAVIGATION_VIEW_HELPER);
+            activity.getIntent().removeExtra(FastConstant.IS_SET_CONTENT_VIEW_BACKGROUND);
+            activity.getIntent().removeExtra(FastConstant.IS_SET_REFRESH_VIEW);
+            activity.getIntent().removeExtra(FastConstant.IS_SET_TITLE_BAR_VIEW);
         }
         LoggerManager.i(TAG, "onActivityDestroyed:" + activity.getClass().getSimpleName() + ";isFinishing:" + activity.isFinishing());
         FastStackUtil.getInstance().pop(activity, false);

@@ -1,12 +1,8 @@
 {
 	"versionCode": 243,
-	"versionName": "2.2.13_beta12",
+	"versionName": "2.2.13_beta13",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/sample.apk",
 	"force": true,
-	"size": "3.49M",
-	"message": "1、新增:抽离IStatusBar及INavigationBar分别管理状态栏及导航栏用于Activity个性化
-1、新增:抽离IStatusBar及INavigationBar分别管理状态栏及导航栏用于Activity个性化
-2、优化:FastMainTabDelegate 回收后tab选中记录并恢复
-3、升级:升级widget及SmartRefresh(Androidx版本)
-4、优化修改:变更library widget版本以避免软键盘谈起有黑色背景一闪而过得现象"
+	"size": "3.75M",
+	"message": "1、升级部分三方库增强稳定性"
 }

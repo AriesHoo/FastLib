@@ -52,7 +52,7 @@ dependencies {
     //万能适配器
     compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
     //webView库
-    compileOnly 'com.just.agentweb:agentweb:4.0.2'
+    compileOnly 'com.just.agentweb:agentweb:4.1.2'
     //下拉刷新库
     compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
     //图片加载
@@ -68,9 +68,9 @@ dependencies {
     //retrofit+rxjava 网络请求及数据解析相关
     api "io.reactivex.rxjava2:rxjava:2.2.6"
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'com.squareup.retrofit2:retrofit:2.5.0'
-    api 'com.squareup.retrofit2:converter-gson:2.5.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    api 'com.squareup.retrofit2:retrofit:2.6.1'
+    api 'com.squareup.retrofit2:converter-gson:2.6.1'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
     //3.12.x是支持Android 4.4的
     api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     api 'com.google.code.gson:gson:2.8.5'

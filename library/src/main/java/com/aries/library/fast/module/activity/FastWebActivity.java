@@ -11,9 +11,11 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
@@ -28,9 +30,7 @@ import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
 import com.aries.ui.widget.i.NavigationBarControl;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebCreator;
-
-import androidx.annotation.ColorInt;
-import androidx.core.content.ContextCompat;
+import com.just.agentweb.MiddlewareWebChromeBase;
 
 /**
  * @Author: AriesHoo on 2018/6/28 14:59
@@ -167,7 +167,7 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))
                 .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : ContextCompat.getColor(mContext, R.color.colorTitleText),
                         getProgressHeight())
-                .setWebChromeClient(new WebChromeClient() {
+                .useMiddlewareWebChrome(new MiddlewareWebChromeBase(){
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
                         super.onReceivedTitle(view, title);
