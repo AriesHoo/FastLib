@@ -1,8 +1,8 @@
 {
-	"versionCode": 243,
-	"versionName": "2.2.13_beta13",
+	"versionCode": 244,
+	"versionName": "2.3.0",
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/sample.apk",
-	"force": true,
-	"size": "3.75M",
-	"message": "1、升级部分三方库增强稳定性"
+	"force": false,
+	"size": "3.74M",
+	"message": "1、升级部分三方库增强稳定性\n2、修改部分BUG"
 }

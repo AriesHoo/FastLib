@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FastLib</string>
     <string name="home">主页</string>
-    <string name="web_app">WebApp</string>
+    <string name="web_app">网页</string>
     <string name="activity">活动</string>
     <string name="mine">我的</string>
     <string name="home_list_content">点击查看示例</string>

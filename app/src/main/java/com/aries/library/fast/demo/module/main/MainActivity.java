@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -17,6 +19,7 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
 import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.trello.rxlifecycle3.android.ActivityEvent;
@@ -35,6 +38,7 @@ import butterknife.BindView;
 public class MainActivity extends FastMainActivity {
 
     @BindView(R.id.tabLayout_commonFastLib) CommonTabLayout mTabLayout;
+    private ArrayList<FastTabEntity> mTabEntities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +52,12 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public List<FastTabEntity> getTabList() {
-        ArrayList<FastTabEntity> tabEntities = new ArrayList<>();
-        tabEntities.add(new FastTabEntity(R.string.home, R.drawable.ic_home_normal, R.drawable.ic_home_selected, HomeFragment.newInstance()));
-        tabEntities.add(new FastTabEntity(R.string.web_app, R.drawable.ic_app_normal, R.drawable.ic_app_selected, WebAppFragment.newInstance()));
-        tabEntities.add(new FastTabEntity(R.string.activity, R.drawable.ic_activity_normal, R.drawable.ic_activity_selected, ActivityFragment.newInstance()));
-        tabEntities.add(new FastTabEntity(R.string.mine, R.drawable.ic_mine_normal, R.drawable.ic_mine_selected, MineFragment.newInstance()));
-        return tabEntities;
+        mTabEntities = new ArrayList<>();
+        mTabEntities.add(new FastTabEntity(R.string.home, R.drawable.ic_home_normal, R.drawable.ic_home_selected, HomeFragment.newInstance()));
+        mTabEntities.add(new FastTabEntity(R.string.web_app, R.drawable.ic_app_normal, R.drawable.ic_app_selected, WebAppFragment.newInstance()));
+        mTabEntities.add(new FastTabEntity(R.string.activity, R.drawable.ic_activity_normal, R.drawable.ic_activity_selected, ActivityFragment.newInstance()));
+        mTabEntities.add(new FastTabEntity(R.string.mine, R.drawable.ic_mine_normal, R.drawable.ic_mine_selected, MineFragment.newInstance()));
+        return mTabEntities;
     }
 
     @Override
@@ -76,6 +80,14 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public void setTabLayout(CommonTabLayout tabLayout) {
+        ImageView imageView = new ImageView(mContext);
+        imageView.setImageResource(R.drawable.ic_github);
+        tabLayout.setCenterView(imageView, SizeUtil.dp2px(42), SizeUtil.dp2px(42), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebViewActivity.start(mContext, "https://github.com/AriesHoo/FastLib/blob/master/README.md");
+            }
+        });
     }
 
     @Override

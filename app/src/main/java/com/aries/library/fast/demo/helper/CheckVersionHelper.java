@@ -10,23 +10,16 @@ import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
-import com.aries.library.fast.demo.widget.ProgressDialog;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastDownloadObserver;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
-import com.aries.library.fast.retrofit.FastRetrofit;
-import com.aries.library.fast.util.FastFileUtil;
-import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.download.library.DownloadImpl;
 import com.trello.rxlifecycle3.android.ActivityEvent;
-import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
-import java.io.File;
 import java.lang.ref.SoftReference;
-import java.util.HashMap;
-import java.util.Map;
 
 import io.reactivex.annotations.NonNull;
 
@@ -161,74 +154,15 @@ public class CheckVersionHelper extends BasisHelper {
         if (activity == null || activity.isFinishing()) {
             return;
         }
-
-        ProgressDialog mProgressDialog = new ProgressDialog(activity);
-        mProgressDialog.setTitle(entity.getTitle());
-        mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setMessage(entity.getMessage());
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(!entity.force);
-        mProgressDialog.setProgressNumberFormat("");
-        mProgressDialog.setCanceledOnTouchOutside(!entity.force);
-
-        //暂停下载-慎用;建议使用 Disposable.dispose();
-//        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "暂停", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                if (mDownloadObserver != null) {
-//                    mDownloadObserver.pause();
-//                }
-//            }
-//        });
-
-        File mLocal = new File(FastFileUtil.getCacheDir(), fileName);
-        Map<String, Object> header = null;
-        long length = mLocal.length();
-        if (isRangeEnable) {
-            header = new HashMap<>(1);
-            header.put("range", "bytes=" + length + "-");
-            LoggerManager.i("downloadApk", "length:" + length);
-        }
-        //不同url不能使用相同的本地绝对路径不然很可能将B的后半部分下载追加到A的后面--最终也是错误的
-        ProgressDialog finalMProgressDialog = mProgressDialog;
-        mDownloadObserver = new FastDownloadObserver(fileName, finalMProgressDialog, isRangeEnable) {
-            @Override
-            public void onSuccess(File file) {
-                FastFileUtil.installApk(file);
-            }
-
-            @Override
-            public void onFail(Throwable e) {
-                LoggerManager.e("downloadApk", e.getMessage());
-                //HTTP 416 Range Not Satisfiable 出现该错误--很大可能性是文件已下载完成传递的
-                boolean satisfiable = e != null && e.getMessage().contains("416") && e.getMessage().toLowerCase().contains("range");
-                if (satisfiable) {
-                    onSuccess(mLocal);
-                    return;
-                }
-                boolean isPause = e != null && e.getMessage().equals(FastDownloadObserver.DOWNLOAD_PAUSE);
-                if (isPause) {
-                    ToastUtil.show("暂停下载");
-                    return;
-                }
-                ToastUtil.show("下载失败:" + e.getMessage());
-            }
-
-            @Override
-            public void onProgress(float progress, long current, long total) {
-                LoggerManager.i("downloadApk", "current:" + current + ";total:" + total);
-                if (!finalMProgressDialog.isShowing()) {
-                    return;
-                }
-                finalMProgressDialog.setProgressNumberFormat(FastFormatUtil.formatDataSize(current) + "/" + FastFormatUtil.formatDataSize(total));
-                finalMProgressDialog.setMax((int) total);
-                finalMProgressDialog.setProgress((int) current);
-            }
-        };
-        FastRetrofit.getInstance().downloadFile(entity.url, header)
-                .compose(((RxAppCompatActivity) activity).bindUntilEvent(ActivityEvent.DESTROY))
-                //可自定义保存路径默认//storage/emulated/0/Android/data/<package-name>/cache/xxx/
-                .subscribe(mDownloadObserver);
+        DownloadImpl.getInstance()
+                .with(mContext)
+                .url(entity.url)
+                .quickProgress()
+                .setEnableIndicator(true)
+                .autoOpenIgnoreMD5()
+                .setRetry(5)
+                .setBlockMaxTime(100000L)
+                .enqueue();
     }
 
 }

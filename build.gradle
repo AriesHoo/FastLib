@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
@@ -31,6 +31,6 @@ ext{
     minLibSdkVersion = 15
     targetSdkVersion = 28
     supportVersion = "1.0.0"
-    versionCode = 243
-    versionName = "2.2.13_beta13"
+    versionCode = 244
+    versionName = "2.3.0"
 }

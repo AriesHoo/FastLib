@@ -78,7 +78,8 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
 
 
     protected void setAgentWeb(AgentWeb mAgentWeb) {
-
+        mAgentWeb.getWebCreator().getWebView().setVerticalScrollBarEnabled(false);
+        mAgentWeb.getWebCreator().getWebView().setHorizontalScrollBarEnabled(false);
     }
 
     protected void setAgentWeb(AgentWeb.CommonBuilder mAgentBuilder) {
@@ -167,7 +168,7 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))
                 .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : ContextCompat.getColor(mContext, R.color.colorTitleText),
                         getProgressHeight())
-                .useMiddlewareWebChrome(new MiddlewareWebChromeBase(){
+                .useMiddlewareWebChrome(new MiddlewareWebChromeBase() {
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
                         super.onReceivedTitle(view, title);
@@ -217,30 +218,32 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
     }
 
     protected void showActionSheet() {
-        if (mActionSheetView == null) {
-            mActionSheetView = new UIActionSheetDialog.ListSheetBuilder(mContext)
-                    .addItems(R.array.fast_arrays_web_more)
-                    .setOnItemClickListener(new UIActionSheetDialog.OnItemClickListener() {
-                        @Override
-                        public void onClick(BasisDialog dialog, View itemView, int i) {
-                            switch (i) {
-                                case 0:
-                                    mAgentWeb.getUrlLoader().reload();
-                                    break;
-                                case 1:
-                                    FastUtil.copyToClipboard(mContext, mCurrentUrl);
-                                    ToastUtil.show(R.string.fast_copy_success);
-                                    break;
-                                case 2:
-                                    FastUtil.startShareText(mContext, mCurrentUrl);
-                                    break;
-                            }
-                        }
-                    })
-                    .setCancel(R.string.fast_cancel)
-                    .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
-                    .create();
+        if (mActionSheetView != null) {
+            mActionSheetView.dismiss();
+            mActionSheetView = null;
         }
+        mActionSheetView = new UIActionSheetDialog.ListSheetBuilder(mContext)
+                .addItems(R.array.fast_arrays_web_more)
+                .setOnItemClickListener(new UIActionSheetDialog.OnItemClickListener() {
+                    @Override
+                    public void onClick(BasisDialog dialog, View itemView, int i) {
+                        switch (i) {
+                            case 0:
+                                mAgentWeb.getUrlLoader().reload();
+                                break;
+                            case 1:
+                                FastUtil.copyToClipboard(mContext, mCurrentUrl);
+                                ToastUtil.show(R.string.fast_copy_success);
+                                break;
+                            case 2:
+                                FastUtil.startShareText(mContext, mCurrentUrl);
+                                break;
+                        }
+                    }
+                })
+                .setCancel(R.string.fast_cancel)
+                .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
+                .create();
         mActionSheetView.setNavigationBarControl(this);
         mActionSheetView.show();
     }

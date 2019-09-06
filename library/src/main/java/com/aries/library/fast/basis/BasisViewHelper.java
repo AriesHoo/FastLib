@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
@@ -41,7 +42,8 @@ public abstract class BasisViewHelper<T extends BasisViewHelper> extends BasisHe
      *
      * @return
      */
-    public abstract @LayoutRes int getContentLayout();
+    public abstract @LayoutRes
+    int getContentLayout();
 
     public View getContentView() {
         if (mContentView == null) {
@@ -89,6 +91,22 @@ public abstract class BasisViewHelper<T extends BasisViewHelper> extends BasisHe
     public T setEnabled(int id, boolean enabled) {
         View view = getContentView().findViewById(id);
         view.setEnabled(enabled);
+        return back();
+    }
+
+    public T setFakeBoldText(int id, boolean fakeBoldText) {
+        TextView textView = getContentView().findViewById(id);
+        textView.getPaint().setFakeBoldText(fakeBoldText);
+        return back();
+    }
+
+    public T setTextSize(int id, float dp) {
+        return setTextSize(id, TypedValue.COMPLEX_UNIT_DIP, dp);
+    }
+
+    public T setTextSize(int id, int unit, float dp) {
+        TextView textView = getContentView().findViewById(id);
+        textView.setTextSize(unit, dp);
         return back();
     }
 
