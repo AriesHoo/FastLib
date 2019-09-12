@@ -1,7 +1,8 @@
 package com.aries.library.fast.retrofit;
 
 import android.text.TextUtils;
-import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.SSLUtil;
@@ -15,9 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
-import androidx.annotation.Nullable;
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -78,6 +77,10 @@ public class FastRetrofit {
      * 证书配置
      */
     private SSLUtil.SSLParams mSslParams = new SSLUtil.SSLParams();
+    /**
+     * 日志tag
+     */
+    private String mLogTag = "FastRetrofit";
     /**
      * 日志拦截器
      */
@@ -211,13 +214,10 @@ public class FastRetrofit {
         FastRetrofit.getInstance().setLogEnable(false);
         return FastRetrofit.getRetrofit()
                 .create(FastRetrofitService.class)
-                .downloadFile(fileUrl, header == null ? new HashMap<String, Object>(0) : header)
-                .doOnNext(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody responseBody) {
-                        //onNext回调前还原log状态
-                        FastRetrofit.getInstance().setLogEnable(logEnable);
-                    }
+                .downloadFile(fileUrl, header == null ? new HashMap<>(0) : header)
+                .doOnNext(responseBody -> {
+                    //onNext回调前还原log状态
+                    FastRetrofit.getInstance().setLogEnable(logEnable);
                 })
                 .subscribeOn(Schedulers.io());
     }
@@ -244,7 +244,7 @@ public class FastRetrofit {
     public Observable<ResponseBody> uploadFile(String uploadUrl, @Nullable final RequestBody body, Map<String, Object> header) {
         return getRetrofit()
                 .create(FastRetrofitService.class)
-                .uploadFile(uploadUrl, body, header == null ? new HashMap<>() : header)
+                .uploadFile(uploadUrl, body, header == null ? new HashMap<>(0) : header)
                 .compose(FastTransformer.<ResponseBody>switchSchedulers());
     }
 
@@ -406,11 +406,22 @@ public class FastRetrofit {
     /**
      * 设置日志打印
      *
-     * @param enable
+     * @param enable 是否打印日志
      * @return
      */
     public FastRetrofit setLogEnable(boolean enable) {
-        return setLogEnable(enable, this.getClass().getSimpleName(), HttpLoggingInterceptor.Level.BODY);
+        return setLogEnable(enable, mLogTag);
+    }
+
+    /**
+     * 设置日志打印
+     *
+     * @param enable 是否打印日志
+     * @param tag    日志标签
+     * @return
+     */
+    public FastRetrofit setLogEnable(boolean enable, String tag) {
+        return setLogEnable(enable, tag, HttpLoggingInterceptor.Level.BODY);
     }
 
     /**
@@ -421,27 +432,25 @@ public class FastRetrofit {
      * @return
      */
     public FastRetrofit setLogEnable(boolean enable, String tag, HttpLoggingInterceptor.Level level) {
+        tag = TextUtils.isEmpty(tag) ? mLogTag : tag;
         if (TextUtils.isEmpty(tag)) {
-            tag = getClass().getSimpleName();
+            tag = "FastRetrofit";
         }
+        mLogTag = tag;
         if (enable) {
             if (mLoggingInterceptor == null) {
-                final String finalTag = tag;
-                mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                    @Override
-                    public void log(String message) {
-                        if (TextUtils.isEmpty(message)) {
-                            return;
-                        }
-                        //json格式使用Logger.json打印
-                        boolean isJson = message.startsWith("[") || message.startsWith("{");
-                        isJson = isJson && mLogJsonEnable;
-                        if (isJson) {
-                            LoggerManager.json(finalTag, message);
-                            return;
-                        }
-                        Log.d(finalTag, message);
+                mLoggingInterceptor = new HttpLoggingInterceptor(message -> {
+                    if (TextUtils.isEmpty(message)) {
+                        return;
                     }
+                    //json格式使用Logger.json打印
+                    boolean isJson = message.startsWith("[") || message.startsWith("{");
+                    isJson = isJson && mLogJsonEnable;
+                    if (isJson) {
+                        LoggerManager.json(mLogTag, message);
+                        return;
+                    }
+                    LoggerManager.d(mLogTag, message);
                 });
             }
             mLoggingInterceptor.setLevel(level);
