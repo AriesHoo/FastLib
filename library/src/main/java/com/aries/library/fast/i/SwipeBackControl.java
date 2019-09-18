@@ -2,6 +2,8 @@ package com.aries.library.fast.i;
 
 import android.app.Activity;
 
+import com.aries.library.fast.FastManager;
+
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -11,7 +13,9 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Description:
  * 1、新增滑动过程回调
  * 2、2018-10-8 12:30:41 新增是否滑动返回支持
+ * 3、2019-9-16 17:53:11 标记废弃建议通过{@link FastManager#getActivityFragmentControl()} 对应Activity生命周期进行处理
  */
+@Deprecated
 public interface SwipeBackControl {
 
     /**

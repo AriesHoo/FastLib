@@ -78,6 +78,10 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 fragmentManager.registerFragmentLifecycleCallbacks(mFragmentLifecycleCallbacks, true);
             }
         }
+        //设置检测滑动返回是否加载
+        if (!FastUtil.isClassExist(FastConstant.BGA_SWIPE_BACK_HELPER_CLASS)) {
+            return;
+        }
         //设置滑动返回
         if (!(activity instanceof BGASwipeBackHelper.Delegate)) {
             setSwipeBack(activity);
@@ -281,7 +285,6 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 }
             }
 
-
             @Override
             public void onSwipeBackLayoutCancel() {
                 LoggerManager.i(TAG, "onSwipeBackLayoutCancel");
@@ -302,17 +305,12 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 }
                 KeyboardHelper.closeKeyboard(activity);
                 activity.finish();
-                activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
+//                activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
                 if (mSwipeBackControl != null) {
                     mSwipeBackControl.onSwipeBackLayoutExecuted(activity);
                 }
             }
-        })
-                //设置滑动背景
-                .setShadowResId(R.drawable.bga_sbl_shadow)
-                //底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
-                .setIsNavigationBarOverlap(true)
-                .setIsShadowAlphaGradient(true);
+        });
         //用于全局控制
         if (mSwipeBackControl != null) {
             mSwipeBackControl.setSwipeBack(activity, swipeBackHelper);
@@ -385,7 +383,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
         }
         //设置虚拟导航栏控制
         NavigationViewHelper navigationViewHelper = NavigationViewHelper.with(activity)
-               .setWhiteStyle();
+                .setWhiteStyle();
         if (activity instanceof KeyboardHelper.OnKeyboardVisibilityChangedListener) {
             navigationViewHelper.setOnKeyboardVisibilityChangedListener((KeyboardHelper.OnKeyboardVisibilityChangedListener) activity);
         }

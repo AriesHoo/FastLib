@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.fragment.app.FragmentManager;
+
+import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
@@ -22,7 +25,6 @@ import com.trello.rxlifecycle3.components.support.RxFragment;
 
 import org.simple.eventbus.EventBus;
 
-import androidx.fragment.app.FragmentManager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -77,7 +79,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mContentView = inflater.inflate(getContentLayout(), container, false);
         //解决StatusLayoutManager与SmartRefreshLayout冲突
         if (this instanceof IFastRefreshLoadView) {
-            if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
+            if (FastUtil.isClassExist(FastConstant.SMART_REFRESH_LAYOUT_CLASS)) {
                 if (mContentView.getClass() == SmartRefreshLayout.class) {
                     FrameLayout frameLayout = new FrameLayout(mContext);
                     if (mContentView.getLayoutParams() != null) {
@@ -91,7 +93,12 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mUnBinder = ButterKnife.bind(this, mContentView);
         mIsViewLoaded = true;
         if (isEventBusEnable()) {
-            EventBus.getDefault().register(this);
+            if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
+                org.greenrobot.eventbus.EventBus.getDefault().register(this);
+            }
+            if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
+                EventBus.getDefault().register(this);
+            }
         }
         beforeInitView(savedInstanceState);
         initView(savedInstanceState);
@@ -130,7 +137,12 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     @Override
     public void onDestroy() {
         if (isEventBusEnable()) {
-            EventBus.getDefault().unregister(this);
+            if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
+                org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+            }
+            if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
+                EventBus.getDefault().unregister(this);
+            }
         }
         super.onDestroy();
     }

@@ -43,14 +43,14 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  */
 public class FastManager {
 
-    static {
-        Application application = FastUtil.getApplication();
-        if (application != null) {
-            LoggerManager.i("FastManager", "initSuccess");
-            init(application);
-        }
-    }
-    private static String TAG = "FastManager";
+    //    通过FastFileProvider进行初始化
+//    static {
+//        Application application = FastUtil.getApplication();
+//        if (application != null) {
+//            LoggerManager.i("FastManager", "initSuccess");
+//            init(application);
+//        }
+//    }
     private static volatile FastManager sInstance;
 
     private FastManager() {
@@ -150,8 +150,11 @@ public class FastManager {
                                     .create());
                 }
             });
-            //设置滑动返回监听
-            BGASwipeBackHelper.init(mApplication, null);
+            //设置检测滑动返回是否导入
+            if (FastUtil.isClassExist(FastConstant.BGA_SWIPE_BACK_HELPER_CLASS)) {
+                //设置滑动返回监听
+                BGASwipeBackHelper.init(mApplication, null);
+            }
             //注册activity生命周期
             mApplication.registerActivityLifecycleCallbacks(new FastLifecycleCallbacks());
             //初始化Toast工具
@@ -254,6 +257,7 @@ public class FastManager {
         return this;
     }
 
+    @Deprecated
     public SwipeBackControl getSwipeBackControl() {
         return mSwipeBackControl;
     }
@@ -264,6 +268,7 @@ public class FastManager {
      * @param control
      * @return
      */
+    @Deprecated
     public FastManager setSwipeBackControl(SwipeBackControl control) {
         mSwipeBackControl = control;
         return this;

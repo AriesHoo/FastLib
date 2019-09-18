@@ -22,15 +22,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.util.DrawableUtil;
 
 import java.util.List;
 import java.util.Random;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
  * @Author: AriesHoo on 2018/7/23 9:29
@@ -218,7 +218,6 @@ public class FastUtil {
             Class<?> cls = Class.forName(className);
             isExit = cls != null;
         } catch (ClassNotFoundException e) {
-            LoggerManager.e("FastUtil", "isClassExist:" + e.getMessage());
         }
         return isExit;
     }

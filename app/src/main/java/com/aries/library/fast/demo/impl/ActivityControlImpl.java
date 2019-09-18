@@ -189,7 +189,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         helper.setTransEnable(isSupportStatusBarFont || isLeak(activity))
                 .setPlusStatusViewEnable(!isLeak(activity))
                 .setStatusBarLightMode(isSupportStatusBarFont)
-                .setStatusViewColor(Color.argb(isSupportStatusBarFont?0:102,0,0,0))
+                .setStatusViewColor(Color.argb(isSupportStatusBarFont ? 0 : 102, 0, 0, 0))
                 .setStatusLayoutColor(Color.WHITE);
         setStatusBarActivity(activity);
         return true;
@@ -286,16 +286,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     @Override
     public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
         return new FastActivityLifecycleCallbacks() {
-
-//            @Override
-//            public void onActivityStarted(Activity activity) {
-//                super.onActivityStarted(activity);
-//                if (activity instanceof SplashActivity || activity instanceof IFastTitleView) {
-//                    return;
-//                }
-//                StatusBarUtil.setStatusBarLightMode(activity);
-//            }
-
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 super.onActivityCreated(activity, savedInstanceState);
@@ -341,7 +331,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             public void onActivityStopped(Activity activity) {
                 //统一于滑动返回动画
                 if (activity.isFinishing()) {
-                    activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
+//                    activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
                 }
             }
         };

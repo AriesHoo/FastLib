@@ -18,7 +18,6 @@ import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.impl.ActivityControlImpl;
 import com.aries.library.fast.demo.impl.AppImpl;
 import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
-import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.demo.util.NotificationUtil;
@@ -85,7 +84,7 @@ public class App extends MultiDexApplication {
                 //设置全局TitleBarView相关配置
                 .setTitleBarViewControl(impl)
                 //设置Activity滑动返回控制-默认开启滑动返回功能不需要设置透明主题
-                .setSwipeBackControl(new SwipeBackControlImpl())
+//                .setSwipeBackControl(new SwipeBackControlImpl())
                 //设置Activity/Fragment相关配置(横竖屏+背景+虚拟导航栏+状态栏+生命周期)
                 .setActivityFragmentControl(activityControl)
                 //设置BasisActivity 子类按键监听
@@ -125,10 +124,10 @@ public class App extends MultiDexApplication {
 
         //方式二 通过 Service 里添加特定header设置
         //step1
-        FastRetrofit.getInstance()
-                //设置Header模式优先-默认Method方式优先
-                .setHeaderPriorityEnable(true)
-                .putHeaderBaseUrl(ApiConstant.API_UPDATE_APP_KEY, BuildConfig.BASE__UPDATE_URL);
+//        FastRetrofit.getInstance()
+//                //设置Header模式优先-默认Method方式优先
+//                .setHeaderPriorityEnable(true)
+//                .putHeaderBaseUrl(ApiConstant.API_UPDATE_APP_KEY, BuildConfig.BASE__UPDATE_URL);
         //step2
         // 需要step1中baseUrl的方法需要在对应service里增加
         // @Headers({FastRetrofit.BASE_URL_NAME_HEADER + ApiConstant.API_UPDATE_APP_KEY})

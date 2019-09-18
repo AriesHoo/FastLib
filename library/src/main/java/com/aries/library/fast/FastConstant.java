@@ -31,4 +31,22 @@ public interface FastConstant {
      * 是否设置TitleBarView标记
      */
     String IS_SET_TITLE_BAR_VIEW = "IS_SET_TITLE_BAR_VIEW";
+    /**
+     * BGASwipeBackHelper 类名
+     */
+    String BGA_SWIPE_BACK_HELPER_CLASS = "cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper";
+
+    /**
+     * EventBus 类名
+     */
+    String EVENT_BUS_CLASS = "org.greenrobot.eventbus.EventBus";
+    /**
+     * AndroidEventBus 类名
+     */
+    String ANDROID_EVENT_BUS_CLASS = "org.simple.eventbus.EventBus";
+
+    /**
+     * SmartRefreshLayout 类名
+     */
+    String SMART_REFRESH_LAYOUT_CLASS = "com.scwang.smartrefresh.layout.SmartRefreshLayout";
 }

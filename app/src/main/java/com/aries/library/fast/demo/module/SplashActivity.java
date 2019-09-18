@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.manager.LoggerManager;
@@ -19,7 +21,6 @@ import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.trello.rxlifecycle3.android.ActivityEvent;
 
-import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 
 /**
@@ -78,11 +79,6 @@ public class SplashActivity extends FastTitleActivity {
                 .subscribe(new FastObserver<Long>() {
                     @Override
                     public void _onNext(Long entity) {
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
                         FastUtil.startActivity(mContext, MainActivity.class);
                         finish();
                     }

@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.constant.ApiConstant;
-import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.TabLayoutManager;
@@ -19,15 +21,10 @@ import com.aries.ui.view.tab.SegmentTabLayout;
 import com.aries.ui.view.tab.SlidingTabLayout;
 import com.aries.ui.view.title.TitleBarView;
 
-import org.simple.eventbus.Subscriber;
-import org.simple.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 /**
@@ -155,11 +152,11 @@ public class ActivityFragment extends FastTitleFragment {
         }
     }
 
-    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_REFRESH_ACTIVITY_TAB)
-    public void refreshActivityTab(boolean isSliding) {
-        mIsFirstShow = true;
-        setTitleBar(mTitleBar);
-        setTab();
-    }
+//    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_REFRESH_ACTIVITY_TAB)
+//    public void refreshActivityTab(boolean isSliding) {
+//        mIsFirstShow = true;
+//        setTitleBar(mTitleBar);
+//        setTab();
+//    }
 
 }

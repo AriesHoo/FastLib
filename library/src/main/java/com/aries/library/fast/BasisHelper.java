@@ -4,8 +4,6 @@ import android.app.Activity;
 
 import com.aries.library.fast.manager.LoggerManager;
 
-import org.simple.eventbus.EventBus;
-
 import butterknife.Unbinder;
 
 /**
@@ -29,7 +27,6 @@ public class BasisHelper {
      */
     public void onDestroy() {
         LoggerManager.i(mTag, "onDestroy");
-        EventBus.getDefault().unregister(this);
         if (mUnBinder != null) {
             mUnBinder.unbind();
             mUnBinder = null;
