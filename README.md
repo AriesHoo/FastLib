@@ -119,7 +119,7 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![](https://github.com/AriesHoo/FastLib/blob/dev/screenshot/fold.gif)
 
-**折叠屏效果一览
+**折叠屏效果一览**
 
 ![](https://github.com/AriesHoo/FastLib/blob/dev/screenshot/FastRefresh.gif)
 
