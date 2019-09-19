@@ -47,6 +47,11 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
+* 2.3.1
+
+    * 优化: 优化FastManager初始化init逻辑,FastLib自动初始化
+    * 优化: 将eventbus、bga-swipebacklayout、UIWidget:tab-layout 使用compileOnly开发者根据需要导入
+
 * 2.2.13
 
     * 新增: 下拉刷新接口IFastRefreshView及标题栏IFastTitleBarView
@@ -112,6 +117,10 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
     
 ## 录屏预览
 
+![](https://github.com/AriesHoo/FastLib/blob/dev/screenshot/fold.gif)
+
+**折叠屏效果一览
+
 ![](https://github.com/AriesHoo/FastLib/blob/dev/screenshot/FastRefresh.gif)
 
 **快速实现页面下拉刷新-全局控制及局部个性化**-参考WebActivity、FastRefreshActivity、MineFragment
@@ -158,7 +167,7 @@ allprojects {
 
 ```
 dependencies {
-      implementation 'com.github.AriesHoo:FastLib:2.3.0'
+      implementation 'com.github.AriesHoo:FastLib:2.3.1'
 }
 ```
 
@@ -177,7 +186,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.AriesHoo</groupId>
 	    <artifactId>FastLib</artifactId>
-	    <version>2.3.0</version>
+	    <version>2.3.1</version>
 	</dependency>
 ```
 
@@ -191,49 +200,53 @@ implementation project(':fastLib')
 
 ```
     compileSdkVersion = 28
-    buildToolsVersion = "28.0.3"
-    minSdkVersion = 21
+    minSdkVersion = 16
+    minLibSdkVersion = 15
     targetSdkVersion = 28
     supportVersion = "1.0.0"
+    widgetVersion = "3.2.24"
 ```
 
 ```
 dependencies {
-    compileOnly 'com.google.android.material:material:'.concat(supportVersion)
-    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
-    compileOnly 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
-    //万能适配器
-    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
-    //webView库
-    compileOnly 'com.just.agentweb:agentweb:4.0.2'
-    //下拉刷新库
-    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
-    //图片加载
-    compileOnly 'com.github.bumptech.glide:glide:4.8.0'
-    //常用UI控件(TitleBarView、RadiusView等)
-    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.9'
-    //日志打印
-    api 'com.orhanobut:logger:2.2.0'
-    //注解
-    api 'com.jakewharton:butterknife:10.1.0'
-    //retrofit+rxjava 网络请求及数据解析相关
-    api "io.reactivex.rxjava2:rxjava:2.2.6"
-    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'com.squareup.retrofit2:retrofit:2.5.0'
-    api 'com.squareup.retrofit2:converter-gson:2.5.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.13.1'
-    api 'com.google.code.gson:gson:2.8.5'
-    //处理rxjava内存泄漏-生命周期绑定
-    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
-    //滑动返回Activity
-    api 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
-    //快速Tab库
-    api 'com.github.AriesHoo:TabLayout:1.0.2'
-    //页面事件交互
-    api 'org.simple:androideventbus:1.0.5.1'
-    //多状态视图切换
-    api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
+      compileOnly "com.google.android.material:material:$rootProject.supportVersion"
+    //    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
+        compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportVersion"
+        //万能适配器
+        compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
+        //webView库
+        compileOnly 'com.just.agentweb:agentweb:4.1.2'
+        //下拉刷新库
+        compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+        //图片加载
+        compileOnly 'com.github.bumptech.glide:glide:4.8.0'
+        //常用UI控件(TitleBarView、RadiusView等)
+        api "com.github.AriesHoo.UIWidget:widget-core:$rootProject.widgetVersion"
+        //快速Tab库
+        compileOnly "com.github.AriesHoo.UIWidget:tab-layout:$rootProject.widgetVersion"
+        //日志打印
+        api 'com.orhanobut:logger:2.2.0'
+        //注解
+        api 'com.jakewharton:butterknife:10.1.0'
+        //retrofit+rxjava 网络请求及数据解析相关
+        api "io.reactivex.rxjava2:rxjava:2.2.6"
+        api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+        api 'com.squareup.retrofit2:retrofit:2.6.1'
+        api 'com.squareup.retrofit2:converter-gson:2.6.1'
+        api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+        //3.12.x是支持Android 4.4的
+        api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
+        api 'com.google.code.gson:gson:2.8.5'
+        //处理rxjava内存泄漏-生命周期绑定
+        api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
+        //滑动返回Activity
+        compileOnly 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
+        //页面事件交互-androideventbus-停止维护
+        compileOnly 'org.simple:androideventbus:1.0.5.1'
+        //页面事件交互-eventbus
+        compileOnly 'org.greenrobot:eventbus:3.1.1'
+        //多状态视图切换
+        api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
 }
 ```
 

@@ -18,6 +18,7 @@ import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.impl.ActivityControlImpl;
 import com.aries.library.fast.demo.impl.AppImpl;
 import com.aries.library.fast.demo.impl.HttpRequestControlImpl;
+import com.aries.library.fast.demo.impl.SwipeBackControlImpl;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
 import com.aries.library.fast.demo.util.NotificationUtil;
@@ -84,7 +85,7 @@ public class App extends MultiDexApplication {
                 //设置全局TitleBarView相关配置
                 .setTitleBarViewControl(impl)
                 //设置Activity滑动返回控制-默认开启滑动返回功能不需要设置透明主题
-//                .setSwipeBackControl(new SwipeBackControlImpl())
+                .setSwipeBackControl(new SwipeBackControlImpl())
                 //设置Activity/Fragment相关配置(横竖屏+背景+虚拟导航栏+状态栏+生命周期)
                 .setActivityFragmentControl(activityControl)
                 //设置BasisActivity 子类按键监听

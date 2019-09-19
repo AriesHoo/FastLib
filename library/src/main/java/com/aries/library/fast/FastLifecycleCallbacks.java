@@ -79,11 +79,8 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
             }
         }
         //设置检测滑动返回是否加载
-        if (!FastUtil.isClassExist(FastConstant.BGA_SWIPE_BACK_HELPER_CLASS)) {
-            return;
-        }
-        //设置滑动返回
-        if (!(activity instanceof BGASwipeBackHelper.Delegate)) {
+        if (FastUtil.isClassExist(FastConstant.BGA_SWIPE_BACK_HELPER_CLASS)
+                && !(activity instanceof BGASwipeBackHelper.Delegate)) {
             setSwipeBack(activity);
         }
         //回调给开发者实现自己应用逻辑
@@ -305,7 +302,7 @@ public class FastLifecycleCallbacks extends FragmentManager.FragmentLifecycleCal
                 }
                 KeyboardHelper.closeKeyboard(activity);
                 activity.finish();
-//                activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
+                activity.overridePendingTransition(0, R.anim.fast_activity_swipeback_exit);
                 if (mSwipeBackControl != null) {
                     mSwipeBackControl.onSwipeBackLayoutExecuted(activity);
                 }

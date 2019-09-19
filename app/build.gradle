@@ -77,7 +77,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library')
-    //    implementation 'com.github.AriesHoo:FastLib:2.3.0'
+    //    implementation 'com.github.AriesHoo:FastLib:2.3.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
@@ -88,6 +88,12 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
     //快速Tab库-继承FastMainActivity使用
     implementation "com.github.AriesHoo.UIWidget:tab-layout:$rootProject.widgetVersion"
+    //滑动返回Activity-鉴于现在全面屏比较多不推荐使用该库
+    implementation 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
+    //页面事件交互-androideventbus-停止维护-按需导入
+//    implementation 'org.simple:androideventbus:1.0.5.1'
+    //页面事件交互-eventbus-按需导入
+//    compileOnly 'org.greenrobot:eventbus:3.1.1'
     //万能适配器--一般都需要吧
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不implementation
@@ -121,4 +127,6 @@ dependencies {
     implementation 'com.pgyersdk:sdk:3.0.5'
     //保活组件
 //    implementation 'com.fanjun:keeplive:1.1.18'
+    //滑动返回Activity-类全面屏手势效果
+    implementation 'com.github.ParfoisMeng:SlideBack:1.0.7'
 }

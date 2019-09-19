@@ -130,10 +130,12 @@ public class FastManager {
 
     /**
      * 滑动返回基础配置查看{@link FastLifecycleCallbacks#onActivityCreated(Activity, Bundle)}
+     * 不允许外部调用
      *
-     * @param application
+     * @param application Application 对象
+     * @return
      */
-    public static FastManager init(Application application) {
+    static FastManager init(Application application) {
         LoggerManager.i("init");
         //保证只执行一次初始化属性
         if (mApplication == null && application != null) {

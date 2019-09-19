@@ -30,6 +30,7 @@ import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
+import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
 import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
@@ -51,6 +52,8 @@ import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseActivity;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
+import com.parfoismeng.slidebacklib.SlideBack;
+import com.parfoismeng.slidebacklib.callback.SlideBackCallBack;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
@@ -209,7 +212,9 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     public boolean setNavigationBar(Activity activity, NavigationViewHelper helper, View bottomView) {
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
-                .setPlusNavigationViewEnable(true, !isPlusView(activity), true)
+                .setPlusNavigationViewEnable(true)
+                //此处为配合BGASwipeBackHelper滑动返回效果-如不使用BGASwipeBackHelper推荐使用上面的方法
+                .setPlusNavigationViewEnable(true, true, true)
                 .setNavigationBarLightMode(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity))
                 .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity))
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
@@ -292,6 +297,21 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 //阻止系统截屏功能
                 //activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 setActivityOrientation(activity);
+                Activity previous = FastStackUtil.getInstance().getPrevious();
+                if (previous != null && previous instanceof SwipeBackActivity) {
+                    return;
+                }
+                //设置类全面屏手势滑动返回
+                SlideBack.with(activity)
+                        .haveScroll(true)
+                        .edgeMode(SlideBack.EDGE_BOTH)
+                        .callBack(new SlideBackCallBack() {
+                            @Override
+                            public void onSlideBack() {
+                                activity.onBackPressed();
+                            }
+                        })
+                        .register();
             }
 
             @Override
@@ -331,8 +351,18 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             public void onActivityStopped(Activity activity) {
                 //统一于滑动返回动画
                 if (activity.isFinishing()) {
-//                    activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
+                    activity.overridePendingTransition(0, R.anim.fast_activity_swipeback_exit);
                 }
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                super.onActivityDestroyed(activity);
+                Activity previous = FastStackUtil.getInstance().getPrevious();
+                if (previous != null && previous instanceof SwipeBackActivity) {
+                    return;
+                }
+                SlideBack.unregister(activity);
             }
         };
     }
@@ -394,16 +424,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
             }
         }
-//        RxJavaManager.getInstance().setTimer(100)
-//                .subscribe(new FastObserver<Long>() {
-//                    @Override
-//                    public void _onNext(Long entity) {
-//                        if (isLeak(activity)) {
-//                            return;
-//                        }
-//                        StatusBarUtil.setStatusBarLightMode(activity);
-//                    }
-//                });
     }
 
     /**
