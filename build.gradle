@@ -32,6 +32,6 @@ ext{
     targetSdkVersion = 28
     supportVersion = "1.0.0"
     widgetVersion = "3.2.24"
-    versionCode = 245
-    versionName = "2.3.1"
+    versionCode = 246
+    versionName = "2.3.2"
 }

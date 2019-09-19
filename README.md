@@ -47,9 +47,9 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
-* 2.3.1
+* 2.3.2
 
-    * 优化: 优化FastManager初始化init逻辑,FastLib自动初始化
+    * 优化: 优化FastManager初始化init逻辑,FastLib自动初始化解决多进程异常问题
     * 优化: 将eventbus、bga-swipebacklayout、UIWidget:tab-layout 使用compileOnly开发者根据需要导入
 
 * 2.2.13
@@ -167,7 +167,7 @@ allprojects {
 
 ```
 dependencies {
-      implementation 'com.github.AriesHoo:FastLib:2.3.1'
+      implementation 'com.github.AriesHoo:FastLib:2.3.2'
 }
 ```
 
@@ -186,7 +186,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.AriesHoo</groupId>
 	    <artifactId>FastLib</artifactId>
-	    <version>2.3.1</version>
+	    <version>2.3.2</version>
 	</dependency>
 ```
 

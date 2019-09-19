@@ -43,14 +43,15 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  */
 public class FastManager {
 
-    //    通过FastFileProvider进行初始化
-//    static {
-//        Application application = FastUtil.getApplication();
-//        if (application != null) {
-//            LoggerManager.i("FastManager", "initSuccess");
-//            init(application);
-//        }
-//    }
+    //原本在Provider中默认进行初始化,如果app出现多进程使用该模式可避免调用异常出现
+    static {
+        Application application = FastUtil.getApplication();
+        if (application != null) {
+            LoggerManager.i("FastManager", "initSuccess");
+            init(application);
+        }
+    }
+
     private static volatile FastManager sInstance;
 
     private FastManager() {
@@ -136,7 +137,7 @@ public class FastManager {
      * @return
      */
     static FastManager init(Application application) {
-        LoggerManager.i("init");
+        LoggerManager.i("init_mApplication:" + mApplication + ";application;" + application);
         //保证只执行一次初始化属性
         if (mApplication == null && application != null) {
             mApplication = application;
