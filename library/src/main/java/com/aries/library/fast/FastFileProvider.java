@@ -17,14 +17,14 @@ import com.aries.library.fast.util.FastUtil;
  * 1、2019-9-16 14:34:51 增加FastManager初始化
  */
 public class FastFileProvider extends FileProvider {
-    @Override
-    public boolean onCreate() {
-        Context context = getContext().getApplicationContext();
-        if(context==null){
-            context = FastUtil.getApplication();
-        }
-        Log.d("FastFileProvider", "context:" + context);
-        FastManager.init((Application) context);
-        return super.onCreate();
-    }
+//     @Override
+//     public boolean onCreate() {
+//         Context context = getContext().getApplicationContext();
+//         if(context==null){
+//             context = FastUtil.getApplication();
+//         }
+//         Log.d("FastFileProvider", "context:" + context);
+//         FastManager.init((Application) context);
+//         return super.onCreate();
+//     }
 }
