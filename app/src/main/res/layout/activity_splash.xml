@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="12dp"
-        android:drawableTop="@drawable/ic_launcher"
+        android:drawableTop="@drawable/img_splash"
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@color/colorWhite"

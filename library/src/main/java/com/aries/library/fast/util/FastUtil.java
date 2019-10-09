@@ -57,7 +57,7 @@ public class FastUtil {
         try {
             //兼容android P，直接调用@hide注解的方法来获取application对象
             Application app = ActivityThread.currentApplication();
-            LoggerManager.e("getApplication0:"+app);
+            LoggerManager.e("getApplication0:" + app);
             if (app != null) {
                 return app;
             }
@@ -66,7 +66,7 @@ public class FastUtil {
         try {
             //兼容android P，直接调用@hide注解的方法来获取application对象
             Application app = AppGlobals.getInitialApplication();
-            LoggerManager.e("getApplication1:"+app);
+            LoggerManager.e("getApplication1:" + app);
             if (app != null) {
                 return app;
             }
@@ -333,6 +333,27 @@ public class FastUtil {
 
     public static void startActivity(Context context, Class<? extends Activity> activity, boolean isSingle) {
         startActivity(context, activity, null, isSingle);
+    }
+
+    /**
+     * 根据包名跳转应用
+     *
+     * @param context
+     * @param packageName
+     */
+    public static void startApp(Context context, String packageName) {
+        if (context == null) {
+            return;
+        }
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (launchIntent == null) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setComponent(launchIntent.getComponent());
+        context.startActivity(intent);
     }
 
     /**

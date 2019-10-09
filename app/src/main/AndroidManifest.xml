@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.aries.library.fast.demo">
+    package="com.aries.library.fast.demo">
 
     <!--<uses-feature android:name="android.hardware.screen.portrait"/>-->
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- AgentWeb 是默认启动定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
 
     <application
         android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:roundIcon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -33,7 +34,8 @@
             android:value="${app_channel}" />
         <meta-data
             android:name="BaiduMobAd_CHANNEL"
-            android:value="${app_channel}"/>
+            android:value="${app_channel}" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -47,78 +49,79 @@
         <provider
             android:name="com.pgyersdk.PgyerProvider"
             android:authorities="${applicationId}.com.pgyer.provider"
-            android:exported="false"/>
+            android:exported="false" />
         <!-- 必填 -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="${PGYER_ID}">
-        </meta-data>
+            android:value="${PGYER_ID}"></meta-data>
+
         <activity
             android:name=".module.SplashActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc">
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:theme="@style/NormalSplash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".module.main.MainActivity"
-            android:launchMode="singleTop"
-            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"/>
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:launchMode="singleTop" />
         <!-- 应用内浏览器 -->
         <activity
             android:name=".module.WebViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:label="@string/fast_loading"/>
+            android:label="@string/fast_loading" />
         <activity
             android:name=".module.WebAppActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:label="@string/fast_loading"/>
+            android:label="@string/fast_loading" />
         <activity
             android:name=".module.main.sample.TitleWithEditTextActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="Title+底部输入框测试"/>
+            android:label="Title+底部输入框测试" />
         <activity
             android:name=".module.main.sample.ToastActivity"
-            android:label="ToastUtil工具类示例"/>
+            android:label="ToastUtil工具类示例" />
         <activity
             android:name=".module.main.sample.SingleFragmentActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="Activity直接嵌套Fragment懒加载效果"/>
+            android:label="Activity直接嵌套Fragment懒加载效果" />
         <activity
             android:name=".module.main.sample.SwipeBackActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="微信滑动返回样式效果"/>
+            android:label="微信滑动返回样式效果" />
         <activity
             android:name=".module.main.sample.QQTitleActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="QQ默认主题TitleBar背景渐变"/>
+            android:label="QQ默认主题TitleBar背景渐变" />
         <activity
             android:name=".module.main.sample.ali.ALiPayMainActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="支付宝主界面效果"/>
+            android:label="支付宝主界面效果" />
         <activity
             android:name=".module.main.sample.news.NewsMainActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="腾讯新闻主界面效果"/>
+            android:label="腾讯新闻主界面效果" />
         <activity
             android:name=".module.main.sample.TestStatusActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="@string/test_status"/>
+            android:label="@string/test_status" />
         <activity
             android:name=".module.main.sample.FastViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="模拟快速下拉刷新及TitleBarView统一设置"/>
+            android:label="模拟快速下拉刷新及TitleBarView统一设置" />
         <activity
             android:name=".module.mine.SettingActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="@string/setting"/>
+            android:label="@string/setting" />
         <activity
             android:name=".module.mine.ThirdLibraryActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="@string/third_part"/>
+            android:label="@string/third_part" />
     </application>
 
 </manifest>
