@@ -76,7 +76,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library')
-//        implementation 'com.github.AriesHoo:FastLib:2.3.3'
+//        implementation 'com.github.AriesHoo:FastLib:2.3.4'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.github.lygttpod:SuperTextView:2.1.8'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
     //文件选择器
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.5'
     //友盟统计
     implementation 'com.umeng.analytics:analytics:latest.integration'
     //Bugly

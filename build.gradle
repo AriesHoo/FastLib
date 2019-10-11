@@ -27,11 +27,11 @@ task clean(type: Delete) {
 
 ext{
     compileSdkVersion = 28
-    minSdkVersion = 17
+    minSdkVersion = 19
     minLibSdkVersion = 15
     targetSdkVersion = 28
     supportVersion = "1.0.0"
     widgetVersion = "3.2.24"
     versionCode = 246
-    versionName = "2.3.2"
+    versionName = "2.3.4"
 }
