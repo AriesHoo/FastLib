@@ -55,7 +55,7 @@ dependencies {
     //下拉刷新库
     compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
     //图片加载
-    compileOnly 'com.github.bumptech.glide:glide:4.8.0'
+    compileOnly 'com.github.bumptech.glide:glide:4.10.0'
     //常用UI控件(TitleBarView、RadiusView等)
     api "com.github.AriesHoo.UIWidget:widget-core:$rootProject.widgetVersion"
     //快速Tab库
