@@ -383,6 +383,27 @@ public class FastUtil {
     }
 
     /**
+     * 根据包名跳转应用
+     *
+     * @param context
+     * @param packageName
+     */
+    public static void startApp(Context context, String packageName) {
+        if (context == null) {
+            return;
+        }
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (launchIntent == null) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setComponent(launchIntent.getComponent());
+        context.startActivity(intent);
+    }
+
+    /**
      * @param context 上下文
      * @param text    分享内容
      * @param title   分享标题

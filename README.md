@@ -186,7 +186,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.AriesHoo</groupId>
 	    <artifactId>FastLib</artifactId>
-	    <version>2.3.2</version>
+	    <version>2.3.4</version>
 	</dependency>
 ```
 
@@ -200,11 +200,13 @@ implementation project(':fastLib')
 
 ```
     compileSdkVersion = 28
-    minSdkVersion = 16
+    minSdkVersion = 19
     minLibSdkVersion = 15
     targetSdkVersion = 28
     supportVersion = "1.0.0"
     widgetVersion = "3.2.24"
+    versionCode = 246
+    versionName = "2.3.4"
 ```
 
 ```
@@ -219,7 +221,7 @@ dependencies {
         //下拉刷新库
         compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
         //图片加载
-        compileOnly 'com.github.bumptech.glide:glide:4.8.0'
+        compileOnly 'com.github.bumptech.glide:glide:4.10.0'
         //常用UI控件(TitleBarView、RadiusView等)
         api "com.github.AriesHoo.UIWidget:widget-core:$rootProject.widgetVersion"
         //快速Tab库
