@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 
-import androidx.fragment.app.Fragment;
-
 import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
@@ -31,6 +29,7 @@ import org.simple.eventbus.EventBus;
 
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -46,6 +45,7 @@ import butterknife.Unbinder;
  * 5、2018-6-25 13:25:30 增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
  * 6、2018-9-25 10:04:31 新增onActivityResult统一处理逻辑
  * 7、2018-9-26 16:59:59 新增按键监听统一处理
+ * 8、2019-12-19 11:53:28 增加EventBus Subscribe注解方法判断
  */
 public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
 
@@ -65,7 +65,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected void onCreate(Bundle savedInstanceState) {
         if (isEventBusEnable()) {
             if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
-                org.greenrobot.eventbus.EventBus.getDefault().register(this);
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().register(this);
+                }
             }
             if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
                 EventBus.getDefault().register(this);
@@ -106,7 +108,9 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected void onDestroy() {
         if (isEventBusEnable()) {
             if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
-                org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+                }
             }
             if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
                 EventBus.getDefault().unregister(this);

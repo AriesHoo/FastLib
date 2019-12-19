@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import androidx.fragment.app.FragmentManager;
-
 import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IBasisView;
@@ -25,6 +23,7 @@ import com.trello.rxlifecycle3.components.support.RxFragment;
 
 import org.simple.eventbus.EventBus;
 
+import androidx.fragment.app.FragmentManager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -37,6 +36,7 @@ import butterknife.Unbinder;
  * 2、增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
  * 3、2018-7-6 17:12:16 删除IBasisFragment 控制是否单Fragment 通过另一种方式实现
  * 4、2019-1-29 18:33:10 修改对用户可以见回调{@link #setUserVisibleHint(boolean)}{@link #onHiddenChanged(boolean)} (boolean)}
+ * 5、2019-12-19 11:54:20 增加EventBus Subscribe注解方法判断
  */
 public abstract class BasisFragment extends RxFragment implements IBasisView {
 
@@ -94,7 +94,9 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mIsViewLoaded = true;
         if (isEventBusEnable()) {
             if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
-                org.greenrobot.eventbus.EventBus.getDefault().register(this);
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().register(this);
+                }
             }
             if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
                 EventBus.getDefault().register(this);
@@ -138,7 +140,9 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     public void onDestroy() {
         if (isEventBusEnable()) {
             if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
-                org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+                }
             }
             if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
                 EventBus.getDefault().unregister(this);

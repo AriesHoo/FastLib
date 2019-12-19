@@ -92,7 +92,7 @@ dependencies {
     //页面事件交互-androideventbus-停止维护-按需导入
 //    implementation 'org.simple:androideventbus:1.0.5.1'
     //页面事件交互-eventbus-按需导入
-//    compileOnly 'org.greenrobot:eventbus:3.1.1'
+//    implementation 'org.greenrobot:eventbus:3.1.1'
     //万能适配器--一般都需要吧
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不implementation
