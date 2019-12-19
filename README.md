@@ -167,7 +167,7 @@ allprojects {
 
 ```
 dependencies {
-      implementation 'com.github.AriesHoo:FastLib:2.3.2'
+      implementation 'com.github.AriesHoo:FastLib:x.y.z'
 }
 ```
 
@@ -186,7 +186,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.AriesHoo</groupId>
 	    <artifactId>FastLib</artifactId>
-	    <version>2.3.4</version>
+	    <version>x.y.z</version>
 	</dependency>
 ```
 
@@ -205,8 +205,8 @@ implementation project(':fastLib')
     targetSdkVersion = 28
     supportVersion = "1.0.0"
     widgetVersion = "3.2.24"
-    versionCode = 246
-    versionName = "2.3.4"
+    versionCode = 247
+    versionName = "2.3.5"
 ```
 
 ```
