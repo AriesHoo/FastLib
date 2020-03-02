@@ -31,7 +31,7 @@ ext{
     minLibSdkVersion = 15
     targetSdkVersion = 28
     supportVersion = "1.0.0"
-    widgetVersion = "3.2.24"
+    widgetVersion = "3.2.25"
     versionCode = 247
     versionName = "2.3.5"
 }

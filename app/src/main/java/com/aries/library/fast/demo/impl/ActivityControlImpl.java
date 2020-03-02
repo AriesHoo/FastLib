@@ -214,7 +214,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setPlusNavigationViewEnable(true)
                 //此处为配合BGASwipeBackHelper滑动返回效果-如不使用BGASwipeBackHelper推荐使用上面的方法
-                .setPlusNavigationViewEnable(true, true, true)
+//                .setPlusNavigationViewEnable(true, true, true)
                 .setNavigationBarLightMode(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity))
                 .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity))
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?

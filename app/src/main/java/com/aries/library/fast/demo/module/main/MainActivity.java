@@ -7,8 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
@@ -27,6 +25,7 @@ import com.trello.rxlifecycle3.android.ActivityEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import butterknife.BindView;
 
 /**
@@ -127,8 +126,19 @@ public class MainActivity extends FastMainActivity {
     }
 
     @Override
+    public void onTabSelect(int position) {
+        LoggerManager.d("OnTabSelectListener:onTabSelect:" + position);
+    }
+
+    @Override
+    public void onTabReselect(int position) {
+        LoggerManager.d("OnTabSelectListener:onTabReselect:" + position);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         LoggerManager.i(TAG, "onDestroy");
     }
+
 }
