@@ -3,9 +3,7 @@ package com.aries.library.fast;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+import android.util.Log;
 
 import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
@@ -23,7 +21,6 @@ import com.aries.library.fast.i.SwipeBackControl;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.GlideManager;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
@@ -32,6 +29,8 @@ import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.widget.progress.UIProgressDialog;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -47,7 +46,7 @@ public class FastManager {
     static {
         Application application = FastUtil.getApplication();
         if (application != null) {
-            LoggerManager.i("FastManager", "initSuccess");
+            Log.i("FastManager", "initSuccess");
             init(application);
         }
     }
@@ -137,7 +136,7 @@ public class FastManager {
      * @return
      */
     static FastManager init(Application application) {
-        LoggerManager.i("init_mApplication:" + mApplication + ";application;" + application);
+        Log.i("FastManager","init_mApplication:" + mApplication + ";application;" + application);
         //保证只执行一次初始化属性
         if (mApplication == null && application != null) {
             mApplication = application;

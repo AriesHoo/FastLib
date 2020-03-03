@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FastTemplate</string>
+    <string name="home">主页</string>
+    <string name="mine">我的</string>
+</resources>

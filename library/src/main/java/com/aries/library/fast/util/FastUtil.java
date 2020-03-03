@@ -19,11 +19,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aries.library.fast.FastConstant;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.util.DrawableUtil;
 
 import java.lang.reflect.Method;
@@ -59,7 +59,7 @@ public class FastUtil {
         try {
             //兼容android P，直接调用@hide注解的方法来获取application对象
             Application app = ActivityThread.currentApplication();
-            LoggerManager.e("getApplication0:" + app);
+            Log.e("FastUtil", "getApplication0:" + app);
             if (app != null) {
                 return app;
             }
@@ -68,7 +68,7 @@ public class FastUtil {
         try {
             //兼容android P，直接调用@hide注解的方法来获取application对象
             Application app = AppGlobals.getInitialApplication();
-            LoggerManager.e("getApplication1:" + app);
+            Log.e("FastUtil", "getApplication1:" + app);
             if (app != null) {
                 return app;
             }
@@ -91,7 +91,7 @@ public class FastUtil {
             int labelRes = packageInfo.applicationInfo.labelRes;
             return context.getResources().getText(labelRes);
         } catch (PackageManager.NameNotFoundException e) {
-            LoggerManager.e("FastUtil", "getAppName:" + e.getMessage());
+            Log.e("FastUtil", "getAppName:" + e.getMessage());
         }
         return null;
     }
@@ -184,7 +184,7 @@ public class FastUtil {
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
-            LoggerManager.e("FastUtil", "getVersionName:" + e.getMessage());
+            Log.e("FastUtil", "getVersionName:" + e.getMessage());
         }
         return "";
     }
@@ -203,7 +203,7 @@ public class FastUtil {
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
-            LoggerManager.e("FastUtil", "getVersionCode:" + e.getMessage());
+            Log.e("FastUtil", "getVersionCode:" + e.getMessage());
         }
         return -1;
     }
@@ -334,7 +334,7 @@ public class FastUtil {
             marketIntent.setData(Uri.parse(mAddress));
             mContext.startActivity(marketIntent);
         } catch (Exception e) {
-            LoggerManager.e("FastUtil", "jumpMarket:" + e.getMessage());
+            Log.e("FastUtil", "jumpMarket:" + e.getMessage());
         }
     }
 

@@ -26,7 +26,8 @@ import io.reactivex.schedulers.Schedulers;
  * @Author: AriesHoo on 2018/7/23 14:37
  * @E-Mail: AriesHoo@126.com
  * Function: Toast 工具
- * Description:
+ * Description: 本工具类只是对系统Toast进行简单的效果样式处理有系统权限问题;如果有更进一步需求推荐使用
+ * https://github.com/Dovar66/DToast
  * 1、2018-7-11 15:40:26 去掉Toast返回值并新增子线程弹出Toast功能
  * 2、2019-1-18 18:09:07 新增{@link ToastControl} 全局
  */

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorWhite"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <include layout="@layout/fast_layout_title_bar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
+    <TextView
+        android:id="@+id/tv_appSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="12dp"
+        android:gravity="center"
+        android:text="FastLib壳工程,可直接拷贝使用"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="20dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"/>
+
+    <TextView
+        android:id="@+id/tv_versionSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="14dp"
+        tools:text="V1.0.0"/>
+
+    <TextView
+        android:id="@+id/tv_copyRightSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:text="本库由Aries Hoo 提供技术支持"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="12dp"/>
+</LinearLayout>

@@ -44,6 +44,7 @@ public class SwipeBackControlImpl implements SwipeBackControl {
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
+                .setIsNavigationBarOverlap(true)
                 .setShadowResId(R.drawable.bga_sbl_shadow);
     }
 

@@ -1,4 +1,4 @@
-package com.aries.library.fast.demo.impl;
+package com.aries.template.impl;
 
 import android.app.Activity;
 import android.app.Application;
@@ -15,16 +15,21 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.aries.library.fast.BuildConfig;
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
-import com.aries.library.fast.demo.App;
-import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.module.SplashActivity;
-import com.aries.library.fast.demo.module.main.MainActivity;
-import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
-import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
+import com.aries.template.App;
+import com.aries.template.R;
+import com.aries.template.SplashActivity;
+import com.aries.template.MainActivity;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
@@ -41,24 +46,7 @@ import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.StatusBarUtil;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.didichuxing.doraemonkit.ui.base.BaseActivity;
-import com.luck.picture.lib.PictureBaseActivity;
-import com.luck.picture.lib.PicturePreviewActivity;
-import com.parfoismeng.slidebacklib.SlideBack;
-import com.parfoismeng.slidebacklib.callback.SlideBackCallBack;
-import com.umeng.analytics.MobclickAgent;
 
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-
-import static com.aries.library.fast.demo.App.isControlNavigation;
 
 /**
  * @Author: AriesHoo on 2018/12/4 18:04
@@ -170,11 +158,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             if (BasisActivity.class.isAssignableFrom(cls) || BasisFragment.class.isAssignableFrom(cls)) {
                 return;
             }
-            Activity activity = FastStackUtil.getInstance().getCurrent();
-            if (activity instanceof UniversalActivity) {
-                contentView.setBackgroundColor(Color.WHITE);
-            }
-            LoggerManager.i("setContentViewBackground_activity:" + activity.getClass().getSimpleName() + ";cls:" + cls.getSimpleName());
         }
     }
 
@@ -194,7 +177,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 .setStatusBarLightMode(isSupportStatusBarFont)
                 .setStatusViewColor(Color.argb(isSupportStatusBarFont ? 0 : 102, 0, 0, 0))
                 .setStatusLayoutColor(Color.WHITE);
-        setStatusBarActivity(activity);
         return true;
     }
 
@@ -210,26 +192,22 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      */
     @Override
     public boolean setNavigationBar(Activity activity, NavigationViewHelper helper, View bottomView) {
-
-        Activity previous = FastStackUtil.getInstance().getPrevious();
-        boolean enable = previous != null && previous instanceof SwipeBackActivity;
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
                 .setPlusNavigationViewEnable(true)
                 //此处为配合BGASwipeBackHelper滑动返回效果-如不使用BGASwipeBackHelper推荐使用上面的方法
-                .setPlusNavigationViewEnable(true, enable, enable)
+//                .setPlusNavigationViewEnable(true, true, true)
                 .setNavigationBarLightMode(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity))
                 .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity))
-                .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
-                        FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
+                .setBottomView(bottomView)
                 .setNavigationViewColor(isLeak(activity) ? Color.BLACK : Color.argb(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
-                .setNavigationLayoutColor(ContextCompat.getColor(activity, !isPlusView(activity) ? R.color.transparent : R.color.colorTabBackground));
-        if (!isControlNavigation() && !(activity instanceof MainActivity)) {
+                .setNavigationLayoutColor(ContextCompat.getColor(activity, !isPlusView(activity) ? android.R.color.transparent : R.color.colorTabBackground));
+        if (!(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
                     .setEnable()
                     .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity));
         }
-        return isControlNavigation();
+        return true;
     }
 
     private KeyboardHelper.OnKeyboardVisibilityChangedListener getOnKeyboardVisibilityChangedListener(Activity activity) {
@@ -247,7 +225,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      */
     protected boolean isPlusView(Activity activity) {
         return !(activity instanceof SplashActivity)
-                && !(activity instanceof TestStatusActivity)
                 && !isLeak(activity);
     }
 
@@ -268,11 +245,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      * @param activity
      */
     public void setActivityOrientation(Activity activity) {
-        LoggerManager.i("setRequestedOrientation:" + activity.getClass().getSimpleName() + ";:" + (BaseActivity.class.isAssignableFrom(activity.getClass()))
-                + ";:" + (UniversalActivity.class.isAssignableFrom(activity.getClass())));
-        if (BaseActivity.class.isAssignableFrom(activity.getClass())) {
-            return;
-        }
         //全局控制屏幕横竖屏
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
         if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
@@ -300,72 +272,17 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 //阻止系统截屏功能
                 //activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 setActivityOrientation(activity);
-                Activity previous = FastStackUtil.getInstance().getPrevious();
-                if (previous != null && previous instanceof SwipeBackActivity) {
-                    return;
-                }
                 //设置类全面屏手势滑动返回
-                SlideBack.with(activity)
-                        .haveScroll(true)
-                        .edgeMode(SlideBack.EDGE_BOTH)
-                        .callBack(new SlideBackCallBack() {
-                            @Override
-                            public void onSlideBack() {
-                                activity.onBackPressed();
-                            }
-                        })
-                        .register();
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-                if (activity instanceof FragmentActivity) {
-                    FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
-                    List<Fragment> list = manager.getFragments();
-                    //有Fragment的FragmentActivity不需调用以下方法避免统计不准
-                    if (list == null || list.size() == 0) {
-                        MobclickAgent.onPageStart(activity.getClass().getSimpleName());
-                    }
-                } else {
-                    MobclickAgent.onPageStart(activity.getClass().getSimpleName());
-                }
-                //统计时长
-                MobclickAgent.onResume(activity);
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-                //普通Activity直接onPageEnd
-                if (activity instanceof FragmentActivity) {
-                    FragmentManager manager = ((FragmentActivity) activity).getSupportFragmentManager();
-                    List<Fragment> list = manager.getFragments();
-                    //有Fragment的FragmentActivity不需调用以下方法避免统计不准
-                    if (list == null || list.size() == 0) {
-                        MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
-                    }
-                } else {
-                    MobclickAgent.onPageEnd(activity.getClass().getSimpleName());
-                }
-                //统计时长
-                MobclickAgent.onPause(activity);
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-                //统一于滑动返回动画
-                if (activity.isFinishing()) {
-                    activity.overridePendingTransition(0, R.anim.fast_activity_swipeback_exit);
-                }
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-                super.onActivityDestroyed(activity);
-                Activity previous = FastStackUtil.getInstance().getPrevious();
-                if (previous != null && previous instanceof SwipeBackActivity) {
-                    return;
-                }
-                SlideBack.unregister(activity);
+//                SlideBack.with(activity)
+//                        .haveScroll(true)
+//                        .edgeMode(SlideBack.EDGE_BOTH)
+//                        .callBack(new SlideBackCallBack() {
+//                            @Override
+//                            public void onSlideBack() {
+//                                activity.onBackPressed();
+//                            }
+//                        })
+//                        .register();
             }
         };
     }
@@ -378,56 +295,9 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     @Override
     public FragmentManager.FragmentLifecycleCallbacks getFragmentLifecycleCallbacks() {
         return new FragmentManager.FragmentLifecycleCallbacks() {
-            @Override
-            public void onFragmentResumed(FragmentManager fm, Fragment f) {
-                super.onFragmentResumed(fm, f);
-                LoggerManager.i(TAG, "onFragmentResumed:统计Fragment:" + f.getClass().getSimpleName());
-                MobclickAgent.onPageStart(f.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onFragmentPaused(FragmentManager fm, Fragment f) {
-                super.onFragmentPaused(fm, f);
-                LoggerManager.i(TAG, "onFragmentPaused:统计Fragment:" + f.getClass().getSimpleName());
-                MobclickAgent.onPageEnd(f.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onFragmentDestroyed(@NonNull FragmentManager fm, @NonNull Fragment f) {
-                super.onFragmentDestroyed(fm, f);
-                LoggerManager.i(TAG, "onFragmentDestroyed:" + f.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onFragmentViewDestroyed(@NonNull FragmentManager fm, @NonNull Fragment f) {
-                super.onFragmentViewDestroyed(fm, f);
-                LoggerManager.i(TAG, "onFragmentViewDestroyed:" + f.getClass().getSimpleName());
-            }
         };
     }
 
-
-    /**
-     * 根据程序使用的三方库进行改造:本示例使用的三方库实现了自己的沉浸式状态栏及导航栏但和Demo的滑动返回不搭配故做相应调整
-     *
-     * @param activity
-     */
-    private void setStatusBarActivity(Activity activity) {
-        if (PictureBaseActivity.class.isAssignableFrom(activity.getClass())) {
-            View contentView = FastUtil.getRootView(activity);
-            //该属性会影响适配滑动返回效果
-            contentView.setFitsSystemWindows(false);
-            ImageView imageView = contentView != null ? contentView.findViewById(R.id.picture_left_back) : null;
-            if (imageView != null) {
-                RelativeLayout layout = contentView.findViewById(R.id.rl_picture_title);
-                if (layout != null) {
-                    ViewCompat.setElevation(layout, activity.getResources().getDimension(R.dimen.dp_elevation));
-                }
-                //调整返回箭头大小
-                imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
-            }
-        }
-    }
 
     /**
      * @param activity
