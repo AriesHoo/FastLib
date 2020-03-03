@@ -35,7 +35,7 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![Download-蒲公英](/apk/qr_pgyer.png)
 
-[[Download-github]](https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/sample.apk)
+[[Download-github]](/apk/sample.apk)
 
 ![](/apk/qr.png)
 
@@ -43,7 +43,7 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 1、**2.2.13_beta12版本**开始自带混淆规则，并且会自动导入，正常情况下无需手动导入。
 
-2、**2.2.13_beta12以下版本**可参考[proguard-rules.pro](https://github.com/AriesHoo/FastLib/blob/dev/library/proguard-rules.pro)
+2、**2.2.13_beta12以下版本**可参考[proguard-rules.pro](/library/proguard-rules.pro)
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
 
@@ -117,38 +117,38 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
     
 ## 录屏预览
 
-![](https://github.com/AriesHoo/FastLib/blob/dev/screenshot/fold.gif)
+![](/screenshot/fold.gif)
 
 **折叠屏效果一览**
 
-![](https://github.com/AriesHoo/FastLib/blob/dev/screenshot/FastRefresh.gif)
+![](/screenshot/FastRefresh.gif)
 
 **快速实现页面下拉刷新-全局控制及局部个性化**-参考WebActivity、FastRefreshActivity、MineFragment
 
 
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
+![](/screenshot/02.gif)
 
 **虚拟导航栏控制**-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
 
 **模拟器软键盘控制**
 
-![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard01.gif)
+![](/screenshot/keyboard01.gif)
 
 **华为可隐藏软键盘控制**
 
-![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard02.gif)
+![](/screenshot/keyboard02.gif)
 
 **华为全面屏手势控制**
 
-![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard03.gif)
+![](/screenshot/keyboard03.gif)
 
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
+![](/screenshot/00.gif)
 
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
+![](/screenshot/01.gif)
 
 **开启GPU过度绘制检测+GPU呈现模式分析**
 
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/DoraemonKit.gif)
+![](/screenshot/DoraemonKit.gif)
 
 **DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调** 
 
@@ -205,8 +205,8 @@ implementation project(':fastLib')
     targetSdkVersion = 28
     supportVersion = "1.0.0"
     widgetVersion = "3.2.24"
-    versionCode = 247
-    versionName = "2.3.5"
+    versionCode = 248
+    versionName = "2.3.6"
 ```
 
 ```
@@ -277,7 +277,7 @@ dependencies {
 ## License
 
 ```
-Copyright 2017-2019 Aries Hoo
+Copyright 2017-2020 Aries Hoo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
