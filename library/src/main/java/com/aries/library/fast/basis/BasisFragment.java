@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IBasisView;
 import com.aries.library.fast.i.IFastRefreshLoadView;
@@ -35,6 +36,7 @@ import butterknife.Unbinder;
  * 2、增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
  * 3、2018-7-6 17:12:16 删除IBasisFragment 控制是否单Fragment 通过另一种方式实现
  * 4、2019-1-29 18:33:10 修改对用户可以见回调{@link #setUserVisibleHint(boolean)}{@link #onHiddenChanged(boolean)} (boolean)}
+ * 5、2019-12-19 11:54:20 增加EventBus Subscribe注解方法判断
  */
 public abstract class BasisFragment extends RxFragment implements IBasisView {
 
@@ -43,7 +45,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
     protected boolean mIsFirstShow;
     protected boolean mIsViewLoaded;
     protected Unbinder mUnBinder;
-    protected final String TAG = getClass().getSimpleName();
+    protected String TAG = getClass().getSimpleName();
     protected boolean mIsVisibleChanged = false;
     private boolean mIsInViewPager;
     protected Bundle mSavedInstanceState;
@@ -77,7 +79,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mContentView = inflater.inflate(getContentLayout(), container, false);
         //解决StatusLayoutManager与SmartRefreshLayout冲突
         if (this instanceof IFastRefreshLoadView) {
-            if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
+            if (FastUtil.isClassExist(FastConstant.SMART_REFRESH_LAYOUT_CLASS)) {
                 if (mContentView.getClass() == SmartRefreshLayout.class) {
                     FrameLayout frameLayout = new FrameLayout(mContext);
                     if (mContentView.getLayoutParams() != null) {
@@ -91,7 +93,14 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mUnBinder = ButterKnife.bind(this, mContentView);
         mIsViewLoaded = true;
         if (isEventBusEnable()) {
-            EventBus.getDefault().register(this);
+            if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().register(this);
+                }
+            }
+            if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
+                EventBus.getDefault().register(this);
+            }
         }
         beforeInitView(savedInstanceState);
         initView(savedInstanceState);
@@ -120,12 +129,24 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
+        mUnBinder = null;
+        mContentView = null;
+        mContext = null;
+        mSavedInstanceState = null;
+        TAG = null;
     }
 
     @Override
     public void onDestroy() {
         if (isEventBusEnable()) {
-            EventBus.getDefault().unregister(this);
+            if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+                }
+            }
+            if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
+                EventBus.getDefault().unregister(this);
+            }
         }
         super.onDestroy();
     }
@@ -162,7 +183,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         super.onHiddenChanged(hidden);
         if (!mIsViewLoaded) {
             RxJavaManager.getInstance().setTimer(10)
-                    .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                    .compose(bindUntilEvent(FragmentEvent.DESTROY))
                     .subscribe(new FastObserver<Long>() {
                         @Override
                         public void _onNext(Long entity) {
@@ -184,7 +205,7 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
         mIsInViewPager = true;
         if (!mIsViewLoaded) {
             RxJavaManager.getInstance().setTimer(10)
-                    .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                    .compose(bindUntilEvent(FragmentEvent.DESTROY))
                     .subscribe(new FastObserver<Long>() {
                         @Override
                         public void _onNext(Long entity) {
@@ -217,20 +238,20 @@ public abstract class BasisFragment extends RxFragment implements IBasisView {
             //避免因视图未加载子类刷新UI抛出异常
             if (!mIsViewLoaded) {
                 RxJavaManager.getInstance().setTimer(10)
-                        .compose(this.<Long>bindUntilEvent(FragmentEvent.DESTROY))
+                        .compose(bindUntilEvent(FragmentEvent.DESTROY))
                         .subscribe(new FastObserver<Long>() {
                             @Override
                             public void _onNext(Long entity) {
-                                onVisibleChanged(isVisibleToUser);
+                                onVisibleChanged(true);
                             }
                         });
             } else {
-                lazyLoad();
+                fastLazyLoad();
             }
         }
     }
 
-    private void lazyLoad() {
+    private void fastLazyLoad() {
         if (mIsFirstShow && mIsViewLoaded) {
             mIsFirstShow = false;
             loadData();

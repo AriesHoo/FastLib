@@ -41,6 +41,7 @@ public abstract class FastRefreshLoadFragment<T>
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;
         mStatusManager = mFastRefreshLoadDelegate.mStatusManager;
         mQuickAdapter = mFastRefreshLoadDelegate.mAdapter;
+        mFastRefreshLoadDelegate.setLoadMore(isLoadMoreEnable());
     }
 
     @Override
@@ -81,7 +82,6 @@ public abstract class FastRefreshLoadFragment<T>
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         mDefaultPage = 0;
-        mFastRefreshLoadDelegate.setLoadMore(isLoadMoreEnable());
         loadData(mDefaultPage);
     }
 

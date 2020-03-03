@@ -3,21 +3,19 @@ package com.aries.library.fast.demo.module.mine;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.allen.library.SuperTextView;
 import com.aries.library.fast.demo.R;
-import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.module.activity.FastTitleActivity;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.ui.view.title.TitleBarView;
-
-import org.simple.eventbus.EventBus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +72,7 @@ public class SettingActivity extends FastTitleActivity {
                 switchActivityAnimation.setTextColor(b ? Color.BLACK : Color.GRAY);
                 switchActivityAnimation.setText(b ? "一直有效" : "第一次有效");
                 SPUtil.put(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_ALWAYS, b);
-                EventBus.getDefault().post(b, EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION_ALWAYS);
+//                EventBus.getDefault().post(b, EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION_ALWAYS);
             }
         });
         switchActivityAnimation.setChecked(isActivityAnimationAlways);
@@ -100,7 +98,7 @@ public class SettingActivity extends FastTitleActivity {
                                     SPUtil.put(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, chooseIndex);
                                     animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex);
                                     stvActivityAnimation.setLeftBottomString(listAnimation.get(animationIndex));
-                                    EventBus.getDefault().post(animationIndex, EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION);
+//                                    EventBus.getDefault().post(animationIndex, EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION);
                                 }
                             })
                             .create();
@@ -116,7 +114,7 @@ public class SettingActivity extends FastTitleActivity {
     protected void onDestroy() {
         if (isActivityTabSliding != switchActivityTab.isChecked()) {
             SPUtil.put(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, switchActivityTab.isChecked());
-            EventBus.getDefault().post(switchActivityTab.isChecked(), EventConstant.EVENT_KEY_REFRESH_ACTIVITY_TAB);
+//            EventBus.getDefault().post(switchActivityTab.isChecked(), EventConstant.EVENT_KEY_REFRESH_ACTIVITY_TAB);
         }
         super.onDestroy();
     }

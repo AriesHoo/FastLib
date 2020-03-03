@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -14,14 +15,16 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.aries.library.fast.BuildConfig;
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.demo.App;
-import com.aries.library.fast.demo.BuildConfig;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
+import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
+import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
@@ -37,17 +40,19 @@ import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
-import com.aries.ui.util.RomUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseActivity;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
+import com.parfoismeng.slidebacklib.SlideBack;
+import com.parfoismeng.slidebacklib.callback.SlideBackCallBack;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -77,8 +82,12 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             // 获取最大音乐音量
             mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             // 获取最小音乐音量
-            mMinVolume = mAudioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                mMinVolume = mAudioManager.getStreamMinVolume(AudioManager.STREAM_MUSIC);
+            }
         }
+        // 获取当前音乐音量
+        mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         if (plus) {
             if (mCurrentVolume >= mMaxVolume) {
                 ToastUtil.show("当前音量已最大");
@@ -103,12 +112,10 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         LoggerManager.i(TAG, "max:" + mMaxVolume + ";min:" + mMinVolume + ";current:" + mCurrentVolume);
         SnackBarUtil.with(FastStackUtil.getInstance().getCurrent().getWindow().getDecorView())
-                .setBgColor(Color.LTGRAY)
-                .setMessageColor(Color.MAGENTA)
+                .setBgColor(Color.WHITE)
+                .setMessageColor(Color.BLACK)
                 .setMessage("当前音量:" + mCurrentVolume)
-                .setBottomMargin(NavigationBarUtil.getNavigationBarHeight(FastStackUtil.getInstance().getCurrent()))
-                .show();
-
+                .showSuccess();
     }
 
     @Override
@@ -172,35 +179,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     }
 
     /**
-     * 设置屏幕方向--注意targetSDK设置27以上不能设置windowIsTranslucent=true属性不然应用直接崩溃
-     * 错误为 Only fullscreen activities can request orientation
-     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
-     *
-     * @param activity
-     */
-    @Override
-    public void setRequestedOrientation(Activity activity) {
-        LoggerManager.i("setRequestedOrientation:" + activity.getClass().getSimpleName() + ";:" + (BaseActivity.class.isAssignableFrom(activity.getClass()))
-                + ";:" + (UniversalActivity.class.isAssignableFrom(activity.getClass())));
-        if (BaseActivity.class.isAssignableFrom(activity.getClass())) {
-            return;
-        }
-        //全局控制屏幕横竖屏
-        //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
-//        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-//            try {
-//                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
-//            }
-//        }
-    }
-
-    /**
      * 设置非FastLib且未实现Activity 状态栏功能的三方Activity 状态栏沉浸
      *
      * @param activity
@@ -209,13 +187,19 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      */
     @Override
     public boolean setStatusBar(Activity activity, StatusViewHelper helper, View topView) {
+        LoggerManager.e("setStatusBar:" + Thread.currentThread());
         boolean isSupportStatusBarFont = StatusBarUtil.isSupportStatusBarFontChange();
-        StatusBarUtil.setStatusBarLightMode(activity);
-        helper.setTransEnable(isSupportStatusBarFont)
-                .setPlusStatusViewEnable(true)
+        helper.setTransEnable(isSupportStatusBarFont || isLeak(activity))
+                .setPlusStatusViewEnable(!isLeak(activity))
+                .setStatusBarLightMode(isSupportStatusBarFont)
+                .setStatusViewColor(Color.argb(isSupportStatusBarFont ? 0 : 102, 0, 0, 0))
                 .setStatusLayoutColor(Color.WHITE);
         setStatusBarActivity(activity);
         return true;
+    }
+
+    private boolean isLeak(Activity activity) {
+        return activity.getClass().getSimpleName().equals("DisplayLeakActivity");
     }
 
     /**
@@ -226,21 +210,45 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      */
     @Override
     public boolean setNavigationBar(Activity activity, NavigationViewHelper helper, View bottomView) {
+
+        Activity previous = FastStackUtil.getInstance().getPrevious();
+        boolean enable = previous != null && previous instanceof SwipeBackActivity;
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
-                .setTransEnable(isTrans(activity))
-                .setPlusNavigationViewEnable(isTrans(activity))
-                .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener)
+                .setPlusNavigationViewEnable(true)
+                //此处为配合BGASwipeBackHelper滑动返回效果-如不使用BGASwipeBackHelper推荐使用上面的方法
+                .setPlusNavigationViewEnable(true, enable, enable)
+                .setNavigationBarLightMode(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity))
+                .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity))
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
-                .setNavigationViewColor(Color.argb(isTrans(activity) ? 0 : 102, 0, 0, 0))
-                .setNavigationLayoutColor(Color.WHITE);
+                .setNavigationViewColor(isLeak(activity) ? Color.BLACK : Color.argb(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
+                .setNavigationLayoutColor(ContextCompat.getColor(activity, !isPlusView(activity) ? R.color.transparent : R.color.colorTabBackground));
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
                     .setEnable()
-                    .setOnKeyboardVisibilityChangedListener(mOnKeyboardVisibilityChangedListener);
+                    .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity));
         }
         return isControlNavigation();
+    }
+
+    private KeyboardHelper.OnKeyboardVisibilityChangedListener getOnKeyboardVisibilityChangedListener(Activity activity) {
+        if (activity instanceof KeyboardHelper.OnKeyboardVisibilityChangedListener) {
+            return (KeyboardHelper.OnKeyboardVisibilityChangedListener) activity;
+        }
+        return mOnKeyboardVisibilityChangedListener;
+    }
+
+    /**
+     * 是否增加假导航栏占位
+     *
+     * @param activity
+     * @return
+     */
+    protected boolean isPlusView(Activity activity) {
+        return !(activity instanceof SplashActivity)
+                && !(activity instanceof TestStatusActivity)
+                && !isLeak(activity);
     }
 
     private KeyboardHelper.OnKeyboardVisibilityChangedListener mOnKeyboardVisibilityChangedListener = (activity, isOpen, heightDiff, navigationHeight) -> {
@@ -248,6 +256,34 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         LoggerManager.i("onKeyboardVisibilityChanged", "activity:" + activity + ";isOpen:" + isOpen + ";heightDiff:" + heightDiff + ";navigationHeight:" + navigationHeight);
         return false;
     };
+
+    /**
+     * 设置屏幕方向--注意targetSDK设置27以上不能设置windowIsTranslucent=true属性不然应用直接崩溃-强烈建议手机应用锁定竖屏
+     * 错误为 Only fullscreen activities can request orientation
+     * 默认自动 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+     * 竖屏 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+     * 横屏 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+     * {@link ActivityInfo#screenOrientation ActivityInfo.screenOrientation}
+     *
+     * @param activity
+     */
+    public void setActivityOrientation(Activity activity) {
+        LoggerManager.i("setRequestedOrientation:" + activity.getClass().getSimpleName() + ";:" + (BaseActivity.class.isAssignableFrom(activity.getClass()))
+                + ";:" + (UniversalActivity.class.isAssignableFrom(activity.getClass())));
+        if (BaseActivity.class.isAssignableFrom(activity.getClass())) {
+            return;
+        }
+        //全局控制屏幕横竖屏
+        //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
+        if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+            try {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());
+            }
+        }
+    }
 
     /**
      * Activity 生命周期监听--可用于三方统计页面数据
@@ -258,12 +294,27 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
     @Override
     public Application.ActivityLifecycleCallbacks getActivityLifecycleCallbacks() {
         return new FastActivityLifecycleCallbacks() {
-
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 super.onActivityCreated(activity, savedInstanceState);
                 //阻止系统截屏功能
                 //activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+                setActivityOrientation(activity);
+                Activity previous = FastStackUtil.getInstance().getPrevious();
+                if (previous != null && previous instanceof SwipeBackActivity) {
+                    return;
+                }
+                //设置类全面屏手势滑动返回
+                SlideBack.with(activity)
+                        .haveScroll(true)
+                        .edgeMode(SlideBack.EDGE_BOTH)
+                        .callBack(new SlideBackCallBack() {
+                            @Override
+                            public void onSlideBack() {
+                                activity.onBackPressed();
+                            }
+                        })
+                        .register();
             }
 
             @Override
@@ -303,8 +354,18 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             public void onActivityStopped(Activity activity) {
                 //统一于滑动返回动画
                 if (activity.isFinishing()) {
-                    activity.overridePendingTransition(0, R.anim.bga_sbl_activity_swipeback_exit);
+                    activity.overridePendingTransition(0, R.anim.fast_activity_swipeback_exit);
                 }
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                super.onActivityDestroyed(activity);
+                Activity previous = FastStackUtil.getInstance().getPrevious();
+                if (previous != null && previous instanceof SwipeBackActivity) {
+                    return;
+                }
+                SlideBack.unregister(activity);
             }
         };
     }
@@ -366,15 +427,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
             }
         }
-    }
-
-    /**
-     * 是否全透明-华为4.1以上可根据导航栏位置颜色设置导航图标颜色
-     *
-     * @return
-     */
-    protected boolean isTrans(Activity activity) {
-        return RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0) && activity.getClass() != SplashActivity.class;
     }
 
     /**

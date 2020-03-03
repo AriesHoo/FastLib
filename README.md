@@ -35,133 +35,22 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 ![Download-蒲公英](/apk/qr_pgyer.png)
 
-[[Download-github]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
+[[Download-github]](/apk/sample.apk)
 
 ![](/apk/qr.png)
 
-## 录屏预览
+## 关于混淆
 
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
+1、**2.2.13_beta12版本**开始自带混淆规则，并且会自动导入，正常情况下无需手动导入。
 
-**虚拟导航栏控制**-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
-
-**模拟器软键盘控制**
-
-![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard01.gif)
-
-**华为可隐藏软键盘控制**
-
-![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard02.gif)
-
-**华为全面屏手势控制**
-
-![](https://github.com/AriesHoo/UIWidget/blob/master/screenshot/keyboard03.gif)
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
-
-**开启GPU过度绘制检测+GPU呈现模式分析**
-
-![](https://github.com/AriesHoo/FastLib/blob/master/screenshot/DoraemonKit.gif)
-
-**DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调** 
-
-[![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
-
-**Gradle集成-尽量使用正式版本**
-
-```
-allprojects {
-    repositories {
-        ...
-        maven { url "https://jitpack.io" }
-    }
-}
-```
-
-```
-dependencies {
-      implementation 'com.github.AriesHoo:FastLib:2.2.13'
-}
-```
-
-**Maven集成**
-
-```
-   	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-
-```
-	<dependency>
-	    <groupId>com.github.AriesHoo</groupId>
-	    <artifactId>FastLib</artifactId>
-	    <version>2.2.13</version>
-	</dependency>
-```
-
-**Compile集成**
-
-```
-implementation project(':fastLib')
-```
-
-**包含第三方库**
-
-```
-    compileSdkVersion = 28
-    buildToolsVersion = "28.0.3"
-    minSdkVersion = 21
-    targetSdkVersion = 28
-    supportVersion = "1.0.0"
-```
-
-```
-dependencies {
-    compileOnly 'com.google.android.material:material:'.concat(supportVersion)
-    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
-    compileOnly 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
-    //万能适配器
-    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
-    //webView库
-    compileOnly 'com.just.agentweb:agentweb:4.0.2'
-    //下拉刷新库
-    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
-    //图片加载
-    compileOnly 'com.github.bumptech.glide:glide:4.8.0'
-    //常用UI控件(TitleBarView、RadiusView等)
-    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.9'
-    //日志打印
-    api 'com.orhanobut:logger:2.2.0'
-    //注解
-    api 'com.jakewharton:butterknife:10.1.0'
-    //retrofit+rxjava 网络请求及数据解析相关
-    api "io.reactivex.rxjava2:rxjava:2.2.6"
-    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'com.squareup.retrofit2:retrofit:2.5.0'
-    api 'com.squareup.retrofit2:converter-gson:2.5.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.13.1'
-    api 'com.google.code.gson:gson:2.8.5'
-    //处理rxjava内存泄漏-生命周期绑定
-    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
-    //滑动返回Activity
-    api 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
-    //快速Tab库
-    api 'com.github.AriesHoo:TabLayout:1.0.2'
-    //页面事件交互
-    api 'org.simple:androideventbus:1.0.5.1'
-    //多状态视图切换
-    api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
-}
-```
+2、**2.2.13_beta12以下版本**可参考[proguard-rules.pro](/library/proguard-rules.pro)
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
+
+* 2.3.2
+
+    * 优化: 优化FastManager初始化init逻辑,FastLib自动初始化解决多进程异常问题
+    * 优化: 将eventbus、bga-swipebacklayout、UIWidget:tab-layout 使用compileOnly开发者根据需要导入
 
 * 2.2.13
 
@@ -226,6 +115,144 @@ dependencies {
         
 	* 将部分系统及第三方库在FastLib里使用provided编译,实际项目中需要根据项目需要compile合适的版本避免版本重复
     
+## 录屏预览
+
+![](/screenshot/fold.gif)
+
+**折叠屏效果一览**
+
+![](/screenshot/FastRefresh.gif)
+
+**快速实现页面下拉刷新-全局控制及局部个性化**-参考WebActivity、FastRefreshActivity、MineFragment
+
+
+![](/screenshot/02.gif)
+
+**虚拟导航栏控制**-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
+
+**模拟器软键盘控制**
+
+![](/screenshot/keyboard01.gif)
+
+**华为可隐藏软键盘控制**
+
+![](/screenshot/keyboard02.gif)
+
+**华为全面屏手势控制**
+
+![](/screenshot/keyboard03.gif)
+
+![](/screenshot/00.gif)
+
+![](/screenshot/01.gif)
+
+**开启GPU过度绘制检测+GPU呈现模式分析**
+
+![](/screenshot/DoraemonKit.gif)
+
+**DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调** 
+
+[![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
+
+**Gradle集成-尽量使用正式版本**
+
+```
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+```
+dependencies {
+      implementation 'com.github.AriesHoo:FastLib:x.y.z'
+}
+```
+
+**Maven集成**
+
+```
+   	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+```
+
+```
+	<dependency>
+	    <groupId>com.github.AriesHoo</groupId>
+	    <artifactId>FastLib</artifactId>
+	    <version>x.y.z</version>
+	</dependency>
+```
+
+**Compile集成**
+
+```
+implementation project(':fastLib')
+```
+
+**包含第三方库**
+
+```
+    compileSdkVersion = 28
+    minSdkVersion = 19
+    minLibSdkVersion = 15
+    targetSdkVersion = 28
+    supportVersion = "1.0.0"
+    widgetVersion = "3.2.24"
+    versionCode = 248
+    versionName = "2.3.6"
+```
+
+```
+dependencies {
+      compileOnly "com.google.android.material:material:$rootProject.supportVersion"
+    //    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
+        compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportVersion"
+        //万能适配器
+        compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
+        //webView库
+        compileOnly 'com.just.agentweb:agentweb:4.1.2'
+        //下拉刷新库
+        compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+        //图片加载
+        compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+        //常用UI控件(TitleBarView、RadiusView等)
+        api "com.github.AriesHoo.UIWidget:widget-core:$rootProject.widgetVersion"
+        //快速Tab库
+        compileOnly "com.github.AriesHoo.UIWidget:tab-layout:$rootProject.widgetVersion"
+        //日志打印
+        api 'com.orhanobut:logger:2.2.0'
+        //注解
+        api 'com.jakewharton:butterknife:10.1.0'
+        //retrofit+rxjava 网络请求及数据解析相关
+        api "io.reactivex.rxjava2:rxjava:2.2.6"
+        api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+        api 'com.squareup.retrofit2:retrofit:2.6.1'
+        api 'com.squareup.retrofit2:converter-gson:2.6.1'
+        api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+        //3.12.x是支持Android 4.4的
+        api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
+        api 'com.google.code.gson:gson:2.8.5'
+        //处理rxjava内存泄漏-生命周期绑定
+        api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
+        //滑动返回Activity
+        compileOnly 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
+        //页面事件交互-androideventbus-停止维护
+        compileOnly 'org.simple:androideventbus:1.0.5.1'
+        //页面事件交互-eventbus
+        compileOnly 'org.greenrobot:eventbus:3.1.1'
+        //多状态视图切换
+        api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
+}
+```
+
+
 
 ## 鸣谢
 
@@ -250,7 +277,7 @@ dependencies {
 ## License
 
 ```
-Copyright 2017-2019 Aries Hoo
+Copyright 2017-2020 Aries Hoo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

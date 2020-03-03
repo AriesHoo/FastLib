@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
@@ -16,6 +16,8 @@ allprojects {
         jcenter()
         google() //AndroidStudio v3.0 可以使用 google() 替代 maven { url "https://maven.google.com" }
         maven { url "https://jitpack.io" }//FastLib 及部分三方库通过JitPack发布需添加才可依赖
+        //蒲公英
+        maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
     }
 }
 
@@ -26,8 +28,10 @@ task clean(type: Delete) {
 ext{
     compileSdkVersion = 28
     minSdkVersion = 19
+    minLibSdkVersion = 15
     targetSdkVersion = 28
     supportVersion = "1.0.0"
-    versionCode = 240
-    versionName = "2.2.13"
+    widgetVersion = "3.2.25"
+    versionCode = 248
+    versionName = "2.3.6"
 }

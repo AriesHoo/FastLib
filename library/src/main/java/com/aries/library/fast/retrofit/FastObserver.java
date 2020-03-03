@@ -3,7 +3,6 @@ package com.aries.library.fast.retrofit;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IHttpRequestControl;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DefaultObserver;
 
 /**
@@ -17,7 +16,7 @@ import io.reactivex.observers.DefaultObserver;
  */
 public abstract class FastObserver<T> extends DefaultObserver<T> {
 
-    private IHttpRequestControl mHttpRequestControl;
+    public IHttpRequestControl mHttpRequestControl;
 
     public FastObserver() {
         this(null);
@@ -34,6 +33,16 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
 
     @Override
     public void onError(Throwable e) {
+        //错误全局拦截控制
+        boolean isIntercept = FastManager.getInstance().getFastObserverControl() != null ?
+                FastManager.getInstance().getFastObserverControl().onError(this, e) : false;
+        if (isIntercept) {
+            return;
+        }
+        if (e instanceof FastNullException) {
+            onNext(null);
+            return;
+        }
         if (FastManager.getInstance().getHttpRequestControl() != null) {
             FastManager.getInstance().getHttpRequestControl().httpRequestError(mHttpRequestControl, e);
         }
@@ -48,10 +57,10 @@ public abstract class FastObserver<T> extends DefaultObserver<T> {
     /**
      * 获取成功后数据展示
      *
-     * @param entity
+     * @param entity 可能为null
      */
-    public abstract void _onNext(@NonNull T entity);
+    public abstract void _onNext(T entity);
 
-    public void _onError(@NonNull Throwable e) {
+    public void _onError(Throwable e) {
     }
 }

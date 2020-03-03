@@ -22,6 +22,16 @@ public interface HttpRequestControl {
     void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list, OnHttpRequestListener listener);
 
     /**
+     * 网络成功回调
+     *
+     * @param httpRequestControl 调用页面相关参数
+     * @param list               数据列表
+     */
+    default void httpRequestSuccess(IHttpRequestControl httpRequestControl, List<?> list) {
+        httpRequestSuccess(httpRequestControl, list, null);
+    }
+
+    /**
      * 网络成功后执行
      *
      * @param httpRequestControl 调用页面相关参数

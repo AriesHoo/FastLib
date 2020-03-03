@@ -3,11 +3,14 @@ package com.aries.library.fast;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
+import com.aries.library.fast.i.FastObserverControl;
 import com.aries.library.fast.i.FastRecyclerViewControl;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.LoadMoreFoot;
@@ -19,6 +22,8 @@ import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.i.ToastControl;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.retrofit.FastLoadingObserver;
+import com.aries.library.fast.retrofit.FastObserver;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.ui.widget.progress.UIProgressDialog;
@@ -37,7 +42,15 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  */
 public class FastManager {
 
-    private static String TAG = "FastManager";
+    //原本在Provider中默认进行初始化,如果app出现多进程使用该模式可避免调用异常出现
+    static {
+        Application application = FastUtil.getApplication();
+        if (application != null) {
+            Log.i("FastManager", "initSuccess");
+            init(application);
+        }
+    }
+
     private static volatile FastManager sInstance;
 
     private FastManager() {
@@ -97,6 +110,11 @@ public class FastManager {
      * 配置网络请求
      */
     private HttpRequestControl mHttpRequestControl;
+
+    /**
+     * 配置{@link FastObserver#onError(Throwable)}全局处理
+     */
+    private FastObserverControl mFastObserverControl;
     /**
      * Activity 主页点击返回键控制
      */
@@ -112,10 +130,13 @@ public class FastManager {
 
     /**
      * 滑动返回基础配置查看{@link FastLifecycleCallbacks#onActivityCreated(Activity, Bundle)}
+     * 不允许外部调用
      *
-     * @param application
+     * @param application Application 对象
+     * @return
      */
-    public static FastManager init(Application application) {
+    static FastManager init(Application application) {
+        Log.i("FastManager","init_mApplication:" + mApplication + ";application;" + application);
         //保证只执行一次初始化属性
         if (mApplication == null && application != null) {
             mApplication = application;
@@ -131,14 +152,17 @@ public class FastManager {
                                     .create());
                 }
             });
-            //设置滑动返回监听
-            BGASwipeBackHelper.init(mApplication, null);
+            //设置检测滑动返回是否导入
+            if (FastUtil.isClassExist(FastConstant.BGA_SWIPE_BACK_HELPER_CLASS)) {
+                //设置滑动返回监听
+                BGASwipeBackHelper.init(mApplication, null);
+            }
             //注册activity生命周期
             mApplication.registerActivityLifecycleCallbacks(new FastLifecycleCallbacks());
             //初始化Toast工具
             ToastUtil.init(mApplication);
             //初始化Glide
-            GlideManager.setPlaceholderColor(ContextCompat.getColor(mApplication,R.color.colorPlaceholder));
+            GlideManager.setPlaceholderColor(ContextCompat.getColor(mApplication, R.color.colorPlaceholder));
             GlideManager.setPlaceholderRoundRadius(mApplication.getResources().getDimension(R.dimen.dp_placeholder_radius));
         }
         return getInstance();
@@ -182,7 +206,7 @@ public class FastManager {
 
     /**
      * 设置SmartRefreshLayout 下拉刷新头
-     * 最终调用{@link FastRefreshLoadDelegate#initRefreshHeader()}
+     * 最终调用{@link FastRefreshDelegate#initRefreshHeader()}
      *
      * @param control
      * @return
@@ -198,7 +222,7 @@ public class FastManager {
 
     /**
      * 设置多状态布局--加载中/空数据/错误/无网络
-     * 最终调用{@link FastRefreshLoadDelegate#initRefreshHeader()}
+     * 最终调用{@link FastRefreshDelegate#initRefreshHeader()}
      *
      * @param control
      * @return
@@ -235,6 +259,7 @@ public class FastManager {
         return this;
     }
 
+    @Deprecated
     public SwipeBackControl getSwipeBackControl() {
         return mSwipeBackControl;
     }
@@ -245,6 +270,7 @@ public class FastManager {
      * @param control
      * @return
      */
+    @Deprecated
     public FastManager setSwipeBackControl(SwipeBackControl control) {
         mSwipeBackControl = control;
         return this;
@@ -310,6 +336,20 @@ public class FastManager {
         return this;
     }
 
+    public FastObserverControl getFastObserverControl() {
+        return mFastObserverControl;
+    }
+
+    /**
+     * 配置{@link FastObserver#onError(Throwable)}全局处理
+     *
+     * @param control FastObserverControl对象
+     * @return
+     */
+    public FastManager setFastObserverControl(FastObserverControl control) {
+        mFastObserverControl = control;
+        return this;
+    }
 
     public QuitAppControl getQuitAppControl() {
         return mQuitAppControl;

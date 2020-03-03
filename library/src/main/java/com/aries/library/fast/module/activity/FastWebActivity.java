@@ -1,7 +1,8 @@
 package com.aries.library.fast.module.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,23 +11,26 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.TitleBarViewControl;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
+import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.BasisDialog;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
+import com.aries.ui.widget.i.NavigationBarControl;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebCreator;
-
-import androidx.annotation.ColorInt;
-import androidx.core.content.ContextCompat;
+import com.just.agentweb.MiddlewareWebChromeBase;
 
 /**
  * @Author: AriesHoo on 2018/6/28 14:59
@@ -36,7 +40,7 @@ import androidx.core.content.ContextCompat;
  * 1、调整WebView自适应屏幕代码属性{@link #initAgentWeb()}
  * 2、2019-3-20 11:45:07 增加url自动添加http://功能及规范url
  */
-public abstract class FastWebActivity extends FastTitleActivity {
+public abstract class FastWebActivity extends FastTitleActivity implements NavigationBarControl {
 
     protected ViewGroup mContainer;
     /**
@@ -51,8 +55,22 @@ public abstract class FastWebActivity extends FastTitleActivity {
     protected AgentWeb.CommonBuilder mAgentBuilder;
     protected UIActionSheetDialog mActionSheetView;
     private TitleBarViewControl mTitleBarViewControl;
+    /**
+     * WebView是否处于暂停状态
+     */
+    private boolean mIsPause;
 
-    protected static void start(Activity mActivity, Class<? extends FastWebActivity> activity, String url) {
+    public void onWebViewPause() {
+        onPause();
+    }
+
+
+    public void onWebViewResume() {
+        onResume();
+    }
+
+
+    protected static void start(Context mActivity, Class<? extends FastWebActivity> activity, String url) {
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
         FastUtil.startActivity(mActivity, activity, bundle);
@@ -60,7 +78,8 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
 
     protected void setAgentWeb(AgentWeb mAgentWeb) {
-
+        mAgentWeb.getWebCreator().getWebView().setVerticalScrollBarEnabled(false);
+        mAgentWeb.getWebCreator().getWebView().setHorizontalScrollBarEnabled(false);
     }
 
     protected void setAgentWeb(AgentWeb.CommonBuilder mAgentBuilder) {
@@ -120,7 +139,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                 onBackPressed();
             }
         })
-                .setRightTextDrawable(FastUtil.getTintDrawable(
+                .setRightTextDrawable(DrawableUtil.setTintDrawable(
                         ContextCompat.getDrawable(mContext, R.drawable.fast_ic_more),
                         ContextCompat.getColor(mContext, R.color.colorTitleText)))
                 .setOnRightTextClickListener(new View.OnClickListener() {
@@ -130,7 +149,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                     }
                 })
                 .addLeftAction(titleBar.new ImageAction(
-                        FastUtil.getTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_close),
+                        DrawableUtil.setTintDrawable(ContextCompat.getDrawable(mContext, R.drawable.fast_ic_close),
                                 ContextCompat.getColor(mContext, R.color.colorTitleText)), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -149,7 +168,7 @@ public abstract class FastWebActivity extends FastTitleActivity {
                 .setAgentWebParent(mContainer, new ViewGroup.LayoutParams(-1, -1))
                 .useDefaultIndicator(getProgressColor() != -1 ? getProgressColor() : ContextCompat.getColor(mContext, R.color.colorTitleText),
                         getProgressHeight())
-                .setWebChromeClient(new WebChromeClient() {
+                .useMiddlewareWebChrome(new MiddlewareWebChromeBase() {
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
                         super.onReceivedTitle(view, title);
@@ -199,30 +218,33 @@ public abstract class FastWebActivity extends FastTitleActivity {
     }
 
     protected void showActionSheet() {
-        if (mActionSheetView == null) {
-            mActionSheetView = new UIActionSheetDialog.ListSheetBuilder(mContext)
-                    .addItems(R.array.fast_arrays_web_more)
-                    .setOnItemClickListener(new UIActionSheetDialog.OnItemClickListener() {
-                        @Override
-                        public void onClick(BasisDialog dialog, View itemView, int i) {
-                            switch (i) {
-                                case 0:
-                                    mAgentWeb.getUrlLoader().reload();
-                                    break;
-                                case 1:
-                                    FastUtil.copyToClipboard(mContext, mCurrentUrl);
-                                    ToastUtil.show(R.string.fast_copy_success);
-                                    break;
-                                case 2:
-                                    FastUtil.startShareText(mContext, mCurrentUrl);
-                                    break;
-                            }
-                        }
-                    })
-                    .setCancel(R.string.fast_cancel)
-                    .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
-                    .create();
+        if (mActionSheetView != null) {
+            mActionSheetView.dismiss();
+            mActionSheetView = null;
         }
+        mActionSheetView = new UIActionSheetDialog.ListSheetBuilder(mContext)
+                .addItems(R.array.fast_arrays_web_more)
+                .setOnItemClickListener(new UIActionSheetDialog.OnItemClickListener() {
+                    @Override
+                    public void onClick(BasisDialog dialog, View itemView, int i) {
+                        switch (i) {
+                            case 0:
+                                mAgentWeb.getUrlLoader().reload();
+                                break;
+                            case 1:
+                                FastUtil.copyToClipboard(mContext, mCurrentUrl);
+                                ToastUtil.show(R.string.fast_copy_success);
+                                break;
+                            case 2:
+                                FastUtil.startShareText(mContext, mCurrentUrl);
+                                break;
+                        }
+                    }
+                })
+                .setCancel(R.string.fast_cancel)
+                .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
+                .create();
+        mActionSheetView.setNavigationBarControl(this);
         mActionSheetView.show();
     }
 
@@ -244,16 +266,18 @@ public abstract class FastWebActivity extends FastTitleActivity {
 
     @Override
     protected void onPause() {
-        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null) {
+        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null && !mIsPause && !isFinishing()) {
             mAgentWeb.getWebLifeCycle().onPause();
+            mIsPause = true;
         }
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null) {
+        if (mAgentWeb != null && mAgentWeb.getWebLifeCycle() != null && mIsPause) {
             mAgentWeb.getWebLifeCycle().onResume();
+            mIsPause = false;
         }
         super.onResume();
     }
@@ -265,4 +289,10 @@ public abstract class FastWebActivity extends FastTitleActivity {
         }
         super.onDestroy();
     }
+
+    @Override
+    public boolean setNavigationBar(Dialog dialog, NavigationViewHelper helper, View bottomView) {
+        return false;
+    }
+
 }

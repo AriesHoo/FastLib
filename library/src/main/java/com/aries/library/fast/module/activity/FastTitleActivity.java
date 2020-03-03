@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
-import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.IFastTitleView;
+import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.view.title.TitleBarView;
 
 /**
@@ -18,14 +18,17 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public abstract class FastTitleActivity extends BasisActivity implements IFastTitleView {
 
-    protected FastTitleDelegate mFastTitleDelegate;
     protected TitleBarView mTitleBar;
 
     @Override
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
-        mFastTitleDelegate = new FastTitleDelegate(mContentView, this, this.getClass());
-        mTitleBar = mFastTitleDelegate.mTitleBar;
+        mTitleBar = FindViewUtil.getTargetView(mContentView, TitleBarView.class);
     }
 
+    @Override
+    protected void onDestroy() {
+        mTitleBar = null;
+        super.onDestroy();
+    }
 }

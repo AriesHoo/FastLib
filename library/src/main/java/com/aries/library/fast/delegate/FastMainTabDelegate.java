@@ -58,6 +58,8 @@ public class FastMainTabDelegate {
     public static final String SAVED_INSTANCE_STATE_KEY_SELECTED_ICON = "saved_instance_state_key_selected_icon";
     public static final String SAVED_INSTANCE_STATE_KEY_UN_SELECTED_ICON = "saved_instance_state_key_un_selected_icon";
 
+    private int mSelectedPosition;
+
     public FastMainTabDelegate(View rootView, FragmentActivity activity, IFastMainView iFastMainView) {
         if (iFastMainView == null || rootView == null || activity == null) {
             return;
@@ -96,6 +98,7 @@ public class FastMainTabDelegate {
         if (mListFastTab == null || mListFastTab.size() == 0) {
             return;
         }
+        LoggerManager.i("initTabLayout", "position:" + mSelectedPosition + ";getCurrentTab:" + mTabLayout.getCurrentTab());
         mTabLayout.setBackgroundResource(R.color.colorTabBackground);
         mTabLayout.getDelegate()
                 .setTextSelectColor(ContextCompat.getColor(mContext, R.color.colorTabTextSelect))
@@ -104,7 +107,7 @@ public class FastMainTabDelegate {
                 .setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))
                 .setTextSelectSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_text_size))
                 .setUnderlineGravity(Gravity.TOP)
-                .setUnderlineHeight(mContext.getResources().getDimension(R.dimen.dp_tab_underline))
+                .setUnderlineHeight(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_underline))
                 .setIconMargin(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_margin))
                 .setIconWidth(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_icon))
                 .setIconHeight(mContext.getResources().getDimensionPixelSize(R.dimen.dp_tab_icon))
@@ -134,6 +137,7 @@ public class FastMainTabDelegate {
         }
         mIFastMainView.setTabLayout(mTabLayout);
         mIFastMainView.setViewPager(mViewPager);
+        mTabLayout.setCurrentTab(mSelectedPosition);
     }
 
     private void initViewPager(final List<Fragment> fragments) {
@@ -210,6 +214,7 @@ public class FastMainTabDelegate {
                     mListFastTab.add(new FastTabEntity(title, unSelectedIcon, selectedIcon, fragment));
                 }
             }
+            mSelectedPosition = mSavedInstanceState.getInt(SAVED_INSTANCE_STATE_CURRENT_TAB);
         }
         //没有获取到
         if (mListFastTab == null || mListFastTab.size() == 0) {

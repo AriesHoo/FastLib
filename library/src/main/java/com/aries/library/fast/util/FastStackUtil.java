@@ -44,7 +44,7 @@ public class FastStackUtil {
      */
     public Stack<Activity> getStack() {
         if (mActivityStack == null) {
-            mActivityStack = new Stack();
+            mActivityStack = new Stack<>();
         }
         return mActivityStack;
     }
@@ -126,12 +126,12 @@ public class FastStackUtil {
     public FastStackUtil pop(Activity activity, boolean isFinish) {
         if (activity != null) {
             LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";isFinishing" + activity.isFinishing());
-            if (isFinish) {
-                activity.finish();
-            }
             if (mActivityStack != null && mActivityStack.contains(activity)) {
                 mActivityStack.remove(activity);
                 LoggerManager.i(TAG, "remove current activity:" + activity.getClass().getSimpleName() + ";size:" + mActivityStack.size());
+            }
+            if (isFinish) {
+                activity.finish();
             }
         }
         return sInstance;

@@ -2,6 +2,8 @@ package com.aries.library.fast.i;
 
 import android.app.Activity;
 
+import com.aries.library.fast.FastManager;
+
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**
@@ -11,7 +13,9 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Description:
  * 1、新增滑动过程回调
  * 2、2018-10-8 12:30:41 新增是否滑动返回支持
+ * 3、2019-9-16 17:53:11 标记废弃建议通过{@link FastManager#getActivityFragmentControl()} 对应Activity生命周期进行处理
  */
+@Deprecated
 public interface SwipeBackControl {
 
     /**
@@ -29,7 +33,8 @@ public interface SwipeBackControl {
      * @param activity        当前Activity
      * @param swipeBackHelper BGASwipeBackHelper 控制详见{@link com.aries.library.fast.FastManager}
      */
-    void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper);
+    default void setSwipeBack(Activity activity, BGASwipeBackHelper swipeBackHelper) {
+    }
 
     /**
      * 正在滑动返回
@@ -37,20 +42,23 @@ public interface SwipeBackControl {
      * @param activity    滑动的Activity
      * @param slideOffset 滑动偏移量 0-1
      */
-    void onSwipeBackLayoutSlide(Activity activity, float slideOffset);
+    default void onSwipeBackLayoutSlide(Activity activity, float slideOffset) {
+    }
 
     /**
      * 没达到滑动返回的阈值,取消滑动返回动作,回到默认状态
      *
      * @param activity 当前Activity
      */
-    void onSwipeBackLayoutCancel(Activity activity);
+    default void onSwipeBackLayoutCancel(Activity activity) {
+    }
 
     /**
      * 滑动返回执行完毕,销毁当前 Activity
      *
      * @param activity 当前activity
      */
-    void onSwipeBackLayoutExecuted(Activity activity);
+    default void onSwipeBackLayoutExecuted(Activity activity) {
+    }
 
 }

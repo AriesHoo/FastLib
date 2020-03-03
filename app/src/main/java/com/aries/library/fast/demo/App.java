@@ -1,6 +1,5 @@
 package com.aries.library.fast.demo;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -10,6 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.multidex.MultiDexApplication;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.constant.ApiConstant;
@@ -25,6 +26,7 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFormatUtil;
 import com.aries.library.fast.util.FastStackUtil;
+import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
@@ -44,7 +46,7 @@ import java.util.List;
  * Function:基础配置Application
  * Description:
  */
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static Context mContext;
     private static String TAG = "FastLib";
@@ -55,17 +57,16 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         //初始化Logger日志打印
-        LoggerManager.init(TAG, BuildConfig.DEBUG,
+        LoggerManager.init(TAG, BuildConfig.LOG_ENABALE,
                 PrettyFormatStrategy.newBuilder()
                         .methodOffset(0)
                         .showThreadInfo(true)
                         .methodCount(3));
         start = System.currentTimeMillis();
-        LoggerManager.i(TAG, "start:" + start);
+        LoggerManager.i(TAG, "start:" + start + ";Application:" + FastUtil.getApplication());
         mContext = this;
-
-        //最简单UI配置模式-必须进行初始化
-        FastManager.init(this);
+        //最简单UI配置模式-必须进行初始化-最新版本无需初始化FastLib内部自动初始化
+//         FastManager.init(this);
         //以下为更丰富自定义方法
         //全局UI配置参数-按需求设置
         AppImpl impl = new AppImpl(mContext);
@@ -93,6 +94,8 @@ public class App extends Application {
                 .setActivityDispatchEventControl(activityControl)
                 //设置http请求结果全局控制
                 .setHttpRequestControl(new HttpRequestControlImpl())
+                //配置{@link FastObserver#onError(Throwable)}全局处理
+                .setFastObserverControl(impl)
                 //设置主页返回键控制-默认效果为2000 毫秒时延退出程序
                 .setQuitAppControl(impl)
                 //设置ToastUtil全局控制
@@ -122,10 +125,10 @@ public class App extends Application {
 
         //方式二 通过 Service 里添加特定header设置
         //step1
-        FastRetrofit.getInstance()
-                //设置Header模式优先-默认Method方式优先
-                .setHeaderPriorityEnable(true)
-                .putHeaderBaseUrl(ApiConstant.API_UPDATE_APP_KEY, BuildConfig.BASE__UPDATE_URL);
+//        FastRetrofit.getInstance()
+//                //设置Header模式优先-默认Method方式优先
+//                .setHeaderPriorityEnable(true)
+//                .putHeaderBaseUrl(ApiConstant.API_UPDATE_APP_KEY, BuildConfig.BASE__UPDATE_URL);
         //step2
         // 需要step1中baseUrl的方法需要在对应service里增加
         // @Headers({FastRetrofit.BASE_URL_NAME_HEADER + ApiConstant.API_UPDATE_APP_KEY})
@@ -160,7 +163,7 @@ public class App extends Application {
             public void overrideUrlLoading(Context context, String s) {
                 // 使用自己的H5容器打开这个链接
                 LoggerManager.i("overrideUrlLoading", "url:" + s);
-                WebViewActivity.start(FastStackUtil.getInstance().getCurrent(),s);
+                WebViewActivity.start(FastStackUtil.getInstance().getCurrent(), s);
             }
         });
         setShortcut();
@@ -220,7 +223,7 @@ public class App extends Application {
     }
 
     /**
-     * 是否控制底部导航栏---目前发现小米8上检查是否有导航栏出现问题
+     * 是否控制底部导航栏
      *
      * @return
      */
@@ -232,4 +235,5 @@ public class App extends Application {
     public static Context getContext() {
         return mContext;
     }
+
 }

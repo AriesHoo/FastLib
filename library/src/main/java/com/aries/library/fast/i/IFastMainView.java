@@ -13,6 +13,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import com.aries.library.fast.R;
 
 /**
  * @Author: AriesHoo on 2018/7/20 17:07
@@ -39,6 +40,14 @@ public interface IFastMainView extends OnTabSelectListener {
         return R.id.fLayout_containerFastMain;
     }
 
+     /**
+     * 承载主界面Fragment的ViewGroup id 一般为FrameLayout
+     *
+     * @return viewId
+     */
+    default int getContainerViewId() {
+        return R.id.fLayout_containerFastMain;
+    }
     /**
      * 用于添加Tab属性(文字-图标)
      *

@@ -2,9 +2,10 @@ package com.aries.library.fast.demo.impl;
 
 import android.app.Activity;
 
-import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
 import com.aries.library.fast.i.SwipeBackControl;
+import com.aries.library.fast.util.FastStackUtil;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackLayout;
@@ -12,7 +13,8 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackLayout;
 /**
  * @Author: AriesHoo on 2018/12/4 18:00
  * @E-Mail: AriesHoo@126.com
- * @Function: 滑动返回处理
+ * @Function: 滑动返回处理-鉴于现在全面屏比较多不推荐使用该库;推荐使用使用类全面屏手势滑动返回库
+ * 可参考{@link ActivityControlImpl#getActivityLifecycleCallbacks()}
  * @Description:
  */
 public class SwipeBackControlImpl implements SwipeBackControl {
@@ -26,7 +28,8 @@ public class SwipeBackControlImpl implements SwipeBackControl {
      */
     @Override
     public boolean isSwipeBackEnable(Activity activity) {
-        return true;
+        Activity previous = FastStackUtil.getInstance().getPrevious();
+        return previous != null && previous instanceof SwipeBackActivity;
     }
 
     /**
@@ -41,9 +44,8 @@ public class SwipeBackControlImpl implements SwipeBackControl {
         //需设置activity window背景为透明避免滑动过程中漏出背景也可减少背景层级降低过度绘制
         activity.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         swipeBackHelper.setSwipeBackEnable(true)
-                .setShadowResId(R.color.colorSwipeBackBackground)
-                //底部导航条是否悬浮在内容上设置过NavigationViewHelper可以不用设置该属性
-                .setIsNavigationBarOverlap(App.isControlNavigation());
+                .setIsNavigationBarOverlap(true)
+                .setShadowResId(R.drawable.bga_sbl_shadow);
     }
 
     @Override

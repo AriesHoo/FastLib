@@ -99,13 +99,13 @@ public abstract class FastLoadingObserver<T> extends FastObserver<T> {
         super.onError(e);
     }
 
-    protected void showProgressDialog() {
+    public void showProgressDialog() {
         if (mDialog != null) {
             mDialog.show();
         }
     }
 
-    protected void dismissProgressDialog() {
+    public void dismissProgressDialog() {
         if (mDialog != null) {
             mDialog.dismiss();
         }

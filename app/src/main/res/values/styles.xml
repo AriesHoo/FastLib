@@ -1,5 +1,4 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -12,6 +11,21 @@
         <item name="android:windowNoDisplay">false</item>
         <!--targetSdk设置成27及以上如果Activity有设置屏幕横竖屏操作会造成应用崩溃 Only fullscreen activities can request orientation -->
         <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="NormalSplash" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/layer_bg_splash</item>
+        <item name="android:windowDisablePreview">false</item>
+        <item name="android:windowNoDisplay">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="M">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="O_MR1">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/transparent</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="SupperTextStyleItem">
@@ -46,6 +60,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">80dp</item>
+        <item name="android:translationZ" tools:targetApi="lollipop">@dimen/dp_elevation</item>
+        <item name="android:outlineProvider" tools:targetApi="lollipop">background</item>
         <item name="android:elevation" tools:targetApi="lollipop">@dimen/dp_elevation</item>
         <item name="android:layout_marginLeft">@dimen/dp_margin_item</item>
         <item name="android:layout_marginTop">@dimen/dp_margin_item</item>

@@ -4,8 +4,6 @@ import android.app.Activity;
 
 import com.aries.ui.util.ResourceUtil;
 
-import org.simple.eventbus.EventBus;
-
 import butterknife.Unbinder;
 
 /**
@@ -28,7 +26,7 @@ public class BaseHelper {
      * Activity 关闭onDestroy调用
      */
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
+//            EventBus.getDefault().unregister(this);
         if (mUnBinder != null) {
             mUnBinder.unbind();
             mUnBinder = null;

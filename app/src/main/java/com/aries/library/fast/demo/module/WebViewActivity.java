@@ -1,46 +1,63 @@
 package com.aries.library.fast.demo.module;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.main.MainActivity;
-import com.aries.library.fast.demo.util.NotificationUtil;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastWebActivity;
 import com.aries.library.fast.retrofit.FastDownloadObserver;
+import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.util.FastFileUtil;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
+import com.aries.library.fast.util.SPUtil;
+import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
-import com.aries.ui.util.StatusBarUtil;
+import com.aries.ui.helper.navigation.NavigationBarUtil;
+import com.aries.ui.helper.navigation.NavigationViewHelper;
+import com.aries.ui.util.DrawableUtil;
+import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.action.sheet.UIActionSheetDialog;
+import com.download.library.DownloadImpl;
+import com.download.library.DownloadListenerAdapter;
+import com.download.library.Extra;
+import com.download.library.ResourceRequest;
 import com.just.agentweb.AbsAgentWebSettings;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.AgentWebSettingsImpl;
+import com.just.agentweb.DefaultDownloadImpl;
 import com.just.agentweb.IAgentWebSettings;
-import com.just.agentweb.LogUtils;
+import com.just.agentweb.IVideo;
+import com.just.agentweb.MiddlewareWebChromeBase;
+import com.just.agentweb.VideoImpl;
 import com.just.agentweb.WebListenerManager;
-import com.just.agentweb.download.AgentWebDownloader;
-import com.just.agentweb.download.DefaultDownloadImpl;
-import com.just.agentweb.download.DownloadListenerAdapter;
-import com.just.agentweb.download.DownloadingService;
+import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.io.File;
-
-import androidx.appcompat.app.AlertDialog;
 
 /**
  * @Author: AriesHoo on 2018/7/30 11:04
@@ -48,18 +65,20 @@ import androidx.appcompat.app.AlertDialog;
  * Function: 应用内浏览器
  * Description:
  * 1、2018-7-30 11:04:22 新增图片下载功能
+ * 2、2019-4-18 09:34:51 增加BasisDialog 虚拟导航栏沉浸控制
  */
 public class WebViewActivity extends FastWebActivity implements IFastRefreshView {
 
     private String mFilePath = FastFileUtil.getCacheDir();
     private String mFormat = "保存图片<br><small><font color='#2394FE'>图片文件夹路径:%1s</font></small>";
     private static boolean mIsShowTitle = true;
+    private RefreshLayout mRefreshLayout;
 
-    public static void start(Activity mActivity, String url) {
+    public static void start(Context mActivity, String url) {
         start(mActivity, url, true);
     }
 
-    public static void start(Activity mActivity, String url, boolean isShowTitle) {
+    public static void start(Context mActivity, String url, boolean isShowTitle) {
         mIsShowTitle = isShowTitle;
         start(mActivity, WebViewActivity.class, url);
     }
@@ -98,7 +117,44 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     protected void setAgentWeb(AgentWeb.CommonBuilder mAgentBuilder) {
         super.setAgentWeb(mAgentBuilder);
         //设置 IAgentWebSettings
-        mAgentBuilder.setAgentWebWebSettings(getSettings());
+        mAgentBuilder.setAgentWebWebSettings(AgentWebSettingsImpl.getInstance())
+                .setAgentWebWebSettings(getSettings())
+                .useMiddlewareWebChrome(new MiddlewareWebChromeBase() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        super.onProgressChanged(view, newProgress);
+                        if (newProgress == 100 && mRefreshLayout != null) {
+                            mCurrentUrl = view.getUrl();
+                            mRefreshLayout.finishRefresh();
+                            int position = (int) SPUtil.get(mContext, mCurrentUrl, 0);
+                            view.scrollTo(0, position);
+                        }
+                    }
+
+                    @Override
+                    public void onHideCustomView() {
+                        super.onHideCustomView();
+                        getIVideo().onHideCustomView();
+                        //显示状态栏
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        NavigationBarUtil.setNavigationBarLightMode(mContext);
+                    }
+
+                    @Override
+                    public void onShowCustomView(View view, CustomViewCallback callback) {
+                        super.onShowCustomView(view, callback);
+                        getIVideo().onShowCustomView(view, callback);
+                        //隐藏状态栏
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        RxJavaManager.getInstance().setTimer(100)
+                                .subscribe(new FastObserver<Long>() {
+                                    @Override
+                                    public void _onNext(Long entity) {
+                                        NavigationBarUtil.setNavigationBarDarkMode(mContext);
+                                    }
+                                });
+                    }
+                });
     }
 
     @Override
@@ -132,6 +188,7 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
                     }
                 })
                 .setCancel(com.aries.library.fast.R.string.fast_cancel)
+                .setNavigationBarControl(this)
                 .setTextSizeUnit(TypedValue.COMPLEX_UNIT_DIP)
                 .create();
         actionSheetDialog.show();
@@ -169,9 +226,44 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //横竖屏切换过后不能设置滑动返回--可以切换试一试效果
+    public void onRefresh(RefreshLayout refreshLayout) {
+        mAgentWeb.getUrlLoader().reload();
+    }
+
+    @Override
+    public View getContentView() {
+        LoggerManager.i("getContentView");
+        if (mAgentWeb != null) {
+            LoggerManager.i("getContentView", "webView:" + mAgentWeb.getWebCreator().getWebView());
+            return mAgentWeb.getWebCreator().getWebView();
+        }
+        return null;
+    }
+
+    @Override
+    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
+        this.mRefreshLayout = refreshLayout;
+        refreshLayout.setRefreshHeader(new StoreHouseHeader(mContext)
+                .initWithString("FastLib Refresh")
+                .setTextColor(ContextCompat.getColor(mContext, R.color.colorTextBlack)))
+                .setPrimaryColorsId(R.color.transparent)
+                .setEnableHeaderTranslationContent(true);
+    }
+
+    @Override
+    public boolean setNavigationBar(Dialog dialog, NavigationViewHelper helper, View bottomView) {
+        Drawable drawableTop = ContextCompat.getDrawable(mContext, R.color.colorLineGray);
+        DrawableUtil.setDrawableWidthHeight(drawableTop, SizeUtil.getScreenWidth(), SizeUtil.dp2px(0.5f));
+        helper.setPlusNavigationViewEnable(true)
+                .setNavigationViewColor(Color.argb(isTrans() ? 0 : 60, 0, 0, 0))
+                .setNavigationViewDrawableTop(drawableTop)
+                .setNavigationLayoutColor(Color.WHITE);
+        //导航栏在底部控制才有意义,不然会很丑;开发者自己决定;这里仅供参考
+        return NavigationBarUtil.isNavigationAtBottom(dialog.getWindow());
+    }
+
+    protected boolean isTrans() {
+        return (RomUtil.isEMUI() && (RomUtil.getEMUIVersion().compareTo("EmotionUI_4.1") > 0));
     }
 
     @Override
@@ -185,118 +277,24 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
             FastUtil.startActivity(mContext, MainActivity.class);
         }
         super.onBackPressed();
-
     }
 
-    /**
-     * 更新于 AgentWeb  4.0.0
-     */
-    protected DownloadListenerAdapter mDownloadListenerAdapter = new DownloadListenerAdapter() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        WebView webView = mAgentWeb.getWebCreator().getWebView();
+        SPUtil.put(mContext, webView.getUrl(), webView.getScrollY());
+    }
 
-        private DownloadingService mDownloadingService;
+    private IVideo mIVideo = null;
 
-        /**
-         *
-         * @param url                下载链接
-         * @param userAgent          UserAgent
-         * @param contentDisposition ContentDisposition
-         * @param mimetype           资源的媒体类型
-         * @param contentLength      文件长度
-         * @param extra              下载配置 ， 用户可以通过 Extra 修改下载icon ， 关闭进度条 ， 是否强制下载。
-         * @return true 表示用户处理了该下载事件 ， false 交给 AgentWeb 下载
-         */
-        @Override
-        public boolean onStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength, AgentWebDownloader.Extra extra) {
-            LogUtils.i(TAG, "onStart:" + url);
-            // 是否开启断点续传
-            extra.setOpenBreakPointDownload(true)
-                    //下载通知的icon
-                    .setIcon(R.drawable.ic_file_download_black_24dp)
-                    // 连接最大时长
-                    .setConnectTimeOut(6000)
-                    // 以8KB位单位，默认60s ，如果60s内无法从网络流中读满8KB数据，则抛出异常
-                    .setBlockMaxTime(10 * 60 * 1000)
-                    // 下载最大时长
-                    .setDownloadTimeOut(Long.MAX_VALUE)
-                    // 串行下载更节省资源哦
-                    .setParallelDownload(false)
-                    // false 关闭进度通知
-                    .setEnableIndicator(true)
-                    // 自定义请求头
-                    .addHeader("Cookie", "xx")
-                    // 下载完成自动打开
-                    .setAutoOpen(true)
-                    // 强制下载，不管网络网络类型
-                    .setForceDownload(true);
-            return false;
+    private IVideo getIVideo() {
+        if (mIVideo == null) {
+            mIVideo = new VideoImpl(mContext, mAgentWeb.getWebCreator().getWebView());
         }
+        return mIVideo;
+    }
 
-        /**
-         *
-         * 不需要暂停或者停止下载该方法可以不必实现
-         * @param url
-         * @param downloadingService  用户可以通过 DownloadingService#shutdownNow 终止下载
-         */
-        @Override
-        public void onBindService(String url, DownloadingService downloadingService) {
-            super.onBindService(url, downloadingService);
-            mDownloadingService = downloadingService;
-            LogUtils.i(TAG, "onBindService:" + url + "  DownloadingService:" + downloadingService);
-        }
-
-        /**
-         * 回调onUnbindService方法，让用户释放掉 DownloadingService。
-         * @param url
-         * @param downloadingService
-         */
-        @Override
-        public void onUnbindService(String url, DownloadingService downloadingService) {
-            super.onUnbindService(url, downloadingService);
-            mDownloadingService = null;
-            LogUtils.i(TAG, "onUnbindService:" + url);
-        }
-
-        /**
-         *
-         * @param url  下载链接
-         * @param loaded  已经下载的长度
-         * @param length    文件的总大小
-         * @param usedTime   耗时 ，单位ms
-         * 注意该方法回调在子线程 ，线程名 AsyncTask #XX 或者 AgentWeb # XX
-         */
-        @Override
-        public void onProgress(String url, long loaded, long length, long usedTime) {
-            int mProgress = (int) ((loaded) / Float.valueOf(length) * 100);
-            LogUtils.i(TAG, "onProgress:" + mProgress);
-            //进度到100--主动调用关闭下载并重启下载因断点下载直接回调成功
-            if (mProgress == 100) {
-                mDownloadingService.shutdownNow().performReDownload();
-            }
-            super.onProgress(url, loaded, length, usedTime);
-        }
-
-        /**
-         *
-         * @param path 文件的绝对路径
-         * @param url  下载地址
-         * @param throwable    如果异常，返回给用户异常
-         * @return true 表示用户处理了下载完成后续的事件 ，false 默认交给AgentWeb 处理
-         */
-        @Override
-        public boolean onResult(String path, String url, Throwable throwable) {
-            NotificationUtil.getInstance().cancelAll();
-            //下载成功
-            if (null == throwable) {
-                if (path.endsWith("apk")) {
-                    FastFileUtil.installApk(new File(path), getPackageName() + ".AgentWebFileProvider");
-                }
-            } else {//下载失败
-
-            }
-            // true  不会发出下载完成的通知 , 或者打开文件
-            return path.endsWith("apk");
-        }
-    };
 
     /**
      * @return IAgentWebSettings
@@ -312,8 +310,8 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
 
             /**
              * AgentWeb 4.0.0 内部删除了 DownloadListener 监听 ，以及相关API ，将 Download 部分完全抽离出来独立一个库，
-             * 如果你需要使用 AgentWeb Download 部分 ， 请依赖上 compile 'com.just.agentweb:download:4.0.0 ，
-             * 如果你需要监听下载结果，请自定义 AgentWebSetting ， New 出 DefaultDownloadImpl，传入DownloadListenerAdapter
+             * 如果你需要使用 AgentWeb Download 部分 ， 请依赖上 compile 'com.download.library:Downloader:4.1.1' ，
+             * 如果你需要监听下载结果，请自定义 AgentWebSetting ， New 出 DefaultDownloadImpl
              * 实现进度或者结果监听，例如下面这个例子，如果你不需要监听进度，或者下载结果，下面 setDownloader 的例子可以忽略。
              * @param webView
              * @param downloadListener
@@ -322,25 +320,45 @@ public class WebViewActivity extends FastWebActivity implements IFastRefreshView
             @Override
             public WebListenerManager setDownloader(WebView webView, android.webkit.DownloadListener downloadListener) {
                 return super.setDownloader(webView,
-                        DefaultDownloadImpl
-                                .create((Activity) webView.getContext(),
-                                        webView,
-                                        mDownloadListenerAdapter,
-                                        mDownloadListenerAdapter,
-                                        this.mAgentWeb.getPermissionInterceptor()));
+                        new DefaultDownloadImpl((Activity) webView.getContext(),
+                                webView,
+                                this.mAgentWeb.getPermissionInterceptor()) {
+
+                            @Override
+                            protected ResourceRequest createResourceRequest(String url) {
+                                return DownloadImpl.getInstance()
+                                        .with(getApplicationContext())
+                                        .url(url)
+                                        .quickProgress()
+                                        .addHeader("", "")
+                                        .setEnableIndicator(true)
+                                        .autoOpenIgnoreMD5()
+                                        .setRetry(5)
+                                        .setBlockMaxTime(100000L);
+                            }
+
+                            @Override
+                            protected void taskEnqueue(ResourceRequest resourceRequest) {
+                                resourceRequest.enqueue(new DownloadListenerAdapter() {
+                                    @Override
+                                    public void onStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength, Extra extra) {
+                                        super.onStart(url, userAgent, contentDisposition, mimetype, contentLength, extra);
+                                    }
+
+                                    @MainThread
+                                    @Override
+                                    public void onProgress(String url, long downloaded, long length, long usedTime) {
+                                        super.onProgress(url, downloaded, length, usedTime);
+                                    }
+
+                                    @Override
+                                    public boolean onResult(Throwable throwable, Uri path, String url, Extra extra) {
+                                        return super.onResult(throwable, path, url, extra);
+                                    }
+                                });
+                            }
+                        });
             }
         };
-    }
-
-    @Override
-    public void onRefresh(RefreshLayout refreshLayout) {
-        mAgentWeb.getUrlLoader().reload();
-        refreshLayout.finishRefresh();
-    }
-
-    @Override
-    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
-        int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
-        refreshLayout.setHeaderInsetStartPx(statusHeight);
     }
 }

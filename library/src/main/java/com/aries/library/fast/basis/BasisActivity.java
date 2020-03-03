@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 
+import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
@@ -44,6 +45,7 @@ import butterknife.Unbinder;
  * 5、2018-6-25 13:25:30 增加解决StatusLayoutManager与SmartRefreshLayout冲突解决方案
  * 6、2018-9-25 10:04:31 新增onActivityResult统一处理逻辑
  * 7、2018-9-26 16:59:59 新增按键监听统一处理
+ * 8、2019-12-19 11:53:28 增加EventBus Subscribe注解方法判断
  */
 public abstract class BasisActivity extends RxAppCompatActivity implements IBasisView {
 
@@ -56,13 +58,20 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
     protected boolean mIsFirstShow = true;
     protected boolean mIsFirstBack = true;
     protected long mDelayBack = 2000;
-    protected final String TAG = getClass().getSimpleName();
+    protected String TAG = getClass().getSimpleName();
     private QuitAppControl mQuitAppControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (isEventBusEnable()) {
-            EventBus.getDefault().register(this);
+            if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().register(this);
+                }
+            }
+            if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
+                EventBus.getDefault().register(this);
+            }
         }
         super.onCreate(savedInstanceState);
         this.mSavedInstanceState = savedInstanceState;
@@ -71,7 +80,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         mContentView = View.inflate(mContext, getContentLayout(), null);
         //解决StatusLayoutManager与SmartRefreshLayout冲突
         if (this instanceof IFastRefreshLoadView) {
-            if (FastUtil.isClassExist("com.scwang.smartrefresh.layout.SmartRefreshLayout")) {
+            if (FastUtil.isClassExist(FastConstant.SMART_REFRESH_LAYOUT_CLASS)) {
                 if (mContentView.getClass() == SmartRefreshLayout.class) {
                     FrameLayout frameLayout = new FrameLayout(mContext);
                     if (mContentView.getLayoutParams() != null) {
@@ -91,19 +100,32 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
 
     @Override
     protected void onResume() {
-        beforeLazyLoad();
+        beforeFastLazyLoad();
         super.onResume();
     }
 
     @Override
     protected void onDestroy() {
         if (isEventBusEnable()) {
-            EventBus.getDefault().unregister(this);
+            if (FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
+                if (FastUtil.haveEventBusAnnotation(this)) {
+                    org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+                }
+            }
+            if (FastUtil.isClassExist(FastConstant.ANDROID_EVENT_BUS_CLASS)) {
+                EventBus.getDefault().unregister(this);
+            }
         }
         super.onDestroy();
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
+        mUnBinder = null;
+        mContentView = null;
+        mContext = null;
+        mSavedInstanceState = null;
+        mQuitAppControl = null;
+        TAG = null;
     }
 
     @Override
@@ -256,7 +278,7 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
         }
     }
 
-    private void beforeLazyLoad() {
+    private void beforeFastLazyLoad() {
         //确保视图加载及视图绑定完成避免刷新UI抛出异常
         if (!mIsViewLoaded) {
             RxJavaManager.getInstance().setTimer(10)
@@ -264,15 +286,15 @@ public abstract class BasisActivity extends RxAppCompatActivity implements IBasi
                     .subscribe(new FastObserver<Long>() {
                         @Override
                         public void _onNext(Long entity) {
-                            beforeLazyLoad();
+                            beforeFastLazyLoad();
                         }
                     });
         } else {
-            lazyLoad();
+            fastLazyLoad();
         }
     }
 
-    private void lazyLoad() {
+    private void fastLazyLoad() {
         if (mIsFirstShow) {
             mIsFirstShow = false;
             loadData();

@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+
 import com.allen.library.SuperTextView;
-import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
@@ -42,9 +45,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.MultipartBody;
@@ -69,6 +69,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
 
     private ImagePickerHelper mImagePickerHelper;
     private TitleBarViewHelper mTitleBarViewHelper;
+    private static final int REQUEST_CODE_CHOOSE = 23;
 
     public static MineFragment newInstance() {
         Bundle args = new Bundle();
@@ -93,7 +94,8 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
         int statusHeight = StatusBarUtil.getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.dp_title_height);
-        refreshLayout.setHeaderInsetStartPx(statusHeight);
+        LoggerManager.i("statusHeight:" + statusHeight + ";dp:" + SizeUtil.px2dp(statusHeight));
+        refreshLayout.setHeaderInsetStart(SizeUtil.px2dp(statusHeight));
     }
 
     @Override
@@ -105,6 +107,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     public void setTitleBar(TitleBarView titleBar) {
         titleBar.setBgColor(Color.WHITE)
                 .setTitleMainTextColor(Color.WHITE)
+                .setDividerVisible(false)
                 .setTitleMainText(R.string.mine);
         titleBar.getBackground().setAlpha(0);
     }
@@ -133,7 +136,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
         mStvInfo.getLeftBottomTextView().setGravity(Gravity.LEFT);
         ViewCompat.setElevation(mStvInfo, getResources().
                 getDimension(R.dimen.dp_elevation));
-        mStvInfo.setTranslationZ(3f);
+        ViewCompat.setTranslationZ(mStvInfo, 3f);
         if (!App.isSupportElevation()) {
             mStvInfo.setShapeStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp_line_size))
                     .setShapeStrokeColor(ContextCompat.getColor(mContext, R.color.colorLineGray))
@@ -266,8 +269,14 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
 //                updateEntity.url = "http://gdown.baidu.com/data/wisegame/008c0de8d4355b41/wangzherongyao_35011414.apk";
 //                CheckVersionHelper.with((BasisActivity) mContext)
 //                        .downloadApk(updateEntity, "king_glory.apk", true);
-                CheckVersionHelper.with((BasisActivity) mContext)
+                new CheckVersionHelper(mContext)
                         .checkVersion(true);
+//                new PgyUpdateManager.Builder()
+//                        .setForced(false)                //设置是否强制提示更新
+//                        // v3.0.4+ 以上同时可以在官网设置强制更新最高低版本；网站设置和代码设置一种情况成立则提示强制更新
+//                        .setUserCanRetry(false)         //失败后是否提示重新下载
+//                        .setDeleteHistroyApk(false)     // 检查更新前是否删除本地历史 Apk， 默认为true
+//                        .register();
                 break;
             case R.id.stv_uploadMine:
                 mImagePickerHelper.selectFile(1001, 5, (requestCode, list) -> {
@@ -315,4 +324,5 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
     public void onRefresh(RefreshLayout refreshLayout) {
         refreshLayout.finishRefresh();
     }
+
 }

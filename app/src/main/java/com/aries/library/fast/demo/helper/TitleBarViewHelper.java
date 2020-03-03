@@ -1,15 +1,17 @@
 package com.aries.library.fast.demo.helper;
 
 import android.app.Activity;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.aries.library.fast.demo.base.BaseHelper;
 import com.aries.library.fast.demo.util.ViewColorUtil;
 import com.aries.library.fast.demo.widget.OverScrollView;
+import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @Author: AriesHoo on 2018/11/2 14:03
@@ -19,10 +21,10 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public class TitleBarViewHelper extends BaseHelper {
 
+    private RecyclerView.OnScrollListener mScrollListener;
     private RecyclerView mRecyclerView;
     private OverScrollView mOverScrollView;
     private TitleBarView mTitleBarView;
-    private boolean mShowTextEnable;
     /**
      * 滑动的最小距离
      */
@@ -37,7 +39,11 @@ public class TitleBarViewHelper extends BaseHelper {
     private int mTransAlpha = 112;
 
     private OnScrollListener mOnScrollListener;
+
     private boolean mIsLightMode;
+
+    private boolean mMutateEnable;
+    private boolean mShowTextEnable = true;
 
     public interface OnScrollListener {
         /**
@@ -55,6 +61,9 @@ public class TitleBarViewHelper extends BaseHelper {
 
     public TitleBarViewHelper setTitleBarView(TitleBarView titleBarView) {
         this.mTitleBarView = titleBarView;
+        if (mTitleBarView != null) {
+            mTitleBarView.getBackground().mutate().setAlpha(0);
+        }
         return this;
     }
 
@@ -63,19 +72,29 @@ public class TitleBarViewHelper extends BaseHelper {
         if (mRecyclerView == null) {
             return this;
         }
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int mAlpha;
-            int mScrollY;
+        if (mScrollListener == null) {
+            mScrollListener = new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    //滚动到顶部了
+                    if (recyclerView.computeVerticalScrollOffset() == 0) {
+                        LoggerManager.i("mScrollY:" + mScrollY + ";mAlpha:" + mAlpha);
+                        mScrollY = 0;
+                    } else {
+                        mScrollY += dy;
+                    }
+                    mAlpha = setChange(mScrollY);
+                }
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mScrollY = recyclerView.computeVerticalScrollOffset();
-                mAlpha = setChange(mScrollY);
-            }
-        });
+            };
+        }
+        mRecyclerView.addOnScrollListener(mScrollListener);
         return this;
     }
+
+    public int mAlpha;
+    public int mScrollY;
 
     public TitleBarViewHelper setOverScrollView(OverScrollView overScrollView) {
         mOverScrollView = overScrollView;
@@ -93,8 +112,18 @@ public class TitleBarViewHelper extends BaseHelper {
         return this;
     }
 
+    public TitleBarViewHelper setLightMode(boolean lightMode) {
+        mIsLightMode = lightMode;
+        return this;
+    }
+
+    public TitleBarViewHelper setMutateEnable(boolean enable) {
+        mMutateEnable = enable;
+        return this;
+    }
+
     public TitleBarViewHelper setShowTextEnable(boolean enable) {
-        this.mShowTextEnable = enable;
+        mShowTextEnable = enable;
         return this;
     }
 
@@ -139,7 +168,7 @@ public class TitleBarViewHelper extends BaseHelper {
                 StatusBarUtil.setStatusBarLightMode(mContext);
                 mIsLightMode = true;
                 if (mTitleBarView != null) {
-                    mTitleBarView.setStatusAlpha(StatusBarUtil.isSupportStatusBarFontChange() ? 0 : 112);
+                    mTitleBarView.setStatusAlpha(StatusBarUtil.isSupportStatusBarFontChange() ? 0 : 60);
                 }
             }
         } else {
@@ -152,7 +181,7 @@ public class TitleBarViewHelper extends BaseHelper {
             }
         }
         if (mTitleBarView != null) {
-            ViewColorUtil.getInstance().changeColor(mTitleBarView, mAlpha, mIsLightMode, mShowTextEnable);
+            ViewColorUtil.getInstance().changeColor(mTitleBarView, mAlpha, mIsLightMode, mShowTextEnable, mMutateEnable);
             mTitleBarView.setDividerVisible(mAlpha >= 250).getBackground().setAlpha(mAlpha);
         }
         if (mOnScrollListener != null) {
@@ -161,10 +190,26 @@ public class TitleBarViewHelper extends BaseHelper {
         return mAlpha;
     }
 
+    public TitleBarViewHelper resetTitleBar() {
+        if (mTitleBarView != null) {
+            mTitleBarView.setStatusBarLightMode(true)
+                    .setStatusAlpha(StatusBarUtil.isSupportStatusBarFontChange() ? 0 : 255);
+            ViewColorUtil.getInstance().changeColor(mTitleBarView, 255, true, mShowTextEnable, mMutateEnable);
+            if (mOnScrollListener != null) {
+                mOnScrollListener.onScrollChange(255, true);
+            }
+        }
+        return this;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mRecyclerView != null && mScrollListener != null) {
+            mRecyclerView.removeOnScrollListener(mScrollListener);
+        }
         mTitleBarView = null;
         mRecyclerView = null;
+        mOverScrollView = null;
     }
 }

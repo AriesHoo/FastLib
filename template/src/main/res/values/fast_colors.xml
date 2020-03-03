@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--普通有灰色背景的用这个-->
+    <color name="colorBackground">#f8f8f8</color>
+    <color name="colorTextBlack">#333333</color>
+    <color name="colorTextBlackLight">#636363</color>
+    <color name="colorTextGray">#666666</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhitePressed">#DCDCDC</color>
+
+    <!--微信背景-->
+    <!--<color name="colorTitleBackground">#EDEDED</color>-->
+    <!--TitleBarView背景色-->
+    <color name="colorTitleBackground">#FCFCFC</color>
+    <!--TitleBarView 文字颜色-->
+    <color name="colorTitleText">#393939</color>
+    <!--TitleBarView 下划线颜色-->
+    <color name="colorTitleDivider">@color/colorTabUnderline</color>
+
+    <!--主页tab背景色-->
+    <color name="colorTabBackground">#FCFCFC</color>
+    <!--主页上划线颜色-->
+    <color name="colorTabUnderline">#E6E6E6</color>
+    <!--主页tab文字默认颜色-->
+    <color name="colorTabTextUnSelect">#909090</color>
+    <!--主页tab文字选中颜色-->
+    <color name="colorTabTextSelect">@color/colorTitleText</color>
+
+    <!--多状态文本颜色控制-->
+    <color name="status_layout_click_view_text_color">#0084FF</color>
+    <color name="status_layout_tip_text_color">@color/colorTitleText</color>
+
+    <!--Glide加载图片默认占位图背景色-->
+    <color name="colorPlaceholder">#CCCCCC</color>
+
+    <!--LoadMoreView 文本颜色-->
+    <color name="colorLoadMoreText">@color/colorTitleText</color>
+    <!--LoadMoreView loading颜色-->
+    <color name="colorLoadMoreProgress">@color/colorTitleText</color>
+</resources>

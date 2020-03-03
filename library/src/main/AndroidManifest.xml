@@ -17,7 +17,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fast_file_path"/>
         </provider>
+        <!--华为使用刘海区域申明-->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+        <!--小米使用刘海区域申明-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
         <!--增加纵横比 全面屏适配-->
-        <meta-data android:name="android.max_aspect"  android:value="2.1"/>
+        <meta-data android:name="android.max_aspect"  android:value="2.4"/>
     </application>
 </manifest>

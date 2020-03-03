@@ -16,6 +16,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import java.net.ConnectException;
 import java.net.SocketException;
@@ -74,7 +75,7 @@ public class HttpRequestControlImpl implements HttpRequestControl {
             return;
         }
         statusLayoutManager.showSuccessLayout();
-        if (smartRefreshLayout.isRefreshing() || page == 0) {
+        if (smartRefreshLayout.getState() == RefreshState.Refreshing || page == 0) {
             adapter.setNewData(new ArrayList());
         }
         adapter.addData(list);
@@ -91,6 +92,7 @@ public class HttpRequestControlImpl implements HttpRequestControl {
 
     @Override
     public void httpRequestError(IHttpRequestControl httpRequestControl, Throwable e) {
+        LoggerManager.e(TAG, "httpRequestError:" + e.getMessage());
         int reason = R.string.fast_exception_other_error;
 //        int code = FastError.EXCEPTION_OTHER_ERROR;
         if (!NetworkUtil.isConnected(App.getContext())) {
@@ -143,12 +145,12 @@ public class HttpRequestControlImpl implements HttpRequestControl {
             }
             //初始页
             if (page == 0) {
-                if (!NetworkUtil.isConnected(App.getContext())) {
-                    //可自定义网络错误页面展示
-                    statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
-                } else {
+//                if (!NetworkUtil.isConnected(App.getContext())) {
+//                    //可自定义网络错误页面展示
+//                    statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
+//                } else {
                     statusLayoutManager.showErrorLayout();
-                }
+//                }
                 return;
             }
             //可根据不同错误展示不同错误布局  showCustomLayout(R.layout.xxx);

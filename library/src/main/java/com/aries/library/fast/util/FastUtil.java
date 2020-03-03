@@ -2,27 +2,36 @@ package com.aries.library.fast.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityThread;
+import android.app.AppGlobals;
+import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aries.library.fast.manager.LoggerManager;
+import com.aries.library.fast.FastConstant;
+import com.aries.ui.util.DrawableUtil;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
@@ -34,10 +43,39 @@ import androidx.core.graphics.drawable.DrawableCompat;
  * 2、2018-7-23 09:29:55 新增获取App 应用名称方法
  * 3、2019-2-15 11:28:53 修改startActivity 方法增加single tag设置方法{@link #setActivitySingleFlag(int)}
  * 4、2019-2-22 13:49:12 修改{@link #getRootView(Activity)} 判断逻辑
+ * 5、2019-4-19 17:02:01 修改{@link #getTintDrawable(Drawable, int)}以支持5.0以下版本并增加{@link #getTintDrawable(Drawable, ColorStateList)}
+ * 6、2019-4-22 17:44:14 修改{@link #getTintDrawable(Drawable, int)}以支持5.0以下版本并增加{@link #getTintDrawable(Drawable, ColorStateList)}
  */
 public class FastUtil {
 
     private static int ACTIVITY_SINGLE_FLAG = Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
+    /**
+     * 反射获取application对象
+     *
+     * @return application
+     */
+    public static Application getApplication() {
+        try {
+            //兼容android P，直接调用@hide注解的方法来获取application对象
+            Application app = ActivityThread.currentApplication();
+            Log.e("FastUtil", "getApplication0:" + app);
+            if (app != null) {
+                return app;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            //兼容android P，直接调用@hide注解的方法来获取application对象
+            Application app = AppGlobals.getInitialApplication();
+            Log.e("FastUtil", "getApplication1:" + app);
+            if (app != null) {
+                return app;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
     /**
      * 获取应用名称
@@ -53,7 +91,7 @@ public class FastUtil {
             int labelRes = packageInfo.applicationInfo.labelRes;
             return context.getResources().getText(labelRes);
         } catch (PackageManager.NameNotFoundException e) {
-            LoggerManager.e("FastUtil", "getAppName:" + e.getMessage());
+            Log.e("FastUtil", "getAppName:" + e.getMessage());
         }
         return null;
     }
@@ -100,16 +138,34 @@ public class FastUtil {
 
     /**
      * 给一个Drawable变换线框颜色
+     * {@link DrawableUtil#setTintDrawable(Drawable, int)}
      *
      * @param drawable 需要变换颜色的drawable
      * @param color    需要变换的颜色
      * @return
      */
+    @Deprecated
     public static Drawable getTintDrawable(Drawable drawable, @ColorInt int color) {
         if (drawable != null) {
-            DrawableCompat.setTint(drawable, color);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                DrawableCompat.setTint(drawable, color);
+            } else {
+                drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            }
         }
-        return drawable;
+        return DrawableUtil.setTintDrawable(drawable, color);
+    }
+
+    /**
+     * {@link DrawableUtil#setTintDrawable(Drawable, ColorStateList)}
+     *
+     * @param drawable
+     * @param tint
+     * @return
+     */
+    @Deprecated
+    public static Drawable getTintDrawable(Drawable drawable, @Nullable ColorStateList tint) {
+        return DrawableUtil.setTintDrawable(drawable, tint);
     }
 
     /**
@@ -128,7 +184,7 @@ public class FastUtil {
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
-            LoggerManager.e("FastUtil", "getVersionName:" + e.getMessage());
+            Log.e("FastUtil", "getVersionName:" + e.getMessage());
         }
         return "";
     }
@@ -147,7 +203,7 @@ public class FastUtil {
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
-            LoggerManager.e("FastUtil", "getVersionCode:" + e.getMessage());
+            Log.e("FastUtil", "getVersionCode:" + e.getMessage());
         }
         return -1;
     }
@@ -164,9 +220,53 @@ public class FastUtil {
             Class<?> cls = Class.forName(className);
             isExit = cls != null;
         } catch (ClassNotFoundException e) {
-            LoggerManager.e("FastUtil", "isClassExist:" + e.getMessage());
         }
         return isExit;
+    }
+
+    /**
+     * {@link org.greenrobot.eventbus.EventBus} 要求注册之前, 订阅者必须含有一个或以上声明 {@link org.greenrobot.eventbus.Subscribe}
+     * 注解的方法, 否则会报错, 所以如果要想完成在基类中自动注册, 避免报错就要先检查是否符合注册资格
+     *
+     * @param subscriber 订阅者
+     * @return 返回 {@code true} 则表示含有 {@link org.greenrobot.eventbus.Subscribe} 注解, {@code false} 为不含有
+     */
+    public static boolean haveEventBusAnnotation(Object subscriber) {
+        if (!FastUtil.isClassExist(FastConstant.EVENT_BUS_CLASS)) {
+            return false;
+        }
+        boolean skipSuperClasses = false;
+        Class<?> clazz = subscriber.getClass();
+        //查找类中符合注册要求的方法, 直到Object类
+        while (clazz != null && !isSystemClass(clazz.getName()) && !skipSuperClasses) {
+            Method[] allMethods;
+            try {
+                allMethods = clazz.getDeclaredMethods();
+            } catch (Throwable th) {
+                try {
+                    allMethods = clazz.getMethods();
+                } catch (Throwable th2) {
+                    continue;
+                } finally {
+                    skipSuperClasses = true;
+                }
+            }
+            for (int i = 0; i < allMethods.length; i++) {
+                Method method = allMethods[i];
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                //查看该方法是否含有 Subscribe 注解
+                if (method.isAnnotationPresent(org.greenrobot.eventbus.Subscribe.class) && parameterTypes.length == 1) {
+                    return true;
+                }
+            } //end for
+            //获取父类, 以继续查找父类中符合要求的方法
+            clazz = clazz.getSuperclass();
+        }
+        return false;
+    }
+
+    private static boolean isSystemClass(String name) {
+        return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("android.");
     }
 
     public static boolean isRunningForeground(Context context) {
@@ -234,7 +334,7 @@ public class FastUtil {
             marketIntent.setData(Uri.parse(mAddress));
             mContext.startActivity(marketIntent);
         } catch (Exception e) {
-            LoggerManager.e("FastUtil", "jumpMarket:" + e.getMessage());
+            Log.e("FastUtil", "jumpMarket:" + e.getMessage());
         }
     }
 
@@ -280,6 +380,27 @@ public class FastUtil {
 
     public static void startActivity(Context context, Class<? extends Activity> activity, boolean isSingle) {
         startActivity(context, activity, null, isSingle);
+    }
+
+    /**
+     * 根据包名跳转应用
+     *
+     * @param context
+     * @param packageName
+     */
+    public static void startApp(Context context, String packageName) {
+        if (context == null) {
+            return;
+        }
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (launchIntent == null) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setComponent(launchIntent.getComponent());
+        context.startActivity(intent);
     }
 
     /**

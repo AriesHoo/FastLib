@@ -14,13 +14,11 @@ import com.aries.ui.view.title.TitleBarView;
  */
 public abstract class FastTitleRefreshLoadFragment<T> extends FastRefreshLoadFragment<T> implements IFastTitleView {
 
-    protected FastTitleDelegate mFastTitleDelegate;
     protected TitleBarView mTitleBar;
 
     @Override
     public void beforeInitView(Bundle savedInstanceState) {
+        mTitleBar = new FastTitleDelegate(mContentView, this, getClass()).mTitleBar;
         super.beforeInitView(savedInstanceState);
-        mFastTitleDelegate = new FastTitleDelegate(mContentView, this, this.getClass());
-        mTitleBar = mFastTitleDelegate.mTitleBar;
     }
 }

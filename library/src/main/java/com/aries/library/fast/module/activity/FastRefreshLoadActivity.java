@@ -3,6 +3,7 @@ package com.aries.library.fast.module.activity;
 import android.os.Bundle;
 
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
+import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.IFastRefreshLoadView;
 import com.aries.library.fast.i.IHttpRequestControl;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,6 +20,7 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
  * Description:
  * 1、2018-7-9 09:50:59 修正Adapter 错误造成无法展示列表数据BUG
  * 2、2018-7-20 16:54:47 设置StatusLayoutManager 目标View
+ * 3、2019-4-19 09:41:28 修改IFastTitleView 逻辑
  */
 public abstract class FastRefreshLoadActivity<T>
         extends FastTitleActivity implements IFastRefreshLoadView<T> {
@@ -36,6 +38,7 @@ public abstract class FastRefreshLoadActivity<T>
     public void beforeInitView(Bundle savedInstanceState) {
         super.beforeInitView(savedInstanceState);
         mClass = getClass();
+        new FastTitleDelegate(mContentView, this, getClass());
         mFastRefreshLoadDelegate = new FastRefreshLoadDelegate<>(mContentView, this, getClass());
         mRecyclerView = mFastRefreshLoadDelegate.mRecyclerView;
         mRefreshLayout = mFastRefreshLoadDelegate.mRefreshLayout;

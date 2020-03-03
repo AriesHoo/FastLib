@@ -2,9 +2,10 @@ package com.aries.library.fast.demo.module.main.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 
 import com.aries.library.fast.demo.R;
+
+import androidx.annotation.Nullable;
 
 /**
  * @Author: AriesHoo on 2018/11/19 14:23
@@ -18,5 +19,4 @@ public class TestStatusActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_status);
     }
-
 }

@@ -9,11 +9,8 @@ import com.aries.library.fast.retrofit.FastRetrofit;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -32,9 +29,8 @@ public interface ApiService {
      * @param map
      * @return
      */
-    @FormUrlEncoded
-    @POST("{url}")
-    Observable<BaseMovieEntity> getMovie(@Path("url") String url, @FieldMap Map<String, Object> map);
+    @GET("{url}")
+    Observable<BaseMovieEntity> getMovie(@Path("url") String url, @QueryMap Map<String, Object> map);
 
     /**
      * 检查应用更新--同时设置了Method及Header模式重定向请求Url,默认Method优先;

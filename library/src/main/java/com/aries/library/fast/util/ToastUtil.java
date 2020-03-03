@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -13,7 +14,6 @@ import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.ToastControl;
-import com.aries.ui.util.RomUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 
 import androidx.annotation.ColorInt;
@@ -26,7 +26,8 @@ import io.reactivex.schedulers.Schedulers;
  * @Author: AriesHoo on 2018/7/23 14:37
  * @E-Mail: AriesHoo@126.com
  * Function: Toast 工具
- * Description:
+ * Description: 本工具类只是对系统Toast进行简单的效果样式处理有系统权限问题;如果有更进一步需求推荐使用
+ * https://github.com/Dovar66/DToast
  * 1、2018-7-11 15:40:26 去掉Toast返回值并新增子线程弹出Toast功能
  * 2、2019-1-18 18:09:07 新增{@link ToastControl} 全局
  */
@@ -133,6 +134,10 @@ public class ToastUtil {
     }
 
     private static void showToast(CharSequence content, boolean isShowRunningForeground, Builder builder) {
+        //过滤空字符情况
+        if (TextUtils.isEmpty(content) || TextUtils.isEmpty(content.toString().trim())) {
+            return;
+        }
         //修复快速点击无法显示的问题,修复超过50之后无法显示的问题
         sSystemToast = SingleToast.getInstance();
         sTextView = new RadiusTextView(sContext);
@@ -625,8 +630,8 @@ public class ToastUtil {
             if (control != null && control.getToast() != null) {
                 return control.getToast();
             }
-            //目前发现华为Android 9.0版本系统Toast做了单利操作造成短信时间快速Toast 后面无法弹出问题
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && RomUtil.isEMUI()) {
+            //目前发现Android 9.0版本系统Toast做了单例操作造成短时间快速Toast 后面无法弹出问题
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 return new Toast(sContext);
             }
             return SingleToastHolder.INSTANCE.getToast();

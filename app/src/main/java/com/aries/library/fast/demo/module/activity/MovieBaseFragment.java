@@ -1,8 +1,12 @@
 package com.aries.library.fast.demo.module.activity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.R;
@@ -10,9 +14,7 @@ import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
 import com.aries.library.fast.demo.base.BaseItemTouchQuickAdapter;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.constant.ApiConstant;
-import com.aries.library.fast.demo.constant.EventConstant;
 import com.aries.library.fast.demo.constant.GlobalConstant;
-import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
@@ -21,18 +23,13 @@ import com.aries.library.fast.demo.touch.OnItemTouchHelperListener;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
-import com.aries.library.fast.util.SPUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle3.android.FragmentEvent;
 
-import org.simple.eventbus.Subscriber;
-import org.simple.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
@@ -65,8 +62,8 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     @Override
     public BaseQuickAdapter<SubjectsEntity, BaseViewHolder> getAdapter() {
         mAdapter = new SubjectMovieAdapter(ApiConstant.API_MOVIE_TOP.equals(mUrl));
-        changeAdapterAnimation(0);
-        changeAdapterAnimationAlways(true);
+//        changeAdapterAnimation(0);
+//        changeAdapterAnimationAlways(true);
         return mAdapter;
     }
 
@@ -107,6 +104,23 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                             }
                         }));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //判断是当前layoutManager是否为LinearLayoutManager
+                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                //获取最后一个可见view的位置
+                LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                int lastPosition = linearManager.findLastVisibleItemPosition();
+                // 如果滑动到倒数第三条数据，就自动加载下一页数据
+                if (lastPosition >= layoutManager.getItemCount() - 5) {
+                    onLoadMoreRequested();
+                }
+
+            }
+        });
     }
 
     @Override
@@ -128,7 +142,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     @Override
     public void onItemClicked(BaseQuickAdapter<SubjectsEntity, BaseViewHolder> adapter, View view, int position) {
         super.onItemClicked(adapter, view, position);
-        WebViewActivity.start(mContext, adapter.getItem(position).alt);
+        WebViewActivity.start(mContext, adapter.getItem(position).alt+"?apikey=0b2bdeda43b5688921839c8ecb20399b");
     }
 
     /**
@@ -161,20 +175,20 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 //        };
 //    }
 
-    @SuppressLint("WrongConstant")
-    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION)
-    public void changeAdapterAnimation(int index) {
-        if (mAdapter != null) {
-            animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
-            mAdapter.openLoadAnimation(animationIndex);
-        }
-    }
-
-    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION_ALWAYS)
-    public void changeAdapterAnimationAlways(boolean always) {
-        if (mAdapter != null) {
-            animationAlways = (Boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_ALWAYS, true);
-            mAdapter.isFirstOnly(!animationAlways);
-        }
-    }
+//    @SuppressLint("WrongConstant")
+//    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION)
+//    public void changeAdapterAnimation(int index) {
+//        if (mAdapter != null) {
+//            animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
+//            mAdapter.openLoadAnimation(animationIndex);
+//        }
+//    }
+//
+//    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_CHANGE_ADAPTER_ANIMATION_ALWAYS)
+//    public void changeAdapterAnimationAlways(boolean always) {
+//        if (mAdapter != null) {
+//            animationAlways = (Boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_ALWAYS, true);
+//            mAdapter.isFirstOnly(!animationAlways);
+//        }
+//    }
 }

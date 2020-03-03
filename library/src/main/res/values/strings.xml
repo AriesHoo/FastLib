@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fast_view_tip">示例展示 \n1、普通Activity通过IFastTitleView 实现TitleBarView 全局控制\n2、通过IFastRefreshView以达到下拉刷新功能不改变原xml布局(Fragment参考MineFragment)</string>
+    <string name="swipe_back_tip">示例展示 \n1、FastLib 2.3.0以后版本compileOnly cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar 如需使用请自行implementation,参考SwipeBackControlImpl处理方式\n2、因目前全面屏趋势,推荐使用类全面屏手势方式:参考ActivityControlImpl类getActivityLifecycleCallbacks方法处理\n3、注意导航栏处理方式调整</string>
 </resources>

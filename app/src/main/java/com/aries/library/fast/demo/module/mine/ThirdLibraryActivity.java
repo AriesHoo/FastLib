@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
@@ -25,11 +22,14 @@ import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**
@@ -124,7 +124,7 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.finishLoadMore();
                         mAdapter.loadMoreComplete();
-                        if (mRefreshLayout.isRefreshing()) {
+                        if (mRefreshLayout.getState()== RefreshState.Refreshing) {
                             mAdapter.setNewData(entity);
                         } else {
                             mAdapter.addData(entity);
