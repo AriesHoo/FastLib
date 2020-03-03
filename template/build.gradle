@@ -65,7 +65,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 //    implementation project(':library')
-    implementation 'com.github.AriesHoo:FastLib:2.3.5'
+    implementation 'com.github.AriesHoo:FastLib:2.3.6'
 
     //以下库FastLib里使用compileOnly只是编译,使用时需根据项目选择相应版本
     implementation 'com.google.android.material:material:'.concat(supportVersion)
