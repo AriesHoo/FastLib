@@ -31,7 +31,7 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 其它功能请在demo中发现，详细使用请看[wiki](https://github.com/AriesHoo/FastLib/wiki)
 
-[[Download-蒲公英]](https://www.pgyer.com/KmaF)
+[[Download-蒲公英(安装密码1)]](https://www.pgyer.com/pqnm)
 
 ![Download-蒲公英](/apk/qr_pgyer.png)
 
@@ -46,6 +46,12 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 2、**2.2.13_beta12以下版本**可参考[proguard-rules.pro](/library/proguard-rules.pro)
 
 ## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
+
+
+## 关于模板项目template
+
+ 伴随新版本 2.3.6 发布，项目增加一个模板项目 template 以完成基础配置，开发者可直接在此项目上进行开发方便。
+
 
 * 2.3.2
 
