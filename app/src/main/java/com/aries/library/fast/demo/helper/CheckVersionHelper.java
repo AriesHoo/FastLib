@@ -7,6 +7,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.aries.library.fast.BasisHelper;
 import com.aries.library.fast.basis.BasisActivity;
+import com.aries.library.fast.demo.App;
+import com.aries.library.fast.demo.AppData;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
@@ -20,6 +22,7 @@ import com.download.library.DownloadImpl;
 import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.lang.ref.SoftReference;
+import java.util.Stack;
 
 import io.reactivex.annotations.NonNull;
 
@@ -97,6 +100,16 @@ public class CheckVersionHelper extends BasisHelper {
                 ToastUtil.show("版本信息有误");
             }
             return;
+        }
+        LoggerManager.i("check_saturation:"+entity.saturation+";sp:"+AppData.getSaturation());
+        if (entity.saturation != AppData.getSaturation()) {
+            AppData.setSaturation(entity.saturation);
+            Stack<Activity> activities = FastStackUtil.getInstance().getStack();
+            for (Activity activity : activities) {
+                if (activity != null && !activity.isFinishing()) {
+                    App.setSaturation(activity);
+                }
+            }
         }
         if (!entity.isSuccess()) {
             if (mIsLoading) {

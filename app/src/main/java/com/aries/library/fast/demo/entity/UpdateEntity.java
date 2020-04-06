@@ -30,6 +30,7 @@ public class UpdateEntity {
     public boolean force;
     public String message;
     public String size;
+    public float saturation = 1.0f;
 
     public boolean isSuccess() {
         int code = FastUtil.getVersionCode(App.getContext());

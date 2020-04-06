@@ -18,6 +18,7 @@ import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.CookieJar;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -380,6 +381,17 @@ public class FastRetrofit {
      */
     public FastRetrofit setConnectTimeout(long second, TimeUnit unit) {
         sClientBuilder.connectTimeout(second, unit);
+        return this;
+    }
+
+    /**
+     * 设置CookieJar
+     *
+     * @param cookieJar
+     * @return
+     */
+    public FastRetrofit setCookieJar(CookieJar cookieJar) {
+        sClientBuilder.cookieJar(cookieJar);
         return this;
     }
 

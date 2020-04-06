@@ -1,14 +1,19 @@
 package com.aries.library.fast.demo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import androidx.multidex.MultiDexApplication;
 
@@ -121,7 +126,7 @@ public class App extends MultiDexApplication {
         //以下为配置多BaseUrl--默认方式一优先级高 可通过FastRetrofit.getInstance().setHeaderPriorityEnable(true);设置方式二优先级
         //方式一 通过Service 里的method-(如:) 设置 推荐 使用该方式不需设置如方式二的额外Header
         FastRetrofit.getInstance()
-                .putBaseUrl(ApiConstant.API_UPDATE_APP, BuildConfig.BASE__UPDATE_URL);
+                .putBaseUrl(ApiConstant.API_UPDATE_APP, BuildConfig.BASE_UPDATE_URL);
 
         //方式二 通过 Service 里添加特定header设置
         //step1
@@ -236,4 +241,17 @@ public class App extends MultiDexApplication {
         return mContext;
     }
 
+    public static void setSaturation(Activity activity) {
+        try {
+            ///设置黑白色缅怀效果开始
+            Paint paint = new Paint();
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(AppData.getSaturation());
+            paint.setColorFilter(new ColorMatrixColorFilter(cm));
+            activity.getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+            ///设置黑白色缅怀效果结束
+        } catch (Exception e) {
+
+        }
+    }
 }

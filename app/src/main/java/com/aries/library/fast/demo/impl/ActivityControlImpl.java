@@ -5,6 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.demo.App;
+import com.aries.library.fast.demo.AppData;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
@@ -41,8 +45,6 @@ import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.StatusBarUtil;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.didichuxing.doraemonkit.ui.base.BaseActivity;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
 import com.parfoismeng.slidebacklib.SlideBack;
@@ -171,7 +173,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 return;
             }
             Activity activity = FastStackUtil.getInstance().getCurrent();
-            if (activity instanceof UniversalActivity) {
+            if (activity.getClass().getSimpleName().equals("UniversalActivity")) {
                 contentView.setBackgroundColor(Color.WHITE);
             }
             LoggerManager.i("setContentViewBackground_activity:" + activity.getClass().getSimpleName() + ";cls:" + cls.getSimpleName());
@@ -268,11 +270,6 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
      * @param activity
      */
     public void setActivityOrientation(Activity activity) {
-        LoggerManager.i("setRequestedOrientation:" + activity.getClass().getSimpleName() + ";:" + (BaseActivity.class.isAssignableFrom(activity.getClass()))
-                + ";:" + (UniversalActivity.class.isAssignableFrom(activity.getClass())));
-        if (BaseActivity.class.isAssignableFrom(activity.getClass())) {
-            return;
-        }
         //全局控制屏幕横竖屏
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
         if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
@@ -297,6 +294,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 super.onActivityCreated(activity, savedInstanceState);
+                App.setSaturation(activity);
                 //阻止系统截屏功能
                 //activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 setActivityOrientation(activity);

@@ -143,7 +143,6 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     @Override
     public void initView(Bundle savedInstanceState) {
         LoggerManager.d(TAG, "initView");
-        new CheckVersionHelper(mContext).checkVersion(false);
         listTransitionEffect.add(TransitionEffect.Default);
         listTransitionEffect.add(TransitionEffect.Alpha);
         listTransitionEffect.add(TransitionEffect.Rotate);

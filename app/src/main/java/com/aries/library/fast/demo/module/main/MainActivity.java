@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.aries.library.fast.demo.R;
+import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
@@ -19,13 +20,14 @@ import com.aries.library.fast.module.activity.FastMainActivity;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
-import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
+
 import butterknife.BindView;
 
 /**
@@ -36,7 +38,8 @@ import butterknife.BindView;
  */
 public class MainActivity extends FastMainActivity {
 
-    @BindView(R.id.tabLayout_commonFastLib) CommonTabLayout mTabLayout;
+    @BindView(R.id.tabLayout_commonFastLib)
+    CommonTabLayout mTabLayout;
     private ArrayList<FastTabEntity> mTabEntities;
 
     @Override
@@ -96,33 +99,9 @@ public class MainActivity extends FastMainActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        RxJavaManager.getInstance().setTimer(2000)
-                .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new FastObserver<Long>() {
-                    @Override
-                    public void _onNext(Long entity) {
-                        requestPermission();
-                    }
-                });
-    }
-
-    /**
-     * 检查悬浮窗权限-哆啦A梦
-     */
-    private void requestPermission() {
-        if (!PermissionUtil.canDrawOverlays(mContext)) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle("FastLib温馨提示")
-                    .setMessage("哆啦A梦研发助手需求请求悬浮窗权限,如果需要使用研发助手,请到设置页面开启悬浮窗权限")
-                    .setPositiveButton(R.string.ensure, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            PermissionUtil.requestDrawOverlays(mContext);
-                        }
-                    })
-                    .create()
-                    .show();
-        }
+        int[] intArray = new int[]{1,56,-5,33};
+        Arrays.sort(intArray);
+        LoggerManager.i("main_array",Arrays.toString(intArray));
     }
 
     @Override
@@ -141,4 +120,8 @@ public class MainActivity extends FastMainActivity {
         LoggerManager.i(TAG, "onDestroy");
     }
 
+    @Override
+    public void loadData() {
+        new CheckVersionHelper(mContext).checkVersion(false);
+    }
 }

@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "Boolean", "LOG_ENABALE", "true"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
-        buildConfigField "String", "BASE__UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/dev/apk/\""
+        buildConfigField "String", "BASE_UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/\""
         manifestPlaceholders = [
                 app_channel: "FastLib",
                 bugly_id   : "a66ee7eb32",
@@ -88,7 +88,7 @@ dependencies {
     //快速Tab库-继承FastMainActivity使用
     implementation "com.github.AriesHoo.UIWidget:tab-layout:$rootProject.widgetVersion"
     //滑动返回Activity-鉴于现在全面屏比较多不推荐使用该库
-    implementation 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
+    implementation 'cn.bingoogolapple:bga-swipebacklayout:2.0.1@aar'
     //页面事件交互-androideventbus-停止维护-按需导入
 //    implementation 'org.simple:androideventbus:1.0.5.1'
     //页面事件交互-eventbus-按需导入
@@ -117,7 +117,9 @@ dependencies {
     //Bugly
     implementation 'com.tencent.bugly:crashreport:2.8.6.0'
     //哆啦A梦
-    implementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
+//    implementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.0'
 //    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
 //    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.1'
     //Multidex 5.0以下

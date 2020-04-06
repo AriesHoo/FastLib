@@ -76,7 +76,7 @@ dependencies {
     //处理rxjava内存泄漏-生命周期绑定
     api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
     //滑动返回Activity
-    compileOnly 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
+    compileOnly 'cn.bingoogolapple:bga-swipebacklayout:2.0.1@aar'
     //页面事件交互-androideventbus-停止维护
     compileOnly 'org.simple:androideventbus:1.0.5.1'
     //页面事件交互-eventbus
