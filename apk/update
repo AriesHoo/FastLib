@@ -4,6 +4,6 @@
 	"url": "https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk",
 	"force": false,
 	"size": "3.74M",
-	"saturation": "1.0",
+	"saturation": "0.5",
 	"message": "1、去掉部分非必须三方库导入由使用者决定是否导入\n2、优化FastManager初始化逻辑"
 }
