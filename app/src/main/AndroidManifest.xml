@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.aries.library.fast.demo">
 
     <!--<uses-feature android:name="android.hardware.screen.portrait"/>-->
@@ -21,10 +22,14 @@
         android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:roundIcon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- 配置Google 广告服务-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
         <!-- 配置APP渠道号 -->
         <meta-data
             android:name="BUGLY_APPID"
@@ -40,10 +45,12 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths_public"></meta-data>
+                android:resource="@xml/file_paths_public"
+                tools:replace="android:resource"></meta-data>
         </provider>
         <!--蒲公英Start-->
         <provider
@@ -80,6 +87,18 @@
             android:hardwareAccelerated="true"
             android:label="@string/fast_loading" />
         <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            tools:replace="android:theme"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:label="Google广告SDK测试" />
+        <activity
+            android:name=".module.main.sample.GoogleAdActivity"
+            android:label="Google广告SDK测试" />
+        <activity
+            android:name=".module.main.sample.FastViewActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc"
+            android:label="模拟快速下拉刷新及TitleBarView统一设置" />
+        <activity
             android:name=".module.main.sample.TitleWithEditTextActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:label="Title+底部输入框测试" />
@@ -110,10 +129,7 @@
             android:name=".module.main.sample.TestStatusActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:label="@string/test_status" />
-        <activity
-            android:name=".module.main.sample.FastViewActivity"
-            android:configChanges="locale|layoutDirection|mcc|mnc"
-            android:label="模拟快速下拉刷新及TitleBarView统一设置" />
+
         <activity
             android:name=".module.mine.SettingActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"

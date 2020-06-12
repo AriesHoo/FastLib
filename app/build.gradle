@@ -118,16 +118,19 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:2.8.6.0'
     //哆啦A梦
 //    implementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.6'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.6'
 //    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
 //    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.1'
     //Multidex 5.0以下
     implementation 'androidx.multidex:multidex:2.0.0'
     //蒲公英
-    implementation 'com.pgyersdk:sdk:3.0.5'
+    implementation 'com.pgyersdk:sdk:3.0.10'
     //保活组件
 //    implementation 'com.fanjun:keeplive:1.1.18'
     //滑动返回Activity-类全面屏手势效果
     implementation 'com.github.ParfoisMeng:SlideBack:1.0.7'
+
+    //Google 广告服务测试
+    implementation 'com.google.android.gms:play-services-ads:19.1.0'
 }

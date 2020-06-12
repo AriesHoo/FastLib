@@ -161,16 +161,16 @@ public class App extends MultiDexApplication {
         LoggerManager.i(TAG, "total:" + (System.currentTimeMillis() - start));
 
         //初始化哆啦A梦
-        DoraemonKit.install(this);
+//        DoraemonKit.install(this);
         // H5任意门功能需要，非必须
-        DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
-            @Override
-            public void overrideUrlLoading(Context context, String s) {
-                // 使用自己的H5容器打开这个链接
-                LoggerManager.i("overrideUrlLoading", "url:" + s);
-                WebViewActivity.start(FastStackUtil.getInstance().getCurrent(), s);
-            }
-        });
+//        DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
+//            @Override
+//            public void overrideUrlLoading(Context context, String s) {
+//                // 使用自己的H5容器打开这个链接
+//                LoggerManager.i("overrideUrlLoading", "url:" + s);
+//                WebViewActivity.start(FastStackUtil.getInstance().getCurrent(), s);
+//            }
+//        });
         setShortcut();
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

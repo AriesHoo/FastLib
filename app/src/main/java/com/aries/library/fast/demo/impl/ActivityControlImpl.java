@@ -45,6 +45,7 @@ import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
 import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.StatusBarUtil;
+import com.google.android.gms.ads.AdActivity;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
 import com.parfoismeng.slidebacklib.SlideBack;
@@ -197,7 +198,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 .setStatusViewColor(Color.argb(isSupportStatusBarFont ? 0 : 102, 0, 0, 0))
                 .setStatusLayoutColor(Color.WHITE);
         setStatusBarActivity(activity);
-        return true;
+        return !(activity instanceof AdActivity);
     }
 
     private boolean isLeak(Activity activity) {
@@ -231,7 +232,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                     .setEnable()
                     .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity));
         }
-        return isControlNavigation();
+        return isControlNavigation() && !(activity instanceof AdActivity);
     }
 
     private KeyboardHelper.OnKeyboardVisibilityChangedListener getOnKeyboardVisibilityChangedListener(Activity activity) {
@@ -300,6 +301,9 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 setActivityOrientation(activity);
                 Activity previous = FastStackUtil.getInstance().getPrevious();
                 if (previous != null && previous instanceof SwipeBackActivity) {
+                    return;
+                }
+                if (activity instanceof AdActivity) {
                     return;
                 }
                 //设置类全面屏手势滑动返回
