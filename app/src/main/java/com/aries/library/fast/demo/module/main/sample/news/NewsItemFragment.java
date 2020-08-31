@@ -2,17 +2,18 @@ package com.aries.library.fast.demo.module.main.sample.news;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.manager.TabLayoutManager;
 import com.aries.library.fast.module.fragment.FastTitleFragment;
 import com.aries.ui.util.StatusBarUtil;
-import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.view.tab.SlidingTabLayout;
+import com.aries.ui.view.title.TitleBarView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

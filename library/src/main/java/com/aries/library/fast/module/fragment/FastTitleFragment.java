@@ -2,14 +2,14 @@ package com.aries.library.fast.module.fragment;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.view.title.TitleBarView;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 /**
  * @Author: AriesHoo on 2018/7/23 10:34

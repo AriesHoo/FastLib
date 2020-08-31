@@ -2,6 +2,8 @@ package com.aries.template;
 
 import android.content.Context;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
@@ -9,8 +11,6 @@ import com.aries.template.impl.ActivityControlImpl;
 import com.aries.template.impl.AppImpl;
 import com.aries.template.impl.HttpRequestControlImpl;
 import com.orhanobut.logger.PrettyFormatStrategy;
-
-import androidx.multidex.MultiDexApplication;
 
 /**
  * @Author: AriesHoo on 2018/7/31 10:43

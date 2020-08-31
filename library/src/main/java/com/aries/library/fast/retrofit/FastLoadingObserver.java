@@ -3,13 +3,13 @@ package com.aries.library.fast.retrofit;
 
 import android.app.Activity;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 
 /**
  * @Author: AriesHoo on 2018/7/23 14:08

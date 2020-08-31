@@ -2,11 +2,11 @@ package com.aries.library.fast.i;
 
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @Author: AriesHoo on 2018/7/20 16:52

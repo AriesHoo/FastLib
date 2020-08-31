@@ -1,6 +1,7 @@
 package com.aries.library.fast.i;
 
 import android.app.Activity;
+
 import androidx.annotation.Nullable;
 
 import com.aries.library.fast.widget.FastLoadDialog;

@@ -7,6 +7,12 @@ import android.os.Build;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.WebAppActivity;
 import com.aries.library.fast.demo.retrofit.repository.BaseRepository;
@@ -39,11 +45,6 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 

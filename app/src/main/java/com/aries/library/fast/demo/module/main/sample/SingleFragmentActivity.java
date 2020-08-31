@@ -1,8 +1,9 @@
 package com.aries.library.fast.demo.module.main.sample;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.util.TypedValue;
+
+import androidx.fragment.app.Fragment;
 
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.constant.ApiConstant;

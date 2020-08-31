@@ -7,6 +7,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
+
 import com.aries.library.fast.R;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.i.IFastMainView;
@@ -18,12 +24,6 @@ import com.aries.ui.view.tab.listener.CustomTabEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * @Author: AriesHoo on 2018/7/13 17:52

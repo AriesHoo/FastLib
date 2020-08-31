@@ -2,6 +2,8 @@ package com.aries.library.fast.module.fragment;
 
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastRefreshLoadDelegate;
 import com.aries.library.fast.i.IFastRefreshLoadView;
@@ -10,7 +12,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-import androidx.recyclerview.widget.RecyclerView;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**

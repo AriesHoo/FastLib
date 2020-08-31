@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 
+import androidx.fragment.app.Fragment;
+
 import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
@@ -29,7 +31,6 @@ import org.simple.eventbus.EventBus;
 
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 

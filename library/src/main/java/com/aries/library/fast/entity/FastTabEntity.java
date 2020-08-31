@@ -2,10 +2,10 @@ package com.aries.library.fast.entity;
 
 import android.text.TextUtils;
 
+import androidx.fragment.app.Fragment;
+
 import com.aries.library.fast.FastManager;
 import com.aries.ui.view.tab.listener.CustomTabEntity;
-
-import androidx.fragment.app.Fragment;
 
 /**
  * @Author: AriesHoo on 2018/7/16 9:16

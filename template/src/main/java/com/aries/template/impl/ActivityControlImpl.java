@@ -12,24 +12,15 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.aries.library.fast.BuildConfig;
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
-import com.aries.template.App;
-import com.aries.template.R;
-import com.aries.template.SplashActivity;
-import com.aries.template.MainActivity;
 import com.aries.library.fast.i.ActivityDispatchEventControl;
 import com.aries.library.fast.i.ActivityFragmentControl;
 import com.aries.library.fast.i.ActivityKeyEventControl;
@@ -37,14 +28,16 @@ import com.aries.library.fast.impl.FastActivityLifecycleCallbacks;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
-import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.template.App;
+import com.aries.template.MainActivity;
+import com.aries.template.R;
+import com.aries.template.SplashActivity;
 import com.aries.ui.helper.navigation.KeyboardHelper;
 import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
 import com.aries.ui.helper.status.StatusViewHelper;
-import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.util.StatusBarUtil;
 
 

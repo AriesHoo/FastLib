@@ -1,6 +1,5 @@
 package com.aries.library.fast.demo;
 
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.SPUtil;
 
 public class AppData {

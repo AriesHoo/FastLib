@@ -4,16 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import com.aries.library.fast.R;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.ui.view.tab.CommonTabLayout;
 import com.aries.ui.view.tab.listener.OnTabSelectListener;
 
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * @Author: AriesHoo on 2018/7/20 17:07

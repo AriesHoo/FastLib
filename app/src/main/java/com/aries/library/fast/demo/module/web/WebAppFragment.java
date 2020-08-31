@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WebAppAdapter;
@@ -17,9 +20,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @Author: AriesHoo on 2019/4/24 14:36

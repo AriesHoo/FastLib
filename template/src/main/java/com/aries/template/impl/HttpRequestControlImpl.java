@@ -3,14 +3,14 @@ package com.aries.template.impl;
 import android.accounts.AccountsException;
 import android.accounts.NetworkErrorException;
 
-import com.aries.template.App;
-import com.aries.template.R;
 import com.aries.library.fast.i.HttpRequestControl;
 import com.aries.library.fast.i.IHttpRequestControl;
 import com.aries.library.fast.i.OnHttpRequestListener;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.NetworkUtil;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.template.App;
+import com.aries.template.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;

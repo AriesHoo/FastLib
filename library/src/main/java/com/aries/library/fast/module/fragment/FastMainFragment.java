@@ -2,14 +2,14 @@ package com.aries.library.fast.module.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
+
 import com.aries.library.fast.R;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.delegate.FastMainTabDelegate;
 import com.aries.library.fast.i.IFastMainView;
 import com.aries.ui.view.tab.listener.OnTabSelectListener;
-
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * @Author: AriesHoo on 2018/7/23 11:27

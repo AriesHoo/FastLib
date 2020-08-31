@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.manager.RxJavaManager;
@@ -53,9 +56,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.io.File;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 
 /**
  * @Author: AriesHoo on 2018/7/30 11:04

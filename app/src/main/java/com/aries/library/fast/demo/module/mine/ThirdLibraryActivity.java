@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
@@ -28,8 +31,6 @@ import com.trello.rxlifecycle3.android.ActivityEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**

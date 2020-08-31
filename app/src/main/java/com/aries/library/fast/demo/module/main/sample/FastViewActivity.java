@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.i.IFastTitleView;
@@ -11,9 +14,6 @@ import com.aries.ui.view.title.TitleBarView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @Author: AriesHoo on 2019/3/25 15:22

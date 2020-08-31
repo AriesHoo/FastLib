@@ -23,16 +23,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import com.aries.library.fast.FastConstant;
 import com.aries.ui.util.DrawableUtil;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Random;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
  * @Author: AriesHoo on 2018/7/23 9:29

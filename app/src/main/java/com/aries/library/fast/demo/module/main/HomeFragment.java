@@ -16,7 +16,6 @@ import com.aries.library.fast.demo.adapter.WidgetAdapter;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
-import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.helper.TitleBarViewHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.FastViewActivity;

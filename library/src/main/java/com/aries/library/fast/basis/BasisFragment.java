@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.fragment.app.FragmentManager;
+
 import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.i.IBasisView;
@@ -23,7 +25,6 @@ import com.trello.rxlifecycle3.components.support.RxFragment;
 
 import org.simple.eventbus.EventBus;
 
-import androidx.fragment.app.FragmentManager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 

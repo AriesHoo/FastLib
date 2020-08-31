@@ -3,6 +3,8 @@ package com.aries.library.fast.demo.helper;
 import android.app.Activity;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aries.library.fast.demo.base.BaseHelper;
 import com.aries.library.fast.demo.util.ViewColorUtil;
 import com.aries.library.fast.demo.widget.OverScrollView;
@@ -10,8 +12,6 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @Author: AriesHoo on 2018/11/2 14:03

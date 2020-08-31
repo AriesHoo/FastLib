@@ -10,13 +10,14 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+
 import com.aries.library.fast.FastConstant;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.R;
 import com.aries.library.fast.i.ToastControl;
 import com.aries.ui.view.radius.RadiusTextView;
 
-import androidx.annotation.ColorInt;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DefaultObserver;
@@ -631,7 +632,8 @@ public class ToastUtil {
                 return control.getToast();
             }
             //目前发现Android 9.0版本系统Toast做了单例操作造成短时间快速Toast 后面无法弹出问题
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            //Android 10.0又回滚了之前的操作-即目前只有Android 9.0内部做了单例操作
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P) {
                 return new Toast(sContext);
             }
             return SingleToastHolder.INSTANCE.getToast();

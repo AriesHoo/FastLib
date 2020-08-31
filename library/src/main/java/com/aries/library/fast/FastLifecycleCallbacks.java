@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.aries.library.fast.delegate.FastRefreshDelegate;
 import com.aries.library.fast.delegate.FastTitleDelegate;
 import com.aries.library.fast.i.ActivityFragmentControl;
@@ -32,10 +37,6 @@ import com.aries.ui.util.FindViewUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
 import com.aries.ui.view.title.TitleBarView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 /**

@@ -1,6 +1,5 @@
 package com.aries.library.fast.demo.module.main;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,18 +14,13 @@ import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.demo.module.web.WebAppFragment;
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.manager.LoggerManager;
-import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
-import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.tab.CommonTabLayout;
-import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import androidx.appcompat.app.AlertDialog;
 
 import butterknife.BindView;
 

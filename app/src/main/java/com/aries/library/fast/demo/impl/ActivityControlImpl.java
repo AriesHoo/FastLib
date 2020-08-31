@@ -5,9 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,12 +15,18 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.aries.library.fast.BuildConfig;
 import com.aries.library.fast.FastLifecycleCallbacks;
 import com.aries.library.fast.basis.BasisActivity;
 import com.aries.library.fast.basis.BasisFragment;
 import com.aries.library.fast.demo.App;
-import com.aries.library.fast.demo.AppData;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.module.SplashActivity;
 import com.aries.library.fast.demo.module.main.MainActivity;
@@ -53,13 +56,6 @@ import com.parfoismeng.slidebacklib.callback.SlideBackCallBack;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import static com.aries.library.fast.demo.App.isControlNavigation;
 
