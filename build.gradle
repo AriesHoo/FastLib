@@ -2,8 +2,11 @@
 
 buildscript {
     repositories {
-        jcenter()
-        google()
+//        jcenter()
+//        google()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
@@ -13,8 +16,11 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
-        google() //AndroidStudio v3.0 可以使用 google() 替代 maven { url "https://maven.google.com" }
+//        jcenter()
+//        google() //AndroidStudio v3.0 可以使用 google() 替代 maven { url "https://maven.google.com" }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
         maven { url "https://jitpack.io" }//FastLib 及部分三方库通过JitPack发布需添加才可依赖
         //蒲公英
         maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }

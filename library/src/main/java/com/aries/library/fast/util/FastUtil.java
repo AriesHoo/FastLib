@@ -193,13 +193,13 @@ public class FastUtil {
      * @param context
      * @return
      */
-    public static int getVersionCode(Context context) {
+    public static long getVersionCode(Context context) {
         try {
             PackageManager packageManager = context.getPackageManager();
             if (null != packageManager) {
                 PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
                 if (null != packageInfo) {
-                    return packageInfo.versionCode;
+                    return Build.VERSION.SDK_INT < Build.VERSION_CODES.P ? packageInfo.versionCode : packageInfo.getLongVersionCode();
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
