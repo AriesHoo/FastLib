@@ -33,9 +33,9 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 [[Download-蒲公英(安装密码1)]](https://www.pgyer.com/pqnm)
 
-![Download-蒲公英](https://gitee.com/AriesHoo/FastLib/apk/qr_pgyer.png)
+![Download-蒲公英](https://gitee.com/AriesHoo/FastLib/blob/master/apk/qr_pgyer.png)
 
-[[Download-github]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
+[[Download-github]](https://gitee.com/AriesHoo/FastLib/raw/master/apk/sample.apk)
 
 ![](/apk/qr.png)
 
@@ -123,34 +123,34 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
     
 ## 录屏预览
 
-![](/screenshot/fold.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/fold.gif)
 
 **折叠屏效果一览**
 
-![](/screenshot/FastRefresh.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/FastRefresh.gif)
 
 **快速实现页面下拉刷新-全局控制及局部个性化**-参考WebActivity、FastRefreshActivity、MineFragment
 
 
-![](/screenshot/02.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/02.gif)
 
 **虚拟导航栏控制**-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
 
 **模拟器软键盘控制**
 
-![](/screenshot/keyboard01.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/keyboard01.gif)
 
 **华为可隐藏软键盘控制**
 
-![](/screenshot/keyboard02.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/keyboard02.gif)
 
 **华为全面屏手势控制**
 
-![](/screenshot/keyboard03.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/keyboard03.gif)
 
-![](/screenshot/00.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/00.gif)
 
-![](/screenshot/01.gif)
+![](https://gitee.com/AriesHoo/FastLib/blob/master/screenshot/01.gif)
 
 **开启GPU过度绘制检测+GPU呈现模式分析**
 
