@@ -33,7 +33,7 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 [[Download-蒲公英(安装密码1)]](https://www.pgyer.com/pqnm)
 
-![Download-蒲公英](/apk/qr_pgyer.png)
+![Download-蒲公英](https://gitee.com/AriesHoo/FastLib/apk/qr_pgyer.png)
 
 [[Download-github]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
 
