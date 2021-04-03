@@ -3,7 +3,7 @@ package com.aries.library.fast.i;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.chad.library.adapter.base.loadmore.BaseLoadMoreView;
 
 /**
  * @Author: AriesHoo on 2018/7/23 10:39
@@ -20,5 +20,5 @@ public interface LoadMoreFoot {
      * @return
      */
     @Nullable
-    LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter);
+    BaseLoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter);
 }

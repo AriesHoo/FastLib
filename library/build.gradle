@@ -49,7 +49,7 @@ dependencies {
 //    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
     compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportVersion"
     //万能适配器
-    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
+    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     //webView库
     compileOnly 'com.just.agentweb:agentweb:4.1.2'
     //下拉刷新库

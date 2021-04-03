@@ -91,7 +91,7 @@ public abstract class FastRefreshLoadActivity<T>
     }
 
     @Override
-    public void onLoadMoreRequested() {
+    public void onLoadMore() {
         loadData(++mDefaultPage);
     }
 

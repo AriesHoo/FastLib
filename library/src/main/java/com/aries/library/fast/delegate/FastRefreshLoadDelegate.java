@@ -3,6 +3,7 @@ package com.aries.library.fast.delegate;
 import android.content.Context;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,7 +14,8 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
@@ -69,24 +71,23 @@ public class FastRefreshLoadDelegate<T> {
             FastManager.getInstance().getFastRecyclerViewControl().setRecyclerView(mRecyclerView, mTargetClass);
         }
         mAdapter = mIFastRefreshLoadView.getAdapter();
-        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager() == null ? new LinearLayoutManager(mContext) : mIFastRefreshLoadView.getLayoutManager());
-        mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager() == null ? new LinearLayoutManager(mContext) : mIFastRefreshLoadView.getLayoutManager());
+//        mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+//        mRecyclerView.setAdapter(mAdapter);
         if (mAdapter != null) {
             setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
             //先判断是否Activity/Fragment设置过;再判断是否有全局设置;最后设置默认
-            mAdapter.setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
-                    ? mIFastRefreshLoadView.getLoadMoreView() :
-                    mManager.getLoadMoreFoot() != null ?
-                            mManager.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter) :
-                            new FastLoadMoreView(mContext).getBuilder().build());
+//            mAdapter.setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
+//                    ? mIFastRefreshLoadView.getLoadMoreView() :
+//                    mManager.getLoadMoreFoot() != null ?
+//                            mManager.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter) :
+//                            new FastLoadMoreView(mContext).getBuilder().build());
             if (mIFastRefreshLoadView.isItemClickEnable()) {
-                mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                mAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                         mIFastRefreshLoadView.onItemClicked(adapter, view, position);
                     }
-
                 });
             }
         }
@@ -94,7 +95,7 @@ public class FastRefreshLoadDelegate<T> {
 
     public void setLoadMore(boolean enable) {
         if (mAdapter != null) {
-            mAdapter.setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null, mRecyclerView);
+            ///mAdapter.setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null, mRecyclerView);
         }
     }
 

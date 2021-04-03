@@ -72,6 +72,7 @@ android {
         resolutionStrategy {
             force 'com.squareup.okhttp3:logging-interceptor:3.12.2'
             force 'io.reactivex.rxjava2:rxjava:2.2.19'
+            force 'androidx.appcompat:appcompat:'.concat(supportVersion)
         }
     }
 }
@@ -97,7 +98,7 @@ dependencies {
     //页面事件交互-eventbus-按需导入
 //    implementation 'org.greenrobot:eventbus:3.1.1'
     //万能适配器--一般都需要吧
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不implementation
     implementation 'com.just.agentweb:agentweb:4.1.2'
     //webView提供下载功能

@@ -214,7 +214,8 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         boolean enable = previous != null && previous instanceof SwipeBackActivity;
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
-                .setPlusNavigationViewEnable(true)
+                ///目前全面屏比较多推荐使用该设置避免底部出现空白
+                .setPlusNavigationViewEnable(true,false,false)
                 //此处为配合BGASwipeBackHelper滑动返回效果-如不使用BGASwipeBackHelper推荐使用上面的方法
 //                .setPlusNavigationViewEnable(true, enable, enable)
                 .setNavigationBarLightMode(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity))

@@ -87,7 +87,7 @@ public abstract class FastRefreshLoadFragment<T>
     }
 
     @Override
-    public void onLoadMoreRequested() {
+    public void onLoadMore() {
         loadData(++mDefaultPage);
     }
 

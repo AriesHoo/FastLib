@@ -22,6 +22,7 @@
     <string name="fast_exception_other_error">Other Exception</string>
     <string name="fast_loading">Loading...</string>
     <string name="fast_cancel">Cancel</string>
+    <string name="fast_load_more_load_complete">Load complete</string>
     <string name="fast_load_more_load_end">No more data</string>
     <string name="fast_load_more_load_failed">Load more failed</string>
     <string name="fast_load_more_loading">Loading...</string>

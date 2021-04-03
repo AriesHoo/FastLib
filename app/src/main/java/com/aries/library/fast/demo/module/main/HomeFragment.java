@@ -40,7 +40,7 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.trello.rxlifecycle3.android.FragmentEvent;
 
 import java.util.ArrayList;

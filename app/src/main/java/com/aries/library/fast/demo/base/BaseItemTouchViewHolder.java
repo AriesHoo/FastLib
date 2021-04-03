@@ -4,7 +4,7 @@ import android.os.Build;
 import android.view.View;
 
 import com.aries.library.fast.demo.touch.ItemTouchHelperViewHolder;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 /**
  * @Author: AriesHoo on 2018/8/9 17:29

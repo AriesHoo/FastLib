@@ -7,9 +7,17 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.aries.library.fast.R;
+import com.chad.library.adapter.base.loadmore.BaseLoadMoreView;
+import com.chad.library.adapter.base.loadmore.LoadMoreStatus;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+
+import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
@@ -18,17 +26,13 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-import com.aries.library.fast.R;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.loadmore.LoadMoreView;
-
 /**
  * @Author: AriesHoo on 2018/7/23 14:38
  * @E-Mail: AriesHoo@126.com
  * Function: 用于快速设置 BaseRecyclerViewAdapterHelper LoadMoreView相关布局属性
  * Description:
  */
-public class FastLoadMoreView extends LoadMoreView {
+public class FastLoadMoreView extends BaseLoadMoreView {
 
     private BaseViewHolder mHolder;
 
@@ -78,29 +82,39 @@ public class FastLoadMoreView extends LoadMoreView {
         this.mLoadEndTextFakeBold = builder.mLoadEndTextFakeBold;
     }
 
+    @NotNull
     @Override
-    public int getLayoutId() {
-        return R.layout.fast_layout_load_more_view;
+    public View getLoadComplete(@NotNull BaseViewHolder holder) {
+        return holder.getView(R.id.fLayout_loadCompleteFastLoadMore);
+    }
+
+    @NotNull
+    @Override
+    public View getLoadEndView(@NotNull BaseViewHolder holder) {
+        return holder.getView(R.id.fLayout_loadEndFastLoadMore);
+    }
+
+    @NotNull
+    @Override
+    public View getLoadFailView(@NotNull BaseViewHolder holder) {
+        return holder.getView(R.id.fLayout_loadFailFastLoadMore);
+    }
+
+    @NotNull
+    @Override
+    public View getLoadingView(@NotNull BaseViewHolder holder) {
+        return holder.getView(R.id.lLayout_loadingFastLoadMore);
+    }
+
+    @NotNull
+    @Override
+    public View getRootView(@NotNull ViewGroup viewGroup) {
+        return View.inflate(viewGroup.getContext(), R.layout.fast_layout_load_more_view, null);
     }
 
     @Override
-    protected int getLoadingViewId() {
-        return R.id.lLayout_loadingFastLoadMore;
-    }
-
-    @Override
-    protected int getLoadFailViewId() {
-        return R.id.fLayout_loadFailFastLoadMore;
-    }
-
-    @Override
-    protected int getLoadEndViewId() {
-        return R.id.fLayout_loadEndFastLoadMore;
-    }
-
-    @Override
-    public void convert(BaseViewHolder holder) {
-        super.convert(holder);
+    public void convert(BaseViewHolder holder, int position, LoadMoreStatus loadMoreStatus) {
+        super.convert(holder, position, loadMoreStatus);
         if (holder != mHolder) {
             initView(holder);
         }

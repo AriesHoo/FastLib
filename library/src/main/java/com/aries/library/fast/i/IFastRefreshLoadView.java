@@ -5,8 +5,9 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.chad.library.adapter.base.loadmore.BaseLoadMoreView;
 
 /**
  * @Author: AriesHoo on 2018/7/20 16:52
@@ -17,7 +18,7 @@ import com.chad.library.adapter.base.loadmore.LoadMoreView;
  * 2、2018-7-20 17:39:55 去掉点击事件getMultiStatusViewChildClickListener
  * 3、2019-3-22 15:06:07 抽离下拉刷新功能并设置部分默认返回值
  */
-public interface IFastRefreshLoadView<T> extends IFastRefreshView, BaseQuickAdapter.RequestLoadMoreListener, IMultiStatusView {
+public interface IFastRefreshLoadView<T> extends IFastRefreshView, OnLoadMoreListener, IMultiStatusView {
     /**
      * 使用BaseRecyclerViewAdapterHelper作为上拉加载的实现方式
      * 如果使用ListView或GridView等需要自己去实现上拉加载更多的逻辑
@@ -40,7 +41,7 @@ public interface IFastRefreshLoadView<T> extends IFastRefreshView, BaseQuickAdap
      *
      * @return
      */
-    default LoadMoreView getLoadMoreView() {
+    default BaseLoadMoreView getLoadMoreView() {
         return null;
     }
 
@@ -76,7 +77,7 @@ public interface IFastRefreshLoadView<T> extends IFastRefreshView, BaseQuickAdap
      * @param view
      * @param position
      */
-    default void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position) {
+    default void onItemClicked(BaseQuickAdapter<?, ?> adapter, View view, int position) {
 
     }
 
