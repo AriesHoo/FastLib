@@ -17,6 +17,7 @@ import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.constant.SPConstant;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.helper.TitleBarViewHelper;
+import com.aries.library.fast.demo.module.TestRequestWindowActivity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.FastViewActivity;
 import com.aries.library.fast.demo.module.main.sample.GoogleAdActivity;
@@ -180,8 +181,8 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
         listActivity.clear();
         listActivity.add(GoogleAdActivity.class);
         listActivity.add(FastViewActivity.class);
-        listActivity.add(SwipeBackActivity.class);
-        listActivity.add(QQTitleActivity.class);
+//        listActivity.add(SwipeBackActivity.class);
+        listActivity.add(TestRequestWindowActivity.class);
         listActivity.add(ALiPayMainActivity.class);
         listActivity.add(NewsMainActivity.class);
         listActivity.add(TestStatusActivity.class);
@@ -257,6 +258,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     @Override
     protected void onVisibleChanged(boolean isVisibleToUser) {
         super.onVisibleChanged(isVisibleToUser);
+        ///通过是否被用户看见设置banner是否自动播放
         if (isVisibleToUser) {
             banner.startAutoPlay();
             if (mIsLight) {

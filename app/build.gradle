@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "Boolean", "LOG_ENABALE", "true"
         buildConfigField "String", "BASE_URL", "\"https://api.douban.com/\""
+        buildConfigField "String", "BASE_ARTICLE_URL", "\"https://api.readhub.me/\""
         buildConfigField "String", "BASE_UPDATE_URL", "\"https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/\""
         manifestPlaceholders = [
                 app_channel: "FastLib",
@@ -66,11 +67,13 @@ android {
             options.compilerArgs << "-Xlint:deprecation" << '-Xlint:-unchecked'
         }
     }
-//    configurations.all {
-//        resolutionStrategy {
-//            force 'com.squareup.okhttp3:logging-interceptor:3.12.2'
-//        }
-//    }
+    //强制版本
+    configurations.all {
+        resolutionStrategy {
+            force 'com.squareup.okhttp3:logging-interceptor:3.12.2'
+            force 'io.reactivex.rxjava2:rxjava:2.2.19'
+        }
+    }
 }
 
 dependencies {

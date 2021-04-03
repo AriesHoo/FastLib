@@ -12,6 +12,26 @@ public class ApiConstant {
     public static final String API_MOVIE_COMING_SOON = "v2/movie/coming_soon";
     public static final String API_MOVIE_TOP = "v2/movie/top250";
 
+    /**
+     * 热门话题
+     */
+    public static final String API_ARTICLE_TOPIC = "topic";
+
+    /**
+     * 科技动态
+     */
+    public static final String API_ARTICLE_NEWS = "news";
+
+    /**
+     * 开发者资讯
+     */
+    public static final String API_ARTICLE_TECH_NEWS = "technews";
+
+    /**
+     * 区块链
+     */
+    public static final String API_ARTICLE_BLOCK_CHAIN = "blockchain";
+
     public static final String API_UPDATE_APP = "update";
     public static final String API_UPDATE_APP_KEY = "update";
 }

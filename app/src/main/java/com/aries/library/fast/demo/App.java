@@ -122,7 +122,11 @@ public class App extends MultiDexApplication {
         //以下为配置多BaseUrl--默认方式一优先级高 可通过FastRetrofit.getInstance().setHeaderPriorityEnable(true);设置方式二优先级
         //方式一 通过Service 里的method-(如:) 设置 推荐 使用该方式不需设置如方式二的额外Header
         FastRetrofit.getInstance()
-                .putBaseUrl(ApiConstant.API_UPDATE_APP, BuildConfig.BASE_UPDATE_URL);
+                .putBaseUrl(ApiConstant.API_UPDATE_APP, BuildConfig.BASE_UPDATE_URL)
+                .putBaseUrl(ApiConstant.API_ARTICLE_TOPIC, BuildConfig.BASE_ARTICLE_URL)
+                .putBaseUrl(ApiConstant.API_ARTICLE_NEWS, BuildConfig.BASE_ARTICLE_URL)
+                .putBaseUrl(ApiConstant.API_ARTICLE_TECH_NEWS, BuildConfig.BASE_ARTICLE_URL)
+                .putBaseUrl(ApiConstant.API_ARTICLE_BLOCK_CHAIN, BuildConfig.BASE_ARTICLE_URL);
 
         //方式二 通过 Service 里添加特定header设置
         //step1

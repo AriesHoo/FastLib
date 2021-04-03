@@ -3,7 +3,6 @@ package com.aries.library.fast.delegate;
 import android.content.Context;
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +27,7 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
  * 1、使用StatusLayoutManager重构多状态布局功能
  * 2、2018-7-20 17:00:16 新增StatusLayoutManager 设置目标View优先级
  * 3、2018-7-20 17:44:30 新增StatusLayoutManager 点击事件处理
+ * 4、2021-03-01 08:56:55 删除设置多状态布局设置点击颜色相关控制避免color设置失效
  */
 public class FastRefreshLoadDelegate<T> {
 
@@ -116,10 +116,8 @@ public class FastRefreshLoadDelegate<T> {
         StatusLayoutManager.Builder builder = new StatusLayoutManager.Builder(contentView)
                 .setDefaultLayoutsBackgroundColor(android.R.color.transparent)
                 .setDefaultEmptyText(R.string.fast_multi_empty)
-                .setDefaultEmptyClickViewTextColor(ContextCompat.getColor(mContext, R.color.colorTitleText))
                 .setDefaultLoadingText(R.string.fast_multi_loading)
                 .setDefaultErrorText(R.string.fast_multi_error)
-                .setDefaultErrorClickViewTextColor(ContextCompat.getColor(mContext, R.color.colorTitleText))
                 .setOnStatusChildClickListener(new OnStatusChildClickListener() {
                     @Override
                     public void onEmptyChildClick(View view) {

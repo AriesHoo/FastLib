@@ -2,6 +2,7 @@ package com.aries.library.fast.demo.retrofit.repository;
 
 import com.aries.library.fast.demo.App;
 import com.aries.library.fast.demo.base.BaseMovieEntity;
+import com.aries.library.fast.demo.entity.BaseReadArticleEntity;
 import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.retrofit.service.ApiService;
 import com.aries.library.fast.retrofit.FastRetrofit;
@@ -55,10 +56,25 @@ public class ApiRepository extends BaseRepository {
      */
     public Observable<BaseMovieEntity> getMovie(String url, int start, int count) {
         Map<String, Object> params = new HashMap<>(3);
-        params.put("apikey","0b2bdeda43b5688921839c8ecb20399b");
+        params.put("apikey", "0b2bdeda43b5688921839c8ecb20399b");
         params.put("start", start);
         params.put("count", count);
         return FastTransformer.switchSchedulers(getApiService().getMovie(url, params).retryWhen(new FastRetryWhen()));
+    }
+
+    /**
+     * 获取新闻列表
+     *
+     * @param url   拼接URL
+     * @param start 起始 下标
+     * @param count 请求总数量
+     * @return
+     */
+    public Observable<BaseReadArticleEntity> getArticle(String url, String lastCursor, int pageSize) {
+        Map<String, Object> params = new HashMap<>(2);
+        params.put("lastCursor", lastCursor);
+        params.put("pageSize", pageSize);
+        return FastTransformer.switchSchedulers(getApiService().getArticle(url, params).retryWhen(new FastRetryWhen()));
     }
 
     /**

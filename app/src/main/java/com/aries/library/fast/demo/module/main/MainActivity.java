@@ -10,6 +10,7 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.activity.ActivityFragment;
+import com.aries.library.fast.demo.module.article.ArticleFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.demo.module.web.WebAppFragment;
 import com.aries.library.fast.entity.FastTabEntity;
@@ -51,7 +52,7 @@ public class MainActivity extends FastMainActivity {
         mTabEntities = new ArrayList<>();
         mTabEntities.add(new FastTabEntity(R.string.home, R.drawable.ic_home_normal, R.drawable.ic_home_selected, HomeFragment.newInstance()));
         mTabEntities.add(new FastTabEntity(R.string.web_app, R.drawable.ic_app_normal, R.drawable.ic_app_selected, WebAppFragment.newInstance()));
-        mTabEntities.add(new FastTabEntity(R.string.activity, R.drawable.ic_activity_normal, R.drawable.ic_activity_selected, ActivityFragment.newInstance()));
+        mTabEntities.add(new FastTabEntity(R.string.article, R.drawable.ic_activity_normal, R.drawable.ic_activity_selected, ArticleFragment.newInstance()));
         mTabEntities.add(new FastTabEntity(R.string.mine, R.drawable.ic_mine_normal, R.drawable.ic_mine_selected, MineFragment.newInstance()));
         return mTabEntities;
     }

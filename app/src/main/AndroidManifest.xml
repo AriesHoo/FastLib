@@ -82,6 +82,11 @@
             android:hardwareAccelerated="true"
             android:label="@string/fast_loading" />
         <activity
+            android:name=".module.TestRequestWindowActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="TestRequestWindowActivity" />
+        <activity
             android:name=".module.WebAppActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"

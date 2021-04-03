@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aries.ui.view.radius.RadiusRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/RadiusViewItemStyle"
+    android:paddingStart="@dimen/dp_margin_item"
+    android:paddingBottom="@dimen/dp_margin_item">
+
+    <TextView
+        android:id="@+id/tv_titleArticle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        tools:text="Title"/>
+
+    <TextView
+        android:id="@+id/tv_summaryArticle"
+        style="@style/TextStyleMovieItem"
+        android:layout_below="@id/tv_titleArticle"
+        android:maxLines="3"
+        android:ellipsize="end"
+        tools:text="Summary"/>
+
+    <TextView
+        android:id="@+id/tv_timeArticle"
+        style="@style/TextStyleMovieItem"
+        android:layout_below="@id/tv_summaryArticle"
+        tools:text="Time"/>
+
+</com.aries.ui.view.radius.RadiusRelativeLayout>

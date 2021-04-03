@@ -5,6 +5,11 @@
         <item>即将上映</item>
         <item>Top250</item>
     </string-array>
+    <string-array name="arrays_tab_article">
+        <item>热门话题</item>
+        <item>科技动态</item>
+        <item>开发者资讯</item>
+    </string-array>
     <array name="fast_arrays_web_more">
         <item>刷新</item>
         <item>复制链接</item>
@@ -13,7 +18,7 @@
     <array name="arrays_home_list_title">
         <item>Google广告SDK测试</item>
         <item>模拟快速下拉刷新及TitleBarView统一设置</item>
-        <item>微信滑动返回样式效果</item>
+<!--        <item>微信滑动返回样式效果</item>-->
         <item>QQ默认主题TitleBar背景渐变效果</item>
         <item>支付宝主界面效果</item>
         <item>腾讯新闻主界面效果</item>
@@ -131,12 +136,7 @@
         <item>https://github.com/Justson/AgentWeb</item>
     </array>
     <array name="arrays_banner_all">
-        <item>https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4270981572,1990926314&amp;fm=26&amp;gp=0.jpg</item>
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502003928365&amp;di=839014a9b6059219d80c108f9079b553&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F50a1e758d65ee.jpg</item>
         <item>https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=885351950,1427114975&amp;fm=26&amp;gp=0.jpg</item>
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405269&amp;di=89623856f896879f764d0a3316d1db74&amp;imgtype=0&amp;src=http%3A%2F%2Fp2.gexing.com%2Fshaitu%2F20130512%2F1823%2F518f6d8447363.jpg</item>
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502192405268&amp;di=542a54fb3f2b50f1941965c25517869f&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F1%2F57a2fa3c59b53.jpg</item>
-        <item>https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1502008608181&amp;di=09ad460e1c901ed3097d60d7c8461a92&amp;imgtype=0&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F3%2F5880197169c04.jpg</item>
         <item>https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2060246906,3265914169&amp;fm=26&amp;gp=0.jpg</item>
     </array>
 

@@ -3,6 +3,7 @@ package com.aries.library.fast.demo.retrofit.service;
 
 import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.constant.ApiConstant;
+import com.aries.library.fast.demo.entity.BaseReadArticleEntity;
 import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.retrofit.FastRetrofit;
 
@@ -31,6 +32,16 @@ public interface ApiService {
      */
     @GET("{url}")
     Observable<BaseMovieEntity> getMovie(@Path("url") String url, @QueryMap Map<String, Object> map);
+
+    /**
+     * 获取新闻数据
+     *
+     * @param url
+     * @param map
+     * @return
+     */
+    @GET("{url}")
+    Observable<BaseReadArticleEntity> getArticle(@Path("url") String url, @QueryMap Map<String, Object> map);
 
     /**
      * 检查应用更新--同时设置了Method及Header模式重定向请求Url,默认Method优先;
