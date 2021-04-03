@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -109,7 +110,8 @@ public class FastLoadMoreView extends BaseLoadMoreView {
     @NotNull
     @Override
     public View getRootView(@NotNull ViewGroup viewGroup) {
-        return View.inflate(viewGroup.getContext(), R.layout.fast_layout_load_more_view, null);
+        return  LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fast_layout_load_more_view, viewGroup, false);
+//        return View.inflate(viewGroup.getContext(), R.layout.fast_layout_load_more_view, null);
     }
 
     @Override

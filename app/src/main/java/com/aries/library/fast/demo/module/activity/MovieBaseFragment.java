@@ -116,7 +116,7 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
                 int lastPosition = linearManager.findLastVisibleItemPosition();
                 // 如果滑动到倒数第三条数据，就自动加载下一页数据
                 if (lastPosition >= layoutManager.getItemCount() - 5) {
-                    onLoadMoreRequested();
+                    onLoadMore();
                 }
 
             }

@@ -46,7 +46,7 @@ android {
 }
 dependencies {
     compileOnly "com.google.android.material:material:$rootProject.supportVersion"
-//    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
+    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
     compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportVersion"
     //万能适配器
     compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
@@ -74,7 +74,7 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     api 'com.google.code.gson:gson:2.8.5'
     //处理rxjava内存泄漏-生命周期绑定
-    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
+    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.1.0'
     //滑动返回Activity
     compileOnly 'cn.bingoogolapple:bga-swipebacklayout:2.0.1@aar'
     //页面事件交互-androideventbus-停止维护

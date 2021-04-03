@@ -108,23 +108,25 @@ public class ActicleBaseFragment extends FastRefreshLoadFragment<ReadArticleItem
                             }
                         }));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                //判断是当前layoutManager是否为LinearLayoutManager
-                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                //获取最后一个可见view的位置
-                LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                int lastPosition = linearManager.findLastVisibleItemPosition();
-                // 如果滑动到倒数第三条数据，就自动加载下一页数据
-                if (lastPosition >= layoutManager.getItemCount() - 5) {
-                    onLoadMoreRequested();
-                }
 
-            }
-        });
+        ///通过监听滚动实现提前加载下一页功能
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                //判断是当前layoutManager是否为LinearLayoutManager
+//                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+//                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+//                //获取最后一个可见view的位置
+//                LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+//                int lastPosition = linearManager.findLastVisibleItemPosition();
+//                // 如果滑动到倒数第三条数据，就自动加载下一页数据
+//                if (lastPosition >= layoutManager.getItemCount() - 5) {
+//                    onLoadMore();
+//                }
+//
+//            }
+//        });
     }
 
     @Override

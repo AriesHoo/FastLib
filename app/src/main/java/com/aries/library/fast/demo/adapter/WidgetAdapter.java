@@ -8,6 +8,7 @@ import com.aries.library.fast.demo.base.BaseItemTouchViewHolder;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.helper.RadiusViewHelper;
 import com.aries.ui.view.radius.RadiusRelativeLayout;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * Function: 描述性条目适配器
  * Description:
  */
-public class WidgetAdapter extends BaseItemTouchQuickAdapter<WidgetEntity, BaseItemTouchViewHolder>{
+public class WidgetAdapter extends BaseItemTouchQuickAdapter<WidgetEntity, BaseItemTouchViewHolder> {
 
     public WidgetAdapter() {
         super(R.layout.item_widget, new ArrayList<>());

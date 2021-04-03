@@ -12,6 +12,7 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.NetworkUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
@@ -57,17 +58,21 @@ public class HttpRequestControlImpl implements HttpRequestControl {
         if (adapter == null) {
             return;
         }
-        adapter.loadMoreComplete();
+        if (adapter instanceof LoadMoreModule) {
+            adapter.getLoadMoreModule().loadMoreComplete();
+        }
         if (list == null || list.size() == 0) {
             //第一页没有
             if (page == 0) {
-                adapter.setNewData(new ArrayList());
+                adapter.setNewInstance(new ArrayList());
                 statusLayoutManager.showEmptyLayout();
                 if (listener != null) {
                     listener.onEmpty();
                 }
             } else {
-                adapter.loadMoreEnd();
+                if (adapter instanceof LoadMoreModule) {
+                    adapter.getLoadMoreModule().loadMoreEnd();
+                }
                 if (listener != null) {
                     listener.onNoMore();
                 }
@@ -76,14 +81,16 @@ public class HttpRequestControlImpl implements HttpRequestControl {
         }
         statusLayoutManager.showSuccessLayout();
         if (smartRefreshLayout.getState() == RefreshState.Refreshing || page == 0) {
-            adapter.setNewData(new ArrayList());
+            adapter.setNewInstance(new ArrayList());
         }
         adapter.addData(list);
         if (listener != null) {
             listener.onNext();
         }
         if (list.size() < size) {
-            adapter.loadMoreEnd();
+            if (adapter instanceof LoadMoreModule) {
+                adapter.getLoadMoreModule().loadMoreEnd();
+            }
             if (listener != null) {
                 listener.onNoMore();
             }
@@ -139,7 +146,9 @@ public class HttpRequestControlImpl implements HttpRequestControl {
             smartRefreshLayout.finishRefresh(false);
         }
         if (adapter != null) {
-            adapter.loadMoreComplete();
+            if (adapter instanceof LoadMoreModule) {
+                adapter.getLoadMoreModule().loadMoreComplete();
+            }
             if (statusLayoutManager == null) {
                 return;
             }
@@ -149,7 +158,7 @@ public class HttpRequestControlImpl implements HttpRequestControl {
 //                    //可自定义网络错误页面展示
 //                    statusLayoutManager.showCustomLayout(R.layout.layout_status_layout_manager_error);
 //                } else {
-                    statusLayoutManager.showErrorLayout();
+                statusLayoutManager.showErrorLayout();
 //                }
                 return;
             }

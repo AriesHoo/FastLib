@@ -77,7 +77,7 @@ public interface IFastRefreshLoadView<T> extends IFastRefreshView, OnLoadMoreLis
      * @param view
      * @param position
      */
-    default void onItemClicked(BaseQuickAdapter<?, ?> adapter, View view, int position) {
+    default void onItemClicked(BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position) {
 
     }
 

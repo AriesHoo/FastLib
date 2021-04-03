@@ -21,10 +21,10 @@ public abstract class BaseItemTouchQuickAdapter<T, K extends BaseViewHolder> ext
 
     public BaseItemTouchQuickAdapter(@LayoutRes int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
-        this.mData = data == null ? new ArrayList<>() : data;
-        if (layoutResId != 0) {
-            this.mLayoutResId = layoutResId;
-        }
+//        this.mData = data == null ? new ArrayList<>() : data;
+//        if (layoutResId != 0) {
+//            this.mLayoutResId = layoutResId;
+//        }
     }
 
     public BaseItemTouchQuickAdapter(@Nullable List<T> data) {

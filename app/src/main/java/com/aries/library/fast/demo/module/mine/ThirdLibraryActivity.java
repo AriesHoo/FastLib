@@ -97,14 +97,14 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
     @Override
     public BaseQuickAdapter<WidgetEntity, BaseViewHolder> getAdapter() {
         mAdapter = new WidgetAdapter();
-        animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
-        mAdapter.openLoadAnimation(animationIndex);
+       // animationIndex = (int) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_ANIMATION_INDEX, animationIndex - 1) + 1;
+        //mAdapter.openLoadAnimation(animationIndex);
         return (BaseQuickAdapter) mAdapter;
     }
 
     @Override
     public void loadData(int page) {
-        mAdapter.openLoadAnimation(animationIndex);
+        //mAdapter.openLoadAnimation(animationIndex);
         List<WidgetEntity> list = new ArrayList<>();
         String[] titles = getResources().getStringArray(R.array.arrays_library_list_title);
         String[] contents = getResources().getStringArray(R.array.arrays_library_list_content);
@@ -120,13 +120,13 @@ public class ThirdLibraryActivity extends FastRefreshLoadActivity<WidgetEntity> 
                 .subscribe(new FastLoadingObserver<List<WidgetEntity>>("我就试一试不好用") {
                     @Override
                     public void _onNext(List<WidgetEntity> entity) {
-                        mAdapter.openLoadAnimation(animationIndex);
+                       // mAdapter.openLoadAnimation(animationIndex);
                         mStatusManager.showSuccessLayout();
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.finishLoadMore();
-                        mAdapter.loadMoreComplete();
+                        //mAdapter.loadMoreComplete();
                         if (mRefreshLayout.getState()== RefreshState.Refreshing) {
-                            mAdapter.setNewData(entity);
+                            mAdapter.setNewInstance(entity);
                         } else {
                             mAdapter.addData(entity);
                         }

@@ -15,6 +15,7 @@ import com.aries.library.fast.widget.FastLoadMoreView;
 import com.aries.ui.util.FindViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -71,22 +72,25 @@ public class FastRefreshLoadDelegate<T> {
             FastManager.getInstance().getFastRecyclerViewControl().setRecyclerView(mRecyclerView, mTargetClass);
         }
         mAdapter = mIFastRefreshLoadView.getAdapter();
-//        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager() == null ? new LinearLayoutManager(mContext) : mIFastRefreshLoadView.getLayoutManager());
-//        mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mIFastRefreshLoadView.getLayoutManager() == null ? new LinearLayoutManager(mContext) : mIFastRefreshLoadView.getLayoutManager());
+        mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mRecyclerView.setAdapter(mAdapter);
         if (mAdapter != null) {
             setLoadMore(mIFastRefreshLoadView.isLoadMoreEnable());
             //先判断是否Activity/Fragment设置过;再判断是否有全局设置;最后设置默认
-//            mAdapter.setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
-//                    ? mIFastRefreshLoadView.getLoadMoreView() :
-//                    mManager.getLoadMoreFoot() != null ?
-//                            mManager.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter) :
-//                            new FastLoadMoreView(mContext).getBuilder().build());
+            //是否实现加载更多接口
+            if (mAdapter instanceof LoadMoreModule) {
+                mAdapter.getLoadMoreModule().setLoadMoreView(mIFastRefreshLoadView.getLoadMoreView() != null
+                        ? mIFastRefreshLoadView.getLoadMoreView() :
+                        mManager.getLoadMoreFoot() != null ?
+                                mManager.getLoadMoreFoot().createDefaultLoadMoreView(mAdapter) :
+                                new FastLoadMoreView(mContext).getBuilder().build());
+            }
             if (mIFastRefreshLoadView.isItemClickEnable()) {
                 mAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                        mIFastRefreshLoadView.onItemClicked(adapter, view, position);
+                        mIFastRefreshLoadView.onItemClicked((BaseQuickAdapter<T, BaseViewHolder>) adapter, view, position);
                     }
                 });
             }
@@ -94,8 +98,10 @@ public class FastRefreshLoadDelegate<T> {
     }
 
     public void setLoadMore(boolean enable) {
-        if (mAdapter != null) {
-            ///mAdapter.setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null, mRecyclerView);
+        if (mAdapter != null && mAdapter instanceof LoadMoreModule) {
+            mAdapter.getLoadMoreModule().setEnableLoadMore(enable);
+            ///加载更多监听
+            mAdapter.getLoadMoreModule().setOnLoadMoreListener(enable ? mIFastRefreshLoadView : null);
         }
     }
 

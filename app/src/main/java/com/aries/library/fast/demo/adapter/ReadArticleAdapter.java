@@ -11,6 +11,7 @@ import com.aries.library.fast.demo.helper.RadiusViewHelper;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.view.radius.RadiusRelativeLayout;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.flyco.labelview.LabelView;
 
 /**
@@ -19,7 +20,7 @@ import com.flyco.labelview.LabelView;
  * Function:
  * Description:
  */
-public class ReadArticleAdapter extends BaseItemTouchQuickAdapter<ReadArticleItemEntity, BaseItemTouchViewHolder> {
+public class ReadArticleAdapter extends BaseItemTouchQuickAdapter<ReadArticleItemEntity, BaseItemTouchViewHolder> implements LoadMoreModule {
 
     boolean isShowTop;
 
