@@ -35,14 +35,11 @@ import butterknife.BindView;
  */
 public class ActivityFragment extends FastTitleFragment {
 
-    @BindView(R.id.vp_contentFastLib) ViewPager vpContent;
+    @BindView(R.id.vp_contentFastLib)
+    ViewPager mVpContent;
     private List<Fragment> listFragment = new ArrayList<>();
-    private SegmentTabLayout mSegmentTab;
     private SlidingTabLayout mSlidingTab;
-    private View viewSliding;
-    private View viewSegment;
-
-    private boolean isSliding = true;
+    private View mViewSliding;
 
     public static ActivityFragment newInstance() {
         Bundle args = new Bundle();
@@ -54,38 +51,16 @@ public class ActivityFragment extends FastTitleFragment {
     @Override
     public void beforeSetContentView() {
         super.beforeSetContentView();
-        LoggerManager.d(TAG, "refreshActivityTab:" + isSliding);
     }
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, true);
-        if (isSliding && viewSliding == null) {
-            viewSliding = View.inflate(mContext, R.layout.layout_activity_sliding, null);
-            mSlidingTab = viewSliding.findViewById(R.id.tabLayout_slidingActivity);
-        } else if (!isSliding && viewSegment == null) {
-            viewSegment = View.inflate(mContext, R.layout.layout_activity_segment, null);
-            mSegmentTab = viewSegment.findViewById(R.id.tabLayout_segment);
-        }
+        mViewSliding = View.inflate(mContext, R.layout.layout_activity_sliding, null);
+        mSlidingTab = mViewSliding.findViewById(R.id.tabLayout_slidingActivity);
         LinearLayout center = titleBar.getLinearLayout(Gravity.CENTER);
-        if (isSliding) {
-            if (center.indexOfChild(viewSliding) == -1) {
-                titleBar.addCenterAction(titleBar.new ViewAction(viewSliding),
-                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            }
-            viewSliding.setVisibility(View.VISIBLE);
-            if (viewSegment != null) {
-                viewSegment.setVisibility(View.GONE);
-            }
-        } else {
-            if (center.indexOfChild(viewSegment) == -1) {
-                titleBar.addCenterAction(titleBar.new ViewAction(viewSegment),
-                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            }
-            viewSegment.setVisibility(View.VISIBLE);
-            if (viewSliding != null) {
-                viewSliding.setVisibility(View.GONE);
-            }
+        if (center.indexOfChild(mViewSliding) == -1) {
+            titleBar.addCenterAction(titleBar.new ViewAction(mViewSliding),
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
         setTab();
     }
@@ -100,43 +75,17 @@ public class ActivityFragment extends FastTitleFragment {
      */
     @Override
     public void initView(Bundle savedInstanceState) {
-//        setTab();
     }
-
-    @Override
-    public void loadData() {
-        super.loadData();
-//        setTab();
-    }
-
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-//            LoggerManager.d(TAG, "竖屏");
-//        } else {
-//            LoggerManager.d(TAG, "横屏");
-//        }
-//        setTab();
-//    }
 
     private void setTab() {
-        isSliding = (boolean) SPUtil.get(mContext, SPConstant.SP_KEY_ACTIVITY_TAB_SLIDING, isSliding);
-        vpContent.removeAllViews();
+        mVpContent.removeAllViews();
         listFragment.clear();
 
         listFragment.add(MovieBaseFragment.newInstance(ApiConstant.API_MOVIE_IN_THEATERS));
         listFragment.add(MovieBaseFragment.newInstance(ApiConstant.API_MOVIE_COMING_SOON));
         listFragment.add(MovieBaseFragment.newInstance(ApiConstant.API_MOVIE_TOP));
-        if (isSliding) {
-            TabLayoutManager.getInstance().setSlidingTabData(this, mSlidingTab, vpContent,
-                    getTitles(R.array.arrays_tab_activity), listFragment);
-        } else {
-            TabLayoutManager.getInstance().setSegmentTabData(this, mSegmentTab, vpContent,
-                    getResources().getStringArray(R.array.arrays_tab_activity), listFragment);
-        }
-        //SlidingTabLayout--需这样切换一下不然选中变粗没有效果不知是SlidingTabLayout BUG还是设置问题
-//        mSlidingTab.setCurrentTab(1);
+        TabLayoutManager.getInstance().setSlidingTabData(this, mSlidingTab, mVpContent,
+                getTitles(R.array.arrays_tab_activity), listFragment);
         mSlidingTab.setCurrentTab(0);
     }
 
@@ -151,12 +100,4 @@ public class ActivityFragment extends FastTitleFragment {
             StatusBarUtil.setStatusBarLightMode(mContext);
         }
     }
-
-//    @Subscriber(mode = ThreadMode.MAIN, tag = EventConstant.EVENT_KEY_REFRESH_ACTIVITY_TAB)
-//    public void refreshActivityTab(boolean isSliding) {
-//        mIsFirstShow = true;
-//        setTitleBar(mTitleBar);
-//        setTab();
-//    }
-
 }

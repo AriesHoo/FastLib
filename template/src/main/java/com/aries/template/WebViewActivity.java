@@ -51,9 +51,8 @@ import com.just.agentweb.IVideo;
 import com.just.agentweb.MiddlewareWebChromeBase;
 import com.just.agentweb.VideoImpl;
 import com.just.agentweb.WebListenerManager;
-import com.scwang.smartrefresh.header.StoreHouseHeader;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.io.File;
 
@@ -78,7 +77,7 @@ public class WebViewActivity extends FastWebActivity  implements IFastRefreshVie
 
     public static void start(Context mActivity, String url, boolean isShowTitle) {
         mIsShowTitle = isShowTitle;
-        start(mActivity, WebViewActivity.class, url);
+        start(mActivity, WebViewActivity.class, url,true);
     }
 
     @Override
@@ -238,15 +237,15 @@ public class WebViewActivity extends FastWebActivity  implements IFastRefreshVie
         return null;
     }
 
-    @Override
-    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
-        this.mRefreshLayout = refreshLayout;
-        refreshLayout.setRefreshHeader(new StoreHouseHeader(mContext)
-                .initWithString("FastLib Refresh")
-                .setTextColor(ContextCompat.getColor(mContext, R.color.colorTextBlack)))
-                .setPrimaryColorsId(android.R.color.transparent)
-                .setEnableHeaderTranslationContent(true);
-    }
+//    @Override
+//    public void setRefreshLayout(SmartRefreshLayout refreshLayout) {
+//        this.mRefreshLayout = refreshLayout;
+//        refreshLayout.setRefreshHeader(new StoreHouseHeader(mContext)
+//                .initWithString("FastLib Refresh")
+//                .setTextColor(ContextCompat.getColor(mContext, R.color.colorTextBlack)))
+//                .setPrimaryColorsId(android.R.color.transparent)
+//                .setEnableHeaderTranslationContent(true);
+//    }
 
     @Override
     public boolean setNavigationBar(Dialog dialog, NavigationViewHelper helper, View bottomView) {

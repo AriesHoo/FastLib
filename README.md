@@ -22,7 +22,7 @@
 
 [wiki](https://github.com/AriesHoo/FastLib/wiki) 基于**FastLib 2.2.12** 、**Android Studio 3.3.1**、**Gradle 4.10.1**版本编写,后期重大变更会同步更新。
 
-Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.douban.com/wiki/?title=api_v2) **版权及最终解释权归d豆瓣所有,如有侵权请联系删除!**
+Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版权及最终解释权归readhub所有,如有侵权请联系删除!**
 
 ## 主要功能
 
@@ -50,13 +50,17 @@ Demo中使用到的网络请求api来源于[豆瓣API V2](https://developers.dou
 
 2、**2.2.13_beta12以下版本**可参考[proguard-rules.pro](/library/proguard-rules.pro)
 
-## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
-
-
 ## 关于模板项目template
 
  伴随新版本 2.3.6 发布，项目增加一个模板项目 template 以完成基础配置，开发者可直接在此项目上进行开发方便。
+ 
+## 重大更新日志 其它版本参看[Release](https://github.com/AriesHoo/FastLib/releases)
+ 
+* 2.4.0
 
+    * 升级: 升级BaseRecyclerViewAdapterHelper到3.x--升级变动较大主要是BaseRecyclerViewAdapterHelper包名及部分api调整参考demo
+    * 升级: 升级SmartRefreshLayout到2.x-升级变动较大主要是包名及api变动及拆分了不同的刷新头和脚
+    * 升级: 日常升级其它三方库版本不涉及包名及api变更
 
 * 2.3.2
 

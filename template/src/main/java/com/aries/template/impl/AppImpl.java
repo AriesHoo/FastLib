@@ -36,11 +36,12 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.aries.ui.view.title.TitleBarView;
 import com.aries.ui.widget.progress.UIProgressDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.loadmore.LoadMoreView;
-import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.chad.library.adapter.base.animation.ScaleInAnimation;
+import com.chad.library.adapter.base.loadmore.BaseLoadMoreView;
+import com.scwang.smart.refresh.header.MaterialHeader;
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
@@ -89,13 +90,13 @@ public class AppImpl implements DefaultRefreshHeaderCreator, LoadMoreFoot,
      */
     @Nullable
     @Override
-    public LoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
+    public BaseLoadMoreView createDefaultLoadMoreView(BaseQuickAdapter adapter) {
         if (adapter != null) {
             //设置动画是否一直开启
-            adapter.isFirstOnly(false);
+            adapter.setAnimationFirstOnly(false);
             //设置动画
-            adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-            adapter.openLoadAnimation();
+            adapter.setAdapterAnimation(new ScaleInAnimation());
+            adapter.setAnimationEnable(true);
         }
         //方式一:设置FastLoadMoreView--可参考FastLoadMoreView.Builder相应set方法
         //默认配置请参考FastLoadMoreView.Builder(mContext)里初始化

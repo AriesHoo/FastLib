@@ -45,31 +45,32 @@ android {
     }
 }
 dependencies {
-    compileOnly "com.google.android.material:material:$rootProject.supportVersion"
+    compileOnly "com.google.android.material:material:".concat(supportVersion)
     compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
-    compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportVersion"
+    compileOnly "androidx.recyclerview:recyclerview:".concat(supportVersion)
     //万能适配器
-    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:'.concat(BRVAHVersion)
     //webView库
-    compileOnly 'com.just.agentweb:agentweb:4.1.2'
+    compileOnly 'com.just.agentweb:agentweb:'.concat(agentwebVersion)
     //下拉刷新库
-    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+//    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+    compileOnly 'com.scwang.smart:refresh-layout-kernel:'.concat(smartRefreshLayoutVersion)
     //图片加载
-    compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+    compileOnly 'com.github.bumptech.glide:glide:'.concat(glideVersion)
     //常用UI控件(TitleBarView、RadiusView等)
-    api "com.github.AriesHoo.UIWidget:widget-core:$rootProject.widgetVersion"
+    api "com.github.AriesHoo.UIWidget:widget-core:".concat(widgetVersion)
     //快速Tab库
-    compileOnly "com.github.AriesHoo.UIWidget:tab-layout:$rootProject.widgetVersion"
+    compileOnly "com.github.AriesHoo.UIWidget:tab-layout:".concat(widgetVersion)
     //日志打印
     api 'com.orhanobut:logger:2.2.0'
     //注解
-    api 'com.jakewharton:butterknife:10.1.0'
+    api 'com.jakewharton:butterknife:'.concat(butterknifeVersion)
     //retrofit+rxjava 网络请求及数据解析相关
-    api "io.reactivex.rxjava2:rxjava:2.2.6"
+    api "io.reactivex.rxjava2:rxjava:2.2.20"
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'com.squareup.retrofit2:retrofit:2.6.1'
-    api 'com.squareup.retrofit2:converter-gson:2.6.1'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     //3.12.x是支持Android 4.4的
     api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     api 'com.google.code.gson:gson:2.8.5'

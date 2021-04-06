@@ -73,6 +73,9 @@ android {
             force 'com.squareup.okhttp3:logging-interceptor:3.12.2'
             force 'io.reactivex.rxjava2:rxjava:2.2.19'
             force 'androidx.appcompat:appcompat:'.concat(supportVersion)
+            force 'com.google.android.material:material:'.concat(supportVersion)
+            force 'androidx.appcompat:appcompat:'.concat(supportVersion)
+            force 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
         }
     }
 }
@@ -80,7 +83,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library')
-//        implementation 'com.github.AriesHoo:FastLib:2.3.5'
+    //implementation 'com.github.AriesHoo:FastLib:2.4.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
@@ -90,7 +93,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:'.concat(supportVersion)
     implementation 'androidx.recyclerview:recyclerview:'.concat(supportVersion)
     //快速Tab库-继承FastMainActivity使用
-    implementation "com.github.AriesHoo.UIWidget:tab-layout:$rootProject.widgetVersion"
+    implementation "com.github.AriesHoo.UIWidget:tab-layout:".concat(widgetVersion)
     //滑动返回Activity-鉴于现在全面屏比较多不推荐使用该库
     implementation 'cn.bingoogolapple:bga-swipebacklayout:2.0.1@aar'
     //页面事件交互-androideventbus-停止维护-按需导入
@@ -98,20 +101,21 @@ dependencies {
     //页面事件交互-eventbus-按需导入
 //    implementation 'org.greenrobot:eventbus:3.1.1'
     //万能适配器--一般都需要吧
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:'.concat(BRVAHVersion)
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不implementation
-    implementation 'com.just.agentweb:agentweb:4.1.2'
+    implementation 'com.just.agentweb:agentweb:'.concat(agentwebVersion)
     //webView提供下载功能
-    implementation 'com.download.library:Downloader:4.1.2'
+    implementation 'com.download.library:Downloader:'.concat(agentwebVersion)
     //下拉刷新库注意刷新头SmartRefreshHeader版本最好对应尤其头版本不要低于SmartRefreshLayout版本
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+    implementation 'com.scwang.smart:refresh-layout-kernel:'.concat(smartRefreshLayoutVersion)
+    implementation 'com.scwang.smart:refresh-header-material:'.concat(smartRefreshLayoutVersion)
+    implementation  'com.scwang.smart:refresh-header-classics:'.concat(smartRefreshLayoutVersion)
     //Glide图片加载
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'com.github.bumptech.glide:glide:'.concat(glideVersion)
+    annotationProcessor 'com.github.bumptech.glide:compiler:'.concat(glideVersion)
+    annotationProcessor 'com.jakewharton:butterknife-compiler:'.concat(butterknifeVersion)
     //以上库FastLib里使用compileOnly只是编译,使用时需根据项目选择相应版本
     implementation 'cn.bingoogolapple:bga-banner:2.1.7@aar'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-14'
     implementation 'com.github.lygttpod:SuperTextView:2.1.8'
     implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
     //文件选择器

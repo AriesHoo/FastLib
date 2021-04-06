@@ -7,8 +7,8 @@ import android.view.View;
 import com.aries.library.fast.demo.R;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.title.TitleBarView;
-import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.header.MaterialHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 /**
  * @Author: AriesHoo on 2019/4/24 13:41
@@ -26,7 +26,7 @@ public class WebAppActivity extends WebViewActivity {
 
     public static void start(Context mActivity, String url, int color) {
         mColor = color;
-        start(mActivity, WebAppActivity.class, url);
+        start(mActivity, WebAppActivity.class, url,true);
     }
 
     @Override

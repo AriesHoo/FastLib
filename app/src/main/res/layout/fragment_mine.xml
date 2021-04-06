@@ -119,6 +119,7 @@
                 app:sLeftTextString="@string/share"/>
 
             <com.allen.library.SuperTextView
+                android:visibility="gone"
                 android:id="@+id/stv_updateMine"
                 style="@style/SupperTextStyleItem"
                 android:layout_below="@id/stv_shareMine"

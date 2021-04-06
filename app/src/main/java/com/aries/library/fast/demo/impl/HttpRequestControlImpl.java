@@ -16,8 +16,8 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 
 import java.net.ConnectException;
 import java.net.SocketException;

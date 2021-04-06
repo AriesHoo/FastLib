@@ -36,9 +36,9 @@ import java.util.ArrayList;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 
 /**
- * @Author: AriesHoo on 2018/8/10 10:14
+ * @Author: AriesHoo on 2021/4/5 10:14
  * @E-Mail: AriesHoo@126.com
- * Function: 新闻列表示例
+ * Function: 新闻资讯列表示例
  * Description:
  */
 public class ActicleBaseFragment extends FastRefreshLoadFragment<ReadArticleItemEntity> {
@@ -143,7 +143,6 @@ public class ActicleBaseFragment extends FastRefreshLoadFragment<ReadArticleItem
                     public void _onNext(BaseReadArticleEntity entity) {
                         mLastCursor = entity.getLastCursor();
                         LoggerManager.i("url:" + mUrl + ";lastCursor:" + mLastCursor);
-                        mStatusManager.showSuccessLayout();
                         FastManager.getInstance().getHttpRequestControl().httpRequestSuccess(getIHttpRequestControl(), entity == null || entity.data == null ? new ArrayList<>() : entity.data, null);
                     }
                 });

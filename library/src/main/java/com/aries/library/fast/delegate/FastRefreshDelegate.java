@@ -9,9 +9,9 @@ import com.aries.library.fast.R;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.util.FindViewUtil;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 
 /**
  * @Author: AriesHoo on 2019/3/22 14:18
@@ -58,11 +58,16 @@ public class FastRefreshDelegate {
         if (mRefreshLayout.getRefreshHeader() != null) {
             return;
         }
-        mRefreshLayout.setRefreshHeader(mIFastRefreshView.getRefreshHeader() != null
-                ? mIFastRefreshView.getRefreshHeader() :
-                mManager.getDefaultRefreshHeader() != null ?
-                        mManager.getDefaultRefreshHeader().createRefreshHeader(mContext, mRefreshLayout) :
-                        new ClassicsHeader(mContext).setSpinnerStyle(SpinnerStyle.Translate));
+        RefreshHeader refreshHeader = null;
+        if (mIFastRefreshView.getRefreshHeader() != null) {
+            refreshHeader = mIFastRefreshView.getRefreshHeader();
+        } else if (mManager.getDefaultRefreshHeader() != null) {
+            refreshHeader = mManager.getDefaultRefreshHeader().createRefreshHeader(mContext, mRefreshLayout);
+        }
+        ///刷新头
+        if (refreshHeader != null) {
+            mRefreshLayout.setRefreshHeader(refreshHeader);
+        }
         mRefreshLayout.setOnRefreshListener(mIFastRefreshView);
         mRefreshLayout.setEnableRefresh(mIFastRefreshView.isRefreshEnable());
     }

@@ -12,11 +12,12 @@ import com.aries.library.fast.util.ToastUtil;
 import com.aries.template.App;
 import com.aries.template.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 
 import java.net.ConnectException;
 import java.net.SocketException;
@@ -57,17 +58,21 @@ public class HttpRequestControlImpl implements HttpRequestControl {
         if (adapter == null) {
             return;
         }
-        adapter.loadMoreComplete();
+        if (adapter instanceof LoadMoreModule) {
+            adapter.getLoadMoreModule().loadMoreComplete();
+        }
         if (list == null || list.size() == 0) {
             //第一页没有
             if (page == 0) {
-                adapter.setNewData(new ArrayList());
+                adapter.setNewInstance(new ArrayList());
                 statusLayoutManager.showEmptyLayout();
                 if (listener != null) {
                     listener.onEmpty();
                 }
             } else {
-                adapter.loadMoreEnd();
+                if (adapter instanceof LoadMoreModule) {
+                    adapter.getLoadMoreModule().loadMoreEnd();
+                }
                 if (listener != null) {
                     listener.onNoMore();
                 }
@@ -76,14 +81,16 @@ public class HttpRequestControlImpl implements HttpRequestControl {
         }
         statusLayoutManager.showSuccessLayout();
         if (smartRefreshLayout.getState() == RefreshState.Refreshing || page == 0) {
-            adapter.setNewData(new ArrayList());
+            adapter.setNewInstance(new ArrayList());
         }
         adapter.addData(list);
         if (listener != null) {
             listener.onNext();
         }
         if (list.size() < size) {
-            adapter.loadMoreEnd();
+            if (adapter instanceof LoadMoreModule) {
+                adapter.getLoadMoreModule().loadMoreEnd();
+            }
             if (listener != null) {
                 listener.onNoMore();
             }
@@ -139,7 +146,9 @@ public class HttpRequestControlImpl implements HttpRequestControl {
             smartRefreshLayout.finishRefresh(false);
         }
         if (adapter != null) {
-            adapter.loadMoreComplete();
+            if (adapter instanceof LoadMoreModule) {
+                adapter.getLoadMoreModule().loadMoreComplete();
+            }
             if (statusLayoutManager == null) {
                 return;
             }

@@ -15,9 +15,9 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.flyco.labelview.LabelView;
 
 /**
- * @Author: AriesHoo on 2018/8/10 9:53
+ * @Author: AriesHoo on 2021/4/6 9:53
  * @E-Mail: AriesHoo@126.com
- * Function:
+ * Function: 新闻资讯适配器
  * Description:
  */
 public class ReadArticleAdapter extends BaseItemTouchQuickAdapter<ReadArticleItemEntity, BaseItemTouchViewHolder> implements LoadMoreModule {
@@ -31,7 +31,6 @@ public class ReadArticleAdapter extends BaseItemTouchQuickAdapter<ReadArticleIte
 
     @Override
     protected void convert(BaseItemTouchViewHolder helper, ReadArticleItemEntity item) {
-        LoggerManager.i("isShowTop", "isShowTop:" + isShowTop);
         helper.setText(R.id.tv_titleArticle, item.title)
                 .setText(R.id.tv_summaryArticle, item.summary)
                 .setText(R.id.tv_timeArticle, item.getTime());

@@ -2,9 +2,9 @@ package com.aries.library.fast.i;
 
 import android.view.View;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 /**
  * @Author: AriesHoo on 2019/3/22 14:03

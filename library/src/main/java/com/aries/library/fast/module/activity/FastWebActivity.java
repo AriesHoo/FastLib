@@ -39,6 +39,7 @@ import com.just.agentweb.MiddlewareWebChromeBase;
  * Description:
  * 1、调整WebView自适应屏幕代码属性{@link #initAgentWeb()}
  * 2、2019-3-20 11:45:07 增加url自动添加http://功能及规范url
+ * 3、2021-04-06 16:41:00 增加httpUrl参数配置
  */
 public abstract class FastWebActivity extends FastTitleActivity implements NavigationBarControl {
 
@@ -70,9 +71,10 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
     }
 
 
-    protected static void start(Context mActivity, Class<? extends FastWebActivity> activity, String url) {
+    protected static void start(Context mActivity, Class<? extends FastWebActivity> activity, String url, boolean httpUrl) {
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
+        bundle.putBoolean("httpUrl", httpUrl);
         FastUtil.startActivity(mActivity, activity, bundle);
     }
 
@@ -116,7 +118,8 @@ public abstract class FastWebActivity extends FastTitleActivity implements Navig
     public void beforeInitView(Bundle savedInstanceState) {
         mContainer = findViewById(R.id.lLayout_containerFastWeb);
         mUrl = getIntent().getStringExtra("url");
-        if (!TextUtils.isEmpty(mUrl)) {
+        boolean httpUrl = getIntent().getBooleanExtra("httpUrl", true);
+        if (httpUrl && !TextUtils.isEmpty(mUrl)) {
             mUrl = mUrl.startsWith("http") ? mUrl : "http://" + mUrl;
             getIntent().putExtra("url", mUrl);
         }

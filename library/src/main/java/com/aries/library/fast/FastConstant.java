@@ -5,6 +5,7 @@ package com.aries.library.fast;
  * @E-Mail: AriesHoo@126.com
  * Function: 全局常量
  * Description:
+ * 1、2021-04-06 15:58:00 修改SmartRefreshLayout路径
  */
 public interface FastConstant {
 
@@ -48,5 +49,5 @@ public interface FastConstant {
     /**
      * SmartRefreshLayout 类名
      */
-    String SMART_REFRESH_LAYOUT_CLASS = "com.scwang.smartrefresh.layout.SmartRefreshLayout";
+    String SMART_REFRESH_LAYOUT_CLASS = "com.scwang.smart.refresh.layout.SmartRefreshLayout";
 }
