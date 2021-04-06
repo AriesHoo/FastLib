@@ -4,8 +4,8 @@
 [![](https://img.shields.io/badge/download-demo-blue.svg)](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 [![](https://img.shields.io/github/release/AriesHoo/FastLib.svg)](https://github.com/AriesHoo/FastLib/releases)
-[![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
-[![GitHub license](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
+[![](https://img.shields.io/github/license/AriesHoo/FastLib.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/简书-AriesHoo-blue.svg)](http://www.jianshu.com/u/a229eee96115)
 [![](https://img.shields.io/badge/wiki-使用说明-green.svg)](https://github.com/AriesHoo/FastLib/wiki)
 [![](https://img.shields.io/badge/Github-Github主仓库-blue.svg)](https://github.com/AriesHoo/FastLib)
@@ -36,13 +36,12 @@ Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版�
 
 其它功能请在demo中发现，详细使用请看[wiki](https://github.com/AriesHoo/FastLib/wiki)
 
-[[Download-蒲公英(安装密码1)]](https://www.pgyer.com/pqnm)
+[Download-蒲公英(安装密码1)](https://www.pgyer.com/pqnm)
 
-![Download-蒲公英](https://www.pgyer.com/app/qrcode/pqnm)
+![Download-蒲公英](https://upload-images.jianshu.io/upload_images/2828782-f32c73dc69c6158a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
 
-[[Download-github]](https://raw.githubusercontent.com/AriesHoo/FastLib/master/apk/sample.apk)
+![Download-github](https://upload-images.jianshu.io/upload_images/2828782-35bf4db12fa7297f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
 
-![](/apk/qr.png)
 
 ## 关于混淆
 
@@ -132,40 +131,25 @@ Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版�
     
 ## 录屏预览
 
-![](/screenshot/fold.gif)
+![折叠屏效果一览](https://upload-images.jianshu.io/upload_images/2828782-d1baf0126dae5722.gif?imageMogr2/auto-orient/strip)
 
-**折叠屏效果一览**
-
-![](/screenshot/FastRefresh.gif)
+![FastRefresh.gif](https://upload-images.jianshu.io/upload_images/2828782-f3edd0729cfa1a1f.gif?imageMogr2/auto-orient/strip)
 
 **快速实现页面下拉刷新-全局控制及局部个性化**-参考WebActivity、FastRefreshActivity、MineFragment
 
-
-![](/screenshot/02.gif)
+![](https://upload-images.jianshu.io/upload_images/2828782-fe9b07003b2c6c67.gif?imageMogr2/auto-orient/strip)
 
 **虚拟导航栏控制**-参考[AppImpl类](/app/src/main/java/com/aries/library/fast/demo/AppImpl.java) NavigationBarControl接口实现注释说明
 
-**模拟器软键盘控制**
+![模拟器软键盘控制](https://upload-images.jianshu.io/upload_images/2828782-892dd2a8a8b13bde.gif?imageMogr2/auto-orient/strip)
 
-![](/screenshot/keyboard01.gif)
+![华为可隐藏软键盘控制](https://upload-images.jianshu.io/upload_images/2828782-9072c1274b4a0f57.gif?imageMogr2/auto-orient/strip)
 
-**华为可隐藏软键盘控制**
+![华为全面屏手势控制](https://upload-images.jianshu.io/upload_images/2828782-0be6729640f15516.gif?imageMogr2/auto-orient/strip)
 
-![](/screenshot/keyboard02.gif)
+![](https://upload-images.jianshu.io/upload_images/2828782-6b2e018412256a9d.gif?imageMogr2/auto-orient/strip)
 
-**华为全面屏手势控制**
-
-![](/screenshot/keyboard03.gif)
-
-![](/screenshot/00.gif)
-
-![](/screenshot/01.gif)
-
-**开启GPU过度绘制检测+GPU呈现模式分析**
-
-![](/screenshot/DoraemonKit.gif)
-
-**DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调** 
+![DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调](https://upload-images.jianshu.io/upload_images/2828782-f7b31d680557e86b.gif?imageMogr2/auto-orient/strip)
 
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 
@@ -218,52 +202,58 @@ implementation project(':fastLib')
     minSdkVersion = 19
     minLibSdkVersion = 15
     targetSdkVersion = 28
-    supportVersion = "1.0.0"
-    widgetVersion = "3.2.24"
-    versionCode = 248
-    versionName = "2.3.6"
+    supportVersion = "1.1.0"
+    widgetVersion = "3.2.25"
+    smartRefreshLayoutVersion = "2.0.3"
+    BRVAHVersion = "3.0.4"
+    agentwebVersion = "4.1.4"
+    glideVersion = "4.12.0"
+    butterknifeVersion = "10.2.3"
+    versionCode = 249
+    versionName = "2.4.0"
 ```
 
 ```
 dependencies {
-      compileOnly "com.google.android.material:material:$rootProject.supportVersion"
-    //    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
-        compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportVersion"
-        //万能适配器
-        compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
-        //webView库
-        compileOnly 'com.just.agentweb:agentweb:4.1.2'
-        //下拉刷新库
-        compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
-        //图片加载
-        compileOnly 'com.github.bumptech.glide:glide:4.10.0'
-        //常用UI控件(TitleBarView、RadiusView等)
-        api "com.github.AriesHoo.UIWidget:widget-core:$rootProject.widgetVersion"
-        //快速Tab库
-        compileOnly "com.github.AriesHoo.UIWidget:tab-layout:$rootProject.widgetVersion"
-        //日志打印
-        api 'com.orhanobut:logger:2.2.0'
-        //注解
-        api 'com.jakewharton:butterknife:10.1.0'
-        //retrofit+rxjava 网络请求及数据解析相关
-        api "io.reactivex.rxjava2:rxjava:2.2.6"
-        api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-        api 'com.squareup.retrofit2:retrofit:2.6.1'
-        api 'com.squareup.retrofit2:converter-gson:2.6.1'
-        api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
-        //3.12.x是支持Android 4.4的
-        api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
-        api 'com.google.code.gson:gson:2.8.5'
-        //处理rxjava内存泄漏-生命周期绑定
-        api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
-        //滑动返回Activity
-        compileOnly 'cn.bingoogolapple:bga-swipebacklayout:1.2.0@aar'
-        //页面事件交互-androideventbus-停止维护
-        compileOnly 'org.simple:androideventbus:1.0.5.1'
-        //页面事件交互-eventbus
-        compileOnly 'org.greenrobot:eventbus:3.1.1'
-        //多状态视图切换
-        api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
+    compileOnly "com.google.android.material:material:".concat(supportVersion)
+    compileOnly 'androidx.appcompat:appcompat:'.concat(supportVersion)
+    compileOnly "androidx.recyclerview:recyclerview:".concat(supportVersion)
+    //万能适配器
+    compileOnly 'com.github.CymChad:BaseRecyclerViewAdapterHelper:'.concat(BRVAHVersion)
+    //webView库
+    compileOnly 'com.just.agentweb:agentweb:'.concat(agentwebVersion)
+    //下拉刷新库
+//    compileOnly 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+    compileOnly 'com.scwang.smart:refresh-layout-kernel:'.concat(smartRefreshLayoutVersion)
+    //图片加载
+    compileOnly 'com.github.bumptech.glide:glide:'.concat(glideVersion)
+    //常用UI控件(TitleBarView、RadiusView等)
+    api "com.github.AriesHoo.UIWidget:widget-core:".concat(widgetVersion)
+    //快速Tab库
+    compileOnly "com.github.AriesHoo.UIWidget:tab-layout:".concat(widgetVersion)
+    //日志打印
+    api 'com.orhanobut:logger:2.2.0'
+    //注解
+    api 'com.jakewharton:butterknife:'.concat(butterknifeVersion)
+    //retrofit+rxjava 网络请求及数据解析相关
+    api "io.reactivex.rxjava2:rxjava:2.2.20"
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    //3.12.x是支持Android 4.4的
+    api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
+    api 'com.google.code.gson:gson:2.8.5'
+    //处理rxjava内存泄漏-生命周期绑定
+    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.1.0'
+    //滑动返回Activity
+    compileOnly 'cn.bingoogolapple:bga-swipebacklayout:2.0.1@aar'
+    //页面事件交互-androideventbus-停止维护
+    compileOnly 'org.simple:androideventbus:1.0.5.1'
+    //页面事件交互-eventbus
+    compileOnly 'org.greenrobot:eventbus:3.1.1'
+    //多状态视图切换
+    api 'com.github.Bakumon:StatusLayoutManager:1.0.4'
 }
 ```
 
@@ -292,7 +282,7 @@ dependencies {
 ## License
 
 ```
-Copyright 2017-2020 Aries Hoo
+Copyright 2017-2021Aries Hoo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
