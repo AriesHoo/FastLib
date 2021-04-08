@@ -131,7 +131,7 @@ Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版�
     
 ## 录屏预览
 
-![折叠屏效果一览](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c4290b6abe34a7bbdc6cc40ca1e7db0~tplv-k3u1fbpfcp-zoom-1.image)
+[折叠屏效果一览-无法直接预览点击查看效果](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c4290b6abe34a7bbdc6cc40ca1e7db0~tplv-k3u1fbpfcp-zoom-1.image)
 
 ![FastRefresh.gif](https://upload-images.jianshu.io/upload_images/2828782-f3edd0729cfa1a1f.gif?imageMogr2/auto-orient/strip)
 
