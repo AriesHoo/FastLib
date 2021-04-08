@@ -131,7 +131,7 @@ Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版�
     
 ## 录屏预览
 
-![折叠屏效果一览](https://upload-images.jianshu.io/upload_images/2828782-d1baf0126dae5722.gif?imageMogr2/auto-orient/strip)
+[折叠屏效果一览-无法直接显示点击可查看效果](https://upload-images.jianshu.io/upload_images/2828782-d1baf0126dae5722.gif?imageMogr2/auto-orient/strip)
 
 ![FastRefresh.gif](https://upload-images.jianshu.io/upload_images/2828782-f3edd0729cfa1a1f.gif?imageMogr2/auto-orient/strip)
 
@@ -149,7 +149,7 @@ Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版�
 
 ![](https://upload-images.jianshu.io/upload_images/2828782-6b2e018412256a9d.gif?imageMogr2/auto-orient/strip)
 
-[DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调](https://upload-images.jianshu.io/upload_images/2828782-f7b31d680557e86b.gif?imageMogr2/auto-orient/strip)
+[DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调-无法直接显示点击可查看效果](https://upload-images.jianshu.io/upload_images/2828782-f7b31d680557e86b.gif?imageMogr2/auto-orient/strip)
 
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 
