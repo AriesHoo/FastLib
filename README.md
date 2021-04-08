@@ -149,7 +149,7 @@ Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版�
 
 ![](https://upload-images.jianshu.io/upload_images/2828782-6b2e018412256a9d.gif?imageMogr2/auto-orient/strip)
 
-![DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调](https://upload-images.jianshu.io/upload_images/2828782-f7b31d680557e86b.gif?imageMogr2/auto-orient/strip)
+[DoraemonKit集成效果(一定要手动开启 `悬浮窗权限` )-包括沉浸式及UI微调](https://upload-images.jianshu.io/upload_images/2828782-f7b31d680557e86b.gif?imageMogr2/auto-orient/strip)
 
 [![](https://jitpack.io/v/AriesHoo/FastLib.svg)](https://jitpack.io/#AriesHoo/FastLib)
 
