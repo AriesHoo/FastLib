@@ -19,6 +19,8 @@ public class ReadArticleItemEntity {
     public String timeline;
     public int order;
     public boolean hasInstantView;
+    public String url;
+    public String mobileUrl;
     /**
      * instantView : true
      */
@@ -71,6 +73,12 @@ public class ReadArticleItemEntity {
 
 
     public String getUrl() {
+        if (mobileUrl != null) {
+            return mobileUrl;
+        }
+        if (url != null) {
+            return url;
+        }
         return newsArray != null && newsArray.size() > 0
                 ? newsArray.get(0).getUrl()
                 : "";

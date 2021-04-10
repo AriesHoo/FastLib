@@ -2,7 +2,9 @@ package com.aries.library.fast.demo.module.main.sample;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +38,12 @@ public class FastViewActivity extends AppCompatActivity implements IFastTitleVie
 
     @Override
     public void setTitleBar(TitleBarView titleBar) {
-        titleBar.setTitleMainTextMarquee(true);
+        TextView textView = new TextView(titleBar.getContext());
+        textView.setText("你好");
+        textView.setTextColor(Color.BLUE);
+//        titleBar.setTitleMainTextMarquee(true);
+//        titleBar.getLinearLayout(Gravity.RIGHT);
+        titleBar.addRightAction(titleBar.new ViewAction(textView));
     }
 
     @Override
