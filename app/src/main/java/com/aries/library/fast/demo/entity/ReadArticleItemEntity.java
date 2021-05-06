@@ -1,9 +1,5 @@
 package com.aries.library.fast.demo.entity;
 
-import com.aries.library.fast.demo.util.AppUtil;
-import com.aries.library.fast.util.FastFormatUtil;
-import com.aries.library.fast.util.FastUtil;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;

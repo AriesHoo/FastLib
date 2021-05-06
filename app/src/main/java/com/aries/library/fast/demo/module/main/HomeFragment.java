@@ -21,7 +21,7 @@ import com.aries.library.fast.demo.module.TestRequestWindowActivity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.module.main.sample.FastViewActivity;
 import com.aries.library.fast.demo.module.main.sample.GoogleAdActivity;
-import com.aries.library.fast.demo.module.main.sample.QQTitleActivity;
+import com.aries.library.fast.demo.module.main.sample.ShareUtilActivity;
 import com.aries.library.fast.demo.module.main.sample.SingleFragmentActivity;
 import com.aries.library.fast.demo.module.main.sample.SwipeBackActivity;
 import com.aries.library.fast.demo.module.main.sample.TestStatusActivity;
@@ -179,6 +179,7 @@ public class HomeFragment extends FastTitleRefreshLoadFragment<WidgetEntity> {
     @Override
     public void loadData(int page) {
         listActivity.clear();
+        listActivity.add(ShareUtilActivity.class);
         listActivity.add(GoogleAdActivity.class);
         listActivity.add(FastViewActivity.class);
 //        listActivity.add(SwipeBackActivity.class);

@@ -3,22 +3,16 @@ package com.aries.library.fast.demo.module.article;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.adapter.ReadArticleAdapter;
-import com.aries.library.fast.demo.adapter.SubjectMovieAdapter;
 import com.aries.library.fast.demo.base.BaseItemTouchQuickAdapter;
-import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.constant.ApiConstant;
 import com.aries.library.fast.demo.constant.GlobalConstant;
 import com.aries.library.fast.demo.entity.BaseReadArticleEntity;
 import com.aries.library.fast.demo.entity.ReadArticleItemEntity;
-import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.module.WebViewActivity;
 import com.aries.library.fast.demo.retrofit.repository.ApiRepository;
 import com.aries.library.fast.demo.touch.ItemTouchHelperCallback;

@@ -2,7 +2,6 @@ package com.aries.library.fast.demo.module.main.sample;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,9 +12,9 @@ import com.aries.library.fast.demo.R;
 import com.aries.library.fast.i.IFastRefreshView;
 import com.aries.library.fast.i.IFastTitleView;
 import com.aries.ui.view.title.TitleBarView;
+import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.header.ClassicsHeader;
 
 /**
  * @Author: AriesHoo on 2019/3/25 15:22

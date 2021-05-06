@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/fast_layout_title_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_margin_item">
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToQQ"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到QQ\n shareAudioToQQ" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToQQFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到QQ好友\n shareAudioToQQFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudiosToQQFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多音频到QQ好友-不能选择我的电脑\n shareAudiosToQQFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToQQComputer"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到QQ我的电脑\n shareAudioToQQComputer" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToQQFavorites"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到QQ收藏夹\n shareAudioToQQFavorites" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToQQFaceToFace"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到QQ面对面快传\n shareAudioToQQFaceToFace" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToWeChatFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到微信好友\n shareAudioToWeChatFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToWeChatFavorites"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到微信收藏夹\n shareAudioToWeChatFavorites" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToWeiBoFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到微博好友\n shareAudioToWeiBoFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToDingTalk"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到钉钉\n shareAudioToDingTalk" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudiosToDingTalk"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多音频到钉钉\n shareAudiosToDingTalk" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToWeWork"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到企业微信\n shareAudioToWeWork" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudiosToWeWork"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多音频到企业微信\n shareAudiosToWeWork" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToAllApps"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到所有可选App\n shareAudioToAllApps" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudiosToAllApps"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多音频到所有可选App\n shareAudiosToAllApps" />
+
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudioToAppActivity"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单音频到某个App的某个方式-短信为例\n shareAudioToAppActivity" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareAudiosToAppActivity"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多音频到某个App的某个方式-短信为例\n shareAudiosToAppActivity" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

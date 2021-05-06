@@ -6,8 +6,8 @@
 
     <include layout="@layout/fast_layout_title_bar"/>
     <com.aries.ui.view.radius.RadiusTextView
-        android:id="@+id/rtv_system"
         style="@style/RadiusTextStyle"
+        android:id="@+id/rtv_system"
         android:text="@string/toast_system"/>
     <com.aries.ui.view.radius.RadiusTextView
         android:id="@+id/rtv_normal"

@@ -193,8 +193,8 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 .setStatusBarLightMode(isSupportStatusBarFont)
                 .setStatusViewColor(Color.argb(isSupportStatusBarFont ? 0 : 102, 0, 0, 0))
                 .setStatusLayoutColor(Color.WHITE);
-        setStatusBarActivity(activity);
-        return !(activity instanceof AdActivity);
+//        setStatusBarActivity(activity);
+        return !(activity instanceof AdActivity)&&!(activity instanceof PictureBaseActivity);
     }
 
     private boolean isLeak(Activity activity) {
@@ -215,7 +215,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         //其它默认属性请参考FastLifecycleCallbacks
         helper.setLogEnable(BuildConfig.DEBUG)
                 ///目前全面屏比较多推荐使用该设置避免底部出现空白
-                .setPlusNavigationViewEnable(true,false,false)
+                .setPlusNavigationViewEnable(true, false, false)
                 //此处为配合BGASwipeBackHelper滑动返回效果-如不使用BGASwipeBackHelper推荐使用上面的方法
 //                .setPlusNavigationViewEnable(true, enable, enable)
                 .setNavigationBarLightMode(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity))
@@ -223,13 +223,13 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                 .setBottomView(PicturePreviewActivity.class.isAssignableFrom(activity.getClass()) ?
                         FindViewUtil.getTargetView(bottomView, R.id.select_bar_layout) : bottomView)
                 .setNavigationViewColor(isLeak(activity) ? Color.BLACK : Color.argb(NavigationBarUtil.isSupportNavigationBarFontChange() && isPlusView(activity) ? 0 : 102, 0, 0, 0))
-                .setNavigationLayoutColor(ContextCompat.getColor(activity, !isPlusView(activity) ? R.color.transparent : R.color.colorTabBackground));
+                .setNavigationLayoutColor(ContextCompat.getColor(activity, !isPlusView(activity) ? android.R.color.transparent : R.color.colorTabBackground));
         if (!isControlNavigation() && !(activity instanceof MainActivity)) {
             KeyboardHelper.with(activity)
                     .setEnable()
                     .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity));
         }
-        return isControlNavigation() && !(activity instanceof AdActivity);
+        return isControlNavigation() && !(activity instanceof AdActivity)&& !(activity instanceof PictureBaseActivity);
     }
 
     private KeyboardHelper.OnKeyboardVisibilityChangedListener getOnKeyboardVisibilityChangedListener(Activity activity) {
@@ -415,16 +415,16 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         if (PictureBaseActivity.class.isAssignableFrom(activity.getClass())) {
             View contentView = FastUtil.getRootView(activity);
             //该属性会影响适配滑动返回效果
-            contentView.setFitsSystemWindows(false);
-            ImageView imageView = contentView != null ? contentView.findViewById(R.id.picture_left_back) : null;
-            if (imageView != null) {
-                RelativeLayout layout = contentView.findViewById(R.id.rl_picture_title);
-                if (layout != null) {
-                    ViewCompat.setElevation(layout, activity.getResources().getDimension(R.dimen.dp_elevation));
-                }
-                //调整返回箭头大小
-                imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
-            }
+            contentView.setFitsSystemWindows(true);
+//            ImageView imageView = contentView != null ? contentView.findViewById(R.id.picture_left_back) : null;
+//            if (imageView != null) {
+//                RelativeLayout layout = contentView.findViewById(R.id.rl_picture_title);
+//                if (layout != null) {
+//                    ViewCompat.setElevation(layout, activity.getResources().getDimension(R.dimen.dp_elevation));
+//                }
+//                //调整返回箭头大小
+//                imageView.setPadding(SizeUtil.dp2px(15), SizeUtil.dp2px(4), SizeUtil.dp2px(4), SizeUtil.dp2px(4));
+//            }
         }
     }
 

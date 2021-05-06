@@ -26,4 +26,6 @@
     <string name="fast_load_more_load_end">No more data</string>
     <string name="fast_load_more_load_failed">Load more failed</string>
     <string name="fast_load_more_loading">Loading...</string>
+    <string name="fast_app_not_installed">App not installed</string>
+    <string name="fast_share_title">Choose share way</string>
 </resources>

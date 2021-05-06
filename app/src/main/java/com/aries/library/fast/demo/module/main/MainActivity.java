@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.helper.CheckVersionHelper;
 import com.aries.library.fast.demo.module.WebViewActivity;
-import com.aries.library.fast.demo.module.activity.ActivityFragment;
 import com.aries.library.fast.demo.module.article.ArticleFragment;
 import com.aries.library.fast.demo.module.mine.MineFragment;
 import com.aries.library.fast.demo.module.web.WebAppFragment;

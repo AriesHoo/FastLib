@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.chad.library.adapter.base.loadmore.BaseLoadMoreView;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 /**
  * @Author: AriesHoo on 2018/7/20 16:52

@@ -8,7 +8,6 @@ import com.aries.library.fast.demo.base.BaseItemTouchViewHolder;
 import com.aries.library.fast.demo.entity.WidgetEntity;
 import com.aries.library.fast.demo.helper.RadiusViewHelper;
 import com.aries.ui.view.radius.RadiusRelativeLayout;
-import com.chad.library.adapter.base.module.LoadMoreModule;
 
 import java.util.ArrayList;
 

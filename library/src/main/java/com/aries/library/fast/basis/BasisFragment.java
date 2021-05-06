@@ -20,7 +20,6 @@ import com.aries.library.fast.manager.RxJavaManager;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.FastUtil;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle3.android.FragmentEvent;
 import com.trello.rxlifecycle3.components.support.RxFragment;
 

@@ -8,7 +8,6 @@ import com.aries.library.fast.demo.entity.WebAppEntity;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.ui.view.radius.RadiusTextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 /**

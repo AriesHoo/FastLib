@@ -1,7 +1,5 @@
 package com.aries.library.fast.demo.entity;
 
-import com.aries.library.fast.demo.util.AppUtil;
-
 import java.util.List;
 
 public class BaseReadArticleEntity {

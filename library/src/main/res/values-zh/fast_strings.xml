@@ -26,4 +26,6 @@
     <string name="fast_load_more_load_end">没有更多数据</string>
     <string name="fast_load_more_load_failed">加载失败,请点我重试</string>
     <string name="fast_load_more_loading">正在加载中...</string>
+    <string name="fast_app_not_installed">您还未安装该App</string>
+    <string name="fast_share_title">选择分享方式</string>
 </resources>

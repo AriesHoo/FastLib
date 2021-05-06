@@ -133,7 +133,11 @@ public class FastUtil {
         if (activity.findViewById(android.R.id.content) == null) {
             return null;
         }
-        return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+        try {
+            return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -311,6 +315,22 @@ public class FastUtil {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
+    /**
+     * 判断App是否存在
+     *
+     * @param context     上下文
+     * @param packageName 包名
+     * @return
+     */
+    public static boolean isAppInstall(Context context, String packageName) {
+        Context con = context == null ? getApplication() : context;
+        if (con == null) {
+            return false;
+        }
+        Intent launchIntent = con.getPackageManager().getLaunchIntentForPackage(packageName);
+        return launchIntent != null;
+    }
+
     public static void jumpMarket(Context mContext) {
         jumpMarket(mContext, null);
     }
@@ -389,18 +409,12 @@ public class FastUtil {
      * @param packageName
      */
     public static void startApp(Context context, String packageName) {
-        if (context == null) {
+        Context con = context == null ? getApplication() : context;
+        if (!isAppInstall(con, packageName)) {
             return;
         }
-        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-        if (launchIntent == null) {
-            return;
-        }
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setComponent(launchIntent.getComponent());
-        context.startActivity(intent);
+        Intent intent = con.getPackageManager().getLaunchIntentForPackage(packageName);
+        con.startActivity(intent);
     }
 
     /**

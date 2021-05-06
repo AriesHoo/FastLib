@@ -16,9 +16,10 @@
         <item>分享</item>
     </array>
     <array name="arrays_home_list_title">
+        <item>系统分享工具类演示</item>
         <item>Google广告SDK测试</item>
         <item>模拟快速下拉刷新及TitleBarView统一设置</item>
-<!--        <item>微信滑动返回样式效果</item>-->
+        <!--        <item>微信滑动返回样式效果</item>-->
         <item>QQ默认主题TitleBar背景渐变效果</item>
         <item>支付宝主界面效果</item>
         <item>腾讯新闻主界面效果</item>
@@ -111,7 +112,8 @@
         <item>不错的滑动关闭Activity库</item>
         <item>不错的主界面tab、滑动tab、分段选择器tab功能库</item>
         <item>方便快速实现加载中、加载失败、网络错误、无数据等四种状态布局</item>
-        <item>常用控件库包括(TitleBarView、RadiusView、UIAlertDialog、UIActionSheetDialog、UIProgressDialog)</item>
+        <item>常用控件库包括(TitleBarView、RadiusView、UIAlertDialog、UIActionSheetDialog、UIProgressDialog)
+        </item>
         <item>非常不错的下拉刷新库支持多款刷新头与自定义刷新头方便使用</item>
         <item>方便使用的Android界面事件分发库(支持TAG)</item>
         <item>基于Android WebView 一个功能完善小型浏览器库.使用很方便;集成进你应用,只需几行代码</item>

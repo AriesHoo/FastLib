@@ -82,6 +82,32 @@
             android:hardwareAccelerated="true"
             android:label="@string/fast_loading" />
         <activity
+            android:name=".module.main.sample.ShareUtilActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="系统分享工具类演示" />
+
+        <activity
+            android:name=".module.main.sample.ShareTextActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="系统分享文本工具类演示" />
+        <activity
+            android:name=".module.main.sample.ShareImageActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="系统分享图片工具类演示" />
+        <activity
+            android:name=".module.main.sample.ShareVideoActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="系统分享视频工具类演示" />
+        <activity
+            android:name=".module.main.sample.ShareAudioActivity"
+            android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="系统分享音频工具类演示" />
+        <activity
             android:name=".module.TestRequestWindowActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"
@@ -93,9 +119,9 @@
             android:label="@string/fast_loading" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
-            tools:replace="android:theme"
+            android:label="Google广告SDK测试"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:label="Google广告SDK测试" />
+            tools:replace="android:theme" />
         <activity
             android:name=".module.main.sample.GoogleAdActivity"
             android:label="Google广告SDK测试" />

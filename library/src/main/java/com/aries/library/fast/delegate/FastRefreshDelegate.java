@@ -11,7 +11,6 @@ import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.util.FindViewUtil;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshHeader;
-import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 
 /**
  * @Author: AriesHoo on 2019/3/22 14:18

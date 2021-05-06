@@ -1,18 +1,12 @@
 package com.aries.library.fast.demo.adapter;
 
-import android.view.View;
-
 import com.aries.library.fast.demo.R;
 import com.aries.library.fast.demo.base.BaseItemTouchQuickAdapter;
 import com.aries.library.fast.demo.base.BaseItemTouchViewHolder;
 import com.aries.library.fast.demo.entity.ReadArticleItemEntity;
-import com.aries.library.fast.demo.entity.SubjectsEntity;
 import com.aries.library.fast.demo.helper.RadiusViewHelper;
-import com.aries.library.fast.manager.GlideManager;
-import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.view.radius.RadiusRelativeLayout;
 import com.chad.library.adapter.base.module.LoadMoreModule;
-import com.flyco.labelview.LabelView;
 
 /**
  * @Author: AriesHoo on 2021/4/6 9:53

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/fast_layout_title_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_margin_item">
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToQQ"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到QQ\n shareVideoToQQ" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToQQFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到QQ好友\n shareVideoToQQFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideosToQQFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多视频到QQ好友-不能选择我的电脑\n shareVideoToQQFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToQQComputer"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到QQ我的电脑\n shareVideoToQQComputer" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToQQFavorites"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到QQ收藏夹\n shareVideoToQQFavorites" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToQQFaceToFace"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到QQ面对面快传\n shareVideoToQQFaceToFace" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeChat"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到微信\n shareVideoToWeChat" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeChatFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到微信好友\n shareVideoToWeChatFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeChatFavorites"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到微信收藏夹\n shareVideoToWeChatFavorites" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeiBo"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到微博\n shareVideoToWeiBo" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeiBoFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到微博好友\n shareVideoToWeiBoFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeiBoTimeLine"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到微博内容\n shareVideoToWeiBoTimeLine" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeiBoStory"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到微博故事\n shareVideoToWeiBoStory" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToDingTalk"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到钉钉\n shareVideoToDingTalk" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideosToDingTalk"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多视频到钉钉\n shareVideosToDingTalk" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToWeWork"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到企业微信\n shareVideoToWeWork" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideosToWeWork"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多视频到企业微信\n shareVideosToWeWork" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToAllApps"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到所有可选App\n shareVideoToAllApps" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideosToAllApps"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多视频到所有可选App\n shareVideosToAllApps" />
+
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideoToAppActivity"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享单视频到某个App的某个方式-短信为例\n shareVideoToAppActivity" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareVideosToAppActivity"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享多视频到某个App的某个方式-短信为例\n shareVideosToAppActivity" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

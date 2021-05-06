@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/fast_layout_title_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_margin_item">
+
+            <EditText
+                android:id="@+id/ret_textShareUtil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="使用系统分享功能分享文本信息"
+                android:textSize="15dp" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToQQ"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到QQ\n shareTextToQQ" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToQQFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到QQ好友\n shareTextToQQFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToQQComputer"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到QQ我的电脑\n shareTextToQQComputer" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToQQFavorites"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到QQ收藏夹\n shareTextToQQFavorites" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToWeChat"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到微信\n shareTextToWeChat" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToWeChatFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到微信好友\n shareTextToWeChatFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToWeChatFavorites"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到微信收藏夹\n shareTextToWeChatFavorites" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToWeiBo"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到微博\n shareTextToWeiBo" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToWeiBoFriend"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到微博好友\n shareTextToWeiBoFriend" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToWeiBoTimeLine"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到微博内容\n shareTextToWeiBoTimeLine" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToDingTalk"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到钉钉\n shareTextToDingTalk" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToWeWork"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到企业微信\n shareTextToWeWork" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToApps"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到部分App-不推荐\n shareTextToApps" />
+
+            <com.aries.ui.view.radius.RadiusTextView
+                android:id="@+id/btn_shareTextToAllApps"
+                style="@style/RadiusTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="分享文本到所有支持App\n shareTextToAllApps" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

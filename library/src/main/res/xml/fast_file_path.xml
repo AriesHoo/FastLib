@@ -3,14 +3,14 @@
     <!--对应文件夹名需与fast_file_string一一对应app开发者可以通过自定义fast_file_string及fast_file_path达到符合自己的规则-->
     <paths>
         <!--context.getExternalCacheDir()即:/storage/emulated/0/Android/data/<package-name>/cache/xxx/-->
-        <external-cache-path name="fast_external_cache_dir" path="fast_external_cache_dir"/>
+        <external-cache-path name="fast_external_cache_dir" path="."/>
         <!--context.getCacheDir()即:/data/data/<package-name>/cache/xxx/-->
-        <cache-path name = "fast_cache_dir" path="fast_cache_dir"/>
+        <cache-path name = "fast_cache_dir" path="."/>
         <!--Environment.getExternalStorageDirectory()即:/storage/emulated/0/xxx/-->
-        <external-path name="fast_external_storage_directory" path="fast_external_storage_directory"/>
+        <external-path name="fast_external_storage_directory" path="."/>
         <!--context.getExternalFilesDir()即:/data/data/<package-name>/files/xxx/-->
-        <external-files-path name = "fast_external_files_dir" path="fast_external_files_dir"/>
+        <external-files-path name = "fast_external_files_dir" path="."/>
         <!--context.getFilesDir()即:/data/data/<package-name>/files/xxx/-->
-        <files-path name = "fast_files_dir" path="fast_files_dir"/>
+        <files-path name = "fast_files_dir" path="."/>
     </paths>
 </resources>

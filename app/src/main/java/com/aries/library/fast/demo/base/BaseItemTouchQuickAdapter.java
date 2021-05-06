@@ -7,7 +7,6 @@ import com.aries.library.fast.demo.touch.ItemTouchHelperAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

@@ -53,7 +53,6 @@ import com.just.agentweb.IVideo;
 import com.just.agentweb.MiddlewareWebChromeBase;
 import com.just.agentweb.VideoImpl;
 import com.just.agentweb.WebListenerManager;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.io.File;

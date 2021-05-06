@@ -16,6 +16,7 @@
         <item>分享</item>
     </array>
     <array name="arrays_home_list_title">
+        <item>系统分享工具类演示</item>
         <item>Google广告SDK测试</item>
         <item>模拟快速下拉刷新及TitleBarView统一设置</item>
 <!--        <item>微信滑动返回样式效果</item>-->

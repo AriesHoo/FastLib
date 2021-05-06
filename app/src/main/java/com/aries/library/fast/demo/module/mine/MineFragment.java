@@ -33,6 +33,7 @@ import com.aries.library.fast.retrofit.FastTransformer;
 import com.aries.library.fast.retrofit.FastUploadRequestBody;
 import com.aries.library.fast.retrofit.FastUploadRequestListener;
 import com.aries.library.fast.util.FastFormatUtil;
+import com.aries.library.fast.util.FastShareUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
@@ -43,6 +44,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,10 +61,14 @@ import okhttp3.ResponseBody;
  */
 public class MineFragment extends FastTitleFragment implements IFastRefreshView {
 
-    @BindView(R.id.sv_containerMine) OverScrollView mSvContainer;
-    @BindView(R.id.tv_coverMine) TextView mTvCover;
-    @BindView(R.id.stv_infoMine) SuperTextView mStvInfo;
-    @BindView(R.id.stv_updateMine) SuperTextView mStvUpdate;
+    @BindView(R.id.sv_containerMine)
+    OverScrollView mSvContainer;
+    @BindView(R.id.tv_coverMine)
+    TextView mTvCover;
+    @BindView(R.id.stv_infoMine)
+    SuperTextView mStvInfo;
+    @BindView(R.id.stv_updateMine)
+    SuperTextView mStvUpdate;
     private ImageView mIvHead;
     private boolean mIsLight;
     private SmartRefreshLayout mRefreshLayout;
@@ -261,7 +267,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
                 FastUtil.startActivity(mContext, ThirdLibraryActivity.class);
                 break;
             case R.id.stv_shareMine:
-                FastUtil.startShareText(mContext, getString(R.string.share_content));
+                FastUtil.startShareText(mContext, getString(R.string.share_content), "Title");
                 break;
             case R.id.stv_updateMine:
                 //演示大文件下载--王者荣耀

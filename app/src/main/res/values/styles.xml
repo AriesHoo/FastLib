@@ -22,8 +22,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="M">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="O_MR1">true</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>

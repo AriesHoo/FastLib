@@ -28,4 +28,8 @@
         <!--增加纵横比 全面屏适配-->
         <meta-data android:name="android.max_aspect"  android:value="2.4"/>
     </application>
+    <queries>
+        <!--指定微信包名分享-https://open.oppomobile.com/wiki/doc#id=10797-->
+        <package android:name="com.tencent.mm" />
+    </queries>
 </manifest>
