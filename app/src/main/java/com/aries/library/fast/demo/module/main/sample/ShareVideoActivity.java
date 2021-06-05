@@ -65,7 +65,7 @@ public class ShareVideoActivity extends FastTitleActivity {
             }
             List<Uri> uriList = new ArrayList<>(list.size());
             for (String str : list) {
-                uriList.add(Uri.parse(str));
+                uriList.add(Uri.fromFile(new File(str)));
             }
             if (uriList.isEmpty()) {
                 ToastUtil.show("视频文件为空");

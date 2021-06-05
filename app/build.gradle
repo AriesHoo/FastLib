@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 
 //获取时间的方法
 static def getNowTime() {
-    return new SimpleDateFormat("yyyy-MM-dd HH_mm_ss_SSS", Locale.CHINA).format(new Date());
+    return new SimpleDateFormat("yyyy-MM-dd HH_mm", Locale.CHINA).format(new Date());
 }
 
 android {
@@ -66,8 +66,12 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
-            def fileName = "FastLib" + "_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${getNowTime()}_" + variant.name + ".apk"
-            outputFileName = fileName
+            if (variant.name != "release") {
+                return
+            }
+            outputFileName = "sample.apk"
+//            def fileName = "FastLib_v${defaultConfig.versionName}_code_${defaultConfig.versionCode}_time_${getNowTime()}.apk"
+//            outputFileName = fileName
         }
     }
     compileOptions {
@@ -113,6 +117,7 @@ dependencies {
 //    implementation 'org.simple:androideventbus:1.0.5.1'
     //页面事件交互-eventbus-按需导入
 //    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.2.0'
     //万能适配器--一般都需要吧
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:'.concat(BRVAHVersion)
     //webView库 继承FastWebActivity需要,不需要内置WebView可以不implementation

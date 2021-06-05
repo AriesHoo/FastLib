@@ -1319,14 +1319,7 @@ public class FastShareUtil {
         if (uriArrayList.size() == 1) {
             if (TextUtils.isEmpty(title)) {
                 Uri uri = uriArrayList.get(0);
-                if (uri.getScheme() != null && uri.getScheme().toLowerCase().contains("file")) {
-                    try {
-                        File file = new File(new URI(uri.toString()));
-                        shareIntent.putExtra(Intent.EXTRA_TITLE, file.getName());
-                    } catch (URISyntaxException uriSyntaxException) {
-
-                    }
-                }
+                shareIntent.putExtra(Intent.EXTRA_TITLE, getUriName(uri));
             }
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_STREAM, uriArrayList.get(0));
@@ -1346,6 +1339,7 @@ public class FastShareUtil {
                 shareIntent.setPackage(packageName);
             } else {
                 shareIntent.setClassName(packageName, activityName);
+                grantUriPermission(context, shareIntent, uriArrayList);
                 ///单个应用直接分享
                 context.startActivity(shareIntent);
                 return;
@@ -1383,7 +1377,6 @@ public class FastShareUtil {
         for (Uri uri : listUris) {
             ///先确认Uri是否为File
             File file = null;
-            LoggerManager.e("getUris", "getScheme:" + uri.getScheme() + ";uri:" + uri);
             String scheme = uri.getScheme() != null ? uri.getScheme() : "";
             if (scheme.toLowerCase().endsWith("file")) {
                 try {
@@ -1539,19 +1532,15 @@ public class FastShareUtil {
     private static String getRealPathFromUri(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            LoggerManager.e("getRealPathFromUri: " + contentUri + ";getScheme:" + contentUri.getScheme());
             String[] proj = {MediaStore.Images.Media.DATA};
             cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             if (cursor != null && cursor.getColumnCount() > 0) {
                 cursor.moveToFirst();
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 String path = cursor.getString(column_index);
-                LoggerManager.e("getRealPathFromUri: column_index=" + column_index + ", path=" + path);
                 return path;
             }
         } catch (Exception e) {
-            LoggerManager.e("getRealPathFromUri failed: " + e + ", contentUri="
-                    + contentUri + ";exception:" + e.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -1586,6 +1575,18 @@ public class FastShareUtil {
                         Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
         }
-        LoggerManager.i("grantUriPermission", new Gson().toJson(activities));
+    }
+
+    /**
+     * 获取uri 名
+     *
+     * @param uri
+     * @return
+     */
+    private static String getUriName(Uri uri) {
+        if (uri != null && uri.toString() != null && uri.toString().contains("/")) {
+            return uri.toString().substring(uri.toString().lastIndexOf("/") + 1, uri.toString().length());
+        }
+        return "";
     }
 }

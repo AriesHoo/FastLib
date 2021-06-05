@@ -65,7 +65,7 @@ public class ShareImageActivity extends FastTitleActivity {
             }
             List<Uri> uriList = new ArrayList<>(list.size());
             for (String str : list) {
-                uriList.add(Uri.parse(str));
+                uriList.add(Uri.fromFile(new File(str)));
             }
             switch (view.getId()) {
                 case R.id.btn_shareImageToQQ:
@@ -141,6 +141,7 @@ public class ShareImageActivity extends FastTitleActivity {
                     FastShareUtil.shareImageToAppActivity(mContext, uriList.get(0), "com.android.mms", "com.android.mms.ui.ComposeMessageActivity", null, null);
                     break;
                 case R.id.btn_shareImagesToAppActivity:
+//                    EventBus.getDefault().post(new MessageEvent());
                     FastShareUtil.shareImagesToAppActivity(mContext, uriList, "com.android.mms", "com.android.mms.ui.ComposeMessageActivity", null, null);
                     break;
             }
