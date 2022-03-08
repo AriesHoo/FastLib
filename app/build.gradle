@@ -32,6 +32,9 @@ android {
         javaMaxHeapSize "Xg"
         preDexLibraries = false
     }
+    dataBinding {
+        enabled = true
+    }
     signingConfigs {
         release {
             storeFile file('../fast.jks')

@@ -35,14 +35,17 @@ public class UpdateEntity {
     public boolean isSuccess() {
         long code = FastUtil.getVersionCode(App.getContext());
         String name = FastUtil.getVersionName(App.getContext());
-        if (versionCode > code || (versionCode == code && name.compareTo(versionName) < 0)) {
+        if (versionCode > code) {
+            return true;
+        }
+        if (versionCode == code && name.compareTo(versionName) < 0) {
             return true;
         }
         return false;
     }
 
     public String getMessage() {
-        return TextUtils.isEmpty(versionName)?"": isSuccess() ? force ? "由于系统升级,您的版本已停止服务,请及时更新到最新版本!" + message : "为了更好的为您服务,建议您更新到最新版本!" + message : "当前已是最新版本";
+        return TextUtils.isEmpty(versionName) ? "" : isSuccess() ? force ? "由于系统升级,您的版本已停止服务,请及时更新到最新版本!" + message : "为了更好的为您服务,建议您更新到最新版本!" + message : "当前已是最新版本";
     }
 
     public CharSequence getSize() {

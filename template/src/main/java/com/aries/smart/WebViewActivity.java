@@ -1,4 +1,4 @@
-package com.aries.template;
+package com.aries.smart;
 
 import android.app.Activity;
 import android.app.Dialog;

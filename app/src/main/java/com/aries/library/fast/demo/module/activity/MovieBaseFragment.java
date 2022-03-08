@@ -22,8 +22,10 @@ import com.aries.library.fast.demo.touch.ItemTouchHelperCallback;
 import com.aries.library.fast.demo.touch.OnItemTouchHelperListener;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.fragment.FastRefreshLoadFragment;
+import com.aries.library.fast.module.fragment.FastTitleRefreshLoadFragment;
 import com.aries.library.fast.retrofit.FastObserver;
 import com.aries.library.fast.util.ToastUtil;
+import com.aries.ui.view.title.TitleBarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.trello.rxlifecycle3.android.FragmentEvent;
@@ -38,9 +40,9 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
  * Function: 电影列表示例
  * Description:
  */
-public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
+public class MovieBaseFragment extends FastTitleRefreshLoadFragment<SubjectsEntity> {
 
-    private BaseItemTouchQuickAdapter mAdapter;
+    private BaseQuickAdapter mAdapter;
     private String mUrl;
     private int animationIndex = GlobalConstant.GLOBAL_ADAPTER_ANIMATION_VALUE;
     private boolean animationAlways = true;
@@ -60,6 +62,11 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
     }
 
     @Override
+    public void setTitleBar(TitleBarView titleBar) {
+
+    }
+
+    @Override
     public BaseQuickAdapter<SubjectsEntity, BaseViewHolder> getAdapter() {
         mAdapter = new SubjectMovieAdapter(ApiConstant.API_MOVIE_TOP.equals(mUrl));
 //        changeAdapterAnimation(0);
@@ -74,36 +81,36 @@ public class MovieBaseFragment extends FastRefreshLoadFragment<SubjectsEntity> {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-                new ItemTouchHelperCallback()
-                        .setAdapter(mAdapter)
-                        .setOnItemTouchHelperListener(new OnItemTouchHelperListener() {
-                            @Override
-                            public void onStart(int start) {
-                                mRefreshLayout.setEnableRefresh(false);
-                                LoggerManager.i(TAG, "onStart-start:" + start);
-                            }
-
-                            @Override
-                            public void onMove(int from, int to) {
-                                LoggerManager.i(TAG, "onMove-from:" + from + ";to:" + to);
-                            }
-
-                            @Override
-                            public void onMoved(int from, int to) {
-                                LoggerManager.i(TAG, "onMoved-from:" + from + ";to:" + to);
-                            }
-
-                            @Override
-                            public void onEnd(int star, int end) {
-                                mRefreshLayout.setEnableRefresh(true);
-                                LoggerManager.i(TAG, "onEnd-star:" + star + ";end:" + end);
-                                if (star != end) {
-                                    ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
-                                }
-                            }
-                        }));
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+//                new ItemTouchHelperCallback()
+//                        .setAdapter(mAdapter)
+//                        .setOnItemTouchHelperListener(new OnItemTouchHelperListener() {
+//                            @Override
+//                            public void onStart(int start) {
+//                                mRefreshLayout.setEnableRefresh(false);
+//                                LoggerManager.i(TAG, "onStart-start:" + start);
+//                            }
+//
+//                            @Override
+//                            public void onMove(int from, int to) {
+//                                LoggerManager.i(TAG, "onMove-from:" + from + ";to:" + to);
+//                            }
+//
+//                            @Override
+//                            public void onMoved(int from, int to) {
+//                                LoggerManager.i(TAG, "onMoved-from:" + from + ";to:" + to);
+//                            }
+//
+//                            @Override
+//                            public void onEnd(int star, int end) {
+//                                mRefreshLayout.setEnableRefresh(true);
+//                                LoggerManager.i(TAG, "onEnd-star:" + star + ";end:" + end);
+//                                if (star != end) {
+//                                    ToastUtil.show("从---" + star + "---拖拽至---" + end + "---");
+//                                }
+//                            }
+//                        }));
+//        itemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

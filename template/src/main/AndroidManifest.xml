@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aries.template">
+    package="com.aries.smart">
 
     <!--<uses-feature android:name="android.hardware.screen.portrait"/>-->
 
@@ -8,7 +8,7 @@
 
 
     <application
-        android:name=".App"
+        android:name="com.aries.smart.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:roundIcon="@drawable/ic_launcher"
@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name="com.aries.smart.SplashActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc"
             android:theme="@style/NormalSplash">
             <intent-filter>
@@ -25,12 +25,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.aries.smart.MainActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:launchMode="singleTop" />
         <!-- 应用内浏览器 -->
         <activity
-            android:name=".WebViewActivity"
+            android:name="com.aries.smart.WebViewActivity"
             android:configChanges="locale|layoutDirection|mcc|mnc|orientation|screenSize"
             android:hardwareAccelerated="true"
             android:label="@string/fast_loading" />

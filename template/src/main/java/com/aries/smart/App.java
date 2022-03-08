@@ -1,4 +1,4 @@
-package com.aries.template;
+package com.aries.smart;
 
 import android.content.Context;
 
@@ -7,9 +7,9 @@ import androidx.multidex.MultiDexApplication;
 import com.aries.library.fast.FastManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.retrofit.FastRetrofit;
-import com.aries.template.impl.ActivityControlImpl;
-import com.aries.template.impl.AppImpl;
-import com.aries.template.impl.HttpRequestControlImpl;
+import com.aries.smart.impl.ActivityControlImpl;
+import com.aries.smart.impl.AppImpl;
+import com.aries.smart.impl.HttpRequestControlImpl;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
 /**

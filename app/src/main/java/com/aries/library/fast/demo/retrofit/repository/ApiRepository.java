@@ -5,6 +5,7 @@ import com.aries.library.fast.demo.base.BaseMovieEntity;
 import com.aries.library.fast.demo.entity.BaseReadArticleEntity;
 import com.aries.library.fast.demo.entity.UpdateEntity;
 import com.aries.library.fast.demo.retrofit.service.ApiService;
+import com.aries.library.fast.retrofit.FastNullException;
 import com.aries.library.fast.retrofit.FastRetrofit;
 import com.aries.library.fast.retrofit.FastRetryWhen;
 import com.aries.library.fast.retrofit.FastTransformer;

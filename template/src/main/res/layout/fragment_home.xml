@@ -12,4 +12,10 @@
         android:layout_height="wrap_content"
         android:text="HomeFragment示例" />
 
+    <com.aries.ui.view.radius.RadiusTextView
+        android:id="@+id/rtv_webMainFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="网页打开"/>
+
 </LinearLayout>

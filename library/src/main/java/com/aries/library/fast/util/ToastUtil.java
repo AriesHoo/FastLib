@@ -633,7 +633,7 @@ public class ToastUtil {
             }
             //目前发现Android 9.0版本系统Toast做了单例操作造成短时间快速Toast 后面无法弹出问题
             //Android 10.0又回滚了之前的操作-即目前只有Android 9.0内部做了单例操作
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 return new Toast(sContext);
             }
             return SingleToastHolder.INSTANCE.getToast();

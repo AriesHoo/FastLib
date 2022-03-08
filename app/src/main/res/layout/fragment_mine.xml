@@ -101,7 +101,7 @@
                 app:sDividerLineType="both"
                 app:sLeftIconHeight="22dp"
                 app:sLeftIconMarginLeft="13dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:sLeftIconRes="@drawable/ic_update"
                 app:sLeftIconWidth="22dp"
                 app:sLeftTextString="@string/upload_file"/>

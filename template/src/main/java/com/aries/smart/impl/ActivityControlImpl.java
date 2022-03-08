@@ -1,4 +1,4 @@
-package com.aries.template.impl;
+package com.aries.smart.impl;
 
 import android.app.Activity;
 import android.app.Application;
@@ -30,10 +30,10 @@ import com.aries.library.fast.util.FastStackUtil;
 import com.aries.library.fast.util.FastUtil;
 import com.aries.library.fast.util.SnackBarUtil;
 import com.aries.library.fast.util.ToastUtil;
-import com.aries.template.App;
-import com.aries.template.MainActivity;
-import com.aries.template.R;
-import com.aries.template.SplashActivity;
+import com.aries.smart.App;
+import com.aries.smart.MainActivity;
+import com.aries.smart.R;
+import com.aries.smart.SplashActivity;
 import com.aries.ui.helper.navigation.KeyboardHelper;
 import com.aries.ui.helper.navigation.NavigationBarUtil;
 import com.aries.ui.helper.navigation.NavigationViewHelper;
@@ -200,7 +200,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
                     .setEnable()
                     .setOnKeyboardVisibilityChangedListener(getOnKeyboardVisibilityChangedListener(activity));
         }
-        return true;
+        return false;
     }
 
     private KeyboardHelper.OnKeyboardVisibilityChangedListener getOnKeyboardVisibilityChangedListener(Activity activity) {
@@ -242,7 +242,7 @@ public class ActivityControlImpl implements ActivityFragmentControl, ActivityKey
         //先判断xml没有设置屏幕模式避免将开发者本身想设置的覆盖掉
         if (activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
             try {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             } catch (Exception e) {
                 e.printStackTrace();
                 LoggerManager.e(TAG, "setRequestedOrientation:" + e.getMessage());

@@ -10,7 +10,9 @@ import com.aries.library.fast.demo.helper.RadiusViewHelper;
 import com.aries.library.fast.manager.GlideManager;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.ui.view.radius.RadiusRelativeLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.flyco.labelview.LabelView;
 
 /**
@@ -19,7 +21,7 @@ import com.flyco.labelview.LabelView;
  * Function:
  * Description:
  */
-public class SubjectMovieAdapter extends BaseItemTouchQuickAdapter<SubjectsEntity, BaseItemTouchViewHolder> implements LoadMoreModule {
+public class SubjectMovieAdapter extends BaseQuickAdapter<SubjectsEntity, BaseViewHolder> implements LoadMoreModule {
 
     boolean isShowTop;
 
@@ -29,7 +31,7 @@ public class SubjectMovieAdapter extends BaseItemTouchQuickAdapter<SubjectsEntit
     }
 
     @Override
-    protected void convert(BaseItemTouchViewHolder helper, SubjectsEntity item) {
+    protected void convert(BaseViewHolder helper, SubjectsEntity item) {
         LoggerManager.i("isShowTop", "isShowTop:" + isShowTop);
         helper.setText(R.id.tv_titleMovie, item.title)
                 .setText(R.id.tv_typeMovie, "题材:" + item.getGenres())

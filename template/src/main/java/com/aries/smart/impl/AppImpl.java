@@ -1,4 +1,4 @@
-package com.aries.template.impl;
+package com.aries.smart.impl;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +29,7 @@ import com.aries.library.fast.util.SizeUtil;
 import com.aries.library.fast.util.ToastUtil;
 import com.aries.library.fast.widget.FastLoadDialog;
 import com.aries.library.fast.widget.FastLoadMoreView;
-import com.aries.template.R;
+import com.aries.smart.R;
 import com.aries.ui.util.DrawableUtil;
 import com.aries.ui.util.StatusBarUtil;
 import com.aries.ui.view.radius.RadiusTextView;

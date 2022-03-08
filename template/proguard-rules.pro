@@ -16,8 +16,8 @@
 #   public *;
 #}
 #实体类不要混淆不然无法解析
--keep class com.aries.template.base.**{*;}
--keep class com.aries.template.entity.**{*;}
+-keep class com.aries.smart.base.**{*;}
+-keep class com.aries.smart.entity.**{*;}
 
 #
 #-------------------------------------------基本不用动区域----------------------------------------------

@@ -224,7 +224,7 @@ public class MineFragment extends FastTitleFragment implements IFastRefreshView 
         }
         RequestBody requestBody = builder.build();
         //上传地址需自行设置
-        FastRetrofit.getInstance().uploadFile("http://XXXX/v1/ftp/upload-files", requestBody)
+        FastRetrofit.getInstance().uploadFile("https://jsonplaceholder.typicode.com/posts/", requestBody)
                 .compose(FastTransformer.switchSchedulers())
                 .subscribe(new FastLoadingObserver<ResponseBody>(new FastLoadDialog(mContext, mProgressDialog)) {
                     @Override

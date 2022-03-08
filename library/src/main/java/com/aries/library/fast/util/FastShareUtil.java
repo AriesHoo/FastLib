@@ -424,7 +424,7 @@ public class FastShareUtil {
      * @return
      */
     private static Intent getShareTextIntent(String text, String subject, String title) {
-        Intent target = new Intent(Intent.ACTION_SEND);
+        Intent target = new Intent(Intent.ACTION_VIEW);
         target.setType(TYPE_TEXT);
         if (!TextUtils.isEmpty(text)) {
             target.putExtra(Intent.EXTRA_TEXT, text);

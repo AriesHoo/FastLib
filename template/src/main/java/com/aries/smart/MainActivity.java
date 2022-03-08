@@ -1,12 +1,12 @@
-package com.aries.template;
+package com.aries.smart;
 
 import android.os.Bundle;
 
 import com.aries.library.fast.entity.FastTabEntity;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.module.activity.FastMainActivity;
-import com.aries.template.module.main.HomeFragment;
-import com.aries.template.module.mine.MineFragment;
+import com.aries.smart.module.main.HomeFragment;
+import com.aries.smart.module.mine.MineFragment;
 import com.aries.ui.view.tab.CommonTabLayout;
 
 import java.util.ArrayList;

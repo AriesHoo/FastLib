@@ -32,6 +32,12 @@ public class ImagePickerHelper extends BaseHelper {
     private OnImageSelect mOnImageSelect;
 
     public interface OnImageSelect {
+        /**
+         * 回调选择结果
+         *
+         * @param requestCode code
+         * @param list        文件列表
+         */
         void onImageSelect(int requestCode, List<String> list);
     }
 
@@ -48,7 +54,8 @@ public class ImagePickerHelper extends BaseHelper {
                 .theme(R.style.picture_WeChat_style)
                 .isWeChatStyle(true)
                 .selectionMode(PictureConfig.SINGLE)
-                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                // 外部传入图片加载引擎，必传项
+                .imageEngine(GlideEngine.createGlideEngine())
                 .forResult(mRequestCode);
     }
 
@@ -63,7 +70,8 @@ public class ImagePickerHelper extends BaseHelper {
                 .isWeChatStyle(true)
                 .maxSelectNum(count)
                 .selectionMode(PictureConfig.TYPE_PICTURE)
-                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                // 外部传入图片加载引擎，必传项
+                .imageEngine(GlideEngine.createGlideEngine())
                 .forResult(mRequestCode);
     }
 
@@ -78,7 +86,8 @@ public class ImagePickerHelper extends BaseHelper {
                 .minVideoSelectNum(1)
                 .maxVideoSelectNum(count)
                 .selectionMode(PictureConfig.TYPE_VIDEO)
-                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                // 外部传入图片加载引擎，必传项
+                .imageEngine(GlideEngine.createGlideEngine())
                 .forResult(mRequestCode);
     }
 
@@ -92,7 +101,8 @@ public class ImagePickerHelper extends BaseHelper {
                 .minSelectNum(1)
                 .maxSelectNum(count)
                 .selectionMode(PictureConfig.TYPE_ALL)
-                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                // 外部传入图片加载引擎，必传项
+                .imageEngine(GlideEngine.createGlideEngine())
                 .forResult(mRequestCode);
     }
 
@@ -105,14 +115,17 @@ public class ImagePickerHelper extends BaseHelper {
                 .isWeChatStyle(true)
                 .maxSelectNum(count)
                 .selectionMode(PictureConfig.TYPE_ALL)
-                .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                // 外部传入图片加载引擎，必传项
+                .imageEngine(GlideEngine.createGlideEngine())
                 .forResult(mRequestCode);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         LoggerManager.i("onActivityResult", "path:");
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode != mRequestCode) return;
+            if (requestCode != mRequestCode) {
+                return;
+            }
             // 图片、视频、音频选择结果回调
             List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
             LoggerManager.i("onActivityResult", "selectList:" + new Gson().toJson(selectList));

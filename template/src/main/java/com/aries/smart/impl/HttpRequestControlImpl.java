@@ -1,4 +1,4 @@
-package com.aries.template.impl;
+package com.aries.smart.impl;
 
 import android.accounts.AccountsException;
 import android.accounts.NetworkErrorException;
@@ -9,8 +9,8 @@ import com.aries.library.fast.i.OnHttpRequestListener;
 import com.aries.library.fast.manager.LoggerManager;
 import com.aries.library.fast.util.NetworkUtil;
 import com.aries.library.fast.util.ToastUtil;
-import com.aries.template.App;
-import com.aries.template.R;
+import com.aries.smart.App;
+import com.aries.smart.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.google.gson.JsonIOException;
