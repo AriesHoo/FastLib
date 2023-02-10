@@ -24,6 +24,8 @@
 
 Demo中使用到的网络请求api来源于[readhub](https://readhub.cn/) **版权及最终解释权归readhub所有,如有侵权请联系删除!**
 
+[![Stargazers over time](https://starchart.cc/AriesHoo/FastLib.svg)](https://starchart.cc/AriesHoo/FastLib)
+
 ## 主要功能
 
 * 基于**Retrofit2.x**及**RxJava2.x**的网络请求封装、网络请求与生命周期绑定、快速观察者、快速loading观察者、快速返回常用错误
